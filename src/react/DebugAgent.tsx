@@ -15,17 +15,21 @@ import { getEmbedConfig } from '../embed/embedConfig';
  * SSE-streamed). "Pick element" behaves differently depending on whether a
  * browser-extension debugging session is connected:
  *
- * - Host page elements are read directly here — hover highlights locally and
- *   the click attaches a computed-style snapshot as chat context. No
- *   extension needed.
- * - Clicking the ThoughtSpot embed, with `extensionSessionId` set, hands
- *   picking to the extension's `start_element_picker` tool, which injects a
- *   picker into the iframe's own frame over `chrome.debugger` (CDP). It
- *   highlights on hover at native speed in there and reports back the element
- *   the user clicks. Routing hover out over the relay instead would mean a
- *   network round trip per mousemove, which cannot track a cursor.
- * - Without a session id the host page cannot read a cross-origin iframe at
- *   all, so picking over the embed yields only the `<iframe>` element itself.
+ * - "Pick element" covers the host page: hover highlights locally and the
+ *   click attaches a computed-style snapshot as chat context. No extension
+ *   needed, since this is all same-origin DOM.
+ * - "Pick in embed" appears once a browser-extension session is connected,
+ *   and picks inside the ThoughtSpot iframe — which the host page cannot
+ *   read at all, being a separate origin. It calls the extension's
+ *   `start_element_picker` over `chrome.debugger` (CDP), which injects a
+ *   picker into the iframe's own frame; the highlight is drawn in there so
+ *   it tracks the cursor at native speed, where routing each mousemove over
+ *   the relay could not.
+ *
+ * Those extension calls go straight to `POST /extension/tool-call` rather
+ * than through the agent. Locating the embed's frame and arming the picker
+ * are mechanical, and having the model sequence them made picking
+ * unreliable. The agent still receives the picked element to reason about.
  *
  * Development/debugging tool — not intended for production end-user-facing
  * pages (see the `enableDebugAgent` JSDoc in ../types).
@@ -162,6 +166,71 @@ function storeSessionId(value: string): void {
     }
 }
 
+interface PickedElement {
+    tag: string;
+    id: string | null;
+    classes: string[];
+    selector: string;
+    outerHTMLPreview: string;
+    rect: { x: number; y: number; width: number; height: number };
+    styles: Record<string, string>;
+}
+
+/**
+ * Calls one browser-extension tool directly, with no agent in the path.
+ *
+ * Finding the embed's frame and arming the picker in it are mechanical steps;
+ * asking the model to sequence them made picking unreliable (wrong frame,
+ * missing frameSessionId, or the tool simply not re-run). The agent still
+ * gets the *result* to reason about — it just no longer does the plumbing.
+ */
+async function callExtensionTool(
+    agentApiUrl: string,
+    sessionId: string,
+    toolName: string,
+    args: Record<string, unknown>,
+): Promise<unknown> {
+    const response = await fetch(`${agentApiUrl}/extension/tool-call`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, toolName, args }),
+    });
+    const payload = (await response.json()) as { result?: unknown; error?: string };
+    if (!response.ok || payload.error) {
+        throw new Error(payload.error || `Tool "${toolName}" failed (${response.status})`);
+    }
+    return payload.result;
+}
+
+/**
+ * Resolves the tab this page is in and the CDP session of the ThoughtSpot
+ * iframe within it. The embed is matched on frame type, never url — an
+ * embedded frame often reports an empty url even while loaded and rendering.
+ */
+async function findEmbedFrame(
+    agentApiUrl: string,
+    sessionId: string,
+): Promise<{ tabId: number; frameSessionId: string }> {
+    const pages = (await callExtensionTool(agentApiUrl, sessionId, 'list_pages', {})) as Array<{
+        tabId: number; url?: string; attached?: boolean;
+    }>;
+    const here = pages.find((p) => p.url && p.url.startsWith(window.location.origin));
+    if (!here) {
+        throw new Error(
+            'This page is not visible to the extension. Open its popup and click "Allow on this tab".',
+        );
+    }
+
+    const frames = (await callExtensionTool(agentApiUrl, sessionId, 'list_frames', {
+        tabId: here.tabId,
+    })) as { frames?: Array<{ sessionId: string; type: string }> };
+    const embed = (frames.frames ?? []).find((f) => f.type === 'iframe');
+    if (!embed) {
+        throw new Error('No embedded iframe found in this tab.');
+    }
+    return { tabId: here.tabId, frameSessionId: embed.sessionId };
+}
+
 export const DebugAgent: React.FC<DebugAgentProps> = ({
     agentApiUrl = 'http://localhost:8000',
     extensionSessionId,
@@ -172,6 +241,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     const [input, setInput] = useState('');
     const [busy, setBusy] = useState(false);
     const [picking, setPicking] = useState(false);
+    const [pickingEmbed, setPickingEmbed] = useState(false);
     const [hovered, setHovered] = useState<Element | null>(null);
     const [sessionInput, setSessionInput] = useState(() => extensionSessionId ?? readStoredSessionId());
     const [showSessionField, setShowSessionField] = useState(false);
@@ -207,34 +277,9 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             setPicking(false);
             setHovered(null);
 
-            // Clicking the embed hands picking over to the extension: the
-            // host page cannot read a cross-origin frame at all, and hover
-            // highlighting in there has to run inside that frame (a relay
-            // round trip per mousemove would be far too slow to track a
-            // cursor). start_element_picker injects a picker that highlights
-            // natively in the iframe and reports back the element the user
-            // clicks, so the second click — inside the embed — is the real
-            // pick.
-            if (target.tagName === 'IFRAME' && activeSessionId) {
-                sendText(
-                    'Run the element picker INSIDE the embedded ThoughtSpot iframe.\n\n'
-                    + `1. list_pages, then list_frames for the tab on ${window.location.origin}.\n`
-                    + '2. Pick the frame whose type is "iframe" — that is the ThoughtSpot embed. '
-                    + 'Do not match it by url: the embed\'s frame url is often reported as an '
-                    + 'empty string. If several iframes are listed, choose the one that is not '
-                    + 'the host page.\n'
-                    + '3. Call start_element_picker with that frame\'s sessionId as '
-                    + 'frameSessionId. It MUST be set — omitting it picks in the host page '
-                    + 'instead of the embed, which is not what I want.\n\n'
-                    + 'I will then click the element I want. Once I pick it, tell me what it is '
-                    + 'and suggest any style changes worth making.',
-                );
-                return;
-            }
-
-            // Host page element: read it directly. Picking the iframe without
-            // an extension session also lands here, and yields only the
-            // <iframe> element itself.
+            // Host page element: read it directly. Elements inside the embed
+            // are not reachable this way — that path is handled by the
+            // extension picker, armed from the Pick element button itself.
             const computed = window.getComputedStyle(target);
             const styleSnapshot: Record<string, string> = {};
             KEY_STYLE_PROPS.forEach((prop) => { styleSnapshot[prop] = String(computed[prop] ?? ''); });
@@ -353,6 +398,64 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
         }
     }
 
+    /**
+     * Arms the extension's picker inside the embed. The highlight is drawn by
+     * a script running in the iframe's own frame, so it tracks the cursor at
+     * native speed; this call simply waits for the user's click and then
+     * hands the picked element to the agent.
+     */
+    async function pickInsideEmbed() {
+        if (!activeSessionId || pickingEmbed) return;
+        setPickingEmbed(true);
+        const statusId = nextId();
+        setItems((prev) => [...prev, {
+            id: statusId, kind: 'tool', toolName: 'Pick an element in the embed…', status: 'running',
+        }]);
+
+        try {
+            const { tabId, frameSessionId } = await findEmbedFrame(agentApiUrl, activeSessionId);
+            const picked = (await callExtensionTool(
+                agentApiUrl,
+                activeSessionId,
+                'start_element_picker',
+                { tabId, frameSessionId, timeoutMs: 60_000 },
+            )) as { picked: boolean; reason?: string; element?: PickedElement };
+
+            setItems((prev) => prev.filter((it) => !('id' in it && it.id === statusId)));
+
+            if (!picked.picked || !picked.element) {
+                const why = picked.reason === 'cancelled' ? 'Picking cancelled.'
+                    : picked.reason === 'timeout' ? 'Picking timed out.'
+                        : `Nothing picked (${picked.reason ?? 'unknown'}).`;
+                setItems((prev) => [...prev, { id: nextId(), role: 'assistant', content: why }]);
+                return;
+            }
+
+            const el = picked.element;
+            setItems((prev) => [...prev, {
+                id: nextId(), kind: 'element', selector: el.selector, styles: el.styles,
+            }]);
+
+            const styleLines = Object.entries(el.styles)
+                .map(([k, v]) => `  ${k}: ${v};`)
+                .join('\n');
+            await sendText(
+                `I picked this element inside the embedded ThoughtSpot iframe:\n\n`
+                + `\`${el.selector}\`\n`
+                + `${el.outerHTMLPreview}\n\n`
+                + `Computed styles:\n${styleLines}\n\n`
+                + 'What is it, and how would I change its styling?',
+            );
+        } catch (err) {
+            setItems((prev) => [
+                ...prev.filter((it) => !('id' in it && it.id === statusId)),
+                { id: nextId(), role: 'assistant', content: `⚠️ ${(err as Error).message}` },
+            ]);
+        } finally {
+            setPickingEmbed(false);
+        }
+    }
+
     const removeContext = (id: string) => setItems((prev) => prev.filter((it) => !('kind' in it && it.kind === 'element' && it.id === id)));
 
     return (
@@ -427,12 +530,21 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                             type="button"
                             onClick={() => setPicking((p) => !p)}
                             style={picking ? styles.toolBtnActive : styles.toolBtn}
-                            title={activeSessionId
-                                ? 'Pick an element on the page — or click the ThoughtSpot embed to pick inside it via the connected extension'
-                                : 'Pick an element on the page to attach as context'}
+                            title="Pick an element on the host page to attach as context"
                         >
                             {'⌖'} {picking ? 'Picking…' : 'Pick element'}
                         </button>
+                        {activeSessionId ? (
+                            <button
+                                type="button"
+                                onClick={pickInsideEmbed}
+                                disabled={pickingEmbed}
+                                style={pickingEmbed ? styles.toolBtnActive : styles.toolBtn}
+                                title="Highlight and pick an element inside the ThoughtSpot embed, via the connected extension"
+                            >
+                                {'⌖'} {pickingEmbed ? 'Pick in embed…' : 'Pick in embed'}
+                            </button>
+                        ) : null}
                         {!extensionSessionId ? (
                             <button
                                 type="button"
@@ -611,7 +723,7 @@ const ElementHoverOverlay: React.FC<{ el: Element; iframeInspectable?: boolean }
                 }}
             >
                 {describeElement(el)}
-                {iframeInspectable ? ' · click, then pick inside the embed' : ''}
+                {iframeInspectable ? ' · use "Pick in embed" to pick inside it' : ''}
             </div>
         </div>
     );
