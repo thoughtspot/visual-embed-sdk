@@ -1,11 +1,23 @@
 import React from 'react';
 import '@testing-library/jest-dom';
+import { TextEncoder as UtilTextEncoder } from 'util';
+import { ReadableStream as WebReadableStream } from 'stream/web';
 import {
     fireEvent, render, screen, waitFor,
 } from '@testing-library/react';
 import { DebugAgent } from './DebugAgent';
 import { setEmbedConfig } from '../embed/embedConfig';
 import { storeValueInWindow, resetValueFromWindow } from '../utils';
+
+// jsdom's test environment does not expose these Web Streams / encoding APIs
+// on the global scope even though the Node process running Jest provides
+// them; DebugAgent's SSE reader needs both.
+if (typeof (global as any).TextEncoder === 'undefined') {
+    (global as any).TextEncoder = UtilTextEncoder;
+}
+if (typeof (global as any).ReadableStream === 'undefined') {
+    (global as any).ReadableStream = WebReadableStream;
+}
 
 /**
  * Builds a fetch Response-like object whose `body` is a real ReadableStream
