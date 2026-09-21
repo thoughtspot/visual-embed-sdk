@@ -217,10 +217,16 @@ export class AnswerService {
      * @param sourceDetail
      */
     private async applySort(sortOptions: SortOptions[], sourceDetail: any) {
-        const sortOrder = sortOptions.map((sort) => ({
-            columnId: getGuidsFromColumnNames(sourceDetail, [sort.columnName]).values().next().value,
-            sortType: sort.ascending ? 'ASCENDING' : 'DESCENDING',
-        }));
+        const { answer } = await this.executeQuery(queries.getAnswer, {});
+        const guidToColumnId = getGuidToColumnIdMap(answer);
+        const sortOrder = sortOptions.map((sort) => {
+            const guid = getGuidsFromColumnNames(sourceDetail, [sort.columnName])
+                .values().next().value;
+            return {
+                columnId: guidToColumnId.get(guid),
+                sortType: sort.ascending ? 'ASCENDING' : 'DESCENDING',
+            };
+        });
         return this.executeQuery(
             queries.updateSort,
             {
@@ -477,6 +483,20 @@ export class AnswerService {
     public setTMLOverride(override: any) {
         this.tmlOverride = override;
     }
+}
+
+/**
+ * Build a map from a source column guid to the answer's viz column id, using
+ * the `referencedColumns` link on each viz column.
+ * @param answer
+ */
+function getGuidToColumnIdMap(answer: any): Map<string, string> {
+    const tableViz = answer.visualizations.find((viz: any) => viz.columns);
+    return new Map(
+        tableViz.columns.map(
+            (col: any) => [col.column.referencedColumns[0].guid, col.column.id],
+        ),
+    );
 }
 
 /**

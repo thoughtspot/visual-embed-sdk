@@ -430,7 +430,7 @@ describe('Answer service tests', () => {
         );
     });
 
-    test('getUnderlyingDataForPoint should apply sort in order with mapped guids and directions', async () => {
+    test('getUnderlyingDataForPoint should apply sort in order with mapped answer column ids and directions', async () => {
         fetchMock.mockResponses(
             JSON.stringify({
                 data: {
@@ -451,6 +451,36 @@ describe('Answer service tests', () => {
                                         name: 'col1',
                                         referencedColumns: [{ guid: 'id1' }],
                                     },
+                                }, {
+                                    column: {
+                                        id: 'oid2',
+                                        name: 'col2',
+                                        referencedColumns: [{ guid: 'id2' }],
+                                    },
+                                }],
+                            }],
+                        },
+                    },
+                },
+            }),
+            JSON.stringify({
+                data: {
+                    getAnswer: {
+                        id: { genNo: 2 },
+                        answer: {
+                            visualizations: [{
+                                columns: [{
+                                    column: {
+                                        id: 'oid1',
+                                        name: 'col1',
+                                        referencedColumns: [{ guid: 'id1' }],
+                                    },
+                                }, {
+                                    column: {
+                                        id: 'oid2',
+                                        name: 'col2',
+                                        referencedColumns: [{ guid: 'id2' }],
+                                    },
                                 }],
                             }],
                         },
@@ -460,7 +490,7 @@ describe('Answer service tests', () => {
             JSON.stringify({
                 data: {
                     Answer__updateSort: {
-                        id: { genNo: 4 },
+                        id: { genNo: 3 },
                     },
                 },
             }),
@@ -475,7 +505,7 @@ describe('Answer service tests', () => {
             selectedMeasures: [],
         }]);
         await answerService.getUnderlyingDataForPoint(
-            ['col1'],
+            ['col1', 'col2'],
             undefined,
             [{ columnName: 'col2', ascending: true }, { columnName: 'col1', ascending: false }],
         );
@@ -486,12 +516,12 @@ describe('Answer service tests', () => {
                     operationName: 'UpdateSort',
                     query: updateSort,
                     variables: {
-                        session: defaultSession,
+                        session: { ...defaultSession, genNo: 2 },
                         sortOrder: [{
-                            columnId: 'id2',
+                            columnId: 'oid2',
                             sortType: 'ASCENDING',
                         }, {
-                            columnId: 'id1',
+                            columnId: 'oid1',
                             sortType: 'DESCENDING',
                         }],
                     },
