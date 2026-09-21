@@ -15,9 +15,15 @@ import { getEmbedConfig } from '../embed/embedConfig';
  * SSE-streamed). The one DOM capability the panel has itself — picking an
  * element on the host page and live-editing its styles — is exposed as an
  * in-chat tool the developer (or a future agent tool-call) can invoke; picked
- * elements are attached to the conversation as context. This never reaches
- * inside the ThoughtSpot iframe: that content is a separate origin and
- * outside what a page script can read or write.
+ * elements are attached to the conversation as context.
+ *
+ * The host page cannot read or write inside the ThoughtSpot iframe directly
+ * (it is a separate origin). When `extensionSessionId` is set — a connected
+ * browser-extension debugging session with `chrome.debugger` access — picking
+ * a point over the iframe instead asks the agent to inspect that point
+ * *inside the iframe's own frame*, via the extension's `evaluate_script`
+ * relay tool. Without an extension session, picking over the iframe still
+ * only sees the `<iframe>` element itself, same as any other host element.
  *
  * Development/debugging tool — not intended for production end-user-facing
  * pages (see the `enableDebugAgent` JSDoc in ../types).
@@ -167,14 +173,29 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             if (!target || panelRef.current?.contains(target)) return;
             e.preventDefault();
             e.stopPropagation();
+            setPicking(false);
+            setHovered(null);
+
+            if (target.tagName === 'IFRAME' && extensionSessionId) {
+                const rect = target.getBoundingClientRect();
+                const xInFrame = Math.round(e.clientX - rect.left);
+                const yInFrame = Math.round(e.clientY - rect.top);
+                sendText(
+                    `Inspect the element at coordinates (${xInFrame}, ${yInFrame}) inside the `
+                    + 'embedded ThoughtSpot iframe (use list_frames to find that frame, then '
+                    + 'evaluate_script scoped to it — e.g. document.elementFromPoint(x, y) — to '
+                    + 'get its tag, classes, computed styles, and bounding box). Summarize what '
+                    + 'you find.',
+                );
+                return;
+            }
+
             const computed = window.getComputedStyle(target);
             const styleSnapshot: Record<string, string> = {};
             KEY_STYLE_PROPS.forEach((prop) => { styleSnapshot[prop] = String(computed[prop] ?? ''); });
             setItems((prev) => [...prev, {
                 id: nextId(), kind: 'element', selector: describeElement(target), styles: styleSnapshot,
             }]);
-            setPicking(false);
-            setHovered(null);
         };
         document.addEventListener('mousemove', onMove, true);
         document.addEventListener('click', onClick, true);
@@ -204,9 +225,13 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
         const text = input.trim();
         if (!text || busy) return;
         setInput('');
+        await sendText(text, buildContextPreamble());
+    }
+
+    async function sendText(text: string, contextPreamble = '') {
+        if (busy) return;
         setBusy(true);
 
-        const contextPreamble = buildContextPreamble();
         const userMsg: ChatMessage = { id: nextId(), role: 'user', content: text };
         historyRef.current = [...historyRef.current, { role: 'user', content: contextPreamble + text }];
         setItems((prev) => [...prev, userMsg]);
@@ -287,7 +312,12 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
 
     return (
         <>
-            {picking && hovered ? <ElementHoverOverlay el={hovered} /> : null}
+            {picking && hovered ? (
+                <ElementHoverOverlay
+                    el={hovered}
+                    iframeInspectable={hovered.tagName === 'IFRAME' && !!extensionSessionId}
+                />
+            ) : null}
 
             {!open ? (
                 <button
@@ -317,7 +347,9 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                     </div>
 
                     <div ref={messagesRef} style={styles.messages}>
-                        {items.length === 0 ? <WelcomeState onPick={() => setPicking(true)} /> : null}
+                        {items.length === 0 ? (
+                            <WelcomeState onPick={() => setPicking(true)} extensionConnected={!!extensionSessionId} />
+                        ) : null}
                         {items.map((item) => {
                             if ('kind' in item && item.kind === 'tool') {
                                 return <ToolChip key={item.id} item={item} />;
@@ -350,7 +382,9 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                             type="button"
                             onClick={() => setPicking((p) => !p)}
                             style={picking ? styles.toolBtnActive : styles.toolBtn}
-                            title="Pick an element on the page to attach as context"
+                            title={extensionSessionId
+                                ? 'Pick an element on the page — or click inside the ThoughtSpot iframe to inspect it via the connected extension'
+                                : 'Pick an element on the page to attach as context'}
                         >
                             {'⌖'} {picking ? 'Picking…' : 'Pick element'}
                         </button>
@@ -423,13 +457,14 @@ const TypingDots: React.FC = () => (
     </span>
 );
 
-const WelcomeState: React.FC<{ onPick: () => void }> = ({ onPick }) => (
+const WelcomeState: React.FC<{ onPick: () => void; extensionConnected?: boolean }> = ({ onPick, extensionConnected }) => (
     <div style={styles.welcome}>
         <AgentGlyph size={32} />
         <div style={styles.welcomeTitle}>How can I help with this embed?</div>
         <div style={styles.welcomeBody}>
             Ask about console errors, failed requests, or configuration —
             or pick an element on the page to get style help for it.
+            {extensionConnected ? ' With the browser extension connected, you can also click inside the ThoughtSpot iframe itself.' : ''}
         </div>
         <button type="button" onClick={onPick} style={styles.welcomeBtn}>
             {'⌖'} Pick an element
@@ -458,7 +493,7 @@ const ElementChip: React.FC<{ item: PickedElementContext; onRemove: () => void }
     </div>
 );
 
-const ElementHoverOverlay: React.FC<{ el: Element }> = ({ el }) => {
+const ElementHoverOverlay: React.FC<{ el: Element; iframeInspectable?: boolean }> = ({ el, iframeInspectable }) => {
     const [rect, setRect] = useState(() => getRect(el));
     useEffect(() => {
         setRect(getRect(el));
@@ -504,6 +539,7 @@ const ElementHoverOverlay: React.FC<{ el: Element }> = ({ el }) => {
                 }}
             >
                 {describeElement(el)}
+                {iframeInspectable ? ' · click to inspect inside iframe' : ''}
             </div>
         </div>
     );
