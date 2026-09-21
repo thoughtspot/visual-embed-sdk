@@ -487,7 +487,7 @@ describe('Answer service tests', () => {
                     query: updateSort,
                     variables: {
                         session: defaultSession,
-                        sortDetails: [{
+                        sortOrder: [{
                             columnId: 'id2',
                             sortType: 'ASCENDING',
                         }, {

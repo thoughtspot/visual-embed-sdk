@@ -217,14 +217,14 @@ export class AnswerService {
      * @param sourceDetail
      */
     private async applySort(sortOptions: SortOptions[], sourceDetail: any) {
-        const sortDetails = sortOptions.map((sort) => ({
+        const sortOrder = sortOptions.map((sort) => ({
             columnId: getGuidsFromColumnNames(sourceDetail, [sort.columnName]).values().next().value,
             sortType: sort.ascending ? 'ASCENDING' : 'DESCENDING',
         }));
         return this.executeQuery(
             queries.updateSort,
             {
-                sortDetails,
+                sortOrder,
             },
         );
     }

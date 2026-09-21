@@ -62,8 +62,8 @@ export const addFilter = `
 `;
 
 export const updateSort = `
-    mutation UpdateSort($session: BachSessionIdInput!, $sortDetails: [AnswerColumnSortInput!]!) {
-        Answer__updateSort(session: $session, sortDetails: $sortDetails) {
+    mutation UpdateSort($session: BachSessionIdInput!, $sortOrder: [AnswerColumnSortInput!]!) {
+        Answer__updateSort(session: $session, sortOrder: $sortOrder) {
             ${bachSessionId}
         }
     }
