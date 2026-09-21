@@ -6,6 +6,7 @@ import type {
     SpotterShareConversationConfig,
     SpotterChatViewConfig,
     StarterPromptsConfig,
+    SpotterAnalystConfig,
 } from './conversation';
 import type { VisualizationOverrides } from '../types';
 
@@ -111,6 +112,21 @@ export function buildStarterPromptsAppInitData<T extends DefaultAppInitData>(
         embedParams: {
             ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
             starterPrompts,
+        },
+    };
+}
+
+export function buildSpotterAnalystAppInitData<T extends DefaultAppInitData>(
+    initData: T,
+    viewConfig: { spotterAnalystConfig?: SpotterAnalystConfig },
+): T & { embedParams?: { spotterAnalystConfig?: SpotterAnalystConfig } } {
+    const { spotterAnalystConfig } = viewConfig;
+    if (!spotterAnalystConfig?.analystId) return initData;
+    return {
+        ...initData,
+        embedParams: {
+            ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
+            spotterAnalystConfig,
         },
     };
 }
