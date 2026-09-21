@@ -217,10 +217,24 @@ async function findEmbedFrame(
     const pages = (await callExtensionTool(agentApiUrl, sessionId, 'list_pages', {})) as Array<{
         tabId: number; url?: string; attached?: boolean;
     }>;
-    const here = pages.find((p) => p.url && p.url.startsWith(window.location.origin));
+    // One extension session covers every tab, so the right one has to be
+    // identified here. Prefer an exact URL match over a same-origin one —
+    // two tabs of the same app would otherwise be indistinguishable — and
+    // prefer a tab the developer has actually granted debugger access to,
+    // since only those can be inspected at all.
+    const candidates = pages.filter((p) => p.url && p.url.startsWith(window.location.origin));
+    const here = candidates.find((p) => p.url === window.location.href && p.attached)
+        ?? candidates.find((p) => p.url === window.location.href)
+        ?? candidates.find((p) => p.attached)
+        ?? candidates[0];
     if (!here) {
         throw new Error(
             'This page is not visible to the extension. Open its popup and click "Allow on this tab".',
+        );
+    }
+    if (!here.attached) {
+        throw new Error(
+            'The extension is not attached to this tab. Open its popup and click "Allow on this tab".',
         );
     }
 
