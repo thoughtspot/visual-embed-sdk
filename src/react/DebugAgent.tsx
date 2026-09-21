@@ -15,16 +15,17 @@ import { getEmbedConfig } from '../embed/embedConfig';
  * SSE-streamed). "Pick element" behaves differently depending on whether a
  * browser-extension debugging session is connected:
  *
- * - With `extensionSessionId` set, a pick sends the agent a *reference* to
- *   the picked point (coordinates plus which frame) and lets it call the
- *   extension's `inspect_element_in_frame` tool to read the element's tag,
- *   classes, box and computed styles on demand. That tool runs through
- *   `chrome.debugger` (CDP), so it reaches the top-level host page and the
- *   cross-origin ThoughtSpot iframe alike.
- * - Without one, the panel falls back to reading the host page's own DOM
- *   directly and attaching a style snapshot as chat context. The host page
- *   cannot read a cross-origin iframe, so picking over the embed then yields
- *   only the `<iframe>` element itself.
+ * - Host page elements are read directly here — hover highlights locally and
+ *   the click attaches a computed-style snapshot as chat context. No
+ *   extension needed.
+ * - Clicking the ThoughtSpot embed, with `extensionSessionId` set, hands
+ *   picking to the extension's `start_element_picker` tool, which injects a
+ *   picker into the iframe's own frame over `chrome.debugger` (CDP). It
+ *   highlights on hover at native speed in there and reports back the element
+ *   the user clicks. Routing hover out over the relay instead would mean a
+ *   network round trip per mousemove, which cannot track a cursor.
+ * - Without a session id the host page cannot read a cross-origin iframe at
+ *   all, so picking over the embed yields only the `<iframe>` element itself.
  *
  * Development/debugging tool — not intended for production end-user-facing
  * pages (see the `enableDebugAgent` JSDoc in ../types).
@@ -136,6 +137,30 @@ const KEY_STYLE_PROPS: Array<keyof CSSStyleDeclaration & string> = [
 
 const PANEL_WIDTH = 400;
 const PANEL_HEIGHT = 600;
+const SESSION_STORAGE_KEY = 'ts-debug-agent-extension-session-id';
+
+/**
+ * The extension's session id rotates whenever Chrome evicts its service
+ * worker, so it is kept in localStorage rather than only in config — the
+ * developer can paste a fresh one into the panel without touching code.
+ * Storage can throw (private mode, blocked site data), hence the guards.
+ */
+function readStoredSessionId(): string {
+    try {
+        return window.localStorage.getItem(SESSION_STORAGE_KEY) ?? '';
+    } catch {
+        return '';
+    }
+}
+
+function storeSessionId(value: string): void {
+    try {
+        if (value) window.localStorage.setItem(SESSION_STORAGE_KEY, value);
+        else window.localStorage.removeItem(SESSION_STORAGE_KEY);
+    } catch {
+        // Ignore — the id just will not persist across reloads.
+    }
+}
 
 export const DebugAgent: React.FC<DebugAgentProps> = ({
     agentApiUrl = 'http://localhost:8000',
@@ -148,6 +173,11 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     const [busy, setBusy] = useState(false);
     const [picking, setPicking] = useState(false);
     const [hovered, setHovered] = useState<Element | null>(null);
+    const [sessionInput, setSessionInput] = useState(() => extensionSessionId ?? readStoredSessionId());
+    const [showSessionField, setShowSessionField] = useState(false);
+
+    // The prop wins when given; otherwise whatever was pasted into the panel.
+    const activeSessionId = (extensionSessionId ?? sessionInput).trim() || undefined;
 
     const historyRef = useRef<Array<{ role: Role; content: string }>>([]);
     const messagesRef = useRef<HTMLDivElement>(null);
@@ -177,32 +207,28 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             setPicking(false);
             setHovered(null);
 
-            const isIframe = target.tagName === 'IFRAME';
-
-            // With an extension session the agent can inspect either frame
-            // itself via inspect_element_in_frame, so send it a reference to
-            // the picked point rather than a snapshot taken here. Inside the
-            // iframe that is the only option at all — the host page cannot
-            // read a cross-origin frame's DOM.
-            if (extensionSessionId) {
-                const rect = target.getBoundingClientRect();
-                const frameHint = isIframe
-                    ? `the embedded ThoughtSpot iframe (src: ${(target as HTMLIFrameElement).src || 'unknown'}) — `
-                      + 'find its frameSessionId with list_frames'
-                    : 'the top-level host page — omit frameSessionId';
-                const x = isIframe ? Math.round(e.clientX - rect.left) : Math.round(e.clientX);
-                const y = isIframe ? Math.round(e.clientY - rect.top) : Math.round(e.clientY);
+            // Clicking the embed hands picking over to the extension: the
+            // host page cannot read a cross-origin frame at all, and hover
+            // highlighting in there has to run inside that frame (a relay
+            // round trip per mousemove would be far too slow to track a
+            // cursor). start_element_picker injects a picker that highlights
+            // natively in the iframe and reports back the element the user
+            // clicks, so the second click — inside the embed — is the real
+            // pick.
+            if (target.tagName === 'IFRAME' && activeSessionId) {
+                const src = (target as HTMLIFrameElement).src || 'unknown';
                 sendText(
-                    `I picked the point (${x}, ${y}) in ${frameHint}. Use inspect_element_in_frame `
-                    + 'to look at that element, then tell me what it is and suggest any style '
-                    + 'changes worth making.',
+                    `Start the element picker inside the embedded ThoughtSpot iframe (src: ${src}) `
+                    + '— use list_frames to find its frameSessionId, then start_element_picker '
+                    + 'scoped to that frame. I will click the element I want. Once I pick it, tell '
+                    + 'me what it is and suggest any style changes worth making.',
                 );
                 return;
             }
 
-            // No extension session: fall back to reading the host page's own
-            // DOM directly and attaching it as chat context. An iframe picked
-            // this way yields only the <iframe> element itself.
+            // Host page element: read it directly. Picking the iframe without
+            // an extension session also lands here, and yields only the
+            // <iframe> element itself.
             const computed = window.getComputedStyle(target);
             const styleSnapshot: Record<string, string> = {};
             KEY_STYLE_PROPS.forEach((prop) => { styleSnapshot[prop] = String(computed[prop] ?? ''); });
@@ -258,7 +284,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                 body: JSON.stringify({
                     agentType: 'visual-embed-sdk',
                     messages: historyRef.current,
-                    extensionSessionId,
+                    extensionSessionId: activeSessionId,
                     browserContext: {
                         url: window.location.href,
                         viewport: { width: window.innerWidth, height: window.innerHeight },
@@ -328,7 +354,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             {picking && hovered ? (
                 <ElementHoverOverlay
                     el={hovered}
-                    iframeInspectable={!!extensionSessionId}
+                    iframeInspectable={hovered.tagName === 'IFRAME' && !!activeSessionId}
                 />
             ) : null}
 
@@ -361,7 +387,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
 
                     <div ref={messagesRef} style={styles.messages}>
                         {items.length === 0 ? (
-                            <WelcomeState onPick={() => setPicking(true)} extensionConnected={!!extensionSessionId} />
+                            <WelcomeState onPick={() => setPicking(true)} extensionConnected={!!activeSessionId} />
                         ) : null}
                         {items.map((item) => {
                             if ('kind' in item && item.kind === 'tool') {
@@ -395,13 +421,40 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                             type="button"
                             onClick={() => setPicking((p) => !p)}
                             style={picking ? styles.toolBtnActive : styles.toolBtn}
-                            title={extensionSessionId
-                                ? 'Pick an element on the page — or click inside the ThoughtSpot iframe to inspect it via the connected extension'
+                            title={activeSessionId
+                                ? 'Pick an element on the page — or click the ThoughtSpot embed to pick inside it via the connected extension'
                                 : 'Pick an element on the page to attach as context'}
                         >
                             {'⌖'} {picking ? 'Picking…' : 'Pick element'}
                         </button>
+                        {!extensionSessionId ? (
+                            <button
+                                type="button"
+                                onClick={() => setShowSessionField((s) => !s)}
+                                style={styles.toolBtn}
+                                title={activeSessionId
+                                    ? 'Browser extension connected — click to change or clear the session id'
+                                    : 'Paste the session id from the extension popup to inspect inside the embed'}
+                            >
+                                {activeSessionId ? '🔗 Extension' : '⚭ Connect extension'}
+                            </button>
+                        ) : null}
                     </div>
+
+                    {showSessionField && !extensionSessionId ? (
+                        <div style={styles.sessionRow}>
+                            <input
+                                type="text"
+                                value={sessionInput}
+                                onChange={(e) => {
+                                    setSessionInput(e.target.value);
+                                    storeSessionId(e.target.value.trim());
+                                }}
+                                placeholder="Extension session id (from the extension popup)"
+                                style={styles.sessionInput}
+                            />
+                        </div>
+                    ) : null}
 
                     <form onSubmit={sendMessage} style={styles.inputRow}>
                         <textarea
@@ -552,7 +605,7 @@ const ElementHoverOverlay: React.FC<{ el: Element; iframeInspectable?: boolean }
                 }}
             >
                 {describeElement(el)}
-                {iframeInspectable ? ' · click to ask the agent to inspect it' : ''}
+                {iframeInspectable ? ' · click, then pick inside the embed' : ''}
             </div>
         </div>
     );
@@ -710,7 +763,22 @@ const styles: Record<string, React.CSSProperties> = {
         background: 'transparent', border: 'none', color: '#64748b', cursor: 'pointer', fontSize: 11, marginLeft: 'auto', padding: 0,
     },
     toolbar: {
-        flex: '0 0 auto', padding: '8px 12px 0', display: 'flex', gap: 8,
+        flex: '0 0 auto', padding: '8px 12px 0', display: 'flex', gap: 8, flexWrap: 'wrap',
+    },
+    sessionRow: {
+        flex: '0 0 auto', padding: '8px 12px 0',
+    },
+    sessionInput: {
+        width: '100%',
+        boxSizing: 'border-box',
+        background: '#f8fafc',
+        color: '#0f172a',
+        border: '1px solid #e2e8f0',
+        borderRadius: 8,
+        padding: '6px 10px',
+        fontFamily: MONO,
+        fontSize: 11,
+        outline: 'none',
     },
     toolBtn: {
         background: '#f8fafc',
