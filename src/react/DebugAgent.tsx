@@ -216,12 +216,18 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             // clicks, so the second click — inside the embed — is the real
             // pick.
             if (target.tagName === 'IFRAME' && activeSessionId) {
-                const src = (target as HTMLIFrameElement).src || 'unknown';
                 sendText(
-                    `Start the element picker inside the embedded ThoughtSpot iframe (src: ${src}) `
-                    + '— use list_frames to find its frameSessionId, then start_element_picker '
-                    + 'scoped to that frame. I will click the element I want. Once I pick it, tell '
-                    + 'me what it is and suggest any style changes worth making.',
+                    'Run the element picker INSIDE the embedded ThoughtSpot iframe.\n\n'
+                    + `1. list_pages, then list_frames for the tab on ${window.location.origin}.\n`
+                    + '2. Pick the frame whose type is "iframe" — that is the ThoughtSpot embed. '
+                    + 'Do not match it by url: the embed\'s frame url is often reported as an '
+                    + 'empty string. If several iframes are listed, choose the one that is not '
+                    + 'the host page.\n'
+                    + '3. Call start_element_picker with that frame\'s sessionId as '
+                    + 'frameSessionId. It MUST be set — omitting it picks in the host page '
+                    + 'instead of the embed, which is not what I want.\n\n'
+                    + 'I will then click the element I want. Once I pick it, tell me what it is '
+                    + 'and suggest any style changes worth making.',
                 );
                 return;
             }
