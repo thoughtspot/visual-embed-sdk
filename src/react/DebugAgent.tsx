@@ -12,18 +12,19 @@ import { getEmbedConfig } from '../embed/embedConfig';
  * works.
  *
  * Talks to the embed-assistant agent backend (`POST {agentApiUrl}/agent/embed-assistant`,
- * SSE-streamed). The one DOM capability the panel has itself — picking an
- * element on the host page and live-editing its styles — is exposed as an
- * in-chat tool the developer (or a future agent tool-call) can invoke; picked
- * elements are attached to the conversation as context.
+ * SSE-streamed). "Pick element" behaves differently depending on whether a
+ * browser-extension debugging session is connected:
  *
- * The host page cannot read or write inside the ThoughtSpot iframe directly
- * (it is a separate origin). When `extensionSessionId` is set — a connected
- * browser-extension debugging session with `chrome.debugger` access — picking
- * a point over the iframe instead asks the agent to inspect that point
- * *inside the iframe's own frame*, via the extension's `evaluate_script`
- * relay tool. Without an extension session, picking over the iframe still
- * only sees the `<iframe>` element itself, same as any other host element.
+ * - With `extensionSessionId` set, a pick sends the agent a *reference* to
+ *   the picked point (coordinates plus which frame) and lets it call the
+ *   extension's `inspect_element_in_frame` tool to read the element's tag,
+ *   classes, box and computed styles on demand. That tool runs through
+ *   `chrome.debugger` (CDP), so it reaches the top-level host page and the
+ *   cross-origin ThoughtSpot iframe alike.
+ * - Without one, the panel falls back to reading the host page's own DOM
+ *   directly and attaching a style snapshot as chat context. The host page
+ *   cannot read a cross-origin iframe, so picking over the embed then yields
+ *   only the `<iframe>` element itself.
  *
  * Development/debugging tool — not intended for production end-user-facing
  * pages (see the `enableDebugAgent` JSDoc in ../types).
@@ -176,20 +177,32 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             setPicking(false);
             setHovered(null);
 
-            if (target.tagName === 'IFRAME' && extensionSessionId) {
+            const isIframe = target.tagName === 'IFRAME';
+
+            // With an extension session the agent can inspect either frame
+            // itself via inspect_element_in_frame, so send it a reference to
+            // the picked point rather than a snapshot taken here. Inside the
+            // iframe that is the only option at all — the host page cannot
+            // read a cross-origin frame's DOM.
+            if (extensionSessionId) {
                 const rect = target.getBoundingClientRect();
-                const xInFrame = Math.round(e.clientX - rect.left);
-                const yInFrame = Math.round(e.clientY - rect.top);
+                const frameHint = isIframe
+                    ? `the embedded ThoughtSpot iframe (src: ${(target as HTMLIFrameElement).src || 'unknown'}) — `
+                      + 'find its frameSessionId with list_frames'
+                    : 'the top-level host page — omit frameSessionId';
+                const x = isIframe ? Math.round(e.clientX - rect.left) : Math.round(e.clientX);
+                const y = isIframe ? Math.round(e.clientY - rect.top) : Math.round(e.clientY);
                 sendText(
-                    `Inspect the element at coordinates (${xInFrame}, ${yInFrame}) inside the `
-                    + 'embedded ThoughtSpot iframe (use list_frames to find that frame, then '
-                    + 'evaluate_script scoped to it — e.g. document.elementFromPoint(x, y) — to '
-                    + 'get its tag, classes, computed styles, and bounding box). Summarize what '
-                    + 'you find.',
+                    `I picked the point (${x}, ${y}) in ${frameHint}. Use inspect_element_in_frame `
+                    + 'to look at that element, then tell me what it is and suggest any style '
+                    + 'changes worth making.',
                 );
                 return;
             }
 
+            // No extension session: fall back to reading the host page's own
+            // DOM directly and attaching it as chat context. An iframe picked
+            // this way yields only the <iframe> element itself.
             const computed = window.getComputedStyle(target);
             const styleSnapshot: Record<string, string> = {};
             KEY_STYLE_PROPS.forEach((prop) => { styleSnapshot[prop] = String(computed[prop] ?? ''); });
@@ -315,7 +328,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
             {picking && hovered ? (
                 <ElementHoverOverlay
                     el={hovered}
-                    iframeInspectable={hovered.tagName === 'IFRAME' && !!extensionSessionId}
+                    iframeInspectable={!!extensionSessionId}
                 />
             ) : null}
 
@@ -464,7 +477,7 @@ const WelcomeState: React.FC<{ onPick: () => void; extensionConnected?: boolean 
         <div style={styles.welcomeBody}>
             Ask about console errors, failed requests, or configuration —
             or pick an element on the page to get style help for it.
-            {extensionConnected ? ' With the browser extension connected, you can also click inside the ThoughtSpot iframe itself.' : ''}
+            {extensionConnected ? ' With the browser extension connected, that works inside the ThoughtSpot iframe too.' : ''}
         </div>
         <button type="button" onClick={onPick} style={styles.welcomeBtn}>
             {'⌖'} Pick an element
@@ -539,7 +552,7 @@ const ElementHoverOverlay: React.FC<{ el: Element; iframeInspectable?: boolean }
                 }}
             >
                 {describeElement(el)}
-                {iframeInspectable ? ' · click to inspect inside iframe' : ''}
+                {iframeInspectable ? ' · click to ask the agent to inspect it' : ''}
             </div>
         </div>
     );
