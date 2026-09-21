@@ -783,6 +783,143 @@ describe('DebugAgent', () => {
         expect(screen.getByText('list_console_messages')).toBeInTheDocument();
     });
 
+    describe('debug session recording', () => {
+        /**
+         * Routes /extension/tool-call by tool name and /agent/embed-assistant
+         * to an empty stream, so a test can drive the recording button without
+         * the agent turn that stopping kicks off interfering.
+         */
+        const mockExtension = (results: Record<string, unknown>) => {
+            const calls: Array<{ toolName: string; args: Record<string, unknown> }> = [];
+            global.fetch = jest.fn().mockImplementation((url: string, init: RequestInit) => {
+                if (String(url).includes('/extension/tool-call')) {
+                    const body = JSON.parse(String(init.body));
+                    calls.push({ toolName: body.toolName, args: body.args });
+                    return Promise.resolve({
+                        ok: true,
+                        status: 200,
+                        json: () => Promise.resolve({ result: results[body.toolName] ?? {} }),
+                    });
+                }
+                return Promise.resolve({
+                    ok: true,
+                    status: 200,
+                    statusText: 'OK',
+                    body: { getReader: () => ({ read: () => Promise.resolve({ done: true }) }) },
+                });
+            }) as any;
+            return calls;
+        };
+
+        const FRAMES = { frames: [{ sessionId: 'FRAME_A', type: 'iframe' }] };
+        const pagesFor = () => [{ tabId: 7, url: window.location.href, attached: true }];
+        // Scoped to the button: the notice text also says
+        // "Stop & analyse".
+        const recordBtn = () => screen.getByRole('button', { name: /Record issue/ });
+        const stopBtn = () => screen.getByRole('button', { name: /Stop & analyse/ });
+
+        it('is hidden until an extension session is connected', async () => {
+            render(<DebugAgent />);
+            await openPanel();
+            expect(screen.queryByRole('button', { name: /Record issue/ })).not.toBeInTheDocument();
+        });
+
+        it('starts recording on the tab the page is in', async () => {
+            const calls = mockExtension({
+                list_pages: pagesFor(),
+                list_frames: FRAMES,
+                start_debug_session: { started: true, sessionId: 'sess-1' },
+            });
+
+            render(<DebugAgent extensionSessionId="abc" />);
+            await openPanel();
+            await act(async () => { fireEvent.click(recordBtn()); });
+
+            const start = calls.find((c) => c.toolName === 'start_debug_session');
+            expect(start).toBeDefined();
+            expect(start!.args).toEqual({ tabId: 7 });
+            // The button flips to the stop affordance, so the developer can
+            // see a recording is running.
+            await waitFor(() => expect(stopBtn()).toBeInTheDocument());
+            expect(screen.getByText(/Reproduce the problem/)).toBeInTheDocument();
+        });
+
+        it('reports what was captured when stopped, and asks the agent to analyse it', async () => {
+            const calls = mockExtension({
+                list_pages: pagesFor(),
+                list_frames: FRAMES,
+                start_debug_session: { started: true },
+                stop_debug_session: {
+                    entryCount: 312,
+                    durationMs: 47000,
+                    truncated: false,
+                    countsByType: { 'network-failed': 2, exception: 1 },
+                },
+            });
+
+            render(<DebugAgent extensionSessionId="abc" />);
+            await openPanel();
+            await act(async () => { fireEvent.click(recordBtn()); });
+            await act(async () => { fireEvent.click(stopBtn()); });
+
+            expect(calls.some((c) => c.toolName === 'stop_debug_session')).toBe(true);
+            expect(await screen.findByText(/Captured 312 events over 47s/)).toBeInTheDocument();
+            // Failures are called out: they are what the developer came for.
+            expect(screen.getByText(/including 3 failures/)).toBeInTheDocument();
+            // Stopping IS the request for analysis — no second click needed.
+            expect(screen.getByText(/Analyse the debug session/)).toBeInTheDocument();
+            expect(recordBtn()).toBeInTheDocument();
+        });
+
+        it('says so when a recording was truncated, so a partial session is not read as complete', async () => {
+            mockExtension({
+                list_pages: pagesFor(),
+                list_frames: FRAMES,
+                start_debug_session: { started: true },
+                stop_debug_session: {
+                    entryCount: 5000, durationMs: 120000, truncated: true, countsByType: {},
+                },
+            });
+
+            render(<DebugAgent extensionSessionId="abc" />);
+            await openPanel();
+            await act(async () => { fireEvent.click(recordBtn()); });
+            await act(async () => { fireEvent.click(stopBtn()); });
+
+            expect(await screen.findByText(/hit its limit/)).toBeInTheDocument();
+        });
+
+        it('stays stopped and explains when the extension refuses to start', async () => {
+            mockExtension({
+                list_pages: pagesFor(),
+                list_frames: FRAMES,
+                start_debug_session: { started: false, reason: 'A debug session is already recording.' },
+            });
+
+            render(<DebugAgent extensionSessionId="abc" />);
+            await openPanel();
+            await act(async () => { fireEvent.click(recordBtn()); });
+
+            expect(await screen.findByText(/already recording/)).toBeInTheDocument();
+            expect(recordBtn()).toBeInTheDocument();
+        });
+
+        it('surfaces an unreachable extension rather than appearing to record', async () => {
+            global.fetch = jest.fn().mockResolvedValue({
+                ok: false,
+                status: 409,
+                json: () => Promise.resolve({ error: 'No extension connected for this session' }),
+            }) as any;
+
+            render(<DebugAgent extensionSessionId="abc" />);
+            await openPanel();
+            await act(async () => { fireEvent.click(recordBtn()); });
+
+            expect(await screen.findByText(/No extension connected/)).toBeInTheDocument();
+            expect(recordBtn()).toBeInTheDocument();
+        });
+    });
+
     it('surfaces a failed agent request as a message rather than failing silently', async () => {
         global.fetch = jest.fn().mockResolvedValue({
             ok: false, status: 500, statusText: 'Server Error', body: null,

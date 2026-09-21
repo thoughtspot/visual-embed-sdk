@@ -137,6 +137,9 @@ const TOOL_LABELS: Record<string, { running: string; done: string }> = {
     take_screenshot: { running: 'Taking a screenshot', done: 'Took a screenshot' },
     start_element_picker: { running: 'Waiting for you to pick an element', done: 'Picked an element' },
     inspect_element_in_frame: { running: 'Inspecting the element', done: 'Inspected the element' },
+    start_debug_session: { running: 'Starting the recording', done: 'Recording' },
+    stop_debug_session: { running: 'Stopping the recording', done: 'Stopped the recording' },
+    get_debug_session: { running: 'Reading the recording', done: 'Read the recording' },
 };
 
 /**
@@ -687,6 +690,12 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     const [busy, setBusy] = useState(false);
     const [picking, setPicking] = useState(false);
     const [pickingEmbed, setPickingEmbed] = useState(false);
+    // Debug-session recording. `recording` drives the button's state; the tab
+    // id is kept so stopping targets the same tab that started, even if the
+    // developer switched tabs mid-reproduction.
+    const [recording, setRecording] = useState(false);
+    const [recordingBusy, setRecordingBusy] = useState(false);
+    const recordingTabRef = useRef<number | undefined>(undefined);
     const [hovered, setHovered] = useState<Element | null>(null);
     const [sessionInput, setSessionInput] = useState(() => extensionSessionId ?? readStoredSessionId());
     const [showSessionField, setShowSessionField] = useState(false);
@@ -1108,6 +1117,127 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
         }
     }
 
+    /**
+     * Starts or stops a debug-session recording in the extension.
+     *
+     * Recording is deliberately an explicit button rather than something the
+     * agent starts on its own: a session captures network traffic, console
+     * output and clicks continuously until stopped, and it produces an
+     * artifact meant to be shared. That needs a visible, user-owned on/off
+     * switch — the same reasoning that keeps the pickers on buttons.
+     *
+     * Like the pickers, this calls the extension directly instead of asking
+     * the model to. Start and stop are mechanical, and the agent's value is
+     * in reading the recording afterwards, not in sequencing it.
+     */
+    async function toggleRecording() {
+        if (!activeSessionId || recordingBusy) return;
+        setRecordingBusy(true);
+
+        const statusId = nextId();
+        const startedAt = Date.now();
+        const toolName = recording ? 'stop_debug_session' : 'start_debug_session';
+        setItems((prev) => [...prev, {
+            id: statusId,
+            kind: 'activity',
+            steps: [{
+                id: nextId(),
+                toolName,
+                label: recording ? 'Stopping the recording' : 'Starting the recording',
+                status: 'running',
+                startedAt,
+            }],
+        }]);
+
+        const settle = (status: 'done' | 'failed', label: string) => setItems(
+            (prev) => prev.map((it) => (isActivity(it) && it.id === statusId
+                ? {
+                    ...it,
+                    done: true,
+                    steps: it.steps.map((st) => ({
+                        ...st, status, label, durationMs: Date.now() - st.startedAt,
+                    })),
+                }
+                : it)),
+        );
+
+        try {
+            if (!recording) {
+                // Only the tab is needed to start — recording spans the host
+                // page and every frame in it, so there is no frame to resolve.
+                const { tabId } = await findEmbedFrame(agentApiUrl, activeSessionId);
+                const started = (await callExtensionTool(
+                    agentApiUrl, activeSessionId, 'start_debug_session', { tabId },
+                )) as { started: boolean; reason?: string };
+                if (!started.started) {
+                    settle('failed', 'Could not start recording');
+                    setItems((prev) => [...prev, {
+                        id: nextId(),
+                        kind: 'notice',
+                        content: started.reason ?? 'A recording is already running.',
+                    }]);
+                    return;
+                }
+                recordingTabRef.current = tabId;
+                setRecording(true);
+                settle('done', 'Recording');
+                setItems((prev) => [...prev, {
+                    id: nextId(),
+                    kind: 'notice',
+                    content: 'Recording. Reproduce the problem, then click Stop & analyse.',
+                }]);
+                return;
+            }
+
+            const summary = (await callExtensionTool(
+                agentApiUrl, activeSessionId, 'stop_debug_session', {},
+            )) as {
+                entryCount?: number; durationMs?: number; truncated?: boolean;
+                countsByType?: Record<string, number>; reason?: string;
+            };
+            setRecording(false);
+            recordingTabRef.current = undefined;
+
+            if (summary.entryCount === undefined) {
+                settle('failed', 'No recording to stop');
+                setItems((prev) => [...prev, {
+                    id: nextId(),
+                    kind: 'notice',
+                    content: summary.reason ?? 'No recording was running.',
+                }]);
+                return;
+            }
+            settle('done', 'Stopped the recording');
+
+            const counts = summary.countsByType ?? {};
+            const failures = (counts['network-failed'] ?? 0) + (counts.exception ?? 0);
+            const seconds = Math.round((summary.durationMs ?? 0) / 1000);
+            setItems((prev) => [...prev, {
+                id: nextId(),
+                kind: 'notice',
+                content: `Captured ${summary.entryCount} events over ${seconds}s`
+                    + (failures ? ` — including ${failures} failure${failures === 1 ? '' : 's'}.` : '.')
+                    + (summary.truncated ? ' The recording hit its limit, so later events were dropped.' : ''),
+            }]);
+
+            // Hand the recording to the agent. The developer gets the analysis
+            // without having to ask for it — stopping IS the request.
+            void sendText('Analyse the debug session I just recorded. Read it with '
+                + 'get_debug_session, build a timeline of what happened, and tell me '
+                + 'the likely root cause, separating the evidence you captured from '
+                + 'your own analysis.');
+        } catch (err) {
+            settle('failed', recording ? 'Could not stop recording' : 'Could not start recording');
+            setItems((prev) => [...prev, {
+                id: nextId(),
+                role: 'assistant' as const,
+                content: `\u26a0\ufe0f ${(err as Error).message}`,
+            }]);
+        } finally {
+            setRecordingBusy(false);
+        }
+    }
+
     const removeContext = (id: string) => setItems((prev) => prev.filter((it) => !(isElement(it) && it.id === id)));
 
     /** Aborts the in-flight stream; whatever already streamed in is kept. */
@@ -1292,6 +1422,20 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                                 title="Highlight and pick an element inside the ThoughtSpot embed, via the connected extension"
                             >
                                 {'⌖'} {pickingEmbed ? 'Pick in embed…' : 'Pick in embed'}
+                            </button>
+                        ) : null}
+                        {activeSessionId ? (
+                            <button
+                                type="button"
+                                onClick={toggleRecording}
+                                disabled={recordingBusy}
+                                style={recording ? styles.toolBtnRecording : styles.toolBtn}
+                                title={recording
+                                    ? 'Stop recording and have the agent analyse what was captured'
+                                    : 'Record console, network and your actions across the page and the embed while you reproduce a problem'}
+                            >
+                                {recording ? `\u23f9 ${recordingBusy ? 'Stopping\u2026' : 'Stop & analyse'}`
+                                    : `\u23fa ${recordingBusy ? 'Starting\u2026' : 'Record issue'}`}
                             </button>
                         ) : null}
                         {!extensionSessionId ? (
@@ -1738,6 +1882,8 @@ interface Palette {
     inlineCodeText: string;
     success: string;
     warning: string;
+    /** Recording/destructive state — the only red in the panel. */
+    danger: string;
     shadow: string;
     /** Syntax-token colours, tuned per theme for contrast on `codeSurface`. */
     token: Record<Exclude<TokenType, 'plain'>, string>;
@@ -1762,6 +1908,7 @@ const LIGHT: Palette = {
     inlineCodeText: '#b91c4e',
     success: '#1a7f37',
     warning: '#9a6700',
+    danger: '#d1242f',
     shadow: '0 20px 48px rgba(15, 23, 42, 0.18)',
     token: {
         comment: '#6a737d',
@@ -1798,6 +1945,7 @@ const DARK: Palette = {
     inlineCodeText: '#ff7b9c',
     success: '#3fb950',
     warning: '#d29922',
+    danger: '#f85149',
     shadow: '0 20px 48px rgba(0, 0, 0, 0.55)',
     token: {
         comment: '#7d8896',
@@ -2372,6 +2520,20 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         background: C.accent,
         color: C.onAccent,
         border: `1px solid ${C.accent}`,
+        borderRadius: 8,
+        padding: '5px 10px',
+        fontSize: 11.5,
+        cursor: 'pointer',
+        fontFamily: FONT,
+    },
+    /**
+     * Recording is the one state in the panel worth colouring red: it is
+     * ongoing, invisible on the page itself, and capturing data until stopped.
+     */
+    toolBtnRecording: {
+        background: C.danger,
+        color: '#ffffff',
+        border: `1px solid ${C.danger}`,
         borderRadius: 8,
         padding: '5px 10px',
         fontSize: 11.5,
