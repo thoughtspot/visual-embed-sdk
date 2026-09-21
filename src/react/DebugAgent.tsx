@@ -189,18 +189,39 @@ function toSseEvents(buffer: string): { events: Array<Record<string, unknown>>; 
 }
 
 /** Minimal markdown-ish renderer: **bold**, `code`, bullets, paragraph breaks. */
+/** `[label](https://…)` — only http(s), so a `javascript:` URL cannot ride in. */
+const MD_LINK = /^\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)$/;
+
 function renderInline(text: string, keyPrefix: string): React.ReactNode[] {
     const nodes: React.ReactNode[] = [];
-    const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+    const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\[[^\]]+\]\(https?:\/\/[^\s)]+\))/g);
     parts.forEach((part, i) => {
         if (!part) return;
-        if (part.startsWith('**') && part.endsWith('**')) {
+        const link = MD_LINK.exec(part);
+        if (link) {
+            // The agent cites docs pages constantly; as raw markdown those were
+            // unreadable and unclickable. `noreferrer` keeps the host page's
+            // URL out of the referer sent to the docs site.
+            nodes.push(
+                <a
+                    key={`${keyPrefix}-${i}`}
+                    href={link[2]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={styles.link}
+                >
+                    {link[1]}
+                </a>,
+            );
+        } else if (part.startsWith('**') && part.endsWith('**')) {
             nodes.push(<strong key={`${keyPrefix}-${i}`}>{part.slice(2, -2)}</strong>);
         } else if (part.startsWith('`') && part.endsWith('`')) {
+            // A span, not `code`: a host page's `code { ... !important }` rule
+            // would override the inline style and render this unreadable.
             nodes.push(
-                <code key={`${keyPrefix}-${i}`} style={styles.inlineCode}>
+                <span key={`${keyPrefix}-${i}`} style={styles.inlineCode}>
                     {part.slice(1, -1)}
-                </code>,
+                </span>,
             );
         } else {
             nodes.push(part);
@@ -263,6 +284,11 @@ function renderProse(content: string): React.ReactNode {
     const lines = content.replace(/^\n+|\n+$/g, '').split('\n');
     return lines.map((line, i) => {
         const trimmed = line.trimStart();
+        // A thematic break, which the agent uses before its AI disclaimer.
+        // Drawn as a rule rather than left as literal dashes.
+        if (/^(-{3,}|\*{3,}|_{3,})$/.test(trimmed)) {
+            return <div key={i} style={styles.rule} />;
+        }
         const bullet = /^[-*]\s+/.test(trimmed);
         const heading = /^#{1,4}\s+/.exec(trimmed);
         const body = bullet ? trimmed.replace(/^[-*]\s+/, '') : (heading ? trimmed.slice(heading[0].length) : line);
@@ -462,21 +488,28 @@ const TOKEN_COLORS: Record<TokenType, string | undefined> = {
     plain: undefined,
 };
 
+/**
+ * Renders the block with `div`s rather than `pre`/`code`.
+ *
+ * A host page styling `code, pre { background: #161b22 !important }` — normal
+ * in a dark theme — beats any inline style React can emit, which left syntax
+ * tokens on a near-black background inside an otherwise light panel. Nothing
+ * here depends on `pre` semantics: `whiteSpace: 'pre'` preserves the
+ * formatting, and the tag itself was the only thing host CSS could target.
+ */
 const CodeBlock: React.FC<{ code: string; language?: string }> = ({ code, language }) => (
     <div style={styles.codeBlock}>
         <div style={styles.codeBlockHeader}>
             <span style={styles.codeBlockLang}>{language || 'code'}</span>
             <CopyButton text={code} label="code" />
         </div>
-        <pre style={styles.codeBlockPre}>
-            <code>
-                {tokenizeCode(code, language).map((token, i) => (
-                    <span key={i} style={TOKEN_COLORS[token.type] ? { color: TOKEN_COLORS[token.type] } : undefined}>
-                        {token.text}
-                    </span>
-                ))}
-            </code>
-        </pre>
+        <div style={styles.codeBlockPre}>
+            {tokenizeCode(code, language).map((token, i) => (
+                <span key={i} style={TOKEN_COLORS[token.type] ? { color: TOKEN_COLORS[token.type] } : undefined}>
+                    {token.text}
+                </span>
+            ))}
+        </div>
     </div>
 );
 
@@ -1385,26 +1418,40 @@ const WelcomeState: React.FC<{ onPick: () => void; extensionConnected?: boolean 
  */
 const ActivityCard: React.FC<{ group: ActivityGroup }> = ({ group }) => {
     const [expanded, setExpanded] = useState(false);
+    const [hover, setHover] = useState(false);
     const running = group.steps.find((s) => s.status === 'running');
     const failed = group.steps.some((s) => s.status === 'failed');
     const totalMs = group.steps.reduce((sum, s) => sum + (s.durationMs ?? 0), 0);
 
-    const caption = running
-        ? `${running.label}…`
-        : `${group.steps.length} step${group.steps.length === 1 ? '' : 's'}${totalMs ? ` · ${formatDuration(totalMs)}` : ''}`;
+    // While running, the caption is the live step. Once the turn is over the
+    // card is the only way back to the steps, so it names the action instead
+    // of just counting: "Show steps" reads as a control, "2 steps" did not.
+    const stepCount = `${group.steps.length} step${group.steps.length === 1 ? '' : 's'}`;
+    const caption = running ? `${running.label}…` : stepCount;
 
     return (
-        <div style={styles.activityCard}>
+        <div style={{ ...styles.activityCard, ...(hover && !running ? styles.activityCardHover : null) }}>
             <button
                 type="button"
                 onClick={() => setExpanded((v) => !v)}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
                 style={styles.activityHeader}
                 aria-expanded={expanded}
                 title={expanded ? 'Hide the steps taken' : 'Show the steps taken'}
             >
                 {running ? <Spinner /> : <span style={styles.activityIcon}>{failed ? '⚠' : '✓'}</span>}
                 <span style={styles.activityCaption}>{caption}</span>
-                <span style={styles.activityChevron}>{expanded ? '⌃' : '⌄'}</span>
+                {totalMs && !running ? <span style={styles.activityDuration}>{formatDuration(totalMs)}</span> : null}
+                {/* An explicit label, not just a chevron: after the answer
+                    lands this is the only route back to the steps, and a bare
+                    glyph on a pale card did not read as clickable. */}
+                <span style={styles.activityToggle}>
+                    {expanded ? 'Hide' : 'Show'} steps
+                    <span style={{ ...styles.activityChevron, transform: expanded ? 'rotate(180deg)' : 'none' }}>
+                        {'⌄'}
+                    </span>
+                </span>
             </button>
             {expanded ? (
                 <div style={styles.activitySteps}>
@@ -1528,6 +1575,30 @@ const ElementHoverOverlay: React.FC<{ el: Element; iframeInspectable?: boolean }
 const FONT = '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif';
 const MONO = 'ui-monospace, SFMono-Regular, Menlo, monospace';
 
+/**
+ * The panel renders inside the host page's DOM, so the host's own CSS cascades
+ * into it: a dark-theme host sets `color` on descendants and backgrounds on
+ * `pre`/`code`, which previously left inline code as unreadable light-on-light
+ * boxes and put light syntax tokens on a dark block.
+ *
+ * So every surface states BOTH its background and its text colour — never one
+ * without the other, and never relying on inheritance. `panelReset` re-asserts
+ * the inheritable properties at the root.
+ */
+const C = {
+    surface: '#ffffff',
+    surfaceMuted: '#f8fafc',
+    codeSurface: '#f6f8fa',
+    codeHeader: '#eef2f7',
+    border: '#e2e8f0',
+    borderStrong: '#cbd5e1',
+    text: '#0f172a',
+    textMuted: '#64748b',
+    textFaint: '#94a3b8',
+    accent: '#1f6feb',
+    onAccent: '#ffffff',
+};
+
 const styles: Record<string, React.CSSProperties> = {
     launcher: {
         position: 'fixed',
@@ -1551,8 +1622,8 @@ const styles: Record<string, React.CSSProperties> = {
         position: 'fixed',
         bottom: PANEL_MARGIN,
         right: PANEL_MARGIN,
-        background: '#ffffff',
-        color: '#0f172a',
+        background: C.surface,
+        color: C.text,
         border: '1px solid #e2e8f0',
         borderRadius: 16,
         display: 'flex',
@@ -1563,6 +1634,16 @@ const styles: Record<string, React.CSSProperties> = {
         boxShadow: '0 20px 48px rgba(15, 23, 42, 0.18)',
         zIndex: 2147483647,
         overflow: 'hidden',
+        // Re-assert the inheritable properties a host page may have set on
+        // body or on a wrapper, so the panel looks the same on every host.
+        fontWeight: 400,
+        fontStyle: 'normal',
+        letterSpacing: 'normal',
+        textTransform: 'none',
+        textAlign: 'left',
+        textShadow: 'none',
+        whiteSpace: 'normal',
+        direction: 'ltr',
     },
     resizeHandle: {
         position: 'absolute',
@@ -1661,7 +1742,9 @@ const styles: Record<string, React.CSSProperties> = {
     assistantBubble: {
         padding: '9px 12px',
         borderRadius: '14px 14px 14px 3px',
-        background: '#f8fafc',
+        background: C.surfaceMuted,
+        // Explicit, so a dark host page cannot wash out the reply text.
+        color: C.text,
         border: '1px solid #e2e8f0',
         maxWidth: '100%',
         boxSizing: 'border-box',
@@ -1669,19 +1752,30 @@ const styles: Record<string, React.CSSProperties> = {
         overflowWrap: 'anywhere',
     },
     inlineCode: {
-        background: '#eef2f7',
+        background: C.codeHeader,
+        // Explicit: a dark host page would otherwise leave this light on light.
+        color: '#b91c4e',
         border: '1px solid #dde3ea',
         borderRadius: 3,
         padding: '1px 4px',
         fontFamily: MONO,
         fontSize: '0.92em',
+        // A long token (a CSS variable, a selector) must not run off the panel.
+        overflowWrap: 'anywhere',
     },
     activityCard: {
         alignSelf: 'stretch',
-        background: '#f8fafc',
-        border: '1px solid #e2e8f0',
+        background: C.surfaceMuted,
+        color: C.textMuted,
+        border: `1px solid ${C.border}`,
         borderRadius: 10,
         overflow: 'hidden',
+        transition: 'border-color 120ms ease, background 120ms ease',
+    },
+    // Hover makes the finished card read as a control rather than a caption.
+    activityCardHover: {
+        background: '#f1f5f9',
+        borderColor: C.borderStrong,
     },
     activityHeader: {
         width: '100%',
@@ -1697,12 +1791,41 @@ const styles: Record<string, React.CSSProperties> = {
         fontFamily: FONT,
         fontSize: 11.5,
         color: '#475569',
+        // The whole row is the hit target, not just the chevron.
+        appearance: 'none',
+        margin: 0,
     },
     activityIcon: { color: '#3fb950', fontSize: 11, flexShrink: 0 },
     activityCaption: {
-        flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+        flex: 1,
+        minWidth: 0,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        color: '#334155',
+        fontWeight: 500,
     },
-    activityChevron: { color: '#94a3b8', fontSize: 11, flexShrink: 0 },
+    activityDuration: {
+        color: C.textFaint, fontSize: 10.5, flexShrink: 0, fontVariantNumeric: 'tabular-nums',
+    },
+    // The visible affordance: accent-coloured, so it reads as interactive.
+    activityToggle: {
+        marginLeft: 'auto',
+        flexShrink: 0,
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 3,
+        color: C.accent,
+        fontSize: 10.5,
+        fontWeight: 500,
+    },
+    activityChevron: {
+        fontSize: 10,
+        flexShrink: 0,
+        display: 'inline-block',
+        transition: 'transform 140ms ease',
+        lineHeight: 1,
+    },
     activitySteps: {
         borderTop: '1px solid #e2e8f0',
         padding: '6px 10px 8px',
@@ -1729,7 +1852,17 @@ const styles: Record<string, React.CSSProperties> = {
         whiteSpace: 'nowrap',
     },
     notice: {
-        alignSelf: 'center', fontSize: 11, color: '#94a3b8', padding: '2px 0',
+        alignSelf: 'center', fontSize: 11, color: C.textFaint, padding: '2px 0',
+    },
+    rule: {
+        height: 1, background: C.border, margin: '8px 0',
+    },
+    link: {
+        // Colour and underline stated, so a host page's `a { }` rules cannot
+        // restyle these into invisibility the way they did with inline code.
+        color: C.accent,
+        textDecoration: 'underline',
+        overflowWrap: 'anywhere',
     },
     contextTray: {
         flex: '0 0 auto',
@@ -1777,10 +1910,20 @@ const styles: Record<string, React.CSSProperties> = {
     },
     codeBlock: {
         margin: '6px 0',
-        background: '#f6f8fa',
+        background: C.codeSurface,
+        color: C.text,
         border: '1px solid #e2e8f0',
         borderRadius: 8,
+        // Clips the corners only; the `pre` inside owns the horizontal scroll.
         overflow: 'hidden',
+        // Without these the block sizes itself to its widest line and pushes
+        // the bubble out, so the `pre` never overflows and never scrolls —
+        // which is why copy returned lines the panel would not show.
+        maxWidth: '100%',
+        minWidth: 0,
+        // The block is a flex child of the message column.
+        flexShrink: 1,
+        alignSelf: 'stretch',
     },
     codeBlockHeader: {
         display: 'flex',
@@ -1794,15 +1937,30 @@ const styles: Record<string, React.CSSProperties> = {
     codeBlockLang: {
         fontFamily: MONO, fontSize: 10, color: '#64748b', textTransform: 'lowercase',
     },
+    // A div, so host `pre`/`code` rules cannot reach it. That means the
+    // formatting `pre` gave for free has to be stated here.
     codeBlockPre: {
+        display: 'block',
         margin: 0,
         padding: '8px 10px',
+        // The scroll container for long lines.
         overflowX: 'auto',
+        overflowY: 'hidden',
         fontFamily: MONO,
         fontSize: 11.5,
         lineHeight: 1.5,
-        color: '#0f172a',
+        color: C.text,
+        background: C.codeSurface,
+        // Replaces what `pre` provided: keep newlines and runs of spaces, and
+        // do not wrap — long lines scroll instead.
         whiteSpace: 'pre',
+        textAlign: 'left',
+        textIndent: 0,
+        tabSize: 4,
+        // Scrolling beats wrapping for code, but a single enormous token must
+        // not be able to stretch the panel itself.
+        maxWidth: '100%',
+        boxSizing: 'border-box',
     },
     elementChip: {
         display: 'flex',

@@ -67,6 +67,14 @@ const ask = async (text = 'why is my embed blank?') => {
     });
 };
 
+/** The code block's scroll container: a div styled `white-space: pre`. */
+const codeScroller = (): HTMLElement => {
+    const el = [...document.querySelectorAll<HTMLElement>('div[style*="pre"]')]
+        .find((d) => d.style.whiteSpace === 'pre');
+    if (!el) throw new Error('no code scroller found');
+    return el;
+};
+
 describe('DebugAgent', () => {
     beforeEach(() => {
         jest.spyOn(embedConfig, 'getEmbedConfig').mockReturnValue({ enableDebugAgent: true } as any);
@@ -174,8 +182,10 @@ describe('DebugAgent', () => {
         await ask();
 
         await waitFor(() => expect(screen.getByText('ts')).toBeInTheDocument());
-        // Highlighting splits the snippet across spans, so assert on the block.
-        expect(document.querySelector('pre')).toHaveTextContent('init({ thoughtSpotHost: "x" });');
+        // Highlighting splits the snippet across spans, and the block is a
+        // div (not `pre`) so host CSS cannot reach it -- assert on the panel.
+        expect(document.querySelector('div[style*="2147483647"]'))
+            .toHaveTextContent('init({ thoughtSpotHost: "x" });');
 
         // Highlighted: the keyword and the string literal are coloured spans.
         expect(screen.getByText('"x"')).toHaveStyle({ color: '#032f62' });
@@ -526,6 +536,135 @@ describe('DebugAgent', () => {
 
             expect(panelOf()).toHaveStyle({ width: '320px', height: '320px' });
         });
+    });
+
+    describe('resilience to host page CSS', () => {
+        /**
+         * The panel renders in the host's DOM, and a dark-theme host commonly
+         * ships `code, pre { background: #161b22 !important }`. An inline style
+         * loses to `!important`, so the panel must not use those tags at all.
+         */
+        it('renders code as div/span, so host code and pre rules cannot reach it', async () => {
+            const { fetchMock, finish } = mockAgentStream([
+                { type: 'text', content: 'Set `hiddenActions`:\n```ts\nconst a = 1;\n```' },
+            ]);
+            global.fetch = fetchMock as any;
+
+            render(<DebugAgent />);
+            await openPanel();
+            await ask();
+            await finish();
+
+            await waitFor(() => expect(screen.getByText('ts')).toBeInTheDocument());
+            const panel = document.querySelector('div[style*="2147483647"]')!;
+            expect(panel.querySelectorAll('pre')).toHaveLength(0);
+            expect(panel.querySelectorAll('code')).toHaveLength(0);
+            // The code is still there, just in tags host CSS does not target.
+            expect(panel).toHaveTextContent('const a = 1;');
+            expect(panel).toHaveTextContent('hiddenActions');
+        });
+
+        it('states both background and colour on every code surface', async () => {
+            // A surface that sets only one of the pair inherits the other from
+            // the host, which is what left inline code light-on-light.
+            const { fetchMock, finish } = mockAgentStream([
+                { type: 'text', content: 'Use `init()`:\n```ts\nconst a = 1;\n```' },
+            ]);
+            global.fetch = fetchMock as any;
+            render(<DebugAgent />);
+            await openPanel();
+            await ask();
+            await finish();
+            await waitFor(() => expect(screen.getByText('ts')).toBeInTheDocument());
+
+            const inline = screen.getByText('init()');
+            const block = codeScroller();
+            [inline, block].forEach((el) => {
+                expect(el.style.background || el.style.backgroundColor).toBeTruthy();
+                expect(el.style.color).toBeTruthy();
+            });
+        });
+
+        it('lets a long code line scroll instead of clipping it', async () => {
+            const { fetchMock, finish } = mockAgentStream([
+                { type: 'text', content: '```ts\nconst aVeryLongLine = "..............................................";\n```' },
+            ]);
+            global.fetch = fetchMock as any;
+            render(<DebugAgent />);
+            await openPanel();
+            await ask();
+            await finish();
+            await waitFor(() => expect(screen.getByText('ts')).toBeInTheDocument());
+
+            // The scroller must own overflow and must not wrap; otherwise copy
+            // returns lines the panel will never show.
+            const scroller = codeScroller();
+            expect(scroller.style.overflowX).toBe('auto');
+            expect(scroller.style.whiteSpace).toBe('pre');
+            expect(scroller.style.maxWidth).toBe('100%');
+        });
+    });
+
+    describe('prose rendering', () => {
+        const replyWith = async (content: string) => {
+            const { fetchMock, finish } = mockAgentStream([{ type: 'text', content }]);
+            global.fetch = fetchMock as any;
+            render(<DebugAgent />);
+            await openPanel();
+            await ask();
+            await finish();
+        };
+
+        it('renders a markdown link as a real link, not raw markdown', async () => {
+            await replyWith('See [Hide actions](https://developers.thoughtspot.com/docs/action-config) for more.');
+
+            const link = await screen.findByRole('link', { name: 'Hide actions' });
+            expect(link).toHaveAttribute('href', 'https://developers.thoughtspot.com/docs/action-config');
+            expect(link).toHaveAttribute('target', '_blank');
+            expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+            expect(screen.queryByText(/\[Hide actions\]\(/)).not.toBeInTheDocument();
+        });
+
+        it('leaves a non-http link as plain text, so javascript: cannot ride in', async () => {
+            await replyWith('Avoid [click me](javascript:alert(1)) here.');
+
+            expect(screen.queryByRole('link')).not.toBeInTheDocument();
+            const panel = document.querySelector('div[style*="2147483647"]')!;
+            expect(panel).toHaveTextContent('[click me](javascript:alert(1))');
+        });
+
+        it('draws a thematic break instead of printing dashes', async () => {
+            await replyWith('Answer.\n\n---\n\nDisclaimer.');
+
+            const panel = document.querySelector('div[style*="2147483647"]')!;
+            expect(panel).toHaveTextContent('Answer.');
+            expect(panel).toHaveTextContent('Disclaimer.');
+            expect(panel).not.toHaveTextContent('---');
+        });
+    });
+
+    it('keeps the expand control visible and labelled once the turn is done', async () => {
+        const { fetchMock, finish } = mockAgentStream([
+            { type: 'tool-start', toolName: 'list_console_messages', toolCallId: 'c1', input: {} },
+            { type: 'tool-result', toolName: 'list_console_messages', toolCallId: 'c1', output: {} },
+            { type: 'text', content: 'All clear.' },
+        ]);
+        global.fetch = fetchMock as any;
+
+        render(<DebugAgent />);
+        await openPanel();
+        await ask();
+        await finish();
+
+        // After the stream, the card must still offer a named way into the
+        // steps — a bare chevron did not read as clickable.
+        const toggle = await screen.findByRole('button', { expanded: false });
+        expect(toggle).toHaveTextContent('Show steps');
+        expect(screen.getByText('All clear.')).toBeInTheDocument();
+
+        fireEvent.click(toggle);
+        expect(screen.getByRole('button', { expanded: true })).toHaveTextContent('Hide steps');
+        expect(screen.getByText('list_console_messages')).toBeInTheDocument();
     });
 
     it('surfaces a failed agent request as a message rather than failing silently', async () => {
