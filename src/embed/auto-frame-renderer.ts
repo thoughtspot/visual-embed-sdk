@@ -1,6 +1,28 @@
-import { AutoMCPFrameRendererViewConfig, Param } from "../types";
+import { Action, AutoMCPFrameRendererViewConfig, Param } from "../types";
 import { TsEmbed } from "./ts-embed";
 import { getQueryParamString } from "../utils";
+
+/**
+ * Actions hidden by default on Answers rendered by the ThoughtSpot MCP server
+ * (iframes carrying the `tsmcp=true` marker). Applied automatically by
+ * {@link AutoFrameRenderer} so the auto-rendered answer exposes a curated set of
+ * controls: Pin/Save/Download at the top level, Aggregate/Filter/Sort/Position in
+ * the column menu, and Exclude/Only include/Drill down/Show underlying data in the
+ * axis menu remain visible, while the actions below are removed.
+ *
+ * This is a denylist merged into {@link Param.HideActions}; anything not listed
+ * here stays visible. It is skipped when the caller supplies a `visibleActions`
+ * allowlist (see {@link AutoFrameRenderer.getEmbedParamsObject}).
+ */
+export const HiddenActionItemByDefaultForMCPAnswers = [
+    Action.Edit,
+    Action.InConversationTraining, // Add to Coaching
+    Action.AxisMenuConditionalFormat,
+    Action.AxisMenuRename,
+    Action.AxisMenuEdit,
+    Action.AxisMenuRemove,
+    Action.MakeACopy,
+];
 
 
 /**
@@ -70,6 +92,39 @@ export function startAutoMCPFrameRenderer(viewConfig: AutoMCPFrameRendererViewCo
     return observer;
 }
 
+/**
+ * Normalizes a `hideAction` value into an array of action ids. The SDK-side value
+ * is already an `Action[]`; a value coming off the source iframe URL is a string
+ * that may be a JSON array (`["edit","save"]`) or a comma-separated list.
+ */
+function parseHideActions(value: unknown): string[] {
+    if (Array.isArray(value)) {
+        return value as string[];
+    }
+    if (typeof value !== 'string' || value === '') {
+        return [];
+    }
+    try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) {
+            return parsed.map(String);
+        }
+    } catch (e) {
+        // Not JSON — fall back to a comma-separated list.
+    }
+    return value.split(',').filter(Boolean);
+}
+
+/**
+ * Unions two `hideAction` values (SDK-computed and source-iframe) into a single
+ * de-duplicated array of action ids.
+ */
+function unionHideActions(sdkValue: unknown, sourceValue: unknown): string[] {
+    return Array.from(
+        new Set([...parseHideActions(sdkValue), ...parseHideActions(sourceValue)]),
+    );
+}
+
 function isTSMCPIframe(iframe: HTMLIFrameElement) {
     try {
         const url = new URL(iframe.src);
@@ -99,10 +154,42 @@ class AutoFrameRenderer extends TsEmbed {
     }
 
     /**
+     * Extends the base embed params with the curated MCP-answer denylist
+     * ({@link HiddenActionItemByDefaultForMCPAnswers}) and a marker letting
+     * the ThoughtSpot app detect this answer was rendered via the MCP
+     * auto-frame-renderer ({@link Param.IsMcpAnswerEmbed}).
+     *
+     * Precedence — merge, allowlist wins:
+     * - When the caller supplies a `visibleActions` allowlist, the base already
+     *   set {@link Param.VisibleActions}; the denylist is skipped so the allowlist
+     *   fully controls visibility.
+     * - Otherwise the denylist is unioned onto {@link Param.HideActions}, which the
+     *   base has already populated with the default hidden actions plus any
+     *   caller-supplied `hiddenActions`.
+     */
+    protected getEmbedParamsObject() {
+        const queryParams = super.getEmbedParamsObject();
+        if (!queryParams[Param.VisibleActions]) {
+            queryParams[Param.HideActions] = [
+                ...(queryParams[Param.HideActions] ?? []),
+                ...HiddenActionItemByDefaultForMCPAnswers,
+            ];
+        }
+        queryParams[Param.IsMcpAnswerEmbed] = true;
+        return queryParams;
+    }
+
+    /**
      * Builds the final iframe `src` by merging the SDK embed parameters
      * with the query parameters already present on the source iframe URL.
+     *
      * The `tsmcp` marker param is removed so it does not propagate to the
-     * ThoughtSpot application.
+     * ThoughtSpot application. This is not just cosmetic: `tsmcp=true` is
+     * also how {@link isTSMCPIframe} recognizes an iframe as one this
+     * renderer must process. If the marker survived onto the iframe this
+     * class inserts, the same {@link MutationObserver} would immediately
+     * detect its own output as a new MCP iframe and re-process it, causing
+     * infinite recursive replacement. Do not re-add `tsmcp` here.
      *
      * @param sourceSrc - The original iframe's `src` URL string.
      * @returns The constructed URL to use for the ThoughtSpot embed iframe.
@@ -114,7 +201,19 @@ class AutoFrameRenderer extends TsEmbed {
         const existingQueryParamsObject = Object.fromEntries(existingQueryParams);
         delete existingQueryParamsObject[Param.Tsmcp];
 
+        // Source-iframe params win over SDK params on merge. Hidden actions
+        // are the exception: union them so a `hideAction` on the source iframe
+        // does not clobber the SDK-computed denylist (and vice versa).
+        const mergedHideActions = unionHideActions(
+            queryParams[Param.HideActions],
+            existingQueryParamsObject[Param.HideActions],
+        );
+        delete existingQueryParamsObject[Param.HideActions];
+
         const mergedQueryParams = { ...queryParams, ...existingQueryParamsObject };
+        if (mergedHideActions.length) {
+            mergedQueryParams[Param.HideActions] = mergedHideActions;
+        }
         const mergedQueryParamsString = getQueryParamString(mergedQueryParams, true);
         const queryString = mergedQueryParamsString ? `?${mergedQueryParamsString}` : '';
         const frameSrc = `${this.getEmbedBasePath(queryString)}${sourceURL.hash.replace('#', '')}`;
