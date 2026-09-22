@@ -6985,6 +6985,7 @@ export enum Param {
     WorksheetId = 'worksheet',
     Query = 'query',
     HideHomepageLeftNav = 'hideHomepageLeftNav',
+    HideCustomizeHomepageButton = 'hideCustomizeHomepageButton',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
     HomepageVersion = 'homepageVersion',
     ListPageVersion = 'listpageVersion',

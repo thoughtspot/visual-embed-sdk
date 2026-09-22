@@ -221,6 +221,21 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      */
     hideHomepageLeftNav?: boolean;
     /**
+     * If set to true, the "Customize homepage" button is hidden when the
+     * home page is embedded via AppEmbed.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    hideCustomizeHomepageButton: true,
+     * })
+     * ```
+     */
+    hideCustomizeHomepageButton?: boolean;
+    /**
      * Control the visibility of the help (?) and profile
      * buttons on the top navigation bar.
      * These buttons are visible if the
@@ -1018,6 +1033,7 @@ export class AppEmbed extends V1Embed {
             isLiveboardMasterpiecesEnabled,
             newChartsLibrary,
             hideHomepageLeftNav = false,
+            hideCustomizeHomepageButton,
             modularHomeExperience,
             isLiveboardHeaderSticky = true,
             enableAskSage,
@@ -1258,6 +1274,9 @@ export class AppEmbed extends V1Embed {
 
         params[Param.DataPanelV2Enabled] = dataPanelV2;
         params[Param.HideHomepageLeftNav] = hideHomepageLeftNav;
+        if (hideCustomizeHomepageButton !== undefined) {
+            params[Param.HideCustomizeHomepageButton] = hideCustomizeHomepageButton;
+        }
         params[Param.CollapseSearchBarInitially] = collapseSearchBarInitially || collapseSearchBar;
         params[Param.EnableCustomColumnGroups] = enableCustomColumnGroups;
         if (dataPanelCustomGroupsAccordionInitialState

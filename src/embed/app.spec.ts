@@ -1633,6 +1633,21 @@ describe('App embed tests', () => {
         });
     });
 
+    test('Should add hideCustomizeHomepageButton flag to the iframe src', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hideCustomizeHomepageButton: true,
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&hideHomepageLeftNav=false&hideCustomizeHomepageButton=true&navigationVersion=v3&homepageVersion=v3${defaultParams}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('Should add hideHamburger, hideObjectSearch, hideNotification flags to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
