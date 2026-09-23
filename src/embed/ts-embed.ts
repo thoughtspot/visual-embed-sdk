@@ -120,8 +120,9 @@ const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 // post is not the same as the params being in effect.
 const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 
-// The container ignores runtimeFilterParams/runtimeParameterParams unless truthy, so
-// null or '' leaves the previous embed's values in place. '&' is truthy and parses to {}.
+// The container ignores runtimeFilterParams/runtimeParameterParams unless
+// truthy, so null or '' leaves the previous embed's values in place. '&' is
+// truthy and parses to {}.
 const NO_RUNTIME_PARAMS = '&';
 
 /**
@@ -740,8 +741,9 @@ export class TsEmbed {
             ...this.viewConfig,
             ...queryParams,
             ...appInitData,
-            // A show cycle has no URL to carry these, so the payload always states them
-            // — including "none", which is the case that leaks the previous filters.
+            // A show cycle has no URL to carry these, so the payload always
+            // states them — including "none", which is the case that leaks the
+            // previous filters.
             runtimeFilterParams:
                 getFilterQuery(this.viewConfig.runtimeFilters ?? []) || NO_RUNTIME_PARAMS,
             runtimeParameterParams:
@@ -1615,8 +1617,9 @@ export class TsEmbed {
         (this.preRenderWrapper as any)[this.embedNodeKey] = this;
     }
 
-    // The flag lives on the wrapper because it describes the iframe: an instance
-    // hidden when the container announced itself would otherwise report false forever.
+    // The flag lives on the wrapper because it describes the iframe: an
+    // instance hidden when the container announced itself would otherwise
+    // report false forever.
     private markEmbedContainerLoaded() {
         this.isEmbedContainerLoaded = true;
         if (this.preRenderWrapper) {
@@ -1672,7 +1675,8 @@ export class TsEmbed {
                 const AUTH_INIT_FALLBACK_DELAY = 1000;
                 // Wait for 1 second to ensure the embed container is loaded
                 // This is a workaround to ensure the embed container is loaded
-                // this is needed until all clusters have EmbedListenerReady event
+                // this is needed until all clusters have EmbedListenerReady
+                // event
                 setTimeout(processEmbedContainerReady, AUTH_INIT_FALLBACK_DELAY);
             } else if (source === EmbedEvent.EmbedListenerReady) {
                 processEmbedContainerReady();
@@ -2040,7 +2044,8 @@ export class TsEmbed {
     }
 
     // Subclasses that navigate the pre-render on show must await this before
-    // triggering Navigate. Resolves even on failure, so navigation is never blocked.
+    // triggering Navigate. Resolves even on failure, so navigation is never
+    // blocked.
     protected preRenderParamsApplied: Promise<void> = Promise.resolve();
 
     protected beforePrerenderVisible(): void {
@@ -2099,8 +2104,9 @@ export class TsEmbed {
         if (this.hostElement) {
             this.insertedDomEl = this.createPreRenderPlaceholder();
             if ((this.viewConfig as { fullHeight: boolean }).fullHeight) {
-                // If fullHeight has already sized the wrapper, seed the placeholder
-                // with the same height so syncPreRenderStyle gets an accurate rect.
+                // If fullHeight has already sized the wrapper, seed the
+                // placeholder with the same height so syncPreRenderStyle gets
+                // an accurate rect.
                 const existingHeight = this.preRenderWrapper.style.height;
                 if (existingHeight) {
                     (this.insertedDomEl as HTMLDivElement).style.height = existingHeight;
@@ -2109,12 +2115,13 @@ export class TsEmbed {
 
             const placeHolderId = this.getPreRenderIds().placeHolder;
             // Remove any stale placeholder from a previous cycle. It is located
-            // via a subtree-wide querySelector, so it may be nested deeper than a
-            // direct child (E.g.: with fullHeight the host app can wrap it). Use
-            // Element.remove() — which detaches from whatever the real parent is —
-            // rather than hostElement.removeChild(), which throws NotFoundError
-            // when the match is not a direct child. Mirrors the wrapper/child
-            // cleanup in createPreRenderWrapper()/createPreRenderChild().
+            // via a subtree-wide querySelector, so it may be nested deeper
+            // than a direct child (E.g.: with fullHeight the host app can wrap
+            // it). Use Element.remove() — which detaches from whatever the real
+            // parent is — rather than hostElement.removeChild(), which throws
+            // NotFoundError when the match is not a direct child. Mirrors the
+            // wrapper/child cleanup in
+            // createPreRenderWrapper()/createPreRenderChild().
             this.hostElement.querySelector(`#${placeHolderId}`)?.remove();
 
             this.hostElement.appendChild(this.insertedDomEl);
@@ -2153,7 +2160,8 @@ export class TsEmbed {
             this.setupFullscreenChangeHandler();
         }
 
-        // Last, so everything above still sees the instance being taken over from.
+        // Last, so everything above still sees the instance being taken over
+        // from.
         this.takeOverPreRender();
 
         return this;

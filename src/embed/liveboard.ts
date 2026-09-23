@@ -37,8 +37,9 @@ import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
 import { buildStarterPromptsAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
-// Home unmounts the liveboard container, which is how its state gets cleared. The
-// settle window gives the container time to do it before we ask for the liveboard back.
+// Home unmounts the liveboard container, which is how its state gets cleared.
+// The settle window gives the container time to do it before we ask for the
+// liveboard back.
 const HOME_ROUTE = 'home';
 const HOME_SETTLE_MS = 200;
 
@@ -354,9 +355,10 @@ export interface LiveboardViewConfig
      */
     isPNGInScheduledEmailsEnabled?: boolean;
     /**
-     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
-     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.8.0.cl.
+     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is
+     * rendered on a single page following the exact UI layout, instead of splitting
+     * visualizations across multiple A4 pages. This feature is GA from SDK version
+     * 1.51.0 and ThoughtSpot version 26.8.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
@@ -952,22 +954,25 @@ export class LiveboardEmbed extends V1Embed {
     protected beforePrerenderVisible(): void {
         super.beforePrerenderVisible();
 
-        // Captured before showPreRender() hands the wrapper over to this instance.
-        // Itself means a hide/show, not a hand-over, so there is nothing stale to clear.
+        // Captured before showPreRender() hands the wrapper over to this
+        // instance. Itself means a hide/show, not a hand-over, so there is
+        // nothing stale to clear.
         const previous = this.getPreRenderObj<LiveboardEmbed>();
         const showing = previous === this ? undefined : previous?.currentLiveboardState;
 
         this.executeAfterEmbedContainerLoaded(async () => {
-            // Without this the params callback suspends on its await and Navigate
-            // goes out first, so the container loads with the previous config's filters.
+            // Without this the params callback suspends on its await and
+            // Navigate goes out first, so the container loads with the previous
+            // config's filters.
             await this.preRenderParamsApplied;
             if (this.isShowingLiveboardRoute(showing)) {
-                // Navigate to the route we are already on is a no-op, so the liveboard
-                // keeps its state. Home unmounts the container, which clears it.
+                // Navigate to the route we are already on is a no-op, so the
+                // liveboard keeps its state. Home unmounts the container, which
+                // clears it.
                 this.trigger(HostEvent.Navigate, HOME_ROUTE)
                     .catch((error) => logger.warn('Could not route via home', error));
-                // Not awaited above: the container never acks Navigate, so that promise
-                // only settles on the 30s trigger timeout.
+                // Not awaited above: the container never acks Navigate, so
+                // that promise only settles on the 30s trigger timeout.
                 await new Promise((resolve) => {
                     setTimeout(resolve, HOME_SETTLE_MS);
                 });
@@ -987,8 +992,9 @@ export class LiveboardEmbed extends V1Embed {
         });
     }
 
-    // The whole route, not just the liveboard id: the path is built from the viz, tab
-    // and view too, so a same-liveboard show onto another tab is a real navigation.
+    // The whole route, not just the liveboard id: the path is built from the
+    // viz, tab and view too, so a same-liveboard show onto another tab is a
+    // real navigation.
     private isShowingLiveboardRoute(showing?: LiveboardEmbed['currentLiveboardState']): boolean {
         if (!showing?.liveboardId) return false;
         const {

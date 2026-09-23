@@ -27,7 +27,8 @@ import {
 /**
  * Maps HostEvent to its corresponding UIPassthroughEvent.
  * Includes both custom-handler events (Pin, SaveAnswer, UpdateFilters, DrillDown)
- * and getter events (GetAnswerSession, GetFilters, etc.) that use getDataWithPassthroughFallback.
+ * and getter events (GetAnswerSession, GetFilters, etc.) that use
+ * getDataWithPassthroughFallback.
  */
 const PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
     // Custom handlers (setters with special logic)
@@ -268,7 +269,8 @@ export class HostEventClient {
       throwUpdateParametersValidationError();
     }
 
-    // UpdateParameters has no UI passthrough contract; dispatch over the legacy channel
+    // UpdateParameters has no UI passthrough contract; dispatch over the
+    // legacy channel
     return this.hostEventFallback(HostEvent.UpdateParameters, payload, context);
   }
 
@@ -285,8 +287,8 @@ export class HostEventClient {
 
   /**
    * Dispatches a host event using the appropriate channel:
-   * 1. If the embedded app supports UI passthrough for this event, use it (custom handler or getter).
-   * 2. Otherwise fall back to the legacy host event channel.
+   * 1. If the embedded app supports UI passthrough for this event, use it (custom
+   * handler or getter). 2. Otherwise fall back to the legacy host event channel.
    *
    * @param hostEvent - The host event to trigger
    * @param payload - Optional payload for the event
@@ -304,7 +306,8 @@ export class HostEventClient {
       const customHandler = this.customHandlers[hostEvent];
       const passthroughEvent = PASSTHROUGH_MAP[hostEvent];
 
-      // If embedded app supports passthrough but not this event, use legacy channel
+      // If embedded app supports passthrough but not this event, use legacy
+      // channel
       const keys = passthroughEvent ? await this.getAvailableUIPassthroughKeys(context as ContextType) : [];
       if (passthroughEvent && keys.length > 0 && !keys.includes(passthroughEvent)) {
           return this.hostEventFallback(hostEvent, payload, context) as any;

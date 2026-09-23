@@ -45,7 +45,8 @@ describe('startAutoMCPFrameRenderer', () => {
         getEmbedBasePathSpy.mockRestore();
     });
 
-    // ─── helpers ──────────────────────────────────────────────────────────────
+    // ─── helpers
+    // ──────────────────────────────────────────────────────────────
 
     /** Capture the src passed to renderIFrame for the first tsmcp iframe added */
     async function captureRenderedSrc(viewConfig: AutoMCPFrameRendererViewConfig = {}): Promise<string> {
@@ -96,7 +97,8 @@ describe('startAutoMCPFrameRenderer', () => {
         return mockPort.postMessage.mock.calls[0]?.[0];
     }
 
-    // ─── MutationObserver setup ───────────────────────────────────────────────
+    // ─── MutationObserver setup
+    // ───────────────────────────────────────────────
 
     describe('MutationObserver setup', () => {
         test('should return a MutationObserver', () => {
@@ -117,7 +119,8 @@ describe('startAutoMCPFrameRenderer', () => {
         });
     });
 
-    // ─── iframe detection via tsmcp param ─────────────────────────────────────
+    // ─── iframe detection via tsmcp param
+    // ─────────────────────────────────────
 
     describe('iframe detection via tsmcp param', () => {
         test('should process directly-added iframes with tsmcp=true', async () => {
@@ -209,7 +212,8 @@ describe('startAutoMCPFrameRenderer', () => {
         });
     });
 
-    // ─── handleInsertionIntoDOM override ──────────────────────────────────────
+    // ─── handleInsertionIntoDOM override
+    // ──────────────────────────────────────
 
     describe('handleInsertionIntoDOM override', () => {
         test('should replace the original iframe when renderIFrame inserts DOM', async () => {
@@ -233,7 +237,8 @@ describe('startAutoMCPFrameRenderer', () => {
         });
     });
 
-    // ─── URL params forwarding ────────────────────────────────────────────────
+    // ─── URL params forwarding
+    // ────────────────────────────────────────────────
 
     describe('URL params forwarding', () => {
         test('should accept empty viewConfig', () => {
@@ -394,7 +399,8 @@ describe('startAutoMCPFrameRenderer', () => {
         });
     });
 
-    // ─── frameParams forwarding ───────────────────────────────────────────────
+    // ─── frameParams forwarding
+    // ───────────────────────────────────────────────
 
     describe('frameParams forwarding', () => {
         test('frameParams.height and .width applied to the replacement iframe element', async () => {
@@ -441,7 +447,8 @@ describe('startAutoMCPFrameRenderer', () => {
         });
     });
 
-    // ─── APP_INIT postMessage params forwarding ───────────────────────────────
+    // ─── APP_INIT postMessage params forwarding
+    // ───────────────────────────────
     //
     // These params are not in the iframe src URL — they travel via the APP_INIT
     // postMessage channel. AutoFrameRenderer inherits the TsEmbed APP_INIT
@@ -497,9 +504,10 @@ describe('startAutoMCPFrameRenderer', () => {
         });
 
         test('interceptUrls forwarded via APP_INIT', async () => {
-            // The SDK expands InterceptedApiType enum values into resolved prism endpoint URLs.
-            // Assert that the interceptUrls array is non-empty (i.e. the config was forwarded
-            // and processed) rather than checking the resolved strings directly.
+            // The SDK expands InterceptedApiType enum values into resolved
+            // prism endpoint URLs. Assert that the interceptUrls array is
+            // non-empty (i.e. the config was forwarded and processed) rather
+            // than checking the resolved strings directly.
             const response = await getAppInitResponse({
                 interceptUrls: [InterceptedApiType.AnswerData],
             });
@@ -513,7 +521,8 @@ describe('startAutoMCPFrameRenderer', () => {
         });
     });
 
-    // ─── getMCPIframeSrc URL construction ─────────────────────────────────────
+    // ─── getMCPIframeSrc URL construction
+    // ─────────────────────────────────────
 
     describe('getMCPIframeSrc URL construction', () => {
         test('should strip tsmcp param and merge embed params into rendered src', async () => {
@@ -569,7 +578,8 @@ describe('startAutoMCPFrameRenderer', () => {
             document.body.appendChild(iframe);
             await new Promise((r) => setTimeout(r, 50));
 
-            // At minimum the base embed params (hostAppUrl, sdkVersion, etc.) are always present
+            // At minimum the base embed params (hostAppUrl, sdkVersion, etc.)
+            // are always present
             expect(capturedSrc).toMatch(/\?[^#]+#/);
             observer.disconnect();
         });
@@ -594,7 +604,8 @@ describe('startAutoMCPFrameRenderer', () => {
         });
     });
 
-    // ─── URL serialization parity with normal embeds ──────────────────────────
+    // ─── URL serialization parity with normal embeds
+    // ──────────────────────────
     //
     // These tests verify that array-typed params (hideAction, disableAction,
     // visibleAction) are serialized identically by startAutoMCPFrameRenderer

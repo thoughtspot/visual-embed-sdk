@@ -2964,8 +2964,8 @@ describe('Unit test case for ts embed', () => {
 
                 // Reverts to the exact value the container had before.
                 expect(customContainer.style.position).toBe('static');
-                // The custom container reference is dropped (back to the default
-                // body) so a destroyed embed does not pin the (possibly
+                // The custom container reference is dropped (back to the
+                // default body) so a destroyed embed does not pin the (possibly
                 // detached) element in memory.
                 expect((libEmbed as any).preRenderContainerEl).toBe(document.body);
 
@@ -3019,8 +3019,8 @@ describe('Unit test case for ts embed', () => {
 
                 libEmbed.destroy();
 
-                // The body sentinel must never be treated as a custom container:
-                // no position override to apply and none to restore.
+                // The body sentinel must never be treated as a custom
+                // container: no position override to apply and none to restore.
                 expect(document.body.style.position).toBe(originalBodyPosition);
                 expect(document.body.dataset.tsEmbedOriginalPosition).toBeUndefined();
             });
@@ -3155,10 +3155,11 @@ describe('Unit test case for ts embed', () => {
 
                 libEmbed.syncPreRenderStyle();
 
-                // applyPreRenderContainerPositioning() reads preRenderContainerEl
-                // instead of taking the container as an argument, so reconcile has
-                // to assign the field before calling it — otherwise the override
-                // lands on the detached node and the fresh one stays static.
+                // applyPreRenderContainerPositioning() reads
+                // preRenderContainerEl instead of taking the container as an
+                // argument, so reconcile has to assign the field before calling
+                // it — otherwise the override lands on the detached node and
+                // the fresh one stays static.
                 expect((libEmbed as any).preRenderContainerEl).toBe(newContainer);
                 expect(newContainer.style.position).toBe('relative');
                 expect(newContainer.dataset.tsEmbedOriginalPosition).toBe('static');
@@ -3289,7 +3290,8 @@ describe('Unit test case for ts embed', () => {
                     await firstEmbed.preRender();
                     await waitFor(() => !!getIFrameEl());
 
-                    // Reset position to static so the connecting embed also triggers the guard.
+                    // Reset position to static so the connecting embed also
+                    // triggers the guard.
                     customContainer.style.position = 'static';
                     delete customContainer.dataset['preRenderContainerOriginalPosition'];
 
@@ -3393,8 +3395,8 @@ describe('Unit test case for ts embed', () => {
                     await firstEmbed.preRender();
                     await waitFor(() => !!getIFrameEl());
 
-                    // Same config on both components — the value is redundant but
-                    // not wrong, so nagging about it would be noise.
+                    // Same config on both components — the value is redundant
+                    // but not wrong, so nagging about it would be noise.
                     const connectingEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                         preRenderId: 'connect-same-element',
                         liveboardId: 'myLiveboardId',
@@ -3427,8 +3429,9 @@ describe('Unit test case for ts embed', () => {
                     await firstEmbed.preRender();
                     await waitFor(() => !!getIFrameEl());
 
-                    // A selector that resolves to the owner's element is the same
-                    // container, so the comparison must be by resolved node.
+                    // A selector that resolves to the owner's element is the
+                    // same container, so the comparison must be by resolved
+                    // node.
                     const connectingEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                         preRenderId: 'connect-same-selector',
                         liveboardId: 'myLiveboardId',
@@ -3492,8 +3495,8 @@ describe('Unit test case for ts embed', () => {
                     await waitFor(() => !!getIFrameEl());
 
                     // Simulate a wrapper with no live embed behind it: the
-                    // __tsEmbed stamp used to locate the owner is gone, so there
-                    // is no container to inherit.
+                    // __tsEmbed stamp used to locate the owner is gone, so
+                    // there is no container to inherit.
                     const wrapper = document.getElementById(
                         firstEmbed.getPreRenderIds().wrapper,
                     );
@@ -5361,12 +5364,14 @@ describe('Trigger method edge cases', () => {
         const handleErrorSpy = jest.spyOn(searchEmbed as any, 'handleError').mockImplementation(() => {});
         await searchEmbed.render();
 
-        // First processTrigger call is getAvailableUIPassthroughKeys for DrillDown
+        // First processTrigger call is getAvailableUIPassthroughKeys for
+        // DrillDown
         mockProcessTrigger.mockResolvedValueOnce([
             { value: { keys: Object.values(UIPassthroughEvent) } },
         ]);
 
-        // DrillDown with no points → throwDrillDownValidationError → isValidationError=true
+        // DrillDown with no points → throwDrillDownValidationError →
+        // isValidationError=true
         await expect(
             searchEmbed.trigger(HostEvent.DrillDown, {} as any),
         ).rejects.toThrow('DrillDown requires a valid points object');
@@ -5541,7 +5546,8 @@ describe('Fullscreen change handler behavior', () => {
         init({
             thoughtSpotHost: 'tshost',
             authType: AuthType.None,
-            // disableFullscreenPresentation not set → defaults to true via ?? true
+            // disableFullscreenPresentation not set → defaults to true via ??
+            // true
         });
 
         const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
@@ -5567,7 +5573,8 @@ describe('Fullscreen change handler behavior', () => {
 
         embed['setupFullscreenChangeHandler']();
 
-        // Capture the registered handler directly instead of dispatching to document
+        // Capture the registered handler directly instead of dispatching to
+        // document
         const fullscreenCall = addEventListenerSpy.mock.calls.find((c) => c[0] === 'fullscreenchange');
         expect(fullscreenCall).toBeTruthy();
         const handler = fullscreenCall[1] as EventListener;
@@ -6039,8 +6046,8 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 undefined,
             );
 
-            // A parameter always carries a value, so the payload says everything
-            // there is to say — no follow-up event.
+            // A parameter always carries a value, so the payload says
+            // everything there is to say — no follow-up event.
             const parameterCalls = mockProcessTrigger.mock.calls.filter(
                 (call: any[]) => call[1] === HostEvent.UpdateParameters,
             );
@@ -6641,7 +6648,8 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             expect(hostElement.querySelector(`#${placeHolderId}`)).toBe(staleNestedPlaceholder);
             // Before the fix this threw NotFoundError.
             await expect(embed.showPreRender()).resolves.toBeDefined();
-            // The stale nested placeholder is gone; the fresh one is a direct child.
+            // The stale nested placeholder is gone; the fresh one is a direct
+            // child.
             expect(staleNestedPlaceholder.isConnected).toBe(false);
             const currentPlaceholder = (
                 embed as any
@@ -6673,7 +6681,8 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 { numberOfTabs: number; orderedTabIds: string[] }
             > = true;
             const probeUnknownField = (r: TabsResponse) =>
-                // @ts-expect-error — field not on the GetTabs contract (was silent when `any`)
+                // @ts-expect-error — field not on the GetTabs contract (was
+                // silent when `any`)
                 r.tabCount;
             void probeUnknownField;
 

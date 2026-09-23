@@ -3054,8 +3054,8 @@ describe('LiveboardEmbed updatedSpotterExperience tests', () => {
 
     describe('trigger typing contracts (compile-time)', () => {
         // Enforced by ts-jest at compile time. LiveboardEmbed OVERRIDES
-        // TsEmbed.trigger, so its generic defaults must be asserted separately —
-        // a bare `PayloadT` on the override silently collapses no-payload
+        // TsEmbed.trigger, so its generic defaults must be asserted separately
+        // — a bare `PayloadT` on the override silently collapses no-payload
         // responses back to `any` for every LiveboardEmbed consumer.
         type IsAny<T> = 0 extends 1 & T ? true : false;
         type Extends<A, B> = A extends B ? true : false;
@@ -3073,7 +3073,8 @@ describe('LiveboardEmbed updatedSpotterExperience tests', () => {
                 { numberOfTabs: number; orderedTabIds: string[] }
             > = true;
             const probeUnknownField = (r: TabsResponse) =>
-                // @ts-expect-error — field not on the GetTabs contract (was silent when `any`)
+                // @ts-expect-error — field not on the GetTabs contract (was
+                // silent when `any`)
                 r.tabCount;
             void probeUnknownField;
 

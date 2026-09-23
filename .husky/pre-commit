@@ -1,0 +1,9 @@
+echo "Running lint check on pre-commit..."
+if npx lint-staged; then
+	echo "Linting successful. Proceeding with type check..."
+else
+	echo "Linting failed. Please fix the errors and try again."
+	exit 1
+fi
+
+npm run tsc:check

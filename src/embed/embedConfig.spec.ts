@@ -3,7 +3,8 @@ import { storeValueInWindow, resetValueFromWindow } from '../utils';
 
 describe('embedConfig', () => {
     beforeEach(() => {
-        // Ensure the SDK window namespace exists before resetting individual keys
+        // Ensure the SDK window namespace exists before resetting individual
+        // keys
         storeValueInWindow('embedConfig', undefined);
         resetValueFromWindow('embedConfig');
     });

@@ -10,7 +10,8 @@ import { embedEventStatus } from '../../utils';
 
 const isValidApplicability = (a?: { level?: string; targetId?: string }) => {
   if (isUndefined(a)) return true;
-  // targetId is not required at LIVEBOARD level, since the filter applies to the whole Liveboard
+  // targetId is not required at LIVEBOARD level, since the filter applies to
+  // the whole Liveboard
   return isPlainObject(a)
       && Object.values(ApplicabilityLevel).includes(a.level as ApplicabilityLevel)
       && (a.level === ApplicabilityLevel.Liveboard || (isString(a.targetId) && a.targetId.trim().length > 0));
@@ -45,7 +46,8 @@ export function isValidUpdateFiltersPayload(
 }
 
 export function isValidUpdateParametersPayload(payload: unknown): boolean {
-  // Only validates the applicability of each parameter (null treated as absent); the rest is forwarded as-is for backward compatibility.
+  // Only validates the applicability of each parameter (null treated as
+  // absent); the rest is forwarded as-is for backward compatibility.
   if (!Array.isArray(payload)) return true;
   return payload.every((p) => {
       if (!isPlainObject(p)) return true;
