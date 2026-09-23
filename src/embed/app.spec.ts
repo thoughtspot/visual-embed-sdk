@@ -375,6 +375,21 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should hide the Customize homepage button via hiddenActions', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            hiddenActions: [Action.CustomizeHomepage],
+        } as AppViewConfig);
+
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&hideHomepageLeftNav=false&navigationVersion=v3&homepageVersion=v3&${defaultParamsWithoutHiddenActions}&hideAction=[%22${Action.ReportError}%22,%22customizeHomepage%22]${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set enable2ColumnLayout to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
