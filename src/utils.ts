@@ -814,3 +814,103 @@ export const calculateElementCenter = (element: HTMLElement) => {
         iframeVisibleViewPort,
     };
 };
+
+/**
+ * The elements whose own size can displace `element`: the element itself and
+ * every ancestor up to and including `boundary`. Growing content elsewhere in
+ * the page reaches `element` by resizing one of these.
+ */
+export const getPositioningAncestors = (
+    element: HTMLElement,
+    boundary: HTMLElement | null,
+): HTMLElement[] => {
+    const chain: HTMLElement[] = [];
+    let current: HTMLElement | null = element;
+
+    while (current) {
+        chain.push(current);
+        if (current === boundary || current === document.body) {
+            break;
+        }
+        current = getParentElementAcrossShadowRoot(current);
+    }
+
+    return chain;
+};
+
+/**
+ * Calls `onMove` whenever `element` moves or resizes relative to the viewport,
+ * whatever the cause — a scroll, a reflow, or content growing above it.
+ *
+ * It frames the element in an IntersectionObserver whose root margin is the
+ * element's current rect, so the observer sits exactly on its edges and reports
+ * a ratio of 1. Any movement pushes the ratio off 1 and fires, after which the
+ * frame is rebuilt around the new position. This catches displacements that
+ * neither a scroll event nor a ResizeObserver on the element can see.
+ *
+ * Returns a function that stops observing.
+ */
+export const observeElementMove = (
+    element: HTMLElement,
+    onMove: () => void,
+): (() => void) => {
+    if (typeof IntersectionObserver === 'undefined') {
+        return () => undefined;
+    }
+
+    let observer: IntersectionObserver | null = null;
+    let stopped = false;
+    // Guards against the rebuild below re-entering through the initial
+    // callback every observer delivers on observe().
+    let isFirstCallback = true;
+
+    const refresh = () => {
+        if (stopped) {
+            return;
+        }
+        observer?.disconnect();
+
+        const rect = element.getBoundingClientRect();
+        const { innerHeight, innerWidth } = window;
+        // A zero-area element cannot be framed; wait for it to gain a size.
+        if (!rect.width || !rect.height) {
+            observer = null;
+            return;
+        }
+
+        const margins = [
+            -Math.floor(rect.top),
+            -Math.floor(innerWidth - rect.right),
+            -Math.floor(innerHeight - rect.bottom),
+            -Math.floor(rect.left),
+        ];
+
+        isFirstCallback = true;
+        observer = new IntersectionObserver(
+            (entries) => {
+                const ratio = entries[0]?.intersectionRatio ?? 0;
+                if (isFirstCallback) {
+                    isFirstCallback = false;
+                    return;
+                }
+                if (ratio !== 1) {
+                    onMove();
+                }
+                refresh();
+            },
+            {
+                rootMargin: margins.map((margin) => `${margin}px`).join(' '),
+                threshold: 1,
+            },
+        );
+        observer.observe(element);
+    };
+
+    refresh();
+
+    return () => {
+        stopped = true;
+        observer?.disconnect();
+        observer = null;
+    };
+};
