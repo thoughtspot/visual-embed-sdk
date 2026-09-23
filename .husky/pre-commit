@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo "Running lint check on pre-commit..."
 if npx lint-staged; then
 	echo "Linting successful. Proceeding with type check..."
