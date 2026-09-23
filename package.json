@@ -72,6 +72,9 @@
         "dev": "vite -c vite.local.config.ts",
         "prepare": "husky"
     },
+    "lint-staged": {
+        "src/**/*.{ts,tsx,js,jsx}": "eslint --fix"
+    },
     "peerDependencies": {
         "react": "> 16.8.0",
         "react-dom": "> 16.8.0"
