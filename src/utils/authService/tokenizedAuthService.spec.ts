@@ -79,7 +79,8 @@ describe('fetchPreauthInfoService', () => {
     });
     it('fetchPreauthInfoService if fetch fails', async () => {
         const mockFetch = jest.spyOn(tokenizedFetchModule, 'tokenizedFetch');
-        // Prevent logger.error from reaching console.error (which throws in test env)
+        // Prevent logger.error from reaching console.error (which throws in
+        // test env)
         jest.spyOn(logger, 'error').mockImplementation(() => {});
 
         mockFetch.mockResolvedValueOnce({

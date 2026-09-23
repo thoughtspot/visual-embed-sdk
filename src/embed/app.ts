@@ -608,9 +608,10 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
     isPNGInScheduledEmailsEnabled?: boolean;
 
     /**
-     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
-     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.8.0.cl.
+     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is
+     * rendered on a single page following the exact UI layout, instead of splitting
+     * visualizations across multiple A4 pages. This feature is GA from SDK version
+     * 1.51.0 and ThoughtSpot version 26.8.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
