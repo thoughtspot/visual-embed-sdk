@@ -35,6 +35,12 @@ import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, B
 import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterAnalystConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, StarterPromptCategory, StarterPreviewDataCategory, StarterPromptQuestion, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import { SpotterVizConfig, SpotterVizStarterPrompt, SpotterVizLoaderTip } from './embed/spotter-viz-utils';
 import {
+    LiveboardOverride,
+    LiveboardDataSourceOverride,
+    LiveboardFilterQuery,
+    LiveboardParameterQuery,
+} from './embed/liveboard-override-utils';
+import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
 import { getSessionInfo } from './utils/sessionInfoService';
@@ -216,6 +222,10 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    LiveboardOverride,
+    LiveboardDataSourceOverride,
+    LiveboardFilterQuery,
+    LiveboardParameterQuery,
     SpotterVizConfig,
     SpotterVizStarterPrompt,
     SpotterVizLoaderTip,

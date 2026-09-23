@@ -1621,6 +1621,58 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    describe('liveboardOverride in APP_INIT embedParams', () => {
+        const liveboardOverride = {
+            dataSourceOverride: [{
+                dataSourceIdentifier: 'model-guid',
+                filterQuery: [{ tabName: 'Sales', groupName: 'Region', filterQueryToken: 'color = red' }],
+            }],
+        };
+
+        const getAppInitResponse = async (viewConfig: Partial<LiveboardViewConfig>) => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                ...viewConfig,
+            } as LiveboardViewConfig);
+
+            mockMessageChannel();
+            await liveboardEmbed.render();
+
+            const mockPort: any = { postMessage: jest.fn() };
+            await executeAfterWait(() => {
+                postMessageToParent(getIFrameEl().contentWindow, { type: EmbedEvent.APP_INIT, data: {} }, mockPort);
+            });
+            let data: any;
+            await executeAfterWait(() => {
+                data = mockPort.postMessage.mock.calls[0][0].data;
+            });
+            return data;
+        };
+
+        test('should include liveboardOverride when provided', async () => {
+            const data = await getAppInitResponse({ liveboardOverride });
+            expect(data.embedParams.liveboardOverride).toEqual(liveboardOverride);
+        });
+
+        test('should not include liveboardOverride when not provided', async () => {
+            const data = await getAppInitResponse({});
+            expect(data.embedParams?.liveboardOverride).toBeUndefined();
+        });
+
+        test('should not include liveboardOverride when dataSourceOverride is empty', async () => {
+            const data = await getAppInitResponse({ liveboardOverride: { dataSourceOverride: [] } });
+            expect(data.embedParams?.liveboardOverride).toBeUndefined();
+        });
+
+        test('should send liveboardOverride alongside spotterVizConfig', async () => {
+            const spotterViz = { brandName: 'MyBrand' };
+            const data = await getAppInitResponse({ liveboardOverride, spotterViz });
+            expect(data.embedParams.liveboardOverride).toEqual(liveboardOverride);
+            expect(data.embedParams.spotterVizConfig).toEqual(spotterViz);
+        });
+    });
+
     test('should include starterPrompts in APP_INIT embedParams', async () => {
         const starterPrompts = {
             enable: true,
