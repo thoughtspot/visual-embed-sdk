@@ -127,7 +127,7 @@ const NO_RUNTIME_PARAMS = '&';
 
 /**
  * Query parameters that stay on the iframe `src` when the embed sets the
- * `sendConfigAsPostMessage` additional flag. These are the parameters the
+ * `excludeConfigFromURL` additional flag. These are the parameters the
  * application shell needs before it can receive a postMessage at all: the
  * embed marker, the host application URL used to validate the message origin,
  * the SDK version, the flags that pick the authentication flow, and the
@@ -1011,7 +1011,7 @@ export class TsEmbed {
 
     protected getUrlQueryParamsObject(): Record<any, any> {
         const queryParams = this.getEmbedParamsObject();
-        if (!this.isConfigSentOverPostMessage()) {
+        if (!this.isConfigExcludedFromUrl()) {
             return queryParams;
         }
         return Object.fromEntries(
@@ -1740,7 +1740,7 @@ export class TsEmbed {
                 setTimeout(processEmbedContainerReady, AUTH_INIT_FALLBACK_DELAY);
             } else if (source === EmbedEvent.EmbedListenerReady) {
                 processEmbedContainerReady();
-                if (this.isConfigSentOverPostMessage()) {
+                if (this.isConfigExcludedFromUrl()) {
                     this.triggerUpdateEmbedParams();
                 }
             }
@@ -2111,10 +2111,10 @@ export class TsEmbed {
     // blocked.
     protected preRenderParamsApplied: Promise<void> = Promise.resolve();
 
-    protected isConfigSentOverPostMessage(): boolean {
+    protected isConfigExcludedFromUrl(): boolean {
         const flag =
-            this.viewConfig.additionalFlags?.sendConfigAsPostMessage ??
-            this.embedConfig.additionalFlags?.sendConfigAsPostMessage;
+            this.viewConfig.additionalFlags?.excludeConfigFromURL ??
+            this.embedConfig.additionalFlags?.excludeConfigFromURL;
         return flag === true || flag === 'true';
     }
 

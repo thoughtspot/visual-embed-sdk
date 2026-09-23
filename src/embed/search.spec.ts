@@ -854,11 +854,11 @@ test('should pass forceTable parameter when forceTable is true', async () => {
 });
 
 describe('SearchBarEmbed tests', () => {
-    test('should keep view config off the URL when sendConfigAsPostMessage is set', async () => {
+    test('should keep view config off the URL when excludeConfigFromURL is set', async () => {
         const searchBarEmbed = new SearchBarEmbed(getRootEl() as any, {
             ...defaultViewConfig,
             dataSources: ['source-1', 'source-2'],
-            additionalFlags: { sendConfigAsPostMessage: true },
+            additionalFlags: { excludeConfigFromURL: true },
         } as any);
         searchBarEmbed.render();
         await executeAfterWait(() => {

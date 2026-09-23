@@ -6696,7 +6696,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
     });
 });
 
-describe('sendConfigAsPostMessage', () => {
+describe('excludeConfigFromURL', () => {
     const lbConfig = {
         liveboardId,
         hiddenActions: [Action.Download],
@@ -6706,7 +6706,7 @@ describe('sendConfigAsPostMessage', () => {
 
     const withPostMessage = (viewConfig: any) => ({
         ...viewConfig,
-        additionalFlags: { ...viewConfig.additionalFlags, sendConfigAsPostMessage: true },
+        additionalFlags: { ...viewConfig.additionalFlags, excludeConfigFromURL: true },
     });
 
     const renderAndGetSrc = async (viewConfig: any) => {
@@ -6763,7 +6763,7 @@ describe('sendConfigAsPostMessage', () => {
             additionalFlags: {
                 internalBlinkFlag: true,
                 someCustomFlag: 'abc',
-                sendConfigAsPostMessage: true,
+                excludeConfigFromURL: true,
             },
         });
 
@@ -6774,7 +6774,7 @@ describe('sendConfigAsPostMessage', () => {
     test('keeps an additionalFlag that overrides a bootstrap param on the URL', async () => {
         const { src } = await renderAndGetSrc({
             ...lbConfig,
-            additionalFlags: { [Param.OverrideOrgId]: 42, sendConfigAsPostMessage: true },
+            additionalFlags: { [Param.OverrideOrgId]: 42, excludeConfigFromURL: true },
         });
 
         expect(src).toContain(`${Param.OverrideOrgId}=42`);
