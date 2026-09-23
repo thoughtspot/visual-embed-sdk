@@ -212,11 +212,11 @@ export class AnswerService {
     }
 
     /**
-     * Sort the answer session by one or more columns.
+     * Adapt the sort options into the `updateSort` payload and send it.
      * @param sortOptions Columns to sort by, each with a direction.
      * @param sourceDetail
      */
-    private async applySort(sortOptions: SortOptions[], sourceDetail: any) {
+    private async adaptSorting(sortOptions: SortOptions[], sourceDetail: any) {
         const { answer } = await this.executeQuery(queries.getAnswer, {});
         const guidToColumnId = getGuidToColumnIdMap(answer);
         const sortOrder = sortOptions.map((sort) => {
@@ -406,7 +406,7 @@ export class AnswerService {
         }
 
         if (sortOptions?.length) {
-            await unaggAnswerSession.applySort(sortOptions, sourceDetail);
+            await unaggAnswerSession.adaptSorting(sortOptions, sourceDetail);
         }
 
         return unaggAnswerSession;
