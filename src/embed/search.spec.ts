@@ -858,7 +858,7 @@ describe('SearchBarEmbed tests', () => {
         const searchBarEmbed = new SearchBarEmbed(getRootEl() as any, {
             ...defaultViewConfig,
             dataSources: ['source-1', 'source-2'],
-            sendConfigAsPostMessage: true,
+            additionalFlags: { sendConfigAsPostMessage: true },
         } as any);
         searchBarEmbed.render();
         await executeAfterWait(() => {
@@ -870,7 +870,8 @@ describe('SearchBarEmbed tests', () => {
             expect(iframeSrc).toContain('isSearchEmbed=true');
             expect(iframeSrc).toContain('dataSources');
 
-            // The rest of the view config goes over HostEvent.UpdateEmbedParams.
+            // The rest of the view config goes over
+            // HostEvent.UpdateEmbedParams.
             expect(iframeSrc).not.toContain('hideAction');
             expect(iframeSrc).not.toContain('useLastSelectedDataSource');
         });

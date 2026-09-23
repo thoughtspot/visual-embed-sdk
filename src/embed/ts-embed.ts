@@ -126,13 +126,13 @@ const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 const NO_RUNTIME_PARAMS = '&';
 
 /**
- * Query parameters that stay on the iframe `src` when the embed sets
- * `sendConfigAsPostMessage`. These are the parameters the application shell
- * needs before it can receive a postMessage at all: the embed marker, the host
- * application URL used to validate the message origin, the SDK version, the
- * flags that pick the authentication flow, and the boot-time settings that
- * would otherwise be applied a frame late (viewport, log level, locale,
- * formatting and org). Everything else is delivered over
+ * Query parameters that stay on the iframe `src` when the embed sets the
+ * `sendConfigAsPostMessage` additional flag. These are the parameters the
+ * application shell needs before it can receive a postMessage at all: the
+ * embed marker, the host application URL used to validate the message origin,
+ * the SDK version, the flags that pick the authentication flow, and the
+ * boot-time settings that would otherwise be applied a frame late (viewport,
+ * log level, locale, formatting and org). Everything else is delivered over
  * `HostEvent.UpdateEmbedParams`.
  *
  * The caller's `additionalFlags` are not listed here, so they are stripped from
@@ -1019,17 +1019,17 @@ export class TsEmbed {
     /**
      * The parameters that go on the iframe `src`.
      *
-     * This is the full parameter set, unless the embed sets
-     * `sendConfigAsPostMessage`, in which case only the bootstrap parameters are
-     * kept and the rest is delivered over `HostEvent.UpdateEmbedParams` once the
-     * frame is ready. Every URL builder must go through this method;
-     * `getEmbedParamsObject()` stays the full set because it also feeds the
-     * postMessage payload.
+     * This is the full parameter set, unless the embed sets the
+     * `sendConfigAsPostMessage` additional flag, in which case only the
+     * bootstrap parameters are kept and the rest is delivered over
+     * `HostEvent.UpdateEmbedParams` once the frame is ready. Every URL builder
+     * must go through this method; `getEmbedParamsObject()` stays the full set
+     * because it also feeds the postMessage payload.
      * @returns The parameters to encode into the iframe `src`.
      */
     protected getUrlQueryParamsObject(): Record<any, any> {
         const queryParams = this.getEmbedParamsObject();
-        if (!this.viewConfig.sendConfigAsPostMessage) {
+        if (!this.isConfigSentOverPostMessage()) {
             return queryParams;
         }
         return Object.fromEntries(
@@ -1758,8 +1758,8 @@ export class TsEmbed {
                 setTimeout(processEmbedContainerReady, AUTH_INIT_FALLBACK_DELAY);
             } else if (source === EmbedEvent.EmbedListenerReady) {
                 processEmbedContainerReady();
-                if (this.viewConfig.sendConfigAsPostMessage) {
-                    this.sendEmbedParamsOverPostMessage();
+                if (this.isConfigSentOverPostMessage()) {
+                    this.triggerUpdateEmbedParams();
                 }
             }
         };
@@ -2130,19 +2130,26 @@ export class TsEmbed {
     protected preRenderParamsApplied: Promise<void> = Promise.resolve();
 
     /**
+     * Whether the embed has opted in to receiving its configuration over
+     * postMessage, via `additionalFlags: { sendConfigAsPostMessage: true }` on
+     * either the view config or `init`.
+     */
+    protected isConfigSentOverPostMessage(): boolean {
+        const flag =
+            this.viewConfig.additionalFlags?.sendConfigAsPostMessage ??
+            this.embedConfig.additionalFlags?.sendConfigAsPostMessage;
+        return flag === true || flag === 'true';
+    }
+
+    /**
      * Sends the full embed configuration to the embedded app over
      * `HostEvent.UpdateEmbedParams`.
-     *
-     * Used by the pre-render show path, and by the initial load when the embed
-     * sets `sendConfigAsPostMessage`. The caller is expected to have waited for
-     * the embed container to be ready.
-     *
-     * Resolves once the params have been posted. The trigger itself is not
-     * awaited: a cluster that never acknowledges UpdateEmbedParams would
-     * otherwise hold the caller for the full trigger timeout.
      */
-    protected async sendEmbedParamsOverPostMessage(): Promise<void> {
-        const onUpdateParamsFailure = (error: any) => {
+    protected async triggerUpdateEmbedParams(): Promise<void> {
+        try {
+            const params = await this.getUpdateEmbedParamsObject();
+            this.trigger(HostEvent.UpdateEmbedParams, params);
+        } catch (error) {
             logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
             this.handleError({
                 errorType: ErrorDetailsTypes.API,
@@ -2150,12 +2157,6 @@ export class TsEmbed {
                 code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
                 error: error?.message || error,
             });
-        };
-        try {
-            const params = await this.getUpdateEmbedParamsObject();
-            this.trigger(HostEvent.UpdateEmbedParams, params).catch(onUpdateParamsFailure);
-        } catch (error) {
-            onUpdateParamsFailure(error);
         }
     }
 
@@ -2169,7 +2170,7 @@ export class TsEmbed {
         this.preRenderParamsApplied = new Promise<void>((resolve) => {
             this.executeAfterEmbedContainerLoaded(async () => {
                 try {
-                    await this.sendEmbedParamsOverPostMessage();
+                    await this.triggerUpdateEmbedParams();
                 } finally {
                     setTimeout(resolve, UPDATE_EMBED_PARAMS_SETTLE_MS);
                 }

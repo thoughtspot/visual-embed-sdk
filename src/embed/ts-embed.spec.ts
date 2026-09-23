@@ -6704,6 +6704,11 @@ describe('sendConfigAsPostMessage', () => {
         liveboardV2: true,
     };
 
+    const withPostMessage = (viewConfig: any) => ({
+        ...viewConfig,
+        additionalFlags: { ...viewConfig.additionalFlags, sendConfigAsPostMessage: true },
+    });
+
     const renderAndGetSrc = async (viewConfig: any) => {
         const embed = new LiveboardEmbed(getRootEl(), { ...defaultViewConfig, ...viewConfig });
         await embed.render();
@@ -6736,7 +6741,7 @@ describe('sendConfigAsPostMessage', () => {
     });
 
     test('keeps only the bootstrap params on the URL when the flag is set', async () => {
-        const { src } = await renderAndGetSrc({ ...lbConfig, sendConfigAsPostMessage: true });
+        const { src } = await renderAndGetSrc(withPostMessage(lbConfig));
 
         // Boot and auth handshake stays on the URL.
         expect(src).toContain('hostAppUrl=');
@@ -6755,8 +6760,11 @@ describe('sendConfigAsPostMessage', () => {
     test('strips a non-bootstrap additionalFlag from the URL when the flag is set', async () => {
         const { src } = await renderAndGetSrc({
             ...lbConfig,
-            additionalFlags: { internalBlinkFlag: true, someCustomFlag: 'abc' },
-            sendConfigAsPostMessage: true,
+            additionalFlags: {
+                internalBlinkFlag: true,
+                someCustomFlag: 'abc',
+                sendConfigAsPostMessage: true,
+            },
         });
 
         expect(src).not.toContain('internalBlinkFlag');
@@ -6766,21 +6774,20 @@ describe('sendConfigAsPostMessage', () => {
     test('keeps an additionalFlag that overrides a bootstrap param on the URL', async () => {
         const { src } = await renderAndGetSrc({
             ...lbConfig,
-            additionalFlags: { [Param.OverrideOrgId]: 42 },
-            sendConfigAsPostMessage: true,
+            additionalFlags: { [Param.OverrideOrgId]: 42, sendConfigAsPostMessage: true },
         });
 
         expect(src).toContain(`${Param.OverrideOrgId}=42`);
     });
 
     test('keeps the deep-link route on the URL when the flag is set', async () => {
-        const { src } = await renderAndGetSrc({ ...lbConfig, sendConfigAsPostMessage: true });
+        const { src } = await renderAndGetSrc(withPostMessage(lbConfig));
 
         expect(src).toContain(`/embed/viz/${liveboardId}`);
     });
 
     test('sends the full config over UpdateEmbedParams once the frame is ready', async () => {
-        await renderAndGetSrc({ ...lbConfig, sendConfigAsPostMessage: true });
+        await renderAndGetSrc(withPostMessage(lbConfig));
 
         signalFrameReady();
 
@@ -6801,7 +6808,7 @@ describe('sendConfigAsPostMessage', () => {
     });
 
     test('sends UpdateEmbedParams again every time the frame signals ready', async () => {
-        await renderAndGetSrc({ ...lbConfig, sendConfigAsPostMessage: true });
+        await renderAndGetSrc(withPostMessage(lbConfig));
         signalFrameReady();
         signalFrameReady();
 
@@ -6838,9 +6845,8 @@ describe('sendConfigAsPostMessage', () => {
 
         const embed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
-            ...lbConfig,
+            ...withPostMessage(lbConfig),
             preRenderId: 'send-config-post-message',
-            sendConfigAsPostMessage: true,
         });
         await embed.preRender();
         await waitFor(() => !!getIFrameEl());
