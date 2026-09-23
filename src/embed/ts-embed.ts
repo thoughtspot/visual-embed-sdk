@@ -47,6 +47,7 @@ import {
     deserializeParam,
     getPositioningAncestors,
     observeElementMove,
+    getClipInsetForElement,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -2192,6 +2193,7 @@ export class TsEmbed {
             'pointer-events',
             'overflow',
             'transform',
+            'clip-path',
         ]);
         this.subscribeToEvents();
 
@@ -2244,6 +2246,34 @@ export class TsEmbed {
             width: `${elBoundingClient.width}px`,
             height: `${elBoundingClient.height}px`,
             position: 'absolute',
+        });
+        this.clipPreRenderToHostLayout();
+    }
+
+    /**
+     * Clips the wrapper to whatever would clip its placeholder in flow.
+     *
+     * The wrapper is not a descendant of the host's scrolling box — by default it
+     * is a `document.body` sibling — so that box cannot clip it. Placed correctly
+     * it still paints over a sticky nav or a panel edge as soon as the
+     * placeholder scrolls under one, which is what the frame "moving above the
+     * nav" looks like (SCAL-338563).
+     */
+    private clipPreRenderToHostLayout(): void {
+        const placeholder = this.getPreRenderPlaceHolderElement();
+        if (!placeholder) {
+            return;
+        }
+        const {
+            top, right, bottom, left,
+        } = getClipInsetForElement(placeholder);
+
+        if (!top && !right && !bottom && !left) {
+            removeStyleProperties(this.preRenderWrapper, ['clip-path']);
+            return;
+        }
+        setStyleProperties(this.preRenderWrapper, {
+            clipPath: `inset(${top}px ${right}px ${bottom}px ${left}px)`,
         });
     }
 

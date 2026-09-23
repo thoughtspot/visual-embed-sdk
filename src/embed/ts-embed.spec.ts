@@ -2999,6 +2999,46 @@ describe('Unit test case for ts embed', () => {
                 scroller.remove();
             });
 
+            it('should clip the wrapper to the host scroll container (SCAL-338563)', async () => {
+                const { scroller, readPlaceholderTop } = mountInNestedScroller();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'clipped-to-host',
+                    liveboardId: 'myLiveboardId',
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                // A scrolling panel that starts below the host's nav, which is
+                // the shape that puts a nav in the frame's way.
+                scroller.style.overflow = 'scroll';
+                scroller.getBoundingClientRect = () =>
+                    ({
+                        x: 0, y: 80, width: 800, height: 600,
+                        top: 80, left: 0, bottom: 680, right: 800,
+                    } as DOMRect);
+                stubPlaceholderRect(libEmbed, readPlaceholderTop);
+
+                const wrapper = document.getElementById(libEmbed.getPreRenderIds().wrapper);
+
+                // Wholly inside the panel: nothing clips it, and no stale
+                // clip-path is left behind.
+                scroller.scrollTop = 150;
+                libEmbed.syncPreRenderStyle();
+                expect(wrapper.style.clipPath).toBe('');
+
+                // Scrolled until the top of the frame is under the panel's top
+                // edge. The wrapper is a document.body sibling, so without an
+                // explicit clip it paints over the nav above that edge.
+                scroller.scrollTop = 400;
+                libEmbed.syncPreRenderStyle();
+                expect(wrapper.style.clipPath).toBe('inset(80px 0px 0px 0px)');
+
+                libEmbed.destroy();
+                scroller.remove();
+            });
+
             it('should park a hidden wrapper out of the scrollable area', async () => {
                 createRootEleForEmbed();
 
