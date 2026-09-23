@@ -6985,7 +6985,6 @@ export enum Param {
     WorksheetId = 'worksheet',
     Query = 'query',
     HideHomepageLeftNav = 'hideHomepageLeftNav',
-    HideCustomizeHomepageButton = 'hideCustomizeHomepageButton',
     ModularHomeExperienceEnabled = 'modularHomeExperience',
     HomepageVersion = 'homepageVersion',
     ListPageVersion = 'listpageVersion',
@@ -9323,6 +9322,18 @@ export enum Action {
      * ```
      */
     DeleteCollection = 'deleteCollection',
+    /**
+     * Controls the visibility of the "Customize homepage" button on the
+     * embedded home page.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.CustomizeHomepage],
+     * }
+     * ```
+     */
+    CustomizeHomepage = 'customizeHomepage',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
