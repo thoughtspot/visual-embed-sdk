@@ -134,13 +134,6 @@ const NO_RUNTIME_PARAMS = '&';
  * boot-time settings that would otherwise be applied a frame late (viewport,
  * log level, locale, formatting and org). Everything else is delivered over
  * `HostEvent.UpdateEmbedParams`.
- *
- * The caller's `additionalFlags` are not listed here, so they are stripped from
- * the `src` along with the rest of the configuration and delivered over
- * postMessage instead. An `additionalFlags` entry whose key happens to match a
- * bootstrap parameter stays on the URL, because
- * {@link TsEmbed.getBaseQueryParams} applies `additionalFlags` last and so
- * overrides the value this SDK computed for it.
  * @internal
  */
 const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
@@ -1016,17 +1009,6 @@ export class TsEmbed {
         return params;
     }
 
-    /**
-     * The parameters that go on the iframe `src`.
-     *
-     * This is the full parameter set, unless the embed sets the
-     * `sendConfigAsPostMessage` additional flag, in which case only the
-     * bootstrap parameters are kept and the rest is delivered over
-     * `HostEvent.UpdateEmbedParams` once the frame is ready. Every URL builder
-     * must go through this method; `getEmbedParamsObject()` stays the full set
-     * because it also feeds the postMessage payload.
-     * @returns The parameters to encode into the iframe `src`.
-     */
     protected getUrlQueryParamsObject(): Record<any, any> {
         const queryParams = this.getEmbedParamsObject();
         if (!this.isConfigSentOverPostMessage()) {
@@ -2129,11 +2111,6 @@ export class TsEmbed {
     // blocked.
     protected preRenderParamsApplied: Promise<void> = Promise.resolve();
 
-    /**
-     * Whether the embed has opted in to receiving its configuration over
-     * postMessage, via `additionalFlags: { sendConfigAsPostMessage: true }` on
-     * either the view config or `init`.
-     */
     protected isConfigSentOverPostMessage(): boolean {
         const flag =
             this.viewConfig.additionalFlags?.sendConfigAsPostMessage ??
@@ -2141,10 +2118,6 @@ export class TsEmbed {
         return flag === true || flag === 'true';
     }
 
-    /**
-     * Sends the full embed configuration to the embedded app over
-     * `HostEvent.UpdateEmbedParams`.
-     */
     protected async triggerUpdateEmbedParams(): Promise<void> {
         try {
             const params = await this.getUpdateEmbedParamsObject();
