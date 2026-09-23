@@ -3352,7 +3352,7 @@ export enum EmbedEvent {
      *
      * Fired alongside {@link EmbedEvent.Edit} for backward compatibility;
      * listen to this instead of `Edit` to target the Liveboard surface only.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * liveboardEmbed.on(EmbedEvent.EditLiveboard, payload => {
@@ -3368,7 +3368,7 @@ export enum EmbedEvent {
      * Fired alongside {@link EmbedEvent.Edit} for backward compatibility;
      * listen to this instead of `Edit` to target the visualization surface
      * only.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * liveboardEmbed.on(EmbedEvent.EditVisualization, payload => {
@@ -5373,7 +5373,7 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.EditLiveboard)
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.11.0.cl
      */
     EditLiveboard = 'editLiveboard',
     /**
@@ -5387,7 +5387,7 @@ export enum HostEvent {
      * liveboardEmbed.trigger(HostEvent.EditVisualization, {vizId:
      * '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.11.0.cl
      */
     EditVisualization = 'editVisualization',
     /**
@@ -7605,7 +7605,7 @@ export enum Action {
      * Does not affect the *Edit* action in the visualization menu; use
      * {@link Action.EditVisualization} for that, or {@link Action.Edit} to
      * control both surfaces together.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * disabledActions: [Action.EditLiveboard]
@@ -7619,7 +7619,7 @@ export enum Action {
      * Does not affect the *Edit* action on the Liveboard page; use
      * {@link Action.EditLiveboard} for that, or {@link Action.Edit} to
      * control both surfaces together.
-     * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * disabledActions: [Action.EditVisualization]
