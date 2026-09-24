@@ -440,6 +440,103 @@ export interface CustomCssVariables {
     '--ts-var-button--tertiary-border-color'?: string;
 
     /**
+     * Font color of the tab labels.
+     */
+    '--ts-var-tab-color'?: string;
+
+    /**
+     * Background color of the tabs.
+     */
+    '--ts-var-tab-background'?: string;
+
+    /**
+     * Font family specification for the tab labels.
+     */
+    '--ts-var-tab-font-family'?: string;
+
+    /**
+     * Font size of the tab labels.
+     */
+    '--ts-var-tab-font-size'?: string;
+
+    /**
+     * Font weight of the tab labels.
+     */
+    '--ts-var-tab-font-weight'?: string;
+
+    /**
+     * Padding of the tab items.
+     */
+    '--ts-var-tab-padding'?: string;
+
+    /**
+     * Height of the tab items.
+     */
+    '--ts-var-tab-height'?: string;
+
+    /**
+     * Border radius of the tab items.
+     */
+    '--ts-var-tab-border-radius'?: string;
+
+    /**
+     * Font color of the tab labels on hover.
+     */
+    '--ts-var-tab--hover-color'?: string;
+
+    /**
+     * Background color of the tab items on hover.
+     */
+    '--ts-var-tab--hover-background'?: string;
+
+    /**
+     * Font color of the selected tab label.
+     */
+    '--ts-var-tab--selected-color'?: string;
+
+    /**
+     * Background color of the selected tab item.
+     */
+    '--ts-var-tab--selected-background'?: string;
+
+    /**
+     * Font weight of the selected tab label.
+     */
+    '--ts-var-tab--selected-font-weight'?: string;
+
+    /**
+     * Color of the underline indicator on the selected tab, in the horizontal tab layout.
+     */
+    '--ts-var-tab--selected-indicator-color'?: string;
+
+    /**
+     * Thickness of the underline indicator on the selected tab, in the horizontal tab
+     * layout.
+     */
+    '--ts-var-tab--selected-indicator-height'?: string;
+
+    /**
+     * Border color of the divider below the horizontal tab strip.
+     */
+    '--ts-var-tab-list-border-color'?: string;
+
+    /**
+     * Color of the side rail indicator on the selected tab, in the vertical tab layout.
+     */
+    '--ts-var-tab--vertical--selected-indicator-color'?: string;
+
+    /**
+     * Thickness of the side rail indicator on the selected tab, in the vertical tab
+     * layout.
+     */
+    '--ts-var-tab--vertical--selected-indicator-width'?: string;
+
+    /**
+     * Border color of the divider beside the vertical tab strip.
+     */
+    '--ts-var-tab--vertical-list-border-color'?: string;
+
+    /**
      * Font color of the title text of a visualization or Answer.
      */
     '--ts-var-viz-title-color'?: string;
@@ -960,6 +1057,66 @@ export interface CustomCssVariables {
      * Font color of the hover tab in the Liveboard.
      */
     '--ts-var-liveboard-tab-hover-color'?: string;
+
+    /**
+     * Font color of the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-color'?: string;
+
+    /**
+     * Background color of the tab items in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-background'?: string;
+
+    /**
+     * Font family specification for the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-font-family'?: string;
+
+    /**
+     * Font size of the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-font-size'?: string;
+
+    /**
+     * Font weight of the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-font-weight'?: string;
+
+    /**
+     * Border radius of the tab items in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-border-radius'?: string;
+
+    /**
+     * Background color of the tab items in the Liveboard on hover.
+     */
+    '--ts-var-liveboard-tab-hover-background'?: string;
+
+    /**
+     * Font color of the selected tab label in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-color'?: string;
+
+    /**
+     * Background color of the selected tab item in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-background'?: string;
+
+    /**
+     * Font weight of the selected tab label in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-font-weight'?: string;
+
+    /**
+     * Thickness of the underline indicator on the selected tab in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-indicator-height'?: string;
+
+    /**
+     * Border color of the divider above the tab strip in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-list-border-color'?: string;
 
     /**
      * Font size of the title of the tiles in the Liveboard.
