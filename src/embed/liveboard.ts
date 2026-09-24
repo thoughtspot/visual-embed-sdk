@@ -36,6 +36,7 @@ import { logger } from '../utils/logger';
 import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
 import { buildStarterPromptsAppInitData } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
+import { LiveboardOverride, buildLiveboardOverrideAppInitData } from './liveboard-override-utils';
 
 // Home unmounts the liveboard container, which is how its state gets cleared.
 // The settle window gives the container time to do it before we ask for the
@@ -51,6 +52,7 @@ export interface LiveboardEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterVizConfig?: SpotterVizConfig;
         starterPrompts?: StarterPromptsConfig;
+        liveboardOverride?: LiveboardOverride;
     };
 }
 
@@ -545,6 +547,33 @@ export interface LiveboardViewConfig
      * ```
      */
     updatedSpotterExperience?: boolean;
+    /**
+     * Filters and Parameters to apply to the Liveboard when it loads.
+     *
+     * In an embedded Liveboard, this is the only way to set these overrides.
+     * The `filter` and `parameter` URL query params are ignored.
+     * Clauses without a query token are dropped.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    liveboardOverride: {
+     *        dataSourceOverride: [{
+     *            dataSourceIdentifier: '<model-guid>',
+     *            filterQuery: [{
+     *                tabName: 'Sales',
+     *                groupName: 'Region',
+     *                filterQueryToken: 'color = red',
+     *            }],
+     *        }],
+     *    },
+     * })
+     * ```
+     */
+    liveboardOverride?: LiveboardOverride;
 }
 
 /**
@@ -591,7 +620,8 @@ export class LiveboardEmbed extends V1Embed {
     protected async getAppInitData(): Promise<LiveboardEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
         const vizInitData = buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
-        return buildStarterPromptsAppInitData(vizInitData, this.viewConfig);
+        const starterPromptsInitData = buildStarterPromptsAppInitData(vizInitData, this.viewConfig);
+        return buildLiveboardOverrideAppInitData(starterPromptsInitData, this.viewConfig);
     }
 
     /**
