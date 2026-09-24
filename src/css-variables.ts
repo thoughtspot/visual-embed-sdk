@@ -147,6 +147,39 @@ export interface CustomCssVariables {
     '--ts-var-search-bar-auto-complete-hover-background'?: string;
 
     /**
+     * Background color of the submit (*Go*) button in the search box.
+     */
+    '--ts-var-search-submit-button-background'?: string;
+
+    /**
+     * Color of the label and icon on the submit (*Go*) button in the search box.
+     */
+    '--ts-var-search-submit-button-color'?: string;
+
+    /**
+     * Background color of the submit (*Go*) button in the search box on hover.
+     * Defaults to the background color set for the non-hover state.
+     */
+    '--ts-var-search-submit-button--hover-background'?: string;
+
+    /**
+     * Border radius of the submit (*Go*) button in the search box. Default: `40px`.
+     */
+    '--ts-var-search-submit-button-border-radius'?: string;
+
+    /**
+     * Border width of the submit (*Go*) button in the search box. Default: `0`.
+     * The button has a fixed size, so a border reduces its inner area.
+     */
+    '--ts-var-search-submit-button-border-width'?: string;
+
+    /**
+     * Border color of the submit (*Go*) button in the search box.
+     * Visible only when `--ts-var-search-submit-button-border-width` is set.
+     */
+    '--ts-var-search-submit-button-border-color'?: string;
+
+    /**
      * Font color of the text in the search suggestion panel.
      */
     '--ts-var-search-auto-complete-font-color'?: string;
@@ -272,6 +305,139 @@ export interface CustomCssVariables {
      * Backgroud color of the tertiary buttons when active.
      */
     '--ts-var-button--tertiary--active-background'?: string;
+
+    /**
+     * Font family specification for the text on the tertiary buttons.
+     * Defaults to the inherited font.
+     */
+    '--ts-var-button--tertiary--font-family'?: string;
+
+    /**
+     * Padding of buttons with text, for example, `6px 16px`. Applies to all button
+     * sizes and variants.
+     */
+    '--ts-var-button-padding'?: string;
+
+    /**
+     * Minimum width of buttons with text. Applies to all button sizes and variants.
+     */
+    '--ts-var-button-min-width'?: string;
+
+    /**
+     * Space between the icon and the label in a button. Default: `8px`.
+     */
+    '--ts-var-button-gap'?: string;
+
+    /**
+     * Height of buttons. Icon-only buttons remain square when this is set.
+     */
+    '--ts-var-button-height'?: string;
+
+    /**
+     * Font size of the button label. The line height scales proportionally.
+     */
+    '--ts-var-button-font-size'?: string;
+
+    /**
+     * Font weight of the button label. Default: `400`.
+     */
+    '--ts-var-button-font-weight'?: string;
+
+    /**
+     * Border width of buttons. Default: `0`. To show a border on a button variant,
+     * also set its border color, for example, `--ts-var-button--primary-border-color`.
+     */
+    '--ts-var-button-border-width'?: string;
+
+    /**
+     * Padding of the primary buttons with text.
+     * Overrides `--ts-var-button-padding` for primary buttons.
+     */
+    '--ts-var-button--primary-padding'?: string;
+
+    /**
+     * Minimum width of the primary buttons with text.
+     * Overrides `--ts-var-button-min-width` for primary buttons.
+     */
+    '--ts-var-button--primary-min-width'?: string;
+
+    /**
+     * Space between the icon and the label in the primary buttons.
+     * Overrides `--ts-var-button-gap` for primary buttons.
+     */
+    '--ts-var-button--primary-gap'?: string;
+
+    /**
+     * Font weight of the text on the primary buttons.
+     * Overrides `--ts-var-button-font-weight` for primary buttons.
+     */
+    '--ts-var-button--primary-font-weight'?: string;
+
+    /**
+     * Border color of the primary buttons.
+     * Visible only when `--ts-var-button-border-width` is set.
+     */
+    '--ts-var-button--primary-border-color'?: string;
+
+    /**
+     * Padding of the secondary buttons with text.
+     * Overrides `--ts-var-button-padding` for secondary buttons.
+     */
+    '--ts-var-button--secondary-padding'?: string;
+
+    /**
+     * Minimum width of the secondary buttons with text.
+     * Overrides `--ts-var-button-min-width` for secondary buttons.
+     */
+    '--ts-var-button--secondary-min-width'?: string;
+
+    /**
+     * Space between the icon and the label in the secondary buttons.
+     * Overrides `--ts-var-button-gap` for secondary buttons.
+     */
+    '--ts-var-button--secondary-gap'?: string;
+
+    /**
+     * Font weight of the text on the secondary buttons.
+     * Overrides `--ts-var-button-font-weight` for secondary buttons.
+     */
+    '--ts-var-button--secondary-font-weight'?: string;
+
+    /**
+     * Border color of the secondary buttons.
+     * Visible only when `--ts-var-button-border-width` is set.
+     */
+    '--ts-var-button--secondary-border-color'?: string;
+
+    /**
+     * Padding of the tertiary buttons with text.
+     * Overrides `--ts-var-button-padding` for tertiary buttons.
+     */
+    '--ts-var-button--tertiary-padding'?: string;
+
+    /**
+     * Minimum width of the tertiary buttons with text.
+     * Overrides `--ts-var-button-min-width` for tertiary buttons.
+     */
+    '--ts-var-button--tertiary-min-width'?: string;
+
+    /**
+     * Space between the icon and the label in the tertiary buttons.
+     * Overrides `--ts-var-button-gap` for tertiary buttons.
+     */
+    '--ts-var-button--tertiary-gap'?: string;
+
+    /**
+     * Font weight of the text on the tertiary buttons.
+     * Overrides `--ts-var-button-font-weight` for tertiary buttons.
+     */
+    '--ts-var-button--tertiary-font-weight'?: string;
+
+    /**
+     * Border color of the tertiary buttons.
+     * Visible only when `--ts-var-button-border-width` is set.
+     */
+    '--ts-var-button--tertiary-border-color'?: string;
 
     /**
      * Font color of the title text of a visualization or Answer.
