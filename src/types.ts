@@ -3348,6 +3348,36 @@ export enum EmbedEvent {
      */
     Edit = 'edit',
     /**
+     * Emitted when a user clicks **Edit** on a Liveboard.
+     *
+     * Fired alongside {@link EmbedEvent.Edit} for backward compatibility;
+     * listen to this instead of `Edit` to target the Liveboard surface only.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.EditLiveboard, payload => {
+     *    console.log('Liveboard edit', payload);
+     * })
+     * ```
+     */
+    EditLiveboard = 'editLiveboard',
+    /**
+     * Emitted when a user clicks **Edit** on a visualization inside a
+     * Liveboard.
+     *
+     * Fired alongside {@link EmbedEvent.Edit} for backward compatibility;
+     * listen to this instead of `Edit` to target the visualization surface
+     * only.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.EditVisualization, payload => {
+     *    console.log('visualization edit', payload);
+     * })
+     * ```
+     */
+    EditVisualization = 'editVisualization',
+    /**
      * Emitted when a user clicks *Make a copy* on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
@@ -5331,6 +5361,35 @@ export enum HostEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     Edit = 'edit',
+    /**
+     * Trigger the **Edit** action on a Liveboard only — does not affect a
+     * visualization's edit surface.
+     *
+     * Behaves like {@link HostEvent.Edit} restricted to the Liveboard
+     * surface. Use {@link HostEvent.EditVisualization} to target a
+     * visualization instead, or `HostEvent.Edit` to control whichever
+     * surface applies contextually (unchanged, existing behavior).
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.EditLiveboard)
+     * ```
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     */
+    EditLiveboard = 'editLiveboard',
+    /**
+     * Trigger the **Edit** action on a specific visualization inside a
+     * Liveboard only — does not affect the Liveboard-level edit surface.
+     * @param - Object parameter. Includes the following keys:
+     * - `vizId`: **Required.** The visualization to edit.
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.EditVisualization, {vizId:
+     * '730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     */
+    EditVisualization = 'editVisualization',
     /**
      * Trigger the **Copy link** action on a Liveboard or visualization
      * Payload: {@link VizScopedRequest}.
@@ -7530,12 +7589,43 @@ export enum Action {
      * The *Edit* action on the Liveboard page and in the
      * visualization menu.
      * Opens a Liveboard or visualization in edit mode.
+     *
+     * Controls both surfaces together. To target one surface only, use
+     * {@link Action.EditLiveboard} or {@link Action.EditVisualization}.
      * @example
      * ```js
      * disabledActions: [Action.Edit]
      * ```
      */
     Edit = 'edit',
+    /**
+     * The *Edit* action on the Liveboard page only.
+     * Opens a Liveboard in edit mode.
+     *
+     * Does not affect the *Edit* action in the visualization menu; use
+     * {@link Action.EditVisualization} for that, or {@link Action.Edit} to
+     * control both surfaces together.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.EditLiveboard]
+     * ```
+     */
+    EditLiveboard = 'editLiveboard',
+    /**
+     * The *Edit* action in the visualization `...` menu only.
+     * Opens a visualization in the editor.
+     *
+     * Does not affect the *Edit* action on the Liveboard page; use
+     * {@link Action.EditLiveboard} for that, or {@link Action.Edit} to
+     * control both surfaces together.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.EditVisualization]
+     * ```
+     */
+    EditVisualization = 'editVisualization',
     /**
      * The text edit option for Liveboard and visualization titles.
      * @example
