@@ -49,6 +49,14 @@ const LIVEBOARD_RELATED_ROUTES = [
 ];
 
 /**
+ * Matches the GUID in a Liveboard route. Every route in
+ * {@link LIVEBOARD_RELATED_ROUTES} carries the Liveboard's own GUID first, so
+ * the first match identifies the Liveboard even on a route that names a
+ * visualization as well (`/embed/viz/<liveboard>/<viz>`).
+ */
+const LIVEBOARD_ID_IN_PATH = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+
+/**
  * The slice of an embed's view config the full-height controller reads.
  */
 export type FullHeightControllerViewConfig = FullHeightViewConfig &
@@ -92,6 +100,12 @@ export class FullHeightController {
     private resizeObserver: ResizeObserver | undefined;
 
     private config: FullHeightControllerViewConfig;
+
+    /**
+     * The Liveboard the frame is currently sized for, so a move to a different
+     * one can be told apart from a route change within the same Liveboard.
+     */
+    private currentLiveboardId: string | undefined;
 
     constructor(
         viewConfig: FullHeightControllerViewConfig,
@@ -266,8 +280,22 @@ export class FullHeightController {
     };
 
     /**
-     * Resets the frame height when the app navigates away from a Liveboard,
-     * since only Liveboard routes report a height of their own.
+     * Keeps the frame height honest across navigation.
+     *
+     * Two cases reset it to the default. Leaving the Liveboard experience
+     * altogether, because only Liveboard routes report a height of their own;
+     * and moving from one Liveboard to another, because the frame is still
+     * sized for the Liveboard being left behind (SCAL-332771).
+     *
+     * That second case matters beyond a stale scrollbar. A full-height frame is
+     * expanded to the whole Liveboard, so after a tall board the embedded app's
+     * own `window.innerHeight` is the tall board's height. Carry that into the
+     * next Liveboard and anything falling back to the iframe viewport treats
+     * the entire board as on-screen and resolves every visualization at once,
+     * which is the lazy loading the host app asked for quietly not happening.
+     *
+     * A route change *within* one Liveboard is left alone: the height is
+     * already right for it, and resetting would make the frame jump.
      */
     private handleRouteChange = (payload: MessagePayload): void => {
         const currentPath: string = payload?.data?.currentPath;
@@ -275,10 +303,29 @@ export class FullHeightController {
             return;
         }
         if (LIVEBOARD_RELATED_ROUTES.some((route) => currentPath.startsWith(route))) {
+            const liveboardId = LIVEBOARD_ID_IN_PATH.exec(currentPath)?.[0];
+            if (!liveboardId) {
+                return;
+            }
+            const isDifferentLiveboard = this.currentLiveboardId !== undefined
+                && this.currentLiveboardId !== liveboardId;
+            this.currentLiveboardId = liveboardId;
+            if (isDifferentLiveboard) {
+                this.resetFrameHeight();
+            }
             return;
         }
-        this.host.setFrameHeight(this.config.frameParams?.height || this.minimumHeight);
+        this.currentLiveboardId = undefined;
+        this.resetFrameHeight();
     };
+
+    /**
+     * Returns the frame to the height it starts at, so the app negotiates the
+     * next one up from the floor rather than down from whatever it last was.
+     */
+    private resetFrameHeight(): void {
+        this.host.setFrameHeight(this.config.frameParams?.height || this.minimumHeight);
+    }
 
     /**
      * Pushes the visible embed region to the app so it can decide which
