@@ -27,7 +27,7 @@ export interface UnderlyingDataPoint {
 /**
  * Describes how to sort a column when fetching data. Pass an array of these to
  * sort by multiple columns, in priority order.
- * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.12.0.cl
  */
 export interface SortOptions {
     /**
