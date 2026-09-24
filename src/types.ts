@@ -581,6 +581,26 @@ export interface EmbedConfig {
     suppressErrorAlerts?: boolean;
 
     /**
+     * Renders an on-page debugging panel (`<DebugAgent />` from
+     * `@thoughtspot/visual-embed-sdk/react`) that lets developers inspect and
+     * live-edit styles on the host page's DOM — the embed container, its
+     * parent elements, and any other element on the page. Intended for
+     * development and troubleshooting; the panel never reads or modifies
+     * anything inside the ThoughtSpot iframe, since that content is
+     * cross-origin and outside the host page's reach.
+     * @default false
+     * @version SDK: 1.53.0
+     * @example
+     * ```js
+     * init({
+     *   ...embedConfig,
+     *   enableDebugAgent: true,
+     * })
+     * ```
+     */
+    enableDebugAgent?: boolean;
+
+    /**
      * Suppress or show specific types of logs in the console output.
      * For example, `LogLevel.ERROR` shows only Visual Embed SDK and
      * ThoughtSpot application errors and suppresses
