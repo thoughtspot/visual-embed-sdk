@@ -158,6 +158,38 @@ export interface CustomCssVariables {
     '--ts-var-search-auto-complete-subtext-font-color'?: string;
 
     /**
+     * Background color of the search submit button, the go button in the search bar.
+     */
+    '--ts-var-search-submit-button-background'?: string;
+
+    /**
+     * Font and icon color of the search submit button.
+     */
+    '--ts-var-search-submit-button-color'?: string;
+
+    /**
+     * Background color of the search submit button on hover.
+     */
+    '--ts-var-search-submit-button--hover-background'?: string;
+
+    /**
+     * Corner radius of the search submit button.
+     */
+    '--ts-var-search-submit-button-border-radius'?: string;
+
+    /**
+     * Border width of the search submit button. Pair with the border color to outline it.
+     * The button is border-box, so a border reduces its content area rather than growing
+     * the button.
+     */
+    '--ts-var-search-submit-button-border-width'?: string;
+
+    /**
+     * Border color of the search submit button. Visible once the border width is set.
+     */
+    '--ts-var-search-submit-button-border-color'?: string;
+
+    /**
      * Background color of the input box in the Spotter page.
      */
     '--ts-var-spotter-input-background'?: string;
@@ -274,6 +306,220 @@ export interface CustomCssVariables {
     '--ts-var-button--tertiary--active-background'?: string;
 
     /**
+     * Shorthand padding of the text buttons, for example, 6px 16px. Applies to all button
+     * sizes and variants.
+     */
+    '--ts-var-button-padding'?: string;
+
+    /**
+     * Minimum width of the text buttons.
+     */
+    '--ts-var-button-min-width'?: string;
+
+    /**
+     * Gap between the icon and the label inside a button.
+     */
+    '--ts-var-button-gap'?: string;
+
+    /**
+     * Fixed height of the buttons. Icon-only buttons stay square when this is set.
+     */
+    '--ts-var-button-height'?: string;
+
+    /**
+     * Font size of the button label. The line height scales proportionally.
+     */
+    '--ts-var-button-font-size'?: string;
+
+    /**
+     * Font weight of the button label.
+     */
+    '--ts-var-button-font-weight'?: string;
+
+    /**
+     * Border width of the buttons. Pair with a per-variant border color to outline a
+     * variant.
+     */
+    '--ts-var-button-border-width'?: string;
+
+    /**
+     * Padding of the primary buttons.
+     */
+    '--ts-var-button--primary-padding'?: string;
+
+    /**
+     * Minimum width of the primary buttons.
+     */
+    '--ts-var-button--primary-min-width'?: string;
+
+    /**
+     * Gap between the icon and the label inside the primary buttons.
+     */
+    '--ts-var-button--primary-gap'?: string;
+
+    /**
+     * Font weight of the primary button label.
+     */
+    '--ts-var-button--primary-font-weight'?: string;
+
+    /**
+     * Border color of the primary buttons. Visible once the border width is set.
+     */
+    '--ts-var-button--primary-border-color'?: string;
+
+    /**
+     * Padding of the secondary buttons.
+     */
+    '--ts-var-button--secondary-padding'?: string;
+
+    /**
+     * Minimum width of the secondary buttons.
+     */
+    '--ts-var-button--secondary-min-width'?: string;
+
+    /**
+     * Gap between the icon and the label inside the secondary buttons.
+     */
+    '--ts-var-button--secondary-gap'?: string;
+
+    /**
+     * Font weight of the secondary button label.
+     */
+    '--ts-var-button--secondary-font-weight'?: string;
+
+    /**
+     * Border color of the secondary buttons. Visible once the border width is set.
+     */
+    '--ts-var-button--secondary-border-color'?: string;
+
+    /**
+     * Padding of the tertiary buttons.
+     */
+    '--ts-var-button--tertiary-padding'?: string;
+
+    /**
+     * Minimum width of the tertiary buttons.
+     */
+    '--ts-var-button--tertiary-min-width'?: string;
+
+    /**
+     * Gap between the icon and the label inside the tertiary buttons.
+     */
+    '--ts-var-button--tertiary-gap'?: string;
+
+    /**
+     * Font weight of the tertiary button label.
+     */
+    '--ts-var-button--tertiary-font-weight'?: string;
+
+    /**
+     * Border color of the tertiary buttons. Visible once the border width is set.
+     */
+    '--ts-var-button--tertiary-border-color'?: string;
+
+    /**
+     * Font family specification for the tertiary button label.
+     */
+    '--ts-var-button--tertiary--font-family'?: string;
+
+    /**
+     * Font color of the tab labels.
+     */
+    '--ts-var-tab-color'?: string;
+
+    /**
+     * Background color of the tabs.
+     */
+    '--ts-var-tab-background'?: string;
+
+    /**
+     * Font family specification for the tab labels.
+     */
+    '--ts-var-tab-font-family'?: string;
+
+    /**
+     * Font size of the tab labels.
+     */
+    '--ts-var-tab-font-size'?: string;
+
+    /**
+     * Font weight of the tab labels.
+     */
+    '--ts-var-tab-font-weight'?: string;
+
+    /**
+     * Padding of the tab items.
+     */
+    '--ts-var-tab-padding'?: string;
+
+    /**
+     * Height of the tab items.
+     */
+    '--ts-var-tab-height'?: string;
+
+    /**
+     * Border radius of the tab items.
+     */
+    '--ts-var-tab-border-radius'?: string;
+
+    /**
+     * Font color of the tab labels on hover.
+     */
+    '--ts-var-tab--hover-color'?: string;
+
+    /**
+     * Background color of the tab items on hover.
+     */
+    '--ts-var-tab--hover-background'?: string;
+
+    /**
+     * Font color of the selected tab label.
+     */
+    '--ts-var-tab--selected-color'?: string;
+
+    /**
+     * Background color of the selected tab item.
+     */
+    '--ts-var-tab--selected-background'?: string;
+
+    /**
+     * Font weight of the selected tab label.
+     */
+    '--ts-var-tab--selected-font-weight'?: string;
+
+    /**
+     * Color of the underline indicator on the selected tab, in the horizontal tab layout.
+     */
+    '--ts-var-tab--selected-indicator-color'?: string;
+
+    /**
+     * Thickness of the underline indicator on the selected tab, in the horizontal tab
+     * layout.
+     */
+    '--ts-var-tab--selected-indicator-height'?: string;
+
+    /**
+     * Border color of the divider below the horizontal tab strip.
+     */
+    '--ts-var-tab-list-border-color'?: string;
+
+    /**
+     * Color of the side rail indicator on the selected tab, in the vertical tab layout.
+     */
+    '--ts-var-tab--vertical--selected-indicator-color'?: string;
+
+    /**
+     * Thickness of the side rail indicator on the selected tab, in the vertical tab
+     * layout.
+     */
+    '--ts-var-tab--vertical--selected-indicator-width'?: string;
+
+    /**
+     * Border color of the divider beside the vertical tab strip.
+     */
+    '--ts-var-tab--vertical-list-border-color'?: string;
+
+    /**
      * Font color of the title text of a visualization or Answer.
      */
     '--ts-var-viz-title-color'?: string;
@@ -380,6 +626,107 @@ export interface CustomCssVariables {
      * Font family specification for the text on filter chips.
      */
     '--ts-var-chip-title-font-family'?: string;
+
+    /**
+     * Background color of the attribute chips, which represent non-numeric columns.
+     */
+    '--ts-var-chip--attribute-background'?: string;
+
+    /**
+     * Background color of the attribute chips on hover.
+     */
+    '--ts-var-chip--attribute--hover-background'?: string;
+
+    /**
+     * Border color of the attribute chips.
+     */
+    '--ts-var-chip--attribute-border-color'?: string;
+
+    /**
+     * Border color of the attribute chips on hover.
+     */
+    '--ts-var-chip--attribute--hover-border-color'?: string;
+
+    /**
+     * Background color of the measure chips, which represent numeric columns.
+     */
+    '--ts-var-chip--measure-background'?: string;
+
+    /**
+     * Background color of the measure chips on hover.
+     */
+    '--ts-var-chip--measure--hover-background'?: string;
+
+    /**
+     * Border color of the measure chips.
+     */
+    '--ts-var-chip--measure-border-color'?: string;
+
+    /**
+     * Border color of the measure chips on hover.
+     */
+    '--ts-var-chip--measure--hover-border-color'?: string;
+
+    /**
+     * Background color of the date chips, which represent date columns.
+     */
+    '--ts-var-chip--date-background'?: string;
+
+    /**
+     * Background color of the date chips on hover.
+     */
+    '--ts-var-chip--date--hover-background'?: string;
+
+    /**
+     * Border color of the date chips.
+     */
+    '--ts-var-chip--date-border-color'?: string;
+
+    /**
+     * Border color of the date chips on hover.
+     */
+    '--ts-var-chip--date--hover-border-color'?: string;
+
+    /**
+     * Background color of the filter chips in the filter bar and the parameter panel.
+     */
+    '--ts-var-chip--filter-background'?: string;
+
+    /**
+     * Background color of the filter chips on hover.
+     */
+    '--ts-var-chip--filter--hover-background'?: string;
+
+    /**
+     * Border color of the filter chips.
+     */
+    '--ts-var-chip--filter-border-color'?: string;
+
+    /**
+     * Border color of the filter chips on hover.
+     */
+    '--ts-var-chip--filter--hover-border-color'?: string;
+
+    /**
+     * Background color of the unrecognized chips, which represent an unresolved or
+     * invalid token.
+     */
+    '--ts-var-chip--unrecognized-background'?: string;
+
+    /**
+     * Background color of the unrecognized chips on hover.
+     */
+    '--ts-var-chip--unrecognized--hover-background'?: string;
+
+    /**
+     * Border color of the unrecognized chips.
+     */
+    '--ts-var-chip--unrecognized-border-color'?: string;
+
+    /**
+     * Border color of the unrecognized chips on hover.
+     */
+    '--ts-var-chip--unrecognized--hover-border-color'?: string;
 
     /**
      * Font color of axis title on charts.
@@ -794,6 +1141,66 @@ export interface CustomCssVariables {
      * Font color of the hover tab in the Liveboard.
      */
     '--ts-var-liveboard-tab-hover-color'?: string;
+
+    /**
+     * Font color of the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-color'?: string;
+
+    /**
+     * Background color of the tab items in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-background'?: string;
+
+    /**
+     * Font family specification for the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-font-family'?: string;
+
+    /**
+     * Font size of the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-font-size'?: string;
+
+    /**
+     * Font weight of the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-font-weight'?: string;
+
+    /**
+     * Border radius of the tab items in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-border-radius'?: string;
+
+    /**
+     * Background color of the tab items in the Liveboard on hover.
+     */
+    '--ts-var-liveboard-tab-hover-background'?: string;
+
+    /**
+     * Font color of the selected tab label in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-color'?: string;
+
+    /**
+     * Background color of the selected tab item in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-background'?: string;
+
+    /**
+     * Font weight of the selected tab label in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-font-weight'?: string;
+
+    /**
+     * Thickness of the underline indicator on the selected tab in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-indicator-height'?: string;
+
+    /**
+     * Border color of the divider above the tab strip in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-list-border-color'?: string;
 
     /**
      * Font size of the title of the tiles in the Liveboard.
