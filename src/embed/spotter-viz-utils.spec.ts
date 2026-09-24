@@ -37,6 +37,17 @@ describe('buildSpotterVizAppInitData', () => {
         expect(result.embedParams?.spotterVizConfig?.insightTileLoaderText).toBe('Generating insight');
     });
 
+    it('passes fileUploadEnabled and fileUploadFileTypes through spotterVizConfig', () => {
+        const spotterViz = {
+            brandName: 'MyBrand',
+            fileUploadEnabled: false,
+            fileUploadFileTypes: ['csv', '.pdf'],
+        };
+        const result = buildSpotterVizAppInitData(base, { spotterViz });
+        expect(result.embedParams?.spotterVizConfig?.fileUploadEnabled).toBe(false);
+        expect(result.embedParams?.spotterVizConfig?.fileUploadFileTypes).toEqual(['csv', '.pdf']);
+    });
+
     it('preserves existing embedParams when adding spotterVizConfig', () => {
         const existing = { ...base, embedParams: { spotterSidebarConfig: { enablePastConversationsSidebar: true } } };
         const spotterViz = { brandName: 'MyBrand' };
