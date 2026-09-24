@@ -382,6 +382,124 @@ export interface CustomCssVariables {
     '--ts-var-chip-title-font-family'?: string;
 
     /**
+     * Background color of attribute chips, such as attribute tokens in the search bar
+     * and attribute columns in the data panel.
+     * In chip components, `--ts-var-chip-background` takes precedence when set.
+     */
+    '--ts-var-chip--attribute-background'?: string;
+
+    /**
+     * Background color of attribute chips on hover.
+     */
+    '--ts-var-chip--attribute--hover-background'?: string;
+
+    /**
+     * Border color of attribute chips.
+     * Defaults to `--ts-var-chip--attribute-background`.
+     */
+    '--ts-var-chip--attribute-border-color'?: string;
+
+    /**
+     * Border color of attribute chips on hover.
+     * Defaults to `--ts-var-chip--attribute--hover-background`.
+     */
+    '--ts-var-chip--attribute--hover-border-color'?: string;
+
+    /**
+     * Background color of measure chips, such as measure tokens in the search bar
+     * and measure columns in the data panel.
+     * In chip components, `--ts-var-chip-background` takes precedence when set.
+     */
+    '--ts-var-chip--measure-background'?: string;
+
+    /**
+     * Background color of measure chips on hover.
+     */
+    '--ts-var-chip--measure--hover-background'?: string;
+
+    /**
+     * Border color of measure chips.
+     * Defaults to `--ts-var-chip--measure-background`.
+     */
+    '--ts-var-chip--measure-border-color'?: string;
+
+    /**
+     * Border color of measure chips on hover.
+     * Defaults to `--ts-var-chip--measure--hover-background`.
+     */
+    '--ts-var-chip--measure--hover-border-color'?: string;
+
+    /**
+     * Background color of date chips, such as date tokens in the search bar
+     * and date columns in the data panel.
+     * In chip components, `--ts-var-chip-background` takes precedence when set.
+     */
+    '--ts-var-chip--date-background'?: string;
+
+    /**
+     * Background color of date chips on hover.
+     */
+    '--ts-var-chip--date--hover-background'?: string;
+
+    /**
+     * Border color of date chips.
+     * Defaults to `--ts-var-chip--date-background`.
+     */
+    '--ts-var-chip--date-border-color'?: string;
+
+    /**
+     * Border color of date chips on hover.
+     * Defaults to `--ts-var-chip--date--hover-background`.
+     */
+    '--ts-var-chip--date--hover-border-color'?: string;
+
+    /**
+     * Background color of filter chips, such as filter tokens in the search bar.
+     * Also applies to neutral column chips, such as formula and set columns.
+     * In chip components, `--ts-var-chip-background` takes precedence when set.
+     */
+    '--ts-var-chip--filter-background'?: string;
+
+    /**
+     * Background color of filter chips on hover.
+     */
+    '--ts-var-chip--filter--hover-background'?: string;
+
+    /**
+     * Border color of filter chips.
+     * Defaults to `--ts-var-chip--filter-background`.
+     */
+    '--ts-var-chip--filter-border-color'?: string;
+
+    /**
+     * Border color of filter chips on hover.
+     * Defaults to `--ts-var-chip--filter--hover-background`.
+     */
+    '--ts-var-chip--filter--hover-border-color'?: string;
+
+    /**
+     * Background color of unrecognized tokens in the search bar.
+     */
+    '--ts-var-chip--unrecognized-background'?: string;
+
+    /**
+     * Background color of unrecognized tokens in the search bar on hover.
+     */
+    '--ts-var-chip--unrecognized--hover-background'?: string;
+
+    /**
+     * Border color of unrecognized tokens in the search bar.
+     * Defaults to `--ts-var-chip--unrecognized-background`.
+     */
+    '--ts-var-chip--unrecognized-border-color'?: string;
+
+    /**
+     * Border color of unrecognized tokens in the search bar on hover.
+     * Defaults to `--ts-var-chip--unrecognized--hover-background`.
+     */
+    '--ts-var-chip--unrecognized--hover-border-color'?: string;
+
+    /**
      * Font color of axis title on charts.
      */
     '--ts-var-axis-title-color'?: string;
