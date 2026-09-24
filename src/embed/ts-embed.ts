@@ -79,6 +79,7 @@ import {
     BaseViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
+import { removeRuntimeDataForTelemetry } from '../utils/runtimeTelemetry';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
 import {
@@ -252,9 +253,10 @@ export class TsEmbed {
             ...viewConfig,
         };
         this.registerAppInit();
-        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
-            ...viewConfig,
-        });
+        uploadMixpanelEvent(
+            MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE,
+            removeRuntimeDataForTelemetry(viewConfig ?? {}),
+        );
         const embedConfig = getEmbedConfig();
         if (embedConfig) {
             this.embedConfig = embedConfig;
