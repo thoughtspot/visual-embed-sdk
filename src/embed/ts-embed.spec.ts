@@ -71,6 +71,10 @@ import * as processData from '../utils/processData';
 jest.mock('../utils/processTrigger');
 
 const mockProcessTrigger = processTrigger as jest.Mock;
+
+const flushAnimationFrame = () => new Promise<void>((resolve) => {
+    requestAnimationFrame(() => resolve());
+});
 const mockHandleInterceptEvent = jest.spyOn(apiIntercept, 'handleInterceptEvent');
 const defaultViewConfig = {
     frameParams: {
@@ -2620,6 +2624,8 @@ describe('Unit test case for ts embed', () => {
                     contentRect: { height: 297, width: 987 },
                 },
             ]);
+            // Syncs are coalesced to one per frame.
+            await flushAnimationFrame();
 
             expect(preRenderWrapper.style.height).toEqual(`${297}px`);
             expect(preRenderWrapper.style.width).toEqual(`${987}px`);
@@ -2833,6 +2839,273 @@ describe('Unit test case for ts embed', () => {
 
             libEmbed.destroy();
             (logger.debug as any).mockRestore();
+        });
+
+        describe('position tracking (SCAL-338563)', () => {
+            /**
+             * A host app whose page scrolls in an inner element rather than the
+             * document — the shape both reported cases have. The placeholder's
+             * rect is driven off that element's scrollTop, the way a real
+             * layout would move it.
+             */
+            const mountInNestedScroller = () => {
+                createRootEleForEmbed();
+                const scroller = document.createElement('div');
+                scroller.id = 'inner-scroller';
+                document.body.appendChild(scroller);
+                scroller.appendChild(document.getElementById('tsEmbedDiv'));
+
+                let scrollTop = 0;
+                Object.defineProperty(scroller, 'scrollTop', {
+                    configurable: true,
+                    get: () => scrollTop,
+                    set: (value) => {
+                        scrollTop = value;
+                    },
+                });
+                scroller.getBoundingClientRect = () =>
+                    ({
+                        x: 0, y: 0, width: 800, height: 600,
+                        top: 0, left: 0, bottom: 600, right: 800,
+                    } as DOMRect);
+
+                const placeholderTopAtRest = 400;
+                const readPlaceholderTop = () => placeholderTopAtRest - scroller.scrollTop;
+
+                return { scroller, readPlaceholderTop };
+            };
+
+            const stubPlaceholderRect = (embed: any, readTop: () => number) => {
+                const placeholder = embed.getPreRenderPlaceHolderElement() as HTMLElement;
+                placeholder.getBoundingClientRect = () => {
+                    const top = readTop();
+                    return {
+                        x: 0, y: top, width: 800, height: 300,
+                        top, left: 0, bottom: top + 300, right: 800,
+                    } as DOMRect;
+                };
+                return placeholder;
+            };
+
+            it('should follow an inner scroll container that was never configured', async () => {
+                const { scroller, readPlaceholderTop } = mountInNestedScroller();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'scroll-untracked',
+                    liveboardId: 'myLiveboardId',
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                stubPlaceholderRect(libEmbed, readPlaceholderTop);
+                libEmbed.syncPreRenderStyle();
+
+                const wrapper = document.getElementById(libEmbed.getPreRenderIds().wrapper);
+                expect(wrapper.style.top).toBe('400px');
+
+                // The host app scrolls its own element. The window never
+                // scrolls, so before the fix nothing repositioned the wrapper
+                // and the frame stayed pinned over the page.
+                scroller.scrollTop = 250;
+                scroller.dispatchEvent(new Event('scroll'));
+                await flushAnimationFrame();
+
+                expect(wrapper.style.top).toBe('150px');
+
+                libEmbed.destroy();
+                scroller.remove();
+            });
+
+            it('should reposition when content above the frame displaces it', async () => {
+                const { readPlaceholderTop } = mountInNestedScroller();
+                let extraContentAbove = 0;
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'displaced-by-growth',
+                    liveboardId: 'myLiveboardId',
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                stubPlaceholderRect(libEmbed, () => readPlaceholderTop() + extraContentAbove);
+                libEmbed.syncPreRenderStyle();
+
+                const wrapper = document.getElementById(libEmbed.getPreRenderIds().wrapper);
+                expect(wrapper.style.top).toBe('400px');
+
+                // A section above the embed finishes loading and grows. The
+                // placeholder moves without resizing, and without any scroll.
+                extraContentAbove = 160;
+                (libEmbed as any).requestPreRenderSync();
+                await flushAnimationFrame();
+
+                expect(wrapper.style.top).toBe('560px');
+
+                libEmbed.destroy();
+            });
+
+            it('should coalesce a burst of scroll events into one sync', async () => {
+                const { scroller, readPlaceholderTop } = mountInNestedScroller();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'scroll-coalesced',
+                    liveboardId: 'myLiveboardId',
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                stubPlaceholderRect(libEmbed, readPlaceholderTop);
+                const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+
+                for (let i = 0; i < 20; i += 1) {
+                    scroller.scrollTop = i * 5;
+                    scroller.dispatchEvent(new Event('scroll'));
+                }
+                await flushAnimationFrame();
+
+                expect(syncSpy).toHaveBeenCalledTimes(1);
+
+                syncSpy.mockRestore();
+                libEmbed.destroy();
+                scroller.remove();
+            });
+
+            it('should stop tracking once the frame is hidden', async () => {
+                const { scroller, readPlaceholderTop } = mountInNestedScroller();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'scroll-stops-on-hide',
+                    liveboardId: 'myLiveboardId',
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                stubPlaceholderRect(libEmbed, readPlaceholderTop);
+                libEmbed.hidePreRender();
+
+                const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
+                scroller.scrollTop = 250;
+                scroller.dispatchEvent(new Event('scroll'));
+                await flushAnimationFrame();
+
+                expect(syncSpy).not.toHaveBeenCalled();
+
+                syncSpy.mockRestore();
+                libEmbed.destroy();
+                scroller.remove();
+            });
+
+            it('should clip the wrapper to the host scroll container (SCAL-338563)', async () => {
+                const { scroller, readPlaceholderTop } = mountInNestedScroller();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'clipped-to-host',
+                    liveboardId: 'myLiveboardId',
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                // A scrolling panel that starts below the host's nav, which is
+                // the shape that puts a nav in the frame's way.
+                scroller.style.overflow = 'scroll';
+                scroller.getBoundingClientRect = () =>
+                    ({
+                        x: 0, y: 80, width: 800, height: 600,
+                        top: 80, left: 0, bottom: 680, right: 800,
+                    } as DOMRect);
+                stubPlaceholderRect(libEmbed, readPlaceholderTop);
+
+                const wrapper = document.getElementById(libEmbed.getPreRenderIds().wrapper);
+
+                // Wholly inside the panel: nothing clips it, and no stale
+                // clip-path is left behind.
+                scroller.scrollTop = 150;
+                libEmbed.syncPreRenderStyle();
+                expect(wrapper.style.clipPath).toBe('');
+
+                // Scrolled until the top of the frame is under the panel's top
+                // edge. The wrapper is a document.body sibling, so without an
+                // explicit clip it paints over the nav above that edge.
+                scroller.scrollTop = 400;
+                libEmbed.syncPreRenderStyle();
+                expect(wrapper.style.clipPath).toBe('inset(80px 0px 0px 0px)');
+
+                libEmbed.destroy();
+                scroller.remove();
+            });
+
+            it('should park a hidden wrapper out of the scrollable area', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'hidden-parked',
+                    liveboardId: 'myLiveboardId',
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+                await libEmbed.showPreRender();
+
+                const wrapper = document.getElementById(libEmbed.getPreRenderIds().wrapper);
+                expect(wrapper.style.transform).toBe('');
+
+                libEmbed.hidePreRender();
+                expect(wrapper.style.transform).toBe('translateY(-100%)');
+
+                await libEmbed.showPreRender();
+                expect(wrapper.style.transform).toBe('');
+
+                libEmbed.destroy();
+            });
+
+            it('should not seed the placeholder with the unmeasured wrapper height', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'unmeasured-height',
+                    liveboardId: 'myLiveboardId',
+                    fullHeight: true,
+                    frameParams: { height: 420 },
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+
+                const wrapper = document.getElementById(libEmbed.getPreRenderIds().wrapper);
+                // createPreRenderWrapper() seeds 100vh, not a measurement.
+                expect(wrapper.style.height).toBe('100vh');
+
+                await libEmbed.showPreRender();
+
+                const placeholder = (libEmbed as any).getPreRenderPlaceHolderElement() as HTMLElement;
+                expect(placeholder.style.height).toBe('420px');
+
+                libEmbed.destroy();
+            });
+
+            it('should seed the placeholder with a height fullHeight has measured', async () => {
+                createRootEleForEmbed();
+
+                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+                    preRenderId: 'measured-height',
+                    liveboardId: 'myLiveboardId',
+                    fullHeight: true,
+                    frameParams: { height: 420 },
+                });
+                libEmbed.preRender();
+                await waitFor(() => !!getIFrameEl());
+
+                (libEmbed as any).setIFrameHeight(1180);
+                await libEmbed.showPreRender();
+
+                const placeholder = (libEmbed as any).getPreRenderPlaceHolderElement() as HTMLElement;
+                expect(placeholder.style.height).toBe('1180px');
+
+                libEmbed.destroy();
+            });
         });
 
         describe('preRenderContainer', () => {
@@ -3108,21 +3381,16 @@ describe('Unit test case for ts embed', () => {
 
                 // Simulate React remounting the container: the old node (with
                 // our wrapper) is detached and a fresh node takes its place.
-                const removeSpy = jest.spyOn(oldContainer, 'removeEventListener');
                 oldContainer.remove();
                 const newContainer = document.createElement('div');
                 newContainer.id = 'remount-container';
                 document.body.appendChild(newContainer);
-                const addSpy = jest.spyOn(newContainer, 'addEventListener');
 
                 // A reposition (scroll/resize/re-show) heals the stale ref.
                 libEmbed.syncPreRenderStyle();
 
                 expect(newContainer.contains(wrapper)).toBe(true);
                 expect(oldContainer.contains(wrapper)).toBe(false);
-                // The scroll listener is migrated to the live container.
-                expect(removeSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
-                expect(addSpy).toHaveBeenCalledWith('scroll', expect.any(Function));
 
                 libEmbed.destroy();
                 newContainer.remove();

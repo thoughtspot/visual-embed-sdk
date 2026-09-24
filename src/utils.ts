@@ -654,6 +654,53 @@ export const getEffectiveClippingAncestors = (element: HTMLElement) => {
     });
 };
 
+/**
+ * The inset that clips `element` to the ancestors that would clip it if the
+ * element were laid out in flow, as CSS `inset()` values in pixels from its own
+ * edges.
+ *
+ * A pre-render wrapper is a `document.body` sibling, so the host's scrolling and
+ * clipping boxes do not contain it and cannot clip it: positioned correctly it
+ * still paints over a sticky nav once its placeholder scrolls under one. This
+ * reproduces that clip explicitly. All-zero means nothing clips it.
+ */
+export const getClipInsetForElement = (element: HTMLElement) => {
+    const zero = {
+        top: 0, right: 0, bottom: 0, left: 0,
+    };
+    if (!element) {
+        return zero;
+    }
+    const ancestors = getEffectiveClippingAncestors(element);
+    if (!ancestors.length) {
+        return zero;
+    }
+    const rect = element.getBoundingClientRect();
+    if (!rect.width || !rect.height) {
+        return zero;
+    }
+
+    let clip = {
+        top: rect.top, left: rect.left, bottom: rect.bottom, right: rect.right,
+    };
+    ancestors.forEach((ancestor) => {
+        const box = ancestor.getBoundingClientRect();
+        clip = {
+            top: Math.max(clip.top, box.top),
+            left: Math.max(clip.left, box.left),
+            bottom: Math.min(clip.bottom, box.bottom),
+            right: Math.min(clip.right, box.right),
+        };
+    });
+
+    return {
+        top: Math.max(0, clip.top - rect.top),
+        left: Math.max(0, clip.left - rect.left),
+        right: Math.max(0, rect.right - clip.right),
+        bottom: Math.max(0, rect.bottom - clip.bottom),
+    };
+};
+
 export const calculateVisibleElementData = (
     element: HTMLElement,
     useClippingAncestors = false,
@@ -812,5 +859,140 @@ export const calculateElementCenter = (element: HTMLElement) => {
         iframeHeight,
         viewPortHeight,
         iframeVisibleViewPort,
+    };
+};
+
+/**
+ * The elements whose own size can displace `element`: the element itself and
+ * every ancestor up to and including `boundary`. Growing content elsewhere in
+ * the page reaches `element` by resizing one of these.
+ */
+export const getPositioningAncestors = (
+    element: HTMLElement,
+    boundary: HTMLElement | null,
+): HTMLElement[] => {
+    const chain: HTMLElement[] = [];
+    let current: HTMLElement | null = element;
+
+    while (current) {
+        chain.push(current);
+        if (current === boundary || current === document.body) {
+            break;
+        }
+        current = getParentElementAcrossShadowRoot(current);
+    }
+
+    return chain;
+};
+
+/**
+ * Calls `onMove` whenever `element` moves or resizes relative to the viewport,
+ * whatever the cause — a scroll, a reflow, or content growing above it.
+ *
+ * It frames the element in an IntersectionObserver whose root margin is the
+ * element's current rect, so the observer sits exactly on its edges and reports
+ * a ratio of 1. Any movement pushes the ratio off 1 and fires. This catches
+ * displacements that neither a scroll event nor a ResizeObserver on the element
+ * can see.
+ *
+ * Re-framing is what re-arms the observer, and it is deferred by `settleMs`
+ * rather than done in the callback: an immediate re-frame re-fires on the next
+ * movement, so a continuous scroll would allocate an observer every frame to
+ * report movement the caller's own scroll listener has already handled. While
+ * disarmed the element can still move, so each re-frame compares against the
+ * rect it last framed and reports anything it missed.
+ *
+ * Returns a function that stops observing.
+ */
+export const observeElementMove = (
+    element: HTMLElement,
+    onMove: () => void,
+    settleMs = 100,
+): (() => void) => {
+    if (typeof IntersectionObserver === 'undefined') {
+        return () => undefined;
+    }
+
+    let observer: IntersectionObserver | null = null;
+    let rearmTimer = 0;
+    let framedRect: DOMRect | null = null;
+    let stopped = false;
+
+    const hasMoved = (rect: DOMRect) => !framedRect
+        || rect.top !== framedRect.top
+        || rect.left !== framedRect.left
+        || rect.width !== framedRect.width
+        || rect.height !== framedRect.height;
+
+    const scheduleRearm = () => {
+        if (rearmTimer || stopped) {
+            return;
+        }
+        rearmTimer = window.setTimeout(() => {
+            rearmTimer = 0;
+            arm(true);
+        }, settleMs);
+    };
+
+    function arm(reportMissedMovement = false): void {
+        if (stopped) {
+            return;
+        }
+        observer?.disconnect();
+        observer = null;
+
+        const rect = element.getBoundingClientRect();
+        // A zero-area element cannot be framed. Leave it disarmed; the caller's
+        // ResizeObserver fires when it gains a size, and re-shows re-arm us.
+        if (!rect.width || !rect.height) {
+            framedRect = null;
+            return;
+        }
+        if (reportMissedMovement && hasMoved(rect)) {
+            onMove();
+        }
+        framedRect = rect;
+
+        const margins = [
+            -Math.floor(rect.top),
+            -Math.floor(window.innerWidth - rect.right),
+            -Math.floor(window.innerHeight - rect.bottom),
+            -Math.floor(rect.left),
+        ];
+
+        // Every observer delivers an initial callback on observe(). It
+        // describes the frame just built, so it is not movement.
+        let isInitialCallback = true;
+        observer = new IntersectionObserver(
+            (entries) => {
+                const ratio = entries[0]?.intersectionRatio ?? 0;
+                if (isInitialCallback) {
+                    isInitialCallback = false;
+                    return;
+                }
+                // Still exactly inside its frame: nothing moved, and
+                // re-arming here would spin.
+                if (ratio === 1) {
+                    return;
+                }
+                onMove();
+                scheduleRearm();
+            },
+            {
+                rootMargin: margins.map((margin) => `${margin}px`).join(' '),
+                threshold: 1,
+            },
+        );
+        observer.observe(element);
+    }
+
+    arm();
+
+    return () => {
+        stopped = true;
+        window.clearTimeout(rearmTimer);
+        rearmTimer = 0;
+        observer?.disconnect();
+        observer = null;
     };
 };

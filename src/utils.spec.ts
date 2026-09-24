@@ -1,4 +1,6 @@
 import {
+    observeElementMove,
+    getPositioningAncestors,
     getQueryParamString,
     deserializeParam,
     getFilterQuery,
@@ -1453,5 +1455,185 @@ describe('getOperationNameFromQuery', () => {
             }
         `;
         expect(getOperationNameFromQuery(query)).toBe('FetchData');
+    });
+});
+
+describe('observeElementMove', () => {
+    let instances: any[];
+    let originalIO: any;
+    let originalRaf: any;
+
+    const makeElement = (readRect: () => { top: number; left: number }) => {
+        const element = document.createElement('div');
+        element.getBoundingClientRect = () => {
+            const { top, left } = readRect();
+            return {
+                top, left, width: 300, height: 200,
+                right: left + 300, bottom: top + 200, x: left, y: top,
+            } as DOMRect;
+        };
+        return element;
+    };
+
+    beforeEach(() => {
+        jest.useFakeTimers();
+        instances = [];
+        originalIO = (window as any).IntersectionObserver;
+        (window as any).IntersectionObserver = jest
+            .fn()
+            .mockImplementation((callback: any, options: any) => {
+                const instance = {
+                    callback,
+                    options,
+                    observe: jest.fn(),
+                    disconnect: jest.fn(),
+                };
+                instances.push(instance);
+                return instance;
+            });
+        originalRaf = window.requestAnimationFrame;
+    });
+
+    afterEach(() => {
+        (window as any).IntersectionObserver = originalIO;
+        window.requestAnimationFrame = originalRaf;
+        jest.useRealTimers();
+    });
+
+    /** Deliver the initial callback every real observer sends on observe(). */
+    const settleInitialCallback = (instance: any) => {
+        instance.callback([{ intersectionRatio: 1 }]);
+    };
+
+    it('should not re-arm the observer on every movement (SCAL-338563)', () => {
+        let top = 100;
+        const element = makeElement(() => ({ top, left: 0 }));
+        const onMove = jest.fn();
+
+        const stop = observeElementMove(element, onMove, 100);
+        expect(instances).toHaveLength(1);
+        settleInitialCallback(instances[0]);
+
+        // A continuous scroll: the element leaves its frame on every frame.
+        for (let i = 0; i < 30; i += 1) {
+            top -= 10;
+            instances[0].callback([{ intersectionRatio: 0 }]);
+        }
+
+        // The caller hears about it, but the frame is rebuilt at most once
+        // after things settle — not once per movement.
+        expect(onMove).toHaveBeenCalled();
+        expect(instances).toHaveLength(1);
+
+        jest.advanceTimersByTime(100);
+        expect(instances).toHaveLength(2);
+
+        stop();
+    });
+
+    it('should report movement it missed while disarmed', () => {
+        let top = 100;
+        const element = makeElement(() => ({ top, left: 0 }));
+        const onMove = jest.fn();
+
+        const stop = observeElementMove(element, onMove, 100);
+        settleInitialCallback(instances[0]);
+
+        top = 40;
+        instances[0].callback([{ intersectionRatio: 0 }]);
+        const callsBeforeRearm = onMove.mock.calls.length;
+
+        // Moves again while no observer is armed.
+        top = 400;
+        jest.advanceTimersByTime(100);
+
+        expect(onMove.mock.calls.length).toBeGreaterThan(callsBeforeRearm);
+
+        stop();
+    });
+
+    it('should not spin when the element has not moved', () => {
+        const element = makeElement(() => ({ top: 100, left: 0 }));
+        const onMove = jest.fn();
+
+        const stop = observeElementMove(element, onMove, 100);
+        settleInitialCallback(instances[0]);
+
+        instances[0].callback([{ intersectionRatio: 1 }]);
+        jest.advanceTimersByTime(1000);
+
+        expect(onMove).not.toHaveBeenCalled();
+        expect(instances).toHaveLength(1);
+
+        stop();
+    });
+
+    it('should stop observing and cancel a pending re-arm', () => {
+        let top = 100;
+        const element = makeElement(() => ({ top, left: 0 }));
+        const onMove = jest.fn();
+
+        const stop = observeElementMove(element, onMove, 100);
+        settleInitialCallback(instances[0]);
+
+        top = 40;
+        instances[0].callback([{ intersectionRatio: 0 }]);
+        onMove.mockClear();
+
+        stop();
+        jest.advanceTimersByTime(1000);
+
+        expect(instances[0].disconnect).toHaveBeenCalled();
+        expect(instances).toHaveLength(1);
+        expect(onMove).not.toHaveBeenCalled();
+    });
+
+    it('should leave a zero-area element unframed', () => {
+        const element = document.createElement('div');
+        element.getBoundingClientRect = () => ({
+            top: 0, left: 0, width: 0, height: 0,
+            right: 0, bottom: 0, x: 0, y: 0,
+        } as DOMRect);
+
+        const stop = observeElementMove(element, jest.fn(), 100);
+        expect(instances).toHaveLength(0);
+        stop();
+    });
+
+    it('should return a no-op when IntersectionObserver is unavailable', () => {
+        (window as any).IntersectionObserver = undefined;
+        const element = makeElement(() => ({ top: 0, left: 0 }));
+        expect(() => observeElementMove(element, jest.fn())()).not.toThrow();
+    });
+});
+
+describe('getPositioningAncestors', () => {
+    it('should return the element and every ancestor up to the boundary', () => {
+        const boundary = document.createElement('div');
+        const middle = document.createElement('div');
+        const element = document.createElement('div');
+        boundary.appendChild(middle);
+        middle.appendChild(element);
+        document.body.appendChild(boundary);
+
+        expect(getPositioningAncestors(element, boundary)).toEqual([
+            element,
+            middle,
+            boundary,
+        ]);
+
+        boundary.remove();
+    });
+
+    it('should stop at document.body when the boundary is not an ancestor', () => {
+        const element = document.createElement('div');
+        document.body.appendChild(element);
+
+        const chain = getPositioningAncestors(element, null);
+
+        expect(chain[0]).toBe(element);
+        expect(chain[chain.length - 1]).toBe(document.body);
+
+        element.remove();
     });
 });
