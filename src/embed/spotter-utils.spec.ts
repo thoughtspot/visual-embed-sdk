@@ -58,6 +58,26 @@ describe('buildSpotterSidebarAppInitData', () => {
             .toEqual(spotterChatPinConfig);
     });
 
+    it('lifts enableSpotterInstructionAndMoreSettings to the top level of embedParams', () => {
+        const result = buildSpotterSidebarAppInitData(base, {
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                enableSpotterInstructionAndMoreSettings: false,
+            },
+        }, noopError);
+        expect(result.embedParams?.enableSpotterInstructionAndMoreSettings).toBe(false);
+        expect(result.embedParams?.spotterSidebarConfig).toEqual({
+            enablePastConversationsSidebar: true,
+        });
+    });
+
+    it('omits enableSpotterInstructionAndMoreSettings when it is not set', () => {
+        const result = buildSpotterSidebarAppInitData(base, {
+            spotterSidebarConfig: { enablePastConversationsSidebar: true },
+        }, noopError);
+        expect(result.embedParams).not.toHaveProperty('enableSpotterInstructionAndMoreSettings');
+    });
+
     it('promotes standalone flag into spotterSidebarConfig.enablePastConversationsSidebar', () => {
         const result = buildSpotterSidebarAppInitData(base, { enablePastConversationsSidebar: true }, noopError);
         expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);

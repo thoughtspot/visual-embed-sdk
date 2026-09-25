@@ -146,6 +146,20 @@ export interface SpotterSidebarViewConfig {
      * @default Analysts
      */
     spotterAnalystsLabel?: string;
+    /**
+     * Shows the connector marketplace option in the settings menu of the
+     * Spotter sidebar footer.
+     * @default false
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    enableConnectorMarketplace?: boolean;
+    /**
+     * Shows the Spotter instructions and more settings options in the
+     * settings menu of the Spotter sidebar footer.
+     * @default false
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    enableSpotterInstructionAndMoreSettings?: boolean;
 }
 
 /**
@@ -802,6 +816,7 @@ export interface SpotterAppInitData extends DefaultAppInitData {
         visualOverridesParams?: VisualizationOverrides | null;
         starterPrompts?: StarterPromptsConfig;
         spotterAnalystConfig?: SpotterAnalystConfig;
+        enableSpotterInstructionAndMoreSettings?: boolean;
     };
 }
 
@@ -873,6 +888,7 @@ export class SpotterEmbed extends TsEmbed {
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
+            spotterSidebarConfig,
         } = this.viewConfig;
 
         const queryParams = this.getBaseQueryParams();
@@ -888,6 +904,12 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterRadiance, showSpotterRadiance, true);
         setParamIfDefined(queryParams, Param.DefaultQueryMode, defaultQueryMode);
         setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
+        setParamIfDefined(
+            queryParams,
+            Param.EnableConnectorMarketplace,
+            spotterSidebarConfig?.enableConnectorMarketplace,
+            true,
+        );
 
         // Handle spotterChatConfig params
         if (spotterChatConfig) {

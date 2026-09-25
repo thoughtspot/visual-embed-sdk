@@ -7055,6 +7055,7 @@ export enum Param {
     SpotterBestPracticesLabel = 'spotterBestPracticesLabel',
     SpotterConversationsBatchSize = 'spotterConversationsBatchSize',
     SpotterNewChatButtonTitle = 'spotterNewChatButtonTitle',
+    EnableConnectorMarketplace = 'enableConnectorMarketplace',
     IsThisPeriodInDateFiltersEnabled = 'isThisPeriodInDateFiltersEnabled',
     HideToolResponseCardBranding = 'hideToolResponseCardBranding',
     ToolResponseCardBrandingLabel = 'toolResponseCardBrandingLabel',

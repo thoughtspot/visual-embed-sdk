@@ -3014,6 +3014,28 @@ describe('AppEmbed getEmbedParamsObject', () => {
         expect(params.fullHeight).toBeUndefined();
     });
 
+    test('getEmbedParamsObject should set enableConnectorMarketplace from spotterSidebarConfig', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterSidebarConfig: { enableConnectorMarketplace: false },
+        } as AppViewConfig);
+
+        const params = (appEmbed as any).getEmbedParamsObject();
+
+        expect(params.enableConnectorMarketplace).toBe(false);
+    });
+
+    test('getEmbedParamsObject should omit enableConnectorMarketplace when it is not set', () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterSidebarConfig: { enablePastConversationsSidebar: true },
+        } as AppViewConfig);
+
+        const params = (appEmbed as any).getEmbedParamsObject();
+
+        expect(params).not.toHaveProperty('enableConnectorMarketplace');
+    });
+
     test('getEmbedParamsObject should not contain isFullHeightPinboard when fullHeight is false', () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

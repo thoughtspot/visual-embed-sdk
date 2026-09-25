@@ -36,6 +36,7 @@ export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
     embedParams?: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         visualOverridesParams?: VisualizationOverrides | null;
+        enableSpotterInstructionAndMoreSettings?: boolean;
     };
 } {
     const { spotterSidebarConfig, enablePastConversationsSidebar, visualOverrides } = viewConfig;
@@ -56,8 +57,15 @@ export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
         };
     }
 
+    // The app reads enableSpotterInstructionAndMoreSettings from the top level
+    // of embedParams, so lift it out of the sidebar config.
+    const {
+        enableSpotterInstructionAndMoreSettings,
+        ...sidebarConfigRest
+    } = spotterSidebarConfig || {};
+
     const resolvedSidebarConfig: SpotterSidebarViewConfig = {
-        ...spotterSidebarConfig,
+        ...sidebarConfigRest,
         ...(resolvedEnablePastConversations !== undefined && {
             enablePastConversationsSidebar: resolvedEnablePastConversations,
         }),
@@ -81,6 +89,9 @@ export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
         embedParams: {
             ...((defaultAppInitData as any).embedParams || {}),
             spotterSidebarConfig: resolvedSidebarConfig,
+            ...(enableSpotterInstructionAndMoreSettings !== undefined
+                ? { enableSpotterInstructionAndMoreSettings }
+                : {}),
             ...(visualOverrides !== undefined ? { visualOverridesParams: visualOverrides } : {}),
         },
     };
