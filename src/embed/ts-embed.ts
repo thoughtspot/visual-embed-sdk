@@ -45,6 +45,7 @@ import {
     getHostEventsConfig,
     getValueFromWindow,
     deserializeParam,
+    setParamIfDefined,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -795,6 +796,15 @@ export class TsEmbed {
         if (this.embedConfig.currencyFormat) {
             queryParams[Param.CurrencyFormat] = this.embedConfig.currencyFormat;
         }
+        // The view config wins over init, so an embed can opt out of an
+        // app-wide dark mode. `??` and not `||`, so that an explicit `false`
+        // overrides an init-level `true` and only `undefined` falls through.
+        setParamIfDefined(
+            queryParams,
+            Param.DarkModeEnabled,
+            this.viewConfig.darkModeEnabled ?? this.embedConfig.darkModeEnabled,
+            true,
+        );
 
         const {
             disabledActions,
