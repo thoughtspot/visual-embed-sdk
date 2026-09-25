@@ -2549,7 +2549,7 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
-    describe('darkMode', () => {
+    describe('darkModeEnabled', () => {
         const renderAppEmbed = async (viewConfig = {}) => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
@@ -2567,11 +2567,11 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                darkMode: true,
+                darkModeEnabled: true,
             });
 
             expectUrlToHaveParamsWithValues(await renderAppEmbed(), {
-                darkMode: true,
+                darkModeEnabled: true,
             });
         });
 
@@ -2579,11 +2579,11 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                darkMode: false,
+                darkModeEnabled: false,
             });
 
             expectUrlToHaveParamsWithValues(await renderAppEmbed(), {
-                darkMode: false,
+                darkModeEnabled: false,
             });
         });
 
@@ -2593,21 +2593,21 @@ describe('Unit test case for ts embed', () => {
                 authType: AuthType.None,
             });
 
-            // Absent rather than `darkMode=false`: an omitted param keeps the
+            // Absent rather than `darkModeEnabled=false`: an omitted param keeps the
             // URL short, and the app treats it as light either way.
-            expect(await renderAppEmbed()).not.toContain('darkMode=');
+            expect(await renderAppEmbed()).not.toContain('darkModeEnabled=');
         });
 
         it('lets the view config override the value set in init', async () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                darkMode: true,
+                darkModeEnabled: true,
             });
 
             expectUrlToHaveParamsWithValues(
-                await renderAppEmbed({ darkMode: false }),
-                { darkMode: false },
+                await renderAppEmbed({ darkModeEnabled: false }),
+                { darkModeEnabled: false },
             );
         });
     });

@@ -799,8 +799,8 @@ export class TsEmbed {
         // overrides an init-level `true` and only `undefined` falls through.
         setParamIfDefined(
             queryParams,
-            Param.DarkMode,
-            this.viewConfig.darkMode ?? this.embedConfig.darkMode,
+            Param.DarkModeEnabled,
+            this.viewConfig.darkModeEnabled ?? this.embedConfig.darkModeEnabled,
             true,
         );
 
