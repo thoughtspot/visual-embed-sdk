@@ -126,6 +126,56 @@ const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 const NO_RUNTIME_PARAMS = '&';
 
 /**
+ * Query parameters that stay on the iframe `src` when the embed sets the
+ * `excludeConfigFromURL` additional flag. These are the parameters the
+ * application shell needs before it can receive a postMessage at all: the
+ * embed marker, the host application URL used to validate the message origin,
+ * the SDK version, the flags that pick the authentication flow, and the
+ * boot-time settings that would otherwise be applied a frame late (viewport,
+ * log level, locale, formatting and org). Everything else is delivered over
+ * `HostEvent.UpdateEmbedParams`.
+ * @internal
+ */
+const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
+    Param.EmbedApp,
+    Param.HostAppUrl,
+    Param.Version,
+    Param.AuthType,
+    Param.AutoLogin,
+    Param.DisableLoginRedirect,
+    Param.ForceSAMLAutoRedirect,
+    Param.cookieless,
+    Param.preAuthCache,
+    Param.blockNonEmbedFullAppAccess,
+    Param.OverrideOrgId,
+    Param.ViewPortHeight,
+    Param.ViewPortWidth,
+    Param.ClientLogLevel,
+    Param.OverrideNativeConsole,
+    Param.PendoTrackingKey,
+    Param.NumberFormatLocale,
+    Param.DateFormatLocale,
+    Param.CurrencyFormat,
+    Param.Locale,
+    Param.searchEmbed,
+    Param.livedBoardEmbed,
+    Param.isSpotterAgentEmbed,
+    Param.SpotterEnabled,
+    Param.IsFullAppEmbed,
+    Param.IsOnBeforeGetVizDataInterceptEnabled,
+    Param.LinkOverride,
+    Param.EnableLinkOverridesV2,
+    Param.DisableRedirectionLinksInNewTab,
+    Param.OverrideHistoryState,
+    Param.ForceTable,
+    Param.StringIDsUrl,
+    Param.DataSources,
+    Param.ExposeTranslationIDs,
+    Param.IconSpriteUrl,
+    Param.Tag,
+]);
+
+/**
  * The event id map from v2 event names to v1 event id
  * v1 events are the classic embed events implemented in Blink v1
  * We cannot rename v1 event types to maintain backward compatibility
@@ -950,13 +1000,23 @@ export class TsEmbed {
     }
 
     protected getEmbedParams() {
-        const queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getUrlQueryParamsObject();
         return getQueryParamString(queryParams);
     }
 
     protected getEmbedParamsObject() {
         const params = this.getBaseQueryParams();
         return params;
+    }
+
+    protected getUrlQueryParamsObject(): Record<any, any> {
+        const queryParams = this.getEmbedParamsObject();
+        if (!this.isConfigExcludedFromUrl()) {
+            return queryParams;
+        }
+        return Object.fromEntries(
+            Object.entries(queryParams).filter(([key]) => BOOTSTRAP_URL_PARAMS.has(key)),
+        );
     }
 
     protected getRootIframeSrc() {
@@ -1680,6 +1740,9 @@ export class TsEmbed {
                 setTimeout(processEmbedContainerReady, AUTH_INIT_FALLBACK_DELAY);
             } else if (source === EmbedEvent.EmbedListenerReady) {
                 processEmbedContainerReady();
+                if (this.isConfigExcludedFromUrl()) {
+                    this.triggerUpdateEmbedParams();
+                }
             }
         };
 
@@ -2048,6 +2111,28 @@ export class TsEmbed {
     // blocked.
     protected preRenderParamsApplied: Promise<void> = Promise.resolve();
 
+    protected isConfigExcludedFromUrl(): boolean {
+        const flag =
+            this.viewConfig.additionalFlags?.excludeConfigFromURL ??
+            this.embedConfig.additionalFlags?.excludeConfigFromURL;
+        return flag === true || flag === 'true';
+    }
+
+    protected async triggerUpdateEmbedParams(): Promise<void> {
+        try {
+            const params = await this.getUpdateEmbedParamsObject();
+            this.trigger(HostEvent.UpdateEmbedParams, params);
+        } catch (error) {
+            logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
+            this.handleError({
+                errorType: ErrorDetailsTypes.API,
+                message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
+                code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                error: error?.message || error,
+            });
+        }
+    }
+
     protected beforePrerenderVisible(): void {
         // We can ignore this as its a bit expensive and the newer customers
         // have moved on to UpdateEmbedParams supported clusters
@@ -2058,16 +2143,7 @@ export class TsEmbed {
         this.preRenderParamsApplied = new Promise<void>((resolve) => {
             this.executeAfterEmbedContainerLoaded(async () => {
                 try {
-                    const params = await this.getUpdateEmbedParamsObject();
-                    this.trigger(HostEvent.UpdateEmbedParams, params);
-                } catch (error) {
-                    logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
-                    this.handleError({
-                        errorType: ErrorDetailsTypes.API,
-                        message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
-                        code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
-                        error: error?.message || error,
-                    });
+                    await this.triggerUpdateEmbedParams();
                 } finally {
                     setTimeout(resolve, UPDATE_EMBED_PARAMS_SETTLE_MS);
                 }

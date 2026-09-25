@@ -931,7 +931,7 @@ export class SpotterEmbed extends TsEmbed {
         const path = sharedConversationId
             ? `insights/conv-assist/s/${encodeURIComponent(sharedConversationId)}`
             : 'insights/conv-assist';
-        const queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getUrlQueryParamsObject();
 
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
