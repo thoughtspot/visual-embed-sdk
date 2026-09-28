@@ -886,6 +886,150 @@ describe('startAutoMCPFrameRenderer', () => {
             expect(detailsCall).toContain('/message/ans_first/load/public');
         });
 
+        /** URLs passed to fetch, in call order. */
+        function fetchedUrls(): string[] {
+            return fetchMock.mock.calls
+                .map(([input]: any) => (typeof input === 'string' ? input : input.url));
+        }
+
+        /** Serves `messages` for the list call and `details` for the load call. */
+        function mockConversation(messages: any, details: any = detailsPayload) {
+            fetchMock.mockImplementation(async (input: any) => {
+                const url = typeof input === 'string' ? input : input.url;
+                return {
+                    ok: true,
+                    status: 200,
+                    json: async () => (url.includes('/load/public') ? details : messages),
+                } as any;
+            });
+        }
+
+        test('calls the conversation service with the encoded conversation id', async () => {
+            const src = `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true`
+                + `&${Param.TsmcpConversationId}=${encodeURIComponent('conv/1')}`;
+            await renderReplayFrame({}, src);
+
+            const [listUrl, loadUrl] = fetchedUrls();
+            expect(listUrl).toBe(`http://${thoughtSpotHost}/conversation/v2/conv%2F1/public`);
+            expect(loadUrl).toBe(
+                `http://${thoughtSpotHost}/conversation/v2/conv%2F1/message/ans_first/load/public`,
+            );
+            const loadInit = fetchMock.mock.calls[1][1];
+            expect(loadInit.method).toBe('POST');
+            expect(JSON.parse(loadInit.body)).toEqual({ type: 'TS_ANSWER' });
+        });
+
+        test('defaults to the first answer when no index is given', async () => {
+            const src = `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true`
+                + `&${Param.TsmcpConversationId}=${CONVERSATION_ID}`;
+            await renderReplayFrame({}, src);
+
+            expect(fetchedUrls()[1]).toContain('/message/ans_first/load/public');
+        });
+
+        test('keeps the source route and its other hash params', async () => {
+            const src = `${REPLAY_SRC}#/embed/viz/lb1?keep=yes&sessionId=expired`;
+            const { renderedSrc } = await renderReplayFrame({}, src);
+
+            expect(renderedSrc).toContain('/embed/viz/lb1?');
+            expect(renderedSrc).not.toContain('/embed/conv-assist-answer');
+            expect(renderedSrc).toContain('keep=yes');
+            expect(renderedSrc).toContain('sessionId=fresh-session');
+            expect(renderedSrc).not.toContain('sessionId=expired');
+        });
+
+        test('ignores messages without response items and answers without an id', async () => {
+            mockConversation({
+                messages: [
+                    { message_id: 'm0' },
+                    null,
+                    { message_id: 'm1', response_items: [{ type: 'answer', is_thinking: false }] },
+                    {
+                        message_id: 'm2',
+                        response_items: [null, { type: 'answer', answer_id: 'ans_only', is_thinking: false }],
+                    },
+                ],
+            });
+            const src = `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true`
+                + `&${Param.TsmcpConversationId}=${CONVERSATION_ID}`;
+            const { renderedSrc } = await renderReplayFrame({}, src);
+
+            expect(fetchedUrls()[1]).toContain('/message/ans_only/load/public');
+            expect(renderedSrc).toContain('sessionId=fresh-session');
+        });
+
+        test('falls back when no answer exists at the requested index', async () => {
+            const src = `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true`
+                + `&${Param.TsmcpConversationId}=${CONVERSATION_ID}`
+                + `&${Param.TsmcpAnswerIndex}=5`;
+            const { renderedSrc, frame } = await renderReplayFrame({}, src);
+
+            // Only the list call; there is no answer to load.
+            expect(fetchedUrls()).toHaveLength(1);
+            expect(renderedSrc).not.toContain('sessionId=');
+            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+        });
+
+        test('falls back when the answer load fails', async () => {
+            fetchMock.mockImplementation(async (input: any) => {
+                const url = typeof input === 'string' ? input : input.url;
+                if (url.includes('/load/public')) {
+                    return { ok: false, status: 404 } as any;
+                }
+                return { ok: true, status: 200, json: async () => messagesPayload } as any;
+            });
+            const { renderedSrc, frame } = await renderReplayFrame();
+
+            expect(fetchedUrls()).toHaveLength(2);
+            expect(renderedSrc).not.toContain('sessionId=');
+            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+        });
+
+        test('falls back when a fetch throws', async () => {
+            fetchMock.mockImplementation(async () => {
+                throw new Error('network down');
+            });
+            const { renderedSrc, frame } = await renderReplayFrame();
+
+            expect(renderedSrc).not.toContain('sessionId=');
+            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+        });
+
+        test.each([
+            ['session_identifier', { ...detailsPayload.answer, session_identifier: '' }],
+            [
+                'ac_state.transaction_identifier',
+                { ...detailsPayload.answer, ac_state: { generation_number: 2 } },
+            ],
+            ['ac_state', { ...detailsPayload.answer, ac_state: undefined }],
+            ['a positive generation_number', { ...detailsPayload.answer, generation_number: 0 }],
+        ])('treats a missing %s as unresolvable', async (_label, answer) => {
+            mockConversation(messagesPayload, { answer });
+            const { renderedSrc, frame } = await renderReplayFrame();
+
+            expect(renderedSrc).not.toContain('sessionId=');
+            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+        });
+
+        test('skips the notice when no iframe was rendered', async () => {
+            renderIFrameSpy.mockRestore();
+            renderIFrameSpy = jest.spyOn(TsEmbed.prototype as any, 'renderIFrame')
+                .mockImplementation(async function (this: any) {
+                    this.iFrame = undefined;
+                });
+
+            const observer = startAutoMCPFrameRenderer({});
+            const iframe = document.createElement('iframe');
+            iframe.src = REPLAY_SRC;
+            document.body.appendChild(iframe);
+            await new Promise((r) => setTimeout(r, 100));
+            observer.disconnect();
+
+            // Resolution ran, and marking a missing frame did not throw.
+            expect(fetchedUrls()).toHaveLength(2);
+            expect(renderIFrameSpy).toHaveBeenCalledTimes(1);
+        });
+
         test('a frame without a conversation id makes no API calls and is unmarked', async () => {
             const { renderedSrc, frame } = await renderReplayFrame({}, TSMCP_SRC);
 

@@ -6934,6 +6934,7 @@ export enum Param {
      * analytical session (conversation) identifier, from which the renderer
      * resolves the answer's current session parameters. Stripped before the
      * URL reaches the ThoughtSpot application.
+     * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.9.0.cl
      */
     TsmcpConversationId = 'tsmcpConversationId',
     /**
@@ -6941,6 +6942,7 @@ export enum Param {
      * non-thinking answer items in message order. Accompanies
      * {@link TsmcpConversationId}; defaults to 0 when absent. Stripped before
      * the URL reaches the ThoughtSpot application.
+     * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.9.0.cl
      */
     TsmcpAnswerIndex = 'tsmcpAnswerIndex',
     EmbedApp = 'embedApp',
