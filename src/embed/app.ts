@@ -1052,7 +1052,6 @@ export class AppEmbed extends V1Embed {
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
-            spotterSidebarConfig,
             spotterDataSources,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
@@ -1064,12 +1063,6 @@ export class AppEmbed extends V1Embed {
         let params: any = {};
         params[Param.PrimaryNavHidden] = !showPrimaryNavbar;
         params[Param.HideProfleAndHelp] = !!disableProfileAndHelp;
-        setParamIfDefined(
-            params,
-            Param.EnableConnectorMarketplace,
-            spotterSidebarConfig?.enableConnectorMarketplace,
-            true,
-        );
         params[Param.HideApplicationSwitcher] = !!hideApplicationSwitcher;
         params[Param.HideOrgSwitcher] = !!hideOrgSwitcher;
         params[Param.HideLiveboardHeader] = hideLiveboardHeader;

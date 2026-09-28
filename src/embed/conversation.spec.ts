@@ -506,39 +506,6 @@ describe('ConversationEmbed', () => {
         );
     });
 
-    it('should add enableConnectorMarketplace to the URL from spotterSidebarConfig', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            searchOptions: {
-                searchQuery: 'searchQuery',
-            },
-            spotterSidebarConfig: {
-                enableConnectorMarketplace: true,
-            },
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&enableConnectorMarketplace=true#/embed/insights/conv-assist?worksheet=worksheetId&query=searchQuery`,
-        );
-    });
-
-    it('should not add enableConnectorMarketplace to the URL when it is not set', async () => {
-        const viewConfig: SpotterEmbedViewConfig = {
-            worksheetId: 'worksheetId',
-            searchOptions: {
-                searchQuery: 'searchQuery',
-            },
-            spotterSidebarConfig: {
-                enablePastConversationsSidebar: true,
-            },
-        };
-        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
-        await conversationEmbed.render();
-        expect(getIFrameSrc()).not.toContain('enableConnectorMarketplace');
-    });
-
     it('should render the conversation embed with default query mode set to research', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
@@ -733,6 +700,17 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
         expect(
             response.data.embedParams.spotterSidebarConfig.spotterChatPinConfig,
         ).toEqual(spotterChatPinConfig);
+    });
+
+    it('should send enableConnectorMarketplace in embedParams.spotterSidebarConfig, not the URL', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterSidebarConfig: {
+                enableConnectorMarketplace: true,
+            },
+        });
+        expect(response.data.embedParams.spotterSidebarConfig.enableConnectorMarketplace).toBe(true);
+        expect(getIFrameSrc()).not.toContain('enableConnectorMarketplace');
     });
 
     it('should send enableSpotterInstructionAndMoreSettings at the top level of embedParams', async () => {
