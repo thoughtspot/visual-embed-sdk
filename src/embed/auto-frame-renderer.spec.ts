@@ -674,7 +674,8 @@ describe('startAutoMCPFrameRenderer', () => {
         });
     });
 
-    // ─── replaying a stored conversation ──────────────────────────────────────
+    // ─── replaying a stored conversation
+    // ──────────────────────────────────────
 
     describe('stored conversation replay', () => {
         const CONVERSATION_ID = 'U0Tfqmjlz6WT';
@@ -765,7 +766,8 @@ describe('startAutoMCPFrameRenderer', () => {
             const detailsCall = fetchMock.mock.calls
                 .map(([input]: any) => (typeof input === 'string' ? input : input.url))
                 .find((url: string) => url.includes('/load/public'));
-            // index 1 = second non-thinking answer; ans_thinking must not count.
+            // index 1 = second non-thinking answer; ans_thinking must not
+            // count.
             expect(detailsCall).toContain('/message/ans_second/load/public');
         });
 
@@ -805,6 +807,7 @@ describe('startAutoMCPFrameRenderer', () => {
             const { renderedSrc, frame } = await renderReplayFrame();
 
             // No invented params, and no notice claiming a successful refresh.
+            expect(renderedSrc).toBe(REPLAY_SRC);
             expect(renderedSrc).not.toContain('sessionId=');
             expect(frame.dataset.tsStaleAnswer).toBeUndefined();
         });

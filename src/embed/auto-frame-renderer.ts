@@ -165,9 +165,17 @@ class AutoFrameRenderer extends TsEmbed {
      * ThoughtSpot application.
      *
      * @param sourceSrc - The original iframe's `src` URL string.
+     * @param preserveSourceUrl - When true, return the source URL unchanged.
      * @returns The constructed URL to use for the ThoughtSpot embed iframe.
      */
-    private getMCPIframeSrc(sourceSrc: string, resolved?: AnswerSessionParams) {
+    private getMCPIframeSrc(
+        sourceSrc: string,
+        resolved?: AnswerSessionParams,
+        preserveSourceUrl = false,
+    ) {
+        if (preserveSourceUrl) {
+            return sourceSrc;
+        }
         const queryParams = this.getUrlQueryParamsObject();
         const sourceURL = new URL(sourceSrc);
         const existingQueryParams = sourceURL.searchParams;
@@ -338,7 +346,11 @@ class AutoFrameRenderer extends TsEmbed {
             );
         }
 
-        const src = this.getMCPIframeSrc(iframe.src, resolved ?? undefined);
+        const src = this.getMCPIframeSrc(
+            iframe.src,
+            resolved ?? undefined,
+            Boolean(conversationId) && !resolved,
+        );
         await this.renderIFrame(src);
 
         // Mark only answers actually re-resolved: their numbers were computed
@@ -363,4 +375,3 @@ class AutoFrameRenderer extends TsEmbed {
         this.iFrame.dataset.tsStaleAnswer = 'true';
     }
 }
-
