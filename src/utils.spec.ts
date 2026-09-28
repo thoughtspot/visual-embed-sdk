@@ -1455,4 +1455,3 @@ describe('getOperationNameFromQuery', () => {
         expect(getOperationNameFromQuery(query)).toBe('FetchData');
     });
 });
-

@@ -654,7 +654,6 @@ export const getEffectiveClippingAncestors = (element: HTMLElement) => {
     });
 };
 
-
 export const calculateVisibleElementData = (
     element: HTMLElement,
     useClippingAncestors = false,
@@ -815,5 +814,3 @@ export const calculateElementCenter = (element: HTMLElement) => {
         iframeVisibleViewPort,
     };
 };
-
-

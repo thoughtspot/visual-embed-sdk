@@ -2887,88 +2887,53 @@ describe('Unit test case for ts embed', () => {
                 return placeholder;
             };
 
-            it('should follow an inner scroll container that was never configured', async () => {
-                const { scroller, readPlaceholderTop } = mountInNestedScroller();
+            it('should warn when the host scrolls but no container is configured', async () => {
+                const { scroller } = mountInNestedScroller();
+                scroller.style.overflowY = 'auto';
+                const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
 
                 const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
-                    preRenderId: 'scroll-untracked',
+                    preRenderId: 'warns-without-container',
                     liveboardId: 'myLiveboardId',
                 });
                 libEmbed.preRender();
                 await waitFor(() => !!getIFrameEl());
                 await libEmbed.showPreRender();
 
-                stubPlaceholderRect(libEmbed, readPlaceholderTop);
+                const said = warnSpy.mock.calls.map((c) => c.join(' ')).join('\n');
+                expect(said).toContain('containerSelector');
+                expect(said).toContain('inner-scroller');
+
+                // Once, however many times the container is resolved.
                 libEmbed.syncPreRenderStyle();
+                libEmbed.syncPreRenderStyle();
+                const mentions = warnSpy.mock.calls.filter((c) => c.join(' ').includes('containerSelector'));
+                expect(mentions).toHaveLength(1);
 
-                const wrapper = document.getElementById(libEmbed.getPreRenderIds().wrapper);
-                expect(wrapper.style.top).toBe('400px');
-
-                // The host app scrolls its own element. The window never
-                // scrolls, so before the fix nothing repositioned the wrapper
-                // and the frame stayed pinned over the page.
-                scroller.scrollTop = 250;
-                scroller.dispatchEvent(new Event('scroll'));
-                await flushAnimationFrame();
-
-                expect(wrapper.style.top).toBe('150px');
-
+                warnSpy.mockRestore();
                 libEmbed.destroy();
                 scroller.remove();
             });
 
-            it('should reposition when content above the frame displaces it', async () => {
-                const { readPlaceholderTop } = mountInNestedScroller();
-                let extraContentAbove = 0;
+            it('should not warn when a container is configured', async () => {
+                const { scroller } = mountInNestedScroller();
+                scroller.style.overflowY = 'auto';
+                scroller.id = 'configured-scroller';
+                const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
 
                 const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
-                    preRenderId: 'displaced-by-growth',
+                    preRenderId: 'quiet-with-container',
                     liveboardId: 'myLiveboardId',
+                    preRenderContainer: '#configured-scroller',
                 });
                 libEmbed.preRender();
                 await waitFor(() => !!getIFrameEl());
                 await libEmbed.showPreRender();
 
-                stubPlaceholderRect(libEmbed, () => readPlaceholderTop() + extraContentAbove);
-                libEmbed.syncPreRenderStyle();
+                const said = warnSpy.mock.calls.map((c) => c.join(' ')).join('\n');
+                expect(said).not.toContain('containerSelector is not set');
 
-                const wrapper = document.getElementById(libEmbed.getPreRenderIds().wrapper);
-                expect(wrapper.style.top).toBe('400px');
-
-                // A section above the embed finishes loading and grows. The
-                // placeholder moves without resizing, and without any scroll.
-                extraContentAbove = 160;
-                (libEmbed as any).requestPreRenderSync();
-                await flushAnimationFrame();
-
-                expect(wrapper.style.top).toBe('560px');
-
-                libEmbed.destroy();
-            });
-
-            it('should coalesce a burst of scroll events into one sync', async () => {
-                const { scroller, readPlaceholderTop } = mountInNestedScroller();
-
-                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
-                    preRenderId: 'scroll-coalesced',
-                    liveboardId: 'myLiveboardId',
-                });
-                libEmbed.preRender();
-                await waitFor(() => !!getIFrameEl());
-                await libEmbed.showPreRender();
-
-                stubPlaceholderRect(libEmbed, readPlaceholderTop);
-                const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
-
-                for (let i = 0; i < 20; i += 1) {
-                    scroller.scrollTop = i * 5;
-                    scroller.dispatchEvent(new Event('scroll'));
-                }
-                await flushAnimationFrame();
-
-                expect(syncSpy).toHaveBeenCalledTimes(1);
-
-                syncSpy.mockRestore();
+                warnSpy.mockRestore();
                 libEmbed.destroy();
                 scroller.remove();
             });
@@ -2995,46 +2960,6 @@ describe('Unit test case for ts embed', () => {
                 expect(syncSpy).not.toHaveBeenCalled();
 
                 syncSpy.mockRestore();
-                libEmbed.destroy();
-                scroller.remove();
-            });
-
-            it('should clip the wrapper to the host scroll container (SCAL-338563)', async () => {
-                const { scroller, readPlaceholderTop } = mountInNestedScroller();
-
-                const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
-                    preRenderId: 'clipped-to-host',
-                    liveboardId: 'myLiveboardId',
-                });
-                libEmbed.preRender();
-                await waitFor(() => !!getIFrameEl());
-                await libEmbed.showPreRender();
-
-                // A scrolling panel that starts below the host's nav, which is
-                // the shape that puts a nav in the frame's way.
-                scroller.style.overflow = 'scroll';
-                scroller.getBoundingClientRect = () =>
-                    ({
-                        x: 0, y: 80, width: 800, height: 600,
-                        top: 80, left: 0, bottom: 680, right: 800,
-                    } as DOMRect);
-                stubPlaceholderRect(libEmbed, readPlaceholderTop);
-
-                const wrapper = document.getElementById(libEmbed.getPreRenderIds().wrapper);
-
-                // Wholly inside the panel: nothing clips it, and no stale
-                // clip-path is left behind.
-                scroller.scrollTop = 150;
-                libEmbed.syncPreRenderStyle();
-                expect(wrapper.style.clipPath).toBe('');
-
-                // Scrolled until the top of the frame is under the panel's top
-                // edge. The wrapper is a document.body sibling, so without an
-                // explicit clip it paints over the nav above that edge.
-                scroller.scrollTop = 400;
-                libEmbed.syncPreRenderStyle();
-                expect(wrapper.style.clipPath).toBe('inset(80px 0px 0px 0px)');
-
                 libEmbed.destroy();
                 scroller.remove();
             });

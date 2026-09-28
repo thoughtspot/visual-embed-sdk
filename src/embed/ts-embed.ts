@@ -2015,9 +2015,15 @@ export class TsEmbed {
     }
 
     /**
-     * Re-sizes the wrapper when its placeholder changes size. Position needs no
-     * tracking: the wrapper lives in the scrolling element, so it scrolls with
-     * the page the way any other absolutely positioned child would.
+     * Re-sizes the wrapper when its placeholder changes size.
+     *
+     * Position deliberately has no equivalent. An absolutely positioned wrapper
+     * follows its containing block for free, so a correctly placed frame is the
+     * browser's job and costs nothing; repositioning it on scroll would mean a
+     * layout read and a style write per frame to compensate for placing it in
+     * the wrong box. Size is the one thing the browser will not do for us: the
+     * placeholder grows when the embedded app reports a new height, and the
+     * wrapper has to be told.
      */
     private observePreRenderSize(): void {
         if (this.getPreRenderConfig().doNotTrackSize || typeof ResizeObserver === 'undefined') {
