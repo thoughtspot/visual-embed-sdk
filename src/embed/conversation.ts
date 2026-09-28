@@ -956,7 +956,7 @@ export class SpotterEmbed extends TsEmbed {
         if (spotterExperienceVersion === SpotterExperienceVersion.SPOTTER_2026_11) {
             path = path.replace('insights/conv-assist', 'insights/spotter');
         }
-        const queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getUrlQueryParamsObject();
 
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);

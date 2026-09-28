@@ -1010,7 +1010,7 @@ export class AppEmbed extends V1Embed {
      * embedded Liveboard or visualization.
      */
     protected getEmbedParams() {
-        const params = this.getEmbedParamsObject();
+        const params = this.getUrlQueryParamsObject();
         return getQueryParamString(params, true);
     }
 
