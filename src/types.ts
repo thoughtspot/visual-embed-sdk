@@ -7096,6 +7096,7 @@ export enum Param {
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
     ShowAnswerEditPanel = 'showAnswerEditPanel',
     DarkModeEnabled = 'darkModeEnabled',
+    RadiantThemeEnabled = 'radiantThemeEnabled',
 }
 
 /**

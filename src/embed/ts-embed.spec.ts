@@ -2563,7 +2563,7 @@ describe('Unit test case for ts embed', () => {
             return getIFrameSrc();
         };
 
-        it('sends the appearance the host asked for in init', async () => {
+        it('sends the appearance the host asked for in init, with the radiant theme', async () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
@@ -2572,6 +2572,7 @@ describe('Unit test case for ts embed', () => {
 
             expectUrlToHaveParamsWithValues(await renderAppEmbed(), {
                 darkModeEnabled: true,
+                radiantThemeEnabled: true,
             });
         });
 
@@ -2582,9 +2583,10 @@ describe('Unit test case for ts embed', () => {
                 darkModeEnabled: false,
             });
 
-            expectUrlToHaveParamsWithValues(await renderAppEmbed(), {
-                darkModeEnabled: false,
-            });
+            const src = await renderAppEmbed();
+            expectUrlToHaveParamsWithValues(src, { darkModeEnabled: false });
+            // Light leaves the radiant theme to the cluster.
+            expect(src).not.toContain('radiantThemeEnabled=');
         });
 
         it('omits the param when the host says nothing', async () => {
@@ -2595,7 +2597,9 @@ describe('Unit test case for ts embed', () => {
 
             // Absent rather than `darkModeEnabled=false`: an omitted param keeps the
             // URL short, and the app treats it as light either way.
-            expect(await renderAppEmbed()).not.toContain('darkModeEnabled=');
+            const src = await renderAppEmbed();
+            expect(src).not.toContain('darkModeEnabled=');
+            expect(src).not.toContain('radiantThemeEnabled=');
         });
 
         it('lets the view config override the value set in init', async () => {
@@ -2605,9 +2609,21 @@ describe('Unit test case for ts embed', () => {
                 darkModeEnabled: true,
             });
 
+            const src = await renderAppEmbed({ darkModeEnabled: false });
+            expectUrlToHaveParamsWithValues(src, { darkModeEnabled: false });
+            expect(src).not.toContain('radiantThemeEnabled=');
+        });
+
+        it('lets additionalFlags override the radiant theme it turns on', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                darkModeEnabled: true,
+            });
+
             expectUrlToHaveParamsWithValues(
-                await renderAppEmbed({ darkModeEnabled: false }),
-                { darkModeEnabled: false },
+                await renderAppEmbed({ additionalFlags: { radiantThemeEnabled: false } }),
+                { darkModeEnabled: true, radiantThemeEnabled: false },
             );
         });
     });
