@@ -117,6 +117,8 @@ const TS_EMBED_ID = '_thoughtspot-embed';
 const PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY = 'tsEmbedOriginalPosition';
 const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 const PRERENDER_PARKED_TRANSFORM = 'translateY(-100%)';
+/** The height createPreRenderWrapper() seeds before anything is measured. */
+const UNMEASURED_WRAPPER_HEIGHT = '100vh';
 
 // The container applies UpdateEmbedParams through React state, so a delivered
 // post is not the same as the params being in effect.
@@ -233,8 +235,6 @@ export class TsEmbed {
     private preRenderContainerEl: HTMLElement = document.body;
 
     /** Last height the embedded app reported, once fullHeight has measured one. */
-    private measuredPreRenderHeight = '';
-
     protected hostEventClient: HostEventClient;
 
     protected isReadyForRenderPromise;
@@ -1150,7 +1150,7 @@ export class TsEmbed {
             top: '0',
             left: '0',
             width: '100vw',
-            height: '100vh',
+            height: UNMEASURED_WRAPPER_HEIGHT,
         };
         setStyleProperties(preRenderWrapper, initialPreRenderWrapperStyle);
 
@@ -1241,11 +1241,21 @@ export class TsEmbed {
      * replacing the node) resolves to the fresh element; an element passed
      * directly cannot be re-resolved.
      *
-     * With nothing configured the frame goes into `document.body`, which is
-     * correct whenever the document itself is what scrolls: the wrapper is
-     * absolutely positioned, so it moves with its containing block for free.
-     * An app that scrolls an inner element instead has to say so with
-     * `containerSelector`, and is warned when it has not (SCAL-338563).
+     * With nothing configured the frame goes into the host element's nearest
+     * scrolling ancestor, falling back to `document.body`.
+     *
+     * The wrapper is absolutely positioned, so it follows the page for free —
+     * but only while it sits inside whatever scrolls. `document.body` is right
+     * only when the document itself is the scroller; an app that scrolls an
+     * inner element instead left the frame pinned to the viewport while the page
+     * moved under it (SCAL-338563). Being inside the scroller also lets wheel
+     * events chain out of the frame into it, which they cannot do from
+     * `document.body`.
+     *
+     * A scrolling ancestor is layout chrome rather than route content, so it
+     * outlives the embed in practice; and if it does go, the host element goes
+     * with it and this instance is remounting anyway.
+     * `reconcilePreRenderContainer` re-runs this on a detached container.
      */
     private resolvePreRenderContainerTarget(): HTMLElement {
         const containerConfig = this.getPreRenderConfig().containerSelector;
@@ -1265,46 +1275,10 @@ export class TsEmbed {
         if (container) {
             return container as HTMLElement;
         }
-        this.warnIfHostScrollsWithoutContainer();
-        return document.body;
-    }
-
-    private hasWarnedAboutScrollContainer = false;
-
-    /**
-     * Warns once when the embed sits inside a scrolling element but no
-     * `containerSelector` was given.
-     *
-     * In `document.body` the wrapper's containing block is the document, so it
-     * follows the page only when the document is the scroller. Scroll an inner
-     * element instead and the frame stays where it was: `window.scrollY` never
-     * moves, so the position it was given is a viewport coordinate that is
-     * immediately stale. Nothing the SDK can do from `document.body` fixes that
-     * without per-scroll repositioning, so the host has to name the element.
-     */
-    private warnIfHostScrollsWithoutContainer(): void {
-        if (this.hasWarnedAboutScrollContainer || !this.hostElement) {
-            return;
+        if (!this.hostElement) {
+            return document.body;
         }
-        const scroller = getScrollableAncestors(this.hostElement)[0];
-        if (!scroller) {
-            return;
-        }
-        this.hasWarnedAboutScrollContainer = true;
-        const described = scroller.id
-            ? `#${scroller.id}`
-            : `<${scroller.tagName.toLowerCase()}${
-                scroller.className && typeof scroller.className === 'string'
-                    ? `.${scroller.className.trim().split(/\s+/)[0]}`
-                    : ''
-            }>`;
-        logger.warn(
-            'This embed is inside a scrolling element '
-                + `(${described}) but preRenderConfig.containerSelector is not set. `
-                + 'The pre-rendered frame is placed in document.body, which only follows '
-                + 'the page when the document itself scrolls, so it will stay put while '
-                + `${described} scrolls. Set containerSelector to that element.`,
-        );
+        return getScrollableAncestors(this.hostElement)[0] ?? document.body;
     }
 
     private inheritPreRenderContainer(): void {
@@ -1358,8 +1332,9 @@ export class TsEmbed {
      * Re-attaches the wrapper to a live container when the previously resolved
      * one has been detached or no longer holds the wrapper — e.g. the host app
      * remounted a custom preRenderContainer, which would otherwise leave a stale
-     * reference and collapse the wrapper. Only string selectors can be
-     * re-resolved; a container passed as an element is left untouched.
+     * reference and collapse the wrapper. Selectors and the auto-resolved
+     * scrolling ancestor are both re-resolved; a container passed as an element
+     * is left untouched, as there is nothing to re-query.
      */
     private reconcilePreRenderContainer(): void {
         const wrapper = this.preRenderWrapper;
@@ -1446,11 +1421,11 @@ export class TsEmbed {
      */
     protected setIFrameHeight(height: number | string): void {
         if (this.isPreRendered) {
-            this.measuredPreRenderHeight = getCssDimension(height);
+            const next = getCssDimension(height);
             if (this.insertedDomEl) {
-                (this.insertedDomEl as HTMLElement).style.height = this.measuredPreRenderHeight;
+                (this.insertedDomEl as HTMLElement).style.height = next;
             } else if (this.preRenderWrapper) {
-                this.preRenderWrapper.style.height = this.measuredPreRenderHeight;
+                this.preRenderWrapper.style.height = next;
             }
         } else {
             // normal (non-preRender) mode: size the iframe directly
@@ -2159,16 +2134,18 @@ export class TsEmbed {
 
         if (this.hostElement) {
             this.insertedDomEl = this.createPreRenderPlaceholder();
-            // Seed the placeholder only with a height fullHeight has actually
-            // measured. Reading it back off the wrapper instead picks up the
-            // 100vh createPreRenderWrapper() seeds, which on a first reveal is
-            // no measurement at all and overrides frameParams with a full
-            // viewport.
+            // Carry a height fullHeight has already measured onto the fresh
+            // placeholder, so a re-show does not flash at frameParams height.
+            // UNMEASURED_WRAPPER_HEIGHT is what createPreRenderWrapper() seeds
+            // before anything has been measured; treating that as a measurement
+            // is what made a first reveal overshoot to a full viewport.
+            const wrapperHeight = this.preRenderWrapper.style.height;
             if (
                 (this.viewConfig as { fullHeight: boolean }).fullHeight
-                && this.measuredPreRenderHeight
+                && wrapperHeight
+                && wrapperHeight !== UNMEASURED_WRAPPER_HEIGHT
             ) {
-                (this.insertedDomEl as HTMLDivElement).style.height = this.measuredPreRenderHeight;
+                (this.insertedDomEl as HTMLDivElement).style.height = wrapperHeight;
             }
 
             const placeHolderId = this.getPreRenderIds().placeHolder;
@@ -2191,10 +2168,14 @@ export class TsEmbed {
         removeStyleProperties(this.preRenderWrapper, [
             'z-index',
             'opacity',
-            'pointer-events',
             'overflow',
             'transform',
         ]);
+        // Set rather than removed: a container that carries `pointer-events:
+        // none` — the usual styling for a parking root that must not swallow
+        // clicks — passes it down, and dropping the property here would leave
+        // the inherited `none` in force and the frame dead to input.
+        setStyleProperties(this.preRenderWrapper, { pointerEvents: 'auto' });
         this.subscribeToEvents();
 
         // Setup fullscreen change handler for prerendered components
