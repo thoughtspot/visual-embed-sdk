@@ -149,15 +149,15 @@ export interface SpotterSidebarViewConfig {
     /**
      * Shows the connector marketplace option in the settings menu of the
      * Spotter sidebar footer.
-     * @default false
      * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @default false
      */
     enableConnectorMarketplace?: boolean;
     /**
      * Shows the Spotter instructions and more settings options in the
      * settings menu of the Spotter sidebar footer.
-     * @default false
      * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @default false
      */
     enableSpotterInstructionAndMoreSettings?: boolean;
 }
