@@ -45,9 +45,7 @@ import {
     getHostEventsConfig,
     getValueFromWindow,
     deserializeParam,
-    getPositioningAncestors,
-    observeElementMove,
-    getClipInsetForElement,
+    getScrollableAncestors,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -233,11 +231,6 @@ export class TsEmbed {
     private resizeObserver: ResizeObserver;
 
     private preRenderContainerEl: HTMLElement = document.body;
-
-    /** Tears down everything trackPreRenderPosition() attached. */
-    private stopTrackingPreRenderPosition: (() => void) | null = null;
-
-    private pendingPreRenderSync = 0;
 
     /** Last height the embedded app reported, once fullHeight has measured one. */
     private measuredPreRenderHeight = '';
@@ -1243,10 +1236,16 @@ export class TsEmbed {
     }
 
     /**
-     * Resolves the configured preRenderContainer to a live element, falling
-     * back to `document.body`. A string selector is re-queried on every call so
-     * a remounted container (E.g.: React replacing the node) resolves to the
-     * fresh element; an element passed directly cannot be re-resolved.
+     * Resolves the configured preRenderContainer to a live element. A string
+     * selector is re-queried on every call so a remounted container (E.g.: React
+     * replacing the node) resolves to the fresh element; an element passed
+     * directly cannot be re-resolved.
+     *
+     * With nothing configured the frame goes into `document.body`, which is
+     * correct whenever the document itself is what scrolls: the wrapper is
+     * absolutely positioned, so it moves with its containing block for free.
+     * An app that scrolls an inner element instead has to say so with
+     * `containerSelector`, and is warned when it has not (SCAL-338563).
      */
     private resolvePreRenderContainerTarget(): HTMLElement {
         const containerConfig = this.getPreRenderConfig().containerSelector;
@@ -1263,7 +1262,49 @@ export class TsEmbed {
         } else if (containerConfig) {
             container = containerConfig;
         }
-        return (container as HTMLElement) ?? document.body;
+        if (container) {
+            return container as HTMLElement;
+        }
+        this.warnIfHostScrollsWithoutContainer();
+        return document.body;
+    }
+
+    private hasWarnedAboutScrollContainer = false;
+
+    /**
+     * Warns once when the embed sits inside a scrolling element but no
+     * `containerSelector` was given.
+     *
+     * In `document.body` the wrapper's containing block is the document, so it
+     * follows the page only when the document is the scroller. Scroll an inner
+     * element instead and the frame stays where it was: `window.scrollY` never
+     * moves, so the position it was given is a viewport coordinate that is
+     * immediately stale. Nothing the SDK can do from `document.body` fixes that
+     * without per-scroll repositioning, so the host has to name the element.
+     */
+    private warnIfHostScrollsWithoutContainer(): void {
+        if (this.hasWarnedAboutScrollContainer || !this.hostElement) {
+            return;
+        }
+        const scroller = getScrollableAncestors(this.hostElement)[0];
+        if (!scroller) {
+            return;
+        }
+        this.hasWarnedAboutScrollContainer = true;
+        const described = scroller.id
+            ? `#${scroller.id}`
+            : `<${scroller.tagName.toLowerCase()}${
+                scroller.className && typeof scroller.className === 'string'
+                    ? `.${scroller.className.trim().split(/\s+/)[0]}`
+                    : ''
+            }>`;
+        logger.warn(
+            'This embed is inside a scrolling element '
+                + `(${described}) but preRenderConfig.containerSelector is not set. `
+                + 'The pre-rendered frame is placed in document.body, which only follows '
+                + 'the page when the document itself scrolls, so it will stay put while '
+                + `${described} scrolls. Set containerSelector to that element.`,
+        );
     }
 
     private inheritPreRenderContainer(): void {
@@ -1974,67 +2015,21 @@ export class TsEmbed {
     }
 
     /**
-     * Coalesces sync requests to one per frame. Scroll and resize fire far more
-     * often than the layout actually changes, and every sync forces a reflow.
+     * Re-sizes the wrapper when its placeholder changes size. Position needs no
+     * tracking: the wrapper lives in the scrolling element, so it scrolls with
+     * the page the way any other absolutely positioned child would.
      */
-    private requestPreRenderSync = (): void => {
-        if (this.pendingPreRenderSync) {
+    private observePreRenderSize(): void {
+        if (this.getPreRenderConfig().doNotTrackSize || typeof ResizeObserver === 'undefined') {
             return;
         }
-        this.pendingPreRenderSync = requestAnimationFrame(() => {
-            this.pendingPreRenderSync = 0;
-            this.syncPreRenderStyle();
-        });
-    };
-
-    /**
-     * Keeps the wrapper on its placeholder for as long as the frame is shown.
-     *
-     * The wrapper is absolutely positioned, so it only follows the placeholder
-     * natively when the two share a scrolling ancestor. They do not when the
-     * host app scrolls an inner element and the wrapper sits in `document.body`
-     * — the default — which leaves the frame pinned to the viewport while the
-     * page scrolls under it (SCAL-338563). Each way the placeholder can move
-     * needs its own signal:
-     *
-     * - `scroll` captured on `window`, which sees scrolls on any element in the
-     *   page, so the host app's scrolling element needs no configuration;
-     * - `resize`, for viewport changes;
-     * - a `ResizeObserver` on the placeholder and its ancestors;
-     * - a move observer, for displacement with no size change of its own, such
-     *   as content growing above the frame.
-     */
-    private trackPreRenderPosition(): void {
-        this.stopTrackingPreRenderPosition?.();
-
         const placeholder = this.getPreRenderPlaceHolderElement();
         if (!placeholder) {
             return;
         }
-
-        window.addEventListener('scroll', this.requestPreRenderSync, true);
-        window.addEventListener('resize', this.requestPreRenderSync);
-
-        let stopObservingMove: (() => void) | undefined;
-        if (!this.getPreRenderConfig().doNotTrackSize) {
-            if (typeof ResizeObserver !== 'undefined') {
-                this.resizeObserver = new ResizeObserver(this.requestPreRenderSync);
-                getPositioningAncestors(placeholder, this.preRenderContainerEl).forEach(
-                    (element) => this.resizeObserver.observe(element),
-                );
-            }
-            stopObservingMove = observeElementMove(placeholder, this.requestPreRenderSync);
-        }
-
-        this.stopTrackingPreRenderPosition = () => {
-            window.removeEventListener('scroll', this.requestPreRenderSync, true);
-            window.removeEventListener('resize', this.requestPreRenderSync);
-            this.resizeObserver?.disconnect();
-            stopObservingMove?.();
-            cancelAnimationFrame(this.pendingPreRenderSync);
-            this.pendingPreRenderSync = 0;
-            this.stopTrackingPreRenderPosition = null;
-        };
+        this.resizeObserver?.disconnect();
+        this.resizeObserver = new ResizeObserver(() => this.syncPreRenderStyle());
+        this.resizeObserver.observe(placeholder);
     }
 
     /**
@@ -2044,7 +2039,7 @@ export class TsEmbed {
     public destroy(): void {
         try {
             this.removeFullscreenChangeHandler();
-            this.stopTrackingPreRenderPosition?.();
+            this.resizeObserver?.disconnect();
             this.unsubscribeToEvents();
             this.preRenderWrapper?.remove();
             this.restorePreRenderContainerPosition();
@@ -2184,7 +2179,7 @@ export class TsEmbed {
             this.hostElement.appendChild(this.insertedDomEl);
 
             this.syncPreRenderStyle();
-            this.trackPreRenderPosition();
+            this.observePreRenderSize();
         }
 
         removeStyleProperties(this.preRenderWrapper, [
@@ -2193,7 +2188,6 @@ export class TsEmbed {
             'pointer-events',
             'overflow',
             'transform',
-            'clip-path',
         ]);
         this.subscribeToEvents();
 
@@ -2247,34 +2241,6 @@ export class TsEmbed {
             height: `${elBoundingClient.height}px`,
             position: 'absolute',
         });
-        this.clipPreRenderToHostLayout();
-    }
-
-    /**
-     * Clips the wrapper to whatever would clip its placeholder in flow.
-     *
-     * The wrapper is not a descendant of the host's scrolling box — by default it
-     * is a `document.body` sibling — so that box cannot clip it. Placed correctly
-     * it still paints over a sticky nav or a panel edge as soon as the
-     * placeholder scrolls under one, which is what the frame "moving above the
-     * nav" looks like (SCAL-338563).
-     */
-    private clipPreRenderToHostLayout(): void {
-        const placeholder = this.getPreRenderPlaceHolderElement();
-        if (!placeholder) {
-            return;
-        }
-        const {
-            top, right, bottom, left,
-        } = getClipInsetForElement(placeholder);
-
-        if (!top && !right && !bottom && !left) {
-            removeStyleProperties(this.preRenderWrapper, ['clip-path']);
-            return;
-        }
-        setStyleProperties(this.preRenderWrapper, {
-            clipPath: `inset(${top}px ${right}px ${bottom}px ${left}px)`,
-        });
     }
 
     /**
@@ -2311,7 +2277,7 @@ export class TsEmbed {
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
-        this.stopTrackingPreRenderPosition?.();
+        this.resizeObserver?.disconnect();
 
         const placeHolderEle = this.getPreRenderPlaceHolderElement();
         if (placeHolderEle) {
