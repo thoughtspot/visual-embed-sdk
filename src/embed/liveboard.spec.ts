@@ -2832,6 +2832,68 @@ describe('Liveboard/viz embed tests', () => {
             expect(navigateToLiveboardSpy).toHaveBeenCalled();
         });
 
+        test('should not route via home when a new instance shows an equal config', async () => {
+            const viewConfig = {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            };
+            const previous = new LiveboardEmbed(getRootEl(), { ...viewConfig, beforeRender: () => {} } as any);
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), { ...viewConfig, beforeRender: () => {} } as any);
+
+            // React constructs a new embed on every mount.
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(previous);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            expect(triggerSpy).not.toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+            expect(navigateToLiveboardSpy).toHaveBeenCalled();
+        });
+
+        test('should route via home when a new instance shows the same route with other filters', async () => {
+            const viewConfig = {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            };
+            const previous = new LiveboardEmbed(getRootEl(), {
+                ...viewConfig,
+                runtimeFilters: [{ columnName: 'region', operator: RuntimeFilterOp.EQ, values: ['east'] }],
+            });
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...viewConfig,
+                runtimeFilters: [{ columnName: 'region', operator: RuntimeFilterOp.EQ, values: ['west'] }],
+            });
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(previous);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForHomeHopNavigate();
+
+            expect(triggerSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+        });
+
         test('should not route via home when the pre-render is on another liveboard', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 liveboardId,

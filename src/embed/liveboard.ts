@@ -8,6 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import isEqualWith from 'lodash/isEqualWith';
 import { getPreview } from '../utils/graphql/preview-service';
 import { ERROR_MESSAGE } from '../errors';
 import {
@@ -1004,10 +1005,12 @@ export class LiveboardEmbed extends V1Embed {
         super.beforePrerenderVisible();
 
         // Captured before showPreRender() hands the wrapper over to this
-        // instance. Itself means a hide/show, not a hand-over, so there is
-        // nothing stale to clear.
+        // instance. React builds a new instance per mount, so an equal config
+        // is a hide/show, not a hand-over: there is nothing stale to clear.
         const previous = this.getPreRenderObj<LiveboardEmbed>();
-        const showing = previous === this ? undefined : previous?.currentLiveboardState;
+        const showing = this.isSameEmbedConfig(previous)
+            ? undefined
+            : previous?.currentLiveboardState;
 
         this.executeAfterEmbedContainerLoaded(async () => {
             // Without this the params callback suspends on its await and
@@ -1039,6 +1042,17 @@ export class LiveboardEmbed extends V1Embed {
                 personalizedViewId: this.viewConfig.personalizedViewId,
             };
         });
+    }
+
+    // Callbacks are compared as equal: React passes a fresh closure per render.
+    private isSameEmbedConfig(previous?: LiveboardEmbed): boolean {
+        if (!previous) return false;
+        if (previous === this) return true;
+        return isEqualWith(
+            previous.viewConfig,
+            this.viewConfig,
+            (a, b) => (typeof a === 'function' && typeof b === 'function' ? true : undefined),
+        );
     }
 
     // The whole route, not just the liveboard id: the path is built from the
