@@ -846,9 +846,9 @@ export class TsEmbed {
         if (this.embedConfig.currencyFormat) {
             queryParams[Param.CurrencyFormat] = this.embedConfig.currencyFormat;
         }
-        // The view config wins over init, so an embed can opt out of an
-        // app-wide dark mode. `??` and not `||`, so that an explicit `false`
-        // overrides an init-level `true` and only `undefined` falls through.
+        // The view config wins over init, so an embed can opt out of a dark
+        // mode set in `init`. `??` and not `||`, so that an explicit `false`
+        // overrides an init-level `true`.
         const isDarkMode = this.viewConfig.isDarkMode ?? this.embedConfig.isDarkMode;
         setParamIfDefined(queryParams, Param.IsDarkMode, isDarkMode, true);
         // The app's dark mode lives in its radiant theme, so turn that on too.

@@ -559,17 +559,20 @@ export interface EmbedConfig {
 
     /**
      * Render the embedded application in dark appearance when `true`, and in
-     * light appearance when `false` or unset.
+     * its default appearance when `false` or unset.
      *
      * The host application owns the appearance of an embed, so this overrides
      * the appearance preference of the signed-in user and the color scheme of
-     * their operating system. Leave it unset to render in light appearance.
+     * their operating system. If your application has light and dark themes,
+     * pass `true` while it shows the dark theme and `false` while it shows
+     * the light theme.
      * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * init({
      *   ...embedConfig,
-     *   isDarkMode: true,
+     *   // true while your app shows its dark theme, false otherwise
+     *   isDarkMode: yourAppTheme === 'dark',
      * });
      * ```
      */
@@ -1158,13 +1161,15 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     customizations?: CustomisationsInterface;
     /**
-     * Render this embed in dark appearance when `true`, and in light
-     * appearance when `false`, overriding the `isDarkMode` value passed
-     * to `init`.
+     * Render this embed in dark appearance when `true`, and in its default
+     * appearance when `false`, overriding the `isDarkMode` value passed to
+     * `init`.
      *
      * The host application owns the appearance of an embed, so this overrides
      * the appearance preference of the signed-in user and the color scheme of
-     * their operating system. Leave it unset to inherit the `init` value.
+     * their operating system. If your application has light and dark themes,
+     * pass `true` while it shows the dark theme and `false` while it shows
+     * the light theme. Leave it unset to inherit the `init` value.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
@@ -1173,7 +1178,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * // Replace AppEmbed with a specific embed component like SearchEmbed or LiveboardEmbed
      * const embed = new AppEmbed('#tsEmbed', {
      *   ... // other embed view config
-     *   isDarkMode: true,
+     *   // true while your app shows its dark theme, false otherwise
+     *   isDarkMode: yourAppTheme === 'dark',
      * });
      * ```
      */

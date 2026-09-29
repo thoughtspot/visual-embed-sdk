@@ -2576,7 +2576,7 @@ describe('Unit test case for ts embed', () => {
             });
         });
 
-        it('sends an explicit false, which forces light appearance', async () => {
+        it('sends an explicit false', async () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
@@ -2585,7 +2585,7 @@ describe('Unit test case for ts embed', () => {
 
             const src = await renderAppEmbed();
             expectUrlToHaveParamsWithValues(src, { isDarkMode: false });
-            // Light leaves the radiant theme to the cluster.
+            // `false` leaves the radiant theme to the cluster.
             expect(src).not.toContain('radiantThemeEnabled=');
         });
 
@@ -2596,7 +2596,7 @@ describe('Unit test case for ts embed', () => {
             });
 
             // Absent rather than `isDarkMode=false`: an omitted param keeps the
-            // URL short, and the app treats it as light either way.
+            // URL short, and the app treats a missing param like `false`.
             const src = await renderAppEmbed();
             expect(src).not.toContain('isDarkMode=');
             expect(src).not.toContain('radiantThemeEnabled=');
