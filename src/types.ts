@@ -9471,7 +9471,9 @@ export interface CustomAction {
 export enum CustomActionsPosition {
     /**
      * Shows the action as a primary button
-     * in the toolbar area of the embed.
+     * in the toolbar area of the embed. Up to
+     * 2 PRIMARY actions are supported per
+     * target; additional ones are rejected.
      */
     PRIMARY = 'PRIMARY',
     /**
