@@ -71,10 +71,6 @@ import * as processData from '../utils/processData';
 jest.mock('../utils/processTrigger');
 
 const mockProcessTrigger = processTrigger as jest.Mock;
-
-const flushAnimationFrame = () => new Promise<void>((resolve) => {
-    requestAnimationFrame(() => resolve());
-});
 const mockHandleInterceptEvent = jest.spyOn(apiIntercept, 'handleInterceptEvent');
 const defaultViewConfig = {
     frameParams: {
@@ -2624,9 +2620,6 @@ describe('Unit test case for ts embed', () => {
                     contentRect: { height: 297, width: 987 },
                 },
             ]);
-            // Syncs are coalesced to one per frame.
-            await flushAnimationFrame();
-
             expect(preRenderWrapper.style.height).toEqual(`${297}px`);
             expect(preRenderWrapper.style.width).toEqual(`${987}px`);
 
@@ -2887,28 +2880,28 @@ describe('Unit test case for ts embed', () => {
                 return placeholder;
             };
 
-            it('should stop tracking once the frame is hidden', async () => {
-                const { scroller, readPlaceholderTop } = mountInNestedScroller();
+            it('should stop observing the placeholder once the frame is hidden', async () => {
+                const { scroller } = mountInNestedScroller();
 
                 const libEmbed = new LiveboardEmbed('#tsEmbedDiv', {
-                    preRenderId: 'scroll-stops-on-hide',
+                    preRenderId: 'observer-stops-on-hide',
                     liveboardId: 'myLiveboardId',
                 });
                 libEmbed.preRender();
                 await waitFor(() => !!getIFrameEl());
                 await libEmbed.showPreRender();
 
-                stubPlaceholderRect(libEmbed, readPlaceholderTop);
+                // Size is the only thing the browser will not handle for us, so
+                // the observer is the one live resource a hide has to release.
+                const observer = (libEmbed as any).resizeObserver;
+                expect(observer).toBeDefined();
+                const disconnectSpy = jest.spyOn(observer, 'disconnect');
+
                 libEmbed.hidePreRender();
 
-                const syncSpy = jest.spyOn(libEmbed, 'syncPreRenderStyle');
-                scroller.scrollTop = 250;
-                scroller.dispatchEvent(new Event('scroll'));
-                await flushAnimationFrame();
+                expect(disconnectSpy).toHaveBeenCalled();
 
-                expect(syncSpy).not.toHaveBeenCalled();
-
-                syncSpy.mockRestore();
+                disconnectSpy.mockRestore();
                 libEmbed.destroy();
                 scroller.remove();
             });

@@ -2779,9 +2779,9 @@ describe('Liveboard/viz embed tests', () => {
 
         test('should not route via home when the previous instance has been shown once', async () => {
             // navigateToLiveboard assigns vizId/activeTabId/personalizedViewId
-            // unconditionally, so a shown instance carries them as undefined while a
-            // freshly constructed one does not have the keys at all. Comparing raw
-            // objects counts own keys and never matches again.
+            // unconditionally, so a shown instance carries them as undefined
+            // while a fresh one lacks the keys entirely. Comparing raw objects
+            // counts own keys, so it never matches again.
             const viewConfig = { liveboardId, ...defaultViewConfig };
             const previous = new LiveboardEmbed(getRootEl(), { ...viewConfig } as any);
             (previous as any).viewConfig.vizId = undefined;
