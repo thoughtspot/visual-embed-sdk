@@ -133,8 +133,8 @@ const NO_RUNTIME_PARAMS = '&';
  * embed marker, the host application URL used to validate the message origin,
  * the SDK version, the flags that pick the authentication flow, and the
  * boot-time settings that would otherwise be applied a frame late (viewport,
- * log level, locale, formatting and org). Everything else is delivered over
- * `HostEvent.UpdateEmbedParams`.
+ * log level, locale, formatting, org and appearance). Everything else is
+ * delivered over `HostEvent.UpdateEmbedParams`.
  * @internal
  */
 const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
@@ -158,6 +158,8 @@ const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
     Param.DateFormatLocale,
     Param.CurrencyFormat,
     Param.Locale,
+    Param.IsDarkMode,
+    Param.RadiantThemeEnabled,
     Param.searchEmbed,
     Param.livedBoardEmbed,
     Param.isSpotterAgentEmbed,

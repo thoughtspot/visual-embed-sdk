@@ -6859,6 +6859,13 @@ describe('excludeConfigFromURL', () => {
         expect(src).toContain(`${Param.OverrideOrgId}=42`);
     });
 
+    test('keeps the dark mode params on the URL when the flag is set', async () => {
+        const { src } = await renderAndGetSrc(withPostMessage({ ...lbConfig, isDarkMode: true }));
+
+        expect(src).toContain(`${Param.IsDarkMode}=true`);
+        expect(src).toContain(`${Param.RadiantThemeEnabled}=true`);
+    });
+
     test('keeps the deep-link route on the URL when the flag is set', async () => {
         const { src } = await renderAndGetSrc(withPostMessage(lbConfig));
 
