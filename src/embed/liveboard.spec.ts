@@ -2777,6 +2777,36 @@ describe('Liveboard/viz embed tests', () => {
             expect(navigateToLiveboardSpy).toHaveBeenCalled();
         });
 
+        test('should not route via home when the previous instance has been shown once', async () => {
+            // navigateToLiveboard assigns vizId/activeTabId/personalizedViewId
+            // unconditionally, so a shown instance carries them as undefined while a
+            // freshly constructed one does not have the keys at all. Comparing raw
+            // objects counts own keys and never matches again.
+            const viewConfig = { liveboardId, ...defaultViewConfig };
+            const previous = new LiveboardEmbed(getRootEl(), { ...viewConfig } as any);
+            (previous as any).viewConfig.vizId = undefined;
+            (previous as any).viewConfig.activeTabId = undefined;
+            (previous as any).viewConfig.personalizedViewId = undefined;
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), { ...viewConfig } as any);
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(previous);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            expect(triggerSpy).not.toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+        });
+
         test('should route via home when a new instance shows the same route with other filters', async () => {
             const viewConfig = {
                 liveboardId,

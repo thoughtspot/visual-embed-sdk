@@ -563,6 +563,14 @@ export interface LiveboardViewConfig
  * })
  * ```
  */
+/**
+ * A shallow copy without the keys whose value is `undefined`, so a key that was
+ * assigned `undefined` compares equal to one that was never set.
+ */
+const definedEntries = (config: Record<string, any> = {}): Record<string, any> => Object.fromEntries(
+    Object.entries(config).filter(([, value]) => value !== undefined),
+);
+
 export class LiveboardEmbed extends V1Embed {
     protected viewConfig: LiveboardViewConfig;
 
@@ -995,13 +1003,24 @@ export class LiveboardEmbed extends V1Embed {
         });
     }
 
-    // Callbacks are compared as equal: React passes a fresh closure per render.
+    /**
+     * Whether `previous` was showing what this instance is about to show.
+     *
+     * Undefined-valued keys are dropped before comparing. `navigateToLiveboard`
+     * assigns `vizId`, `activeTabId` and `personalizedViewId` unconditionally,
+     * so an instance that has been shown once carries those keys as `undefined`
+     * while a freshly constructed one does not have them at all. `isEqual`
+     * counts own keys, so without this the comparison can never be true after
+     * the first show — which is the whole case this exists for.
+     *
+     * Callbacks compare as equal: React passes a fresh closure per render.
+     */
     private isSameEmbedConfig(previous?: LiveboardEmbed): boolean {
         if (!previous) return false;
         if (previous === this) return true;
         return isEqualWith(
-            previous.viewConfig,
-            this.viewConfig,
+            definedEntries(previous.viewConfig),
+            definedEntries(this.viewConfig),
             (a, b) => (typeof a === 'function' && typeof b === 'function' ? true : undefined),
         );
     }
