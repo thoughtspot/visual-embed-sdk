@@ -127,6 +127,21 @@ export interface SpotterVizConfig {
      * @version SDK: 1.51.0 | ThoughtSpot Cloud: 26.7.0.cl
      */
     insightTileLoaderText?: string;
+    /**
+     * Set to `false` to hide the file upload feature in the SpotterViz chat
+     * input on a cluster where the feature is available.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @default true
+     */
+    fileUploadEnabled?: boolean;
+    /**
+     * Restricts the allowed file types for SpotterViz file upload to a
+     * subset of the types SpotterViz supports, e.g. `['csv', 'pdf']`.
+     * Entries are file extensions (with or without the leading dot); types
+     * SpotterViz does not support are ignored, as are empty lists.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     */
+    fileUploadFileTypes?: string[];
 }
 
 /**

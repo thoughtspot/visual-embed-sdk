@@ -311,7 +311,8 @@ describe('Unit test for process data', () => {
         } as any);
         const el: any = {};
         processDataInstance.processEventData(e.type, e, '', el);
-        // isEmbeddedSSOInfoFailure=true so neither branch fires, innerHTML stays unset
+        // isEmbeddedSSOInfoFailure=true so neither branch fires, innerHTML
+        // stays unset
         expect(el.innerHTML).toBeUndefined();
         expect(base.notifyAuthFailure).not.toHaveBeenCalled();
     });

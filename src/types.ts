@@ -3387,6 +3387,36 @@ export enum EmbedEvent {
      */
     Edit = 'edit',
     /**
+     * Emitted when a user clicks **Edit** on a Liveboard.
+     *
+     * Fired alongside {@link EmbedEvent.Edit} for backward compatibility;
+     * listen to this instead of `Edit` to target the Liveboard surface only.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.EditLiveboard, payload => {
+     *    console.log('Liveboard edit', payload);
+     * })
+     * ```
+     */
+    EditLiveboard = 'editLiveboard',
+    /**
+     * Emitted when a user clicks **Edit** on a visualization inside a
+     * Liveboard.
+     *
+     * Fired alongside {@link EmbedEvent.Edit} for backward compatibility;
+     * listen to this instead of `Edit` to target the visualization surface
+     * only.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.EditVisualization, payload => {
+     *    console.log('visualization edit', payload);
+     * })
+     * ```
+     */
+    EditVisualization = 'editVisualization',
+    /**
      * Emitted when a user clicks *Make a copy* on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
@@ -4260,7 +4290,7 @@ export enum EmbedEvent {
      *     // make action
      * });
      * ```
-     * 
+     *
      * @example
      * ```js
      * embed.on(subscribedEvent(HostEvent.Save), () => {
@@ -4270,7 +4300,7 @@ export enum EmbedEvent {
      * @version SDK: 1.48.0 | ThoughtSpot: 26.4.0.cl
      */
     Subscribed = 'Subscribed',
-    
+
     /**
      * Emitted when a user clicks the **Send Test Email** button in the
      * Liveboard schedule modal. Requires `isSendNowLiveboardSchedulingEnabled`
@@ -4387,7 +4417,7 @@ export enum EmbedEvent {
      * ```
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
-    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
 }
 
 /**
@@ -4704,7 +4734,7 @@ export enum HostEvent {
      * ```js
      * // Preferred: use navigateToPage directly
      * appEmbed.navigateToPage(-1);
-     * 
+     *
      * // Numeric delta — go back one step
      * appEmbed.trigger(HostEvent.Navigate, -1);
      *
@@ -5371,6 +5401,35 @@ export enum HostEvent {
      */
     Edit = 'edit',
     /**
+     * Trigger the **Edit** action on a Liveboard only — does not affect a
+     * visualization's edit surface.
+     *
+     * Behaves like {@link HostEvent.Edit} restricted to the Liveboard
+     * surface. Use {@link HostEvent.EditVisualization} to target a
+     * visualization instead, or `HostEvent.Edit` to control whichever
+     * surface applies contextually (unchanged, existing behavior).
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.EditLiveboard)
+     * ```
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     */
+    EditLiveboard = 'editLiveboard',
+    /**
+     * Trigger the **Edit** action on a specific visualization inside a
+     * Liveboard only — does not affect the Liveboard-level edit surface.
+     * @param - Object parameter. Includes the following keys:
+     * - `vizId`: **Required.** The visualization to edit.
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.EditVisualization, {vizId:
+     * '730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     */
+    EditVisualization = 'editVisualization',
+    /**
      * Trigger the **Copy link** action on a Liveboard or visualization
      * Payload: {@link VizScopedRequest}.
      * @param - object - to trigger the action for a
@@ -5957,6 +6016,12 @@ export enum HostEvent {
      * ```js
      * const data = await liveboardEmbed.trigger(HostEvent.GetFilters);
      *     console.log('data', data);
+     * // {
+     * //   liveboardFilters: [ ... ],
+     * //   runtimeFilters: [
+     * //     { columnName: "Region", operator: "IN", values: ["West"] }
+     * //   ]
+     * // }
      * ```
      * @example
      * ```js
@@ -5981,9 +6046,9 @@ export enum HostEvent {
      *
      * Each filter object must include the following attributes:
      *
-     * `column` - Name of the column to filter on.
+     * `columnName` - Name of the column to filter on.
      *
-     * `oper`  - Filter operator, for example, EQ, IN, CONTAINS.
+     * `operator`  - Filter operator, for example, EQ, IN, CONTAINS.
      *  For information about the supported filter operators,
      *  see link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].
      *
@@ -6010,8 +6075,8 @@ export enum HostEvent {
      *
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *     filter: {
-     *         column: "item type",
-     *         oper: "IN",
+     *         columnName: "item type",
+     *         operator: "IN",
      *         values: ["bags","shirts"]
      *        }
      *    });
@@ -6021,8 +6086,8 @@ export enum HostEvent {
      *
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *     filter: {
-     *         column: "date",
-     *         oper: "EQ",
+     *         columnName: "date",
+     *         operator: "EQ",
      *         values: ["JULY","2023"],
      *         type: "MONTH_YEAR"
      *        }
@@ -6033,18 +6098,18 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *  filters: [{
-     *      column: "Item Type",
-     *      oper: 'IN',
+     *      columnName: "Item Type",
+     *      operator: 'IN',
      *      values: ["bags","shirts"]
      *  },
      *    {
-     *      column: "Region",
-     *      oper: 'IN',
+     *      columnName: "Region",
+     *      operator: 'IN',
      *      values: ["West","Midwest"]
      *  },
      *    {
-     *      column: "Date",
-     *      oper: 'EQ',
+     *      columnName: "Date",
+     *      operator: 'EQ',
      *      values: ["2023-07-31"],
      *      type: "EXACT_DATE"
      *    }]
@@ -6058,13 +6123,13 @@ export enum HostEvent {
      * ```js
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *  filters: [{
-     *      column: "(Sample) Retail - Apparel::city",
-     *      oper: 'IN',
+     *      columnName: "(Sample) Retail - Apparel::city",
+     *      operator: 'IN',
      *      values: ["atlanta"]
      *  },
      *  {
-     *      column: "(Sample) Retail - Apparel::Region",
-     *      oper: 'IN',
+     *      columnName: "(Sample) Retail - Apparel::Region",
+     *      operator: 'IN',
      *      values: ["West","Midwest"]
      *  }]
      * });
@@ -6075,8 +6140,8 @@ export enum HostEvent {
      * import { ContextType } from '@thoughtspot/visual-embed-sdk';
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *     filter: {
-     *         column: "item type",
-     *         oper: "IN",
+     *         columnName: "item type",
+     *         operator: "IN",
      *         values: ["shoes", "boots"]
      *     }
      * }, ContextType.Liveboard);
@@ -6086,8 +6151,8 @@ export enum HostEvent {
      * // Scope the filter to a specific Liveboard tab
      * liveboardEmbed.trigger(HostEvent.UpdateFilters, {
      *     filter: {
-     *         column: "item type",
-     *         oper: "IN",
+     *         columnName: "item type",
+     *         operator: "IN",
      *         values: ["bags", "shirts"],
      *         applicability: {
      *             level: "TAB",
@@ -6096,6 +6161,12 @@ export enum HostEvent {
      *     }
      * });
      * ```
+     * Use `columnName` and `operator` - the same spelling as
+     * {@link RuntimeFilter}. The older `column` and `oper` spellings are
+     * deprecated; they are still accepted, but pass only one spelling of each
+     * field, never both. To reapply the filter state captured from
+     * {@link EmbedEvent.FilterChanged}, use `convertFilterChangedToUpdateFiltersPayload`
+     * to convert its payload into the shape expected here.
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl
      */
     UpdateFilters = 'updateFilters',
@@ -7092,11 +7163,11 @@ export enum Param {
     IsStarterPromptsEnabled = 'enableStarterPrompts',
     UpdatedSpotterExperience = 'updatedSpotterExperience',
     SpotterDataSources = 'spotterDataSources',
-    AnalystId = 'analystId',
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
     ShowAnswerEditPanel = 'showAnswerEditPanel',
     IsDarkMode = 'isDarkMode',
     RadiantThemeEnabled = 'radiantThemeEnabled',
+    SpotterExperienceVersion = 'spotterExperienceVersion',
 }
 
 /**
@@ -7560,12 +7631,43 @@ export enum Action {
      * The *Edit* action on the Liveboard page and in the
      * visualization menu.
      * Opens a Liveboard or visualization in edit mode.
+     *
+     * Controls both surfaces together. To target one surface only, use
+     * {@link Action.EditLiveboard} or {@link Action.EditVisualization}.
      * @example
      * ```js
      * disabledActions: [Action.Edit]
      * ```
      */
     Edit = 'edit',
+    /**
+     * The *Edit* action on the Liveboard page only.
+     * Opens a Liveboard in edit mode.
+     *
+     * Does not affect the *Edit* action in the visualization menu; use
+     * {@link Action.EditVisualization} for that, or {@link Action.Edit} to
+     * control both surfaces together.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.EditLiveboard]
+     * ```
+     */
+    EditLiveboard = 'editLiveboard',
+    /**
+     * The *Edit* action in the visualization `...` menu only.
+     * Opens a visualization in the editor.
+     *
+     * Does not affect the *Edit* action on the Liveboard page; use
+     * {@link Action.EditLiveboard} for that, or {@link Action.Edit} to
+     * control both surfaces together.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.EditVisualization]
+     * ```
+     */
+    EditVisualization = 'editVisualization',
     /**
      * The text edit option for Liveboard and visualization titles.
      * @example
@@ -9133,6 +9235,237 @@ export enum Action {
      * ```
      */
     SpotterOnLiveboard = 'spotterOnLiveboard',
+    /**
+     * Controls the visibility and disabled state of the "Chart Type" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.ChartTypeSettings],
+     *     disabledActions: [Action.ChartTypeSettings],
+     * }
+     * ```
+     */
+    ChartTypeSettings = 'CHART_TYPE',
+    /**
+     * Controls the visibility and disabled state of the "Layout" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.LayoutSettings],
+     *     disabledActions: [Action.LayoutSettings],
+     * }
+     * ```
+     */
+    LayoutSettings = 'LAYOUT',
+    /**
+     * Controls the visibility and disabled state of the "Column" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.ColumnSettings],
+     *     disabledActions: [Action.ColumnSettings],
+     * }
+     * ```
+     */
+    ColumnSettings = 'COLUMN',
+    /**
+     * Controls the visibility and disabled state of the "Axis" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.AxisSettings],
+     *     disabledActions: [Action.AxisSettings],
+     * }
+     * ```
+     */
+    AxisSettings = 'AXIS',
+    /**
+     * Controls the visibility and disabled state of the "Data Label" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.DataLabelSettings],
+     *     disabledActions: [Action.DataLabelSettings],
+     * }
+     * ```
+     */
+    DataLabelSettings = 'DATA_LABEL',
+    /**
+     * Controls the visibility and disabled state of the "Tooltip" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.TooltipSettings],
+     *     disabledActions: [Action.TooltipSettings],
+     * }
+     * ```
+     */
+    TooltipSettings = 'TOOLTIP',
+    /**
+     * Controls the visibility and disabled state of the "Legend" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.LegendSettings],
+     *     disabledActions: [Action.LegendSettings],
+     * }
+     * ```
+     */
+    LegendSettings = 'LEGEND',
+    /**
+     * Controls the visibility and disabled state of the "Display" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.DisplaySettings],
+     *     disabledActions: [Action.DisplaySettings],
+     * }
+     * ```
+     */
+    DisplaySettings = 'DISPLAY',
+    /**
+     * Controls the visibility and disabled state of the "Query Details" menu
+     * item in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.QuerySettings],
+     *     disabledActions: [Action.QuerySettings],
+     * }
+     * ```
+     */
+    QuerySettings = 'QUERY_DETAILS',
+    /**
+     * Controls the visibility and disabled state of the "Custom Action" menu
+     * item in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.CustomSettings],
+     *     disabledActions: [Action.CustomSettings],
+     * }
+     * ```
+     */
+    CustomSettings = 'CUSTOM_ACTION',
+    /**
+     * Controls the visibility and disabled state of the "Muze AI" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.MuzeAiSettings],
+     *     disabledActions: [Action.MuzeAiSettings],
+     * }
+     * ```
+     */
+    MuzeAiSettings = 'MUZE_AI',
+    /**
+     * Controls the visibility and disabled state of the "R Analysis" menu item
+     * in Chart Settings V2.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.RAnalysisSettings],
+     *     disabledActions: [Action.RAnalysisSettings],
+     * }
+     * ```
+     */
+    RAnalysisSettings = 'R_ANALYSIS',
+    /**
+     * Controls the visibility and disabled state of the "Add to Collection" menu item.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.AddToCollection],
+     *     disabledActions: [Action.AddToCollection],
+     * }
+     * ```
+     */
+    AddToCollection = 'addToCollection',
+    /**
+     * Controls the visibility and disabled state of the "Create Collection" button.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.CreateCollection],
+     *     disabledActions: [Action.CreateCollection],
+     * }
+     * ```
+     */
+    CreateCollection = 'createCollection',
+    /**
+     * Controls the visibility and disabled state of the "Move" menu item in a
+     * Collection.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.MoveToCollection],
+     *     disabledActions: [Action.MoveToCollection],
+     * }
+     * ```
+     */
+    MoveToCollection = 'moveToCollection',
+    /**
+     * Controls the visibility and disabled state of the "Remove" menu item in a
+     * Collection.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.RemoveFromCollection],
+     *     disabledActions: [Action.RemoveFromCollection],
+     * }
+     * ```
+     */
+    RemoveFromCollection = 'removeFromCollection',
+    /**
+     * Controls the visibility and disabled state of the "Delete" menu item for a
+     * Collection.
+     * @version SDK: 1.52.1 | ThoughtSpot Cloud: 26.5.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.DeleteCollection],
+     *     disabledActions: [Action.DeleteCollection],
+     * }
+     * ```
+     */
+    DeleteCollection = 'deleteCollection',
+    /**
+     * Controls the visibility of the "Customize homepage" button on the
+     * embedded home page.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.CustomizeHomepage],
+     * }
+     * ```
+     */
+    CustomizeHomepage = 'customizeHomepage',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
@@ -9208,21 +9541,58 @@ export interface CustomActionPayload {
     vizId?: string;
 }
 
+/**
+ * A code-based custom action to inject into the embedded ThoughtSpot UI.
+ * Pass an array of these as `customActions` in the embed view config. When a
+ * user invokes the action, the host emits {@link EmbedEvent.CustomAction} with
+ * a {@link CustomActionPayload} carrying the same `id`.
+ */
 export interface CustomAction {
+    /**
+     * Display label shown on the action's button or menu item.
+     */
     name: string;
+    /**
+     * Unique identifier for the action. Echoed back as `id` on the
+     * {@link CustomActionPayload} when the action is invoked.
+     */
     id: string;
+    /**
+     * Where the action appears: a primary button, the "More" menu, or the
+     * right-click context menu. See {@link CustomActionsPosition}.
+     */
     position: CustomActionsPosition;
+    /**
+     * The surface the action applies to (Liveboard, visualization, Answer, or
+     * Spotter). See {@link CustomActionTarget}. The allowed `position` values
+     * and scoping keys depend on the target.
+     */
     target: CustomActionTarget;
+    /**
+     * Scope the action to specific objects by GUID. Which keys are allowed
+     * depends on `target` (for example, a `VIZ` action may use `answerIds`,
+     * `liveboardIds`, and `vizIds`).
+     */
     metadataIds?: {
         answerIds?: string[];
         liveboardIds?: string[];
         vizIds?: string[];
     };
+    /**
+     * Scope the action by data model, using model GUIDs or column names.
+     * Allowed for `VIZ`, `ANSWER`, and `SPOTTER` targets.
+     */
     dataModelIds?: {
         modelIds?: string[];
         modelColumnNames?: string[];
     };
+    /**
+     * Restrict the action to specific organizations by ID.
+     */
     orgIds?: string[];
+    /**
+     * Restrict the action to specific user groups by ID.
+     */
     groupIds?: string[];
 }
 

@@ -78,8 +78,8 @@ const REACT_EXEMPT = new Set<string>([
 /**
  * PRE-EXISTING gaps, discovered when this spec was introduced. These are
  * symbols React consumers cannot import today — most look like oversights
- * rather than deliberate omissions (e.g. `ContextType`, `CustomActionPayload`,
- * `VizPoint`, the Spotter view configs).
+ * rather than deliberate omissions (e.g. `ContextType`, `VizPoint`,
+ * the Spotter view configs).
  *
  * This list may only ever SHRINK. Do not add to it — a new entry means a
  * symbol was added to `src/index.ts` without adding it to the React surface,
@@ -97,7 +97,6 @@ const KNOWN_REACT_GAPS = new Set<string>([
     'ContextMenuTriggerOptions',
     'ContextType',
     'ConversationViewConfig',
-    'CustomActionPayload',
     'DataLabelFilterOperator',
     'EmbedErrorCodes',
     'EmbedErrorDetailsEvent',

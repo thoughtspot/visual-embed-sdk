@@ -11,6 +11,11 @@ export default defineConfig([
     { 
         files: ['**/*.{js,ts,jsx,tsx}'],
         extends: [importPlugin.flatConfigs.recommended, importPlugin.flatConfigs.typescript],
+        settings: {
+            react: {
+                version: 'detect',
+            },
+        },
         rules: {
 			'no-tabs': ['error', { allowIndentationTabs: true }],
             'jsx-quotes': [2, 'prefer-double'],

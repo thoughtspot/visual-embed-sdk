@@ -1,4 +1,5 @@
 import { LiveboardViewConfig, LiveboardEmbed } from './liveboard';
+import { SpotterExperienceVersion } from './spotter-utils';
 import { init, UIPassthroughEvent } from '../index';
 import {
     Action,
@@ -170,6 +171,37 @@ describe('Liveboard/viz embed tests', () => {
             expectUrlToHaveParamsWithValues(getIFrameSrc(), {
                 hideAction: JSON.stringify([Action.ReportError, Action.SpotterOnLiveboard]),
                 disableAction: JSON.stringify([Action.SpotterOnLiveboard]),
+            });
+        });
+    });
+
+    test('should set EditLiveboard and EditVisualization independently of each other and of Edit', async () => {
+        expect(Action.Edit).toBe('edit');
+        expect(Action.EditLiveboard).toBe('editLiveboard');
+        expect(Action.EditVisualization).toBe('editVisualization');
+
+        const liveboardEmbed1 = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.EditVisualization],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed1.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideAction: JSON.stringify([Action.ReportError, Action.EditVisualization]),
+            });
+        });
+
+        document.body.innerHTML = getDocumentBody();
+        const liveboardEmbed2 = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.EditLiveboard],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed2.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideAction: JSON.stringify([Action.ReportError, Action.EditLiveboard]),
             });
         });
     });
@@ -1621,6 +1653,58 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    describe('liveboardOverride in APP_INIT embedParams', () => {
+        const liveboardOverride = {
+            dataSourceOverride: [{
+                dataSourceIdentifier: 'model-guid',
+                filterQuery: [{ tabName: 'Sales', groupName: 'Region', filterQueryToken: 'color = red' }],
+            }],
+        };
+
+        const getAppInitResponse = async (viewConfig: Partial<LiveboardViewConfig>) => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                ...viewConfig,
+            } as LiveboardViewConfig);
+
+            mockMessageChannel();
+            await liveboardEmbed.render();
+
+            const mockPort: any = { postMessage: jest.fn() };
+            await executeAfterWait(() => {
+                postMessageToParent(getIFrameEl().contentWindow, { type: EmbedEvent.APP_INIT, data: {} }, mockPort);
+            });
+            let data: any;
+            await executeAfterWait(() => {
+                data = mockPort.postMessage.mock.calls[0][0].data;
+            });
+            return data;
+        };
+
+        test('should include liveboardOverride when provided', async () => {
+            const data = await getAppInitResponse({ liveboardOverride });
+            expect(data.embedParams.liveboardOverride).toEqual(liveboardOverride);
+        });
+
+        test('should not include liveboardOverride when not provided', async () => {
+            const data = await getAppInitResponse({});
+            expect(data.embedParams?.liveboardOverride).toBeUndefined();
+        });
+
+        test('should not include liveboardOverride when dataSourceOverride is empty', async () => {
+            const data = await getAppInitResponse({ liveboardOverride: { dataSourceOverride: [] } });
+            expect(data.embedParams?.liveboardOverride).toBeUndefined();
+        });
+
+        test('should send liveboardOverride alongside spotterVizConfig', async () => {
+            const spotterViz = { brandName: 'MyBrand' };
+            const data = await getAppInitResponse({ liveboardOverride, spotterViz });
+            expect(data.embedParams.liveboardOverride).toEqual(liveboardOverride);
+            expect(data.embedParams.spotterVizConfig).toEqual(spotterViz);
+        });
+    });
+
     test('should include starterPrompts in APP_INIT embedParams', async () => {
         const starterPrompts = {
             enable: true,
@@ -3054,8 +3138,8 @@ describe('LiveboardEmbed updatedSpotterExperience tests', () => {
 
     describe('trigger typing contracts (compile-time)', () => {
         // Enforced by ts-jest at compile time. LiveboardEmbed OVERRIDES
-        // TsEmbed.trigger, so its generic defaults must be asserted separately —
-        // a bare `PayloadT` on the override silently collapses no-payload
+        // TsEmbed.trigger, so its generic defaults must be asserted separately
+        // — a bare `PayloadT` on the override silently collapses no-payload
         // responses back to `any` for every LiveboardEmbed consumer.
         type IsAny<T> = 0 extends 1 & T ? true : false;
         type Extends<A, B> = A extends B ? true : false;
@@ -3073,7 +3157,8 @@ describe('LiveboardEmbed updatedSpotterExperience tests', () => {
                 { numberOfTabs: number; orderedTabIds: string[] }
             > = true;
             const probeUnknownField = (r: TabsResponse) =>
-                // @ts-expect-error — field not on the GetTabs contract (was silent when `any`)
+                // @ts-expect-error — field not on the GetTabs contract (was
+                // silent when `any`)
                 r.tabCount;
             void probeUnknownField;
 
@@ -3084,5 +3169,40 @@ describe('LiveboardEmbed updatedSpotterExperience tests', () => {
             expect([tabsIsTyped, tabsHasContractFields, reloadStaysAny])
                 .toEqual([false, true, true]);
         });
+    });
+});
+
+describe('LiveboardEmbed spotterExperienceVersion tests', () => {
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    const renderWithConfig = async (config: Partial<LiveboardViewConfig>) => {
+        document.body.innerHTML = getDocumentBody();
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            ...config,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        let src = '';
+        await executeAfterWait(() => {
+            src = getIFrameSrc();
+        });
+        return src;
+    };
+
+    test('should add the spotterExperienceVersion param when spotterExperienceVersion is set', async () => {
+        const src = await renderWithConfig({
+            spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+        });
+        expect(src).toContain(
+            `spotterExperienceVersion=${SpotterExperienceVersion.SPOTTER_2026_11}`,
+        );
+    });
+
+    test('should not add the spotterExperienceVersion param when spotterExperienceVersion is not set', async () => {
+        const src = await renderWithConfig({});
+        expect(src).not.toContain('spotterExperienceVersion=');
     });
 });

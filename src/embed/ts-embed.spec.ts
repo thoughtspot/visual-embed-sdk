@@ -3043,8 +3043,8 @@ describe('Unit test case for ts embed', () => {
 
                 // Reverts to the exact value the container had before.
                 expect(customContainer.style.position).toBe('static');
-                // The custom container reference is dropped (back to the default
-                // body) so a destroyed embed does not pin the (possibly
+                // The custom container reference is dropped (back to the
+                // default body) so a destroyed embed does not pin the (possibly
                 // detached) element in memory.
                 expect((libEmbed as any).preRenderContainerEl).toBe(document.body);
 
@@ -3098,8 +3098,8 @@ describe('Unit test case for ts embed', () => {
 
                 libEmbed.destroy();
 
-                // The body sentinel must never be treated as a custom container:
-                // no position override to apply and none to restore.
+                // The body sentinel must never be treated as a custom
+                // container: no position override to apply and none to restore.
                 expect(document.body.style.position).toBe(originalBodyPosition);
                 expect(document.body.dataset.tsEmbedOriginalPosition).toBeUndefined();
             });
@@ -3234,10 +3234,11 @@ describe('Unit test case for ts embed', () => {
 
                 libEmbed.syncPreRenderStyle();
 
-                // applyPreRenderContainerPositioning() reads preRenderContainerEl
-                // instead of taking the container as an argument, so reconcile has
-                // to assign the field before calling it — otherwise the override
-                // lands on the detached node and the fresh one stays static.
+                // applyPreRenderContainerPositioning() reads
+                // preRenderContainerEl instead of taking the container as an
+                // argument, so reconcile has to assign the field before calling
+                // it — otherwise the override lands on the detached node and
+                // the fresh one stays static.
                 expect((libEmbed as any).preRenderContainerEl).toBe(newContainer);
                 expect(newContainer.style.position).toBe('relative');
                 expect(newContainer.dataset.tsEmbedOriginalPosition).toBe('static');
@@ -3368,7 +3369,8 @@ describe('Unit test case for ts embed', () => {
                     await firstEmbed.preRender();
                     await waitFor(() => !!getIFrameEl());
 
-                    // Reset position to static so the connecting embed also triggers the guard.
+                    // Reset position to static so the connecting embed also
+                    // triggers the guard.
                     customContainer.style.position = 'static';
                     delete customContainer.dataset['preRenderContainerOriginalPosition'];
 
@@ -3472,8 +3474,8 @@ describe('Unit test case for ts embed', () => {
                     await firstEmbed.preRender();
                     await waitFor(() => !!getIFrameEl());
 
-                    // Same config on both components — the value is redundant but
-                    // not wrong, so nagging about it would be noise.
+                    // Same config on both components — the value is redundant
+                    // but not wrong, so nagging about it would be noise.
                     const connectingEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                         preRenderId: 'connect-same-element',
                         liveboardId: 'myLiveboardId',
@@ -3506,8 +3508,9 @@ describe('Unit test case for ts embed', () => {
                     await firstEmbed.preRender();
                     await waitFor(() => !!getIFrameEl());
 
-                    // A selector that resolves to the owner's element is the same
-                    // container, so the comparison must be by resolved node.
+                    // A selector that resolves to the owner's element is the
+                    // same container, so the comparison must be by resolved
+                    // node.
                     const connectingEmbed = new LiveboardEmbed('#tsEmbedDiv', {
                         preRenderId: 'connect-same-selector',
                         liveboardId: 'myLiveboardId',
@@ -3571,8 +3574,8 @@ describe('Unit test case for ts embed', () => {
                     await waitFor(() => !!getIFrameEl());
 
                     // Simulate a wrapper with no live embed behind it: the
-                    // __tsEmbed stamp used to locate the owner is gone, so there
-                    // is no container to inherit.
+                    // __tsEmbed stamp used to locate the owner is gone, so
+                    // there is no container to inherit.
                     const wrapper = document.getElementById(
                         firstEmbed.getPreRenderIds().wrapper,
                     );
@@ -5440,12 +5443,14 @@ describe('Trigger method edge cases', () => {
         const handleErrorSpy = jest.spyOn(searchEmbed as any, 'handleError').mockImplementation(() => {});
         await searchEmbed.render();
 
-        // First processTrigger call is getAvailableUIPassthroughKeys for DrillDown
+        // First processTrigger call is getAvailableUIPassthroughKeys for
+        // DrillDown
         mockProcessTrigger.mockResolvedValueOnce([
             { value: { keys: Object.values(UIPassthroughEvent) } },
         ]);
 
-        // DrillDown with no points → throwDrillDownValidationError → isValidationError=true
+        // DrillDown with no points → throwDrillDownValidationError →
+        // isValidationError=true
         await expect(
             searchEmbed.trigger(HostEvent.DrillDown, {} as any),
         ).rejects.toThrow('DrillDown requires a valid points object');
@@ -5620,7 +5625,8 @@ describe('Fullscreen change handler behavior', () => {
         init({
             thoughtSpotHost: 'tshost',
             authType: AuthType.None,
-            // disableFullscreenPresentation not set → defaults to true via ?? true
+            // disableFullscreenPresentation not set → defaults to true via ??
+            // true
         });
 
         const embed = new SearchEmbed(getRootEl(), defaultViewConfig);
@@ -5646,7 +5652,8 @@ describe('Fullscreen change handler behavior', () => {
 
         embed['setupFullscreenChangeHandler']();
 
-        // Capture the registered handler directly instead of dispatching to document
+        // Capture the registered handler directly instead of dispatching to
+        // document
         const fullscreenCall = addEventListenerSpy.mock.calls.find((c) => c[0] === 'fullscreenchange');
         expect(fullscreenCall).toBeTruthy();
         const handler = fullscreenCall[1] as EventListener;
@@ -6118,8 +6125,8 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 undefined,
             );
 
-            // A parameter always carries a value, so the payload says everything
-            // there is to say — no follow-up event.
+            // A parameter always carries a value, so the payload says
+            // everything there is to say — no follow-up event.
             const parameterCalls = mockProcessTrigger.mock.calls.filter(
                 (call: any[]) => call[1] === HostEvent.UpdateParameters,
             );
@@ -6720,7 +6727,8 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             expect(hostElement.querySelector(`#${placeHolderId}`)).toBe(staleNestedPlaceholder);
             // Before the fix this threw NotFoundError.
             await expect(embed.showPreRender()).resolves.toBeDefined();
-            // The stale nested placeholder is gone; the fresh one is a direct child.
+            // The stale nested placeholder is gone; the fresh one is a direct
+            // child.
             expect(staleNestedPlaceholder.isConnected).toBe(false);
             const currentPlaceholder = (
                 embed as any
@@ -6752,7 +6760,8 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                 { numberOfTabs: number; orderedTabIds: string[] }
             > = true;
             const probeUnknownField = (r: TabsResponse) =>
-                // @ts-expect-error — field not on the GetTabs contract (was silent when `any`)
+                // @ts-expect-error — field not on the GetTabs contract (was
+                // silent when `any`)
                 r.tabCount;
             void probeUnknownField;
 
@@ -6762,6 +6771,178 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
             expect([tabsIsTyped, tabsHasContractFields, reloadStaysAny])
                 .toEqual([false, true, true]);
+        });
+    });
+});
+
+describe('excludeConfigFromURL', () => {
+    const lbConfig = {
+        liveboardId,
+        hiddenActions: [Action.Download],
+        additionalFlags: { internalBlinkFlag: true },
+        liveboardV2: true,
+    };
+
+    const withPostMessage = (viewConfig: any) => ({
+        ...viewConfig,
+        additionalFlags: { ...viewConfig.additionalFlags, excludeConfigFromURL: true },
+    });
+
+    const renderAndGetSrc = async (viewConfig: any) => {
+        const embed = new LiveboardEmbed(getRootEl(), { ...defaultViewConfig, ...viewConfig });
+        await embed.render();
+        await waitFor(() => !!getIFrameEl());
+        return { embed, src: getIFrameSrc() };
+    };
+
+    const signalFrameReady = () => {
+        postMessageToParent(getIFrameEl().contentWindow, {
+            type: EmbedEvent.EmbedListenerReady,
+        });
+    };
+
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+        mockProcessTrigger.mockReset();
+        mockProcessTrigger.mockResolvedValue({});
+        init({
+            thoughtSpotHost,
+            authType: AuthType.None,
+        });
+    });
+
+    test('leaves the URL untouched when the flag is not set', async () => {
+        const { src } = await renderAndGetSrc(lbConfig);
+
+        expect(src).toContain('hideAction=');
+        expect(src).toContain('internalBlinkFlag=true');
+        expect(src).toContain('isPinboardV2Enabled=true');
+    });
+
+    test('keeps only the bootstrap params on the URL when the flag is set', async () => {
+        const { src } = await renderAndGetSrc(withPostMessage(lbConfig));
+
+        // Boot and auth handshake stays on the URL.
+        expect(src).toContain('hostAppUrl=');
+        expect(src).toContain(`authType=${AuthType.None}`);
+        expect(src).toContain(`sdkVersion=${version}`);
+        expect(src).toContain('blockNonEmbedFullAppAccess=true');
+        expect(src).toContain('viewPortHeight=');
+
+        // View configuration and internal flags do not.
+        expect(src).not.toContain('hideAction=');
+        expect(src).not.toContain('internalBlinkFlag');
+        expect(src).not.toContain('isPinboardV2Enabled');
+        expect(src).not.toContain('enableDataPanelV2');
+    });
+
+    test('strips a non-bootstrap additionalFlag from the URL when the flag is set', async () => {
+        const { src } = await renderAndGetSrc({
+            ...lbConfig,
+            additionalFlags: {
+                internalBlinkFlag: true,
+                someCustomFlag: 'abc',
+                excludeConfigFromURL: true,
+            },
+        });
+
+        expect(src).not.toContain('internalBlinkFlag');
+        expect(src).not.toContain('someCustomFlag');
+    });
+
+    test('keeps an additionalFlag that overrides a bootstrap param on the URL', async () => {
+        const { src } = await renderAndGetSrc({
+            ...lbConfig,
+            additionalFlags: { [Param.OverrideOrgId]: 42, excludeConfigFromURL: true },
+        });
+
+        expect(src).toContain(`${Param.OverrideOrgId}=42`);
+    });
+
+    test('keeps the deep-link route on the URL when the flag is set', async () => {
+        const { src } = await renderAndGetSrc(withPostMessage(lbConfig));
+
+        expect(src).toContain(`/embed/viz/${liveboardId}`);
+    });
+
+    test('sends the full config over UpdateEmbedParams once the frame is ready', async () => {
+        await renderAndGetSrc(withPostMessage(lbConfig));
+
+        signalFrameReady();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({
+                    liveboardId,
+                    hiddenActions: [Action.Download],
+                    internalBlinkFlag: true,
+                    [Param.HideActions]: expect.arrayContaining([Action.Download]),
+                }),
+                undefined,
+            );
+        });
+    });
+
+    test('sends UpdateEmbedParams again every time the frame signals ready', async () => {
+        await renderAndGetSrc(withPostMessage(lbConfig));
+        signalFrameReady();
+        signalFrameReady();
+
+        await executeAfterWait(() => {
+            const updateCalls = mockProcessTrigger.mock.calls.filter(
+                (call) => call[1] === HostEvent.UpdateEmbedParams,
+            );
+            expect(updateCalls).toHaveLength(2);
+        });
+    });
+
+    test('does not send UpdateEmbedParams when the flag is not set', async () => {
+        await renderAndGetSrc(lbConfig);
+
+        signalFrameReady();
+
+        await executeAfterWait(() => {
+            const updateCalls = mockProcessTrigger.mock.calls.filter(
+                (call) => call[1] === HostEvent.UpdateEmbedParams,
+            );
+            expect(updateCalls).toHaveLength(0);
+        });
+    });
+
+    test('does not double-send for a pre-rendered embed that is shown', async () => {
+        mockMessageChannel();
+        (window as any).ResizeObserver =
+            window.ResizeObserver ||
+            jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+
+        const embed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            ...withPostMessage(lbConfig),
+            preRenderId: 'send-config-post-message',
+        });
+        await embed.preRender();
+        await waitFor(() => !!getIFrameEl());
+
+        signalFrameReady();
+        await executeAfterWait(() => {
+            expect(embed.isEmbedContainerLoaded).toBe(true);
+        });
+
+        mockProcessTrigger.mockClear();
+        await embed.showPreRender();
+
+        await executeAfterWait(() => {
+            const updateCalls = mockProcessTrigger.mock.calls.filter(
+                (call) => call[1] === HostEvent.UpdateEmbedParams,
+            );
+            expect(updateCalls).toHaveLength(1);
         });
     });
 });

@@ -34,6 +34,13 @@ import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, BodylessConversationViewConfig} from './embed/bodyless-conversation';
 import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterAnalystConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, StarterPromptCategory, StarterPreviewDataCategory, StarterPromptQuestion, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import { SpotterVizConfig, SpotterVizStarterPrompt, SpotterVizLoaderTip } from './embed/spotter-viz-utils';
+import { SpotterExperienceVersion } from './embed/spotter-utils';
+import {
+    LiveboardOverride,
+    LiveboardDataSourceOverride,
+    LiveboardFilterQuery,
+    LiveboardParameterQuery,
+} from './embed/liveboard-override-utils';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
@@ -64,6 +71,7 @@ import {
     VizPoint,
     CustomActionPayload,
     ListPageColumns,
+    CustomAction,
     CustomActionsPosition,
     CustomActionTarget,
     InterceptedApiType,
@@ -83,7 +91,9 @@ import {
     VisualizationOverrides,
 } from './types';
 import { CustomCssVariables } from './css-variables';
-import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
+import {
+    AnswerService, SessionInterface, UnderlyingDataPoint, SortOptions,
+} from './utils/graphql/answerService/answerService';
 import { getEmbedConfig } from './embed/embedConfig';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 import { tokenizedFetch } from './tokenizedFetch';
@@ -150,6 +160,12 @@ import {
     NavigateRequest,
     SetActiveTabRequest,
 } from './contracts/host-event-contracts';
+import {
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
+} from './utils/filterConverter';
 
 export {
     init,
@@ -195,6 +211,7 @@ export {
     // types
     SessionInterface,
     UnderlyingDataPoint,
+    SortOptions,
     Page,
     AuthType,
     RuntimeFilter,
@@ -209,9 +226,14 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    LiveboardOverride,
+    LiveboardDataSourceOverride,
+    LiveboardFilterQuery,
+    LiveboardParameterQuery,
     SpotterVizConfig,
     SpotterVizStarterPrompt,
     SpotterVizLoaderTip,
+    SpotterExperienceVersion,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,
@@ -234,6 +256,7 @@ export {
     HomePage,
     ListPage,
     VizPoint,
+    CustomAction,
     CustomActionPayload,
     UIPassthroughEvent,
     // Host event payload / response contracts. These describe what to send with
@@ -316,6 +339,10 @@ export {
     DataLabelFilterOperator,
     TableTheme,
     TableContentDensity,
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
 };
 
 export { resetCachedAuthToken } from './authToken';
