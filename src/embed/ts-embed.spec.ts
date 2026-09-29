@@ -2549,7 +2549,7 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
-    describe('darkModeEnabled', () => {
+    describe('isDarkMode', () => {
         const renderAppEmbed = async (viewConfig = {}) => {
             const appEmbed = new AppEmbed(getRootEl(), {
                 frameParams: {
@@ -2567,11 +2567,11 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                darkModeEnabled: true,
+                isDarkMode: true,
             });
 
             expectUrlToHaveParamsWithValues(await renderAppEmbed(), {
-                darkModeEnabled: true,
+                isDarkMode: true,
                 radiantThemeEnabled: true,
             });
         });
@@ -2580,11 +2580,11 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                darkModeEnabled: false,
+                isDarkMode: false,
             });
 
             const src = await renderAppEmbed();
-            expectUrlToHaveParamsWithValues(src, { darkModeEnabled: false });
+            expectUrlToHaveParamsWithValues(src, { isDarkMode: false });
             // Light leaves the radiant theme to the cluster.
             expect(src).not.toContain('radiantThemeEnabled=');
         });
@@ -2595,10 +2595,10 @@ describe('Unit test case for ts embed', () => {
                 authType: AuthType.None,
             });
 
-            // Absent rather than `darkModeEnabled=false`: an omitted param keeps the
+            // Absent rather than `isDarkMode=false`: an omitted param keeps the
             // URL short, and the app treats it as light either way.
             const src = await renderAppEmbed();
-            expect(src).not.toContain('darkModeEnabled=');
+            expect(src).not.toContain('isDarkMode=');
             expect(src).not.toContain('radiantThemeEnabled=');
         });
 
@@ -2606,11 +2606,11 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                darkModeEnabled: true,
+                isDarkMode: true,
             });
 
-            const src = await renderAppEmbed({ darkModeEnabled: false });
-            expectUrlToHaveParamsWithValues(src, { darkModeEnabled: false });
+            const src = await renderAppEmbed({ isDarkMode: false });
+            expectUrlToHaveParamsWithValues(src, { isDarkMode: false });
             expect(src).not.toContain('radiantThemeEnabled=');
         });
 
@@ -2618,12 +2618,12 @@ describe('Unit test case for ts embed', () => {
             init({
                 thoughtSpotHost: 'tshost',
                 authType: AuthType.None,
-                darkModeEnabled: true,
+                isDarkMode: true,
             });
 
             expectUrlToHaveParamsWithValues(
                 await renderAppEmbed({ additionalFlags: { radiantThemeEnabled: false } }),
-                { darkModeEnabled: true, radiantThemeEnabled: false },
+                { isDarkMode: true, radiantThemeEnabled: false },
             );
         });
     });

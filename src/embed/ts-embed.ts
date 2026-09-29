@@ -797,10 +797,10 @@ export class TsEmbed {
         // The view config wins over init, so an embed can opt out of an
         // app-wide dark mode. `??` and not `||`, so that an explicit `false`
         // overrides an init-level `true` and only `undefined` falls through.
-        const darkModeEnabled = this.viewConfig.darkModeEnabled ?? this.embedConfig.darkModeEnabled;
-        setParamIfDefined(queryParams, Param.DarkModeEnabled, darkModeEnabled, true);
+        const isDarkMode = this.viewConfig.isDarkMode ?? this.embedConfig.isDarkMode;
+        setParamIfDefined(queryParams, Param.IsDarkMode, isDarkMode, true);
         // The app's dark mode lives in its radiant theme, so turn that on too.
-        if (darkModeEnabled) {
+        if (isDarkMode) {
             queryParams[Param.RadiantThemeEnabled] = true;
         }
 

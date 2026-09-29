@@ -569,11 +569,11 @@ export interface EmbedConfig {
      * ```js
      * init({
      *   ...embedConfig,
-     *   darkModeEnabled: true,
+     *   isDarkMode: true,
      * });
      * ```
      */
-    darkModeEnabled?: boolean;
+    isDarkMode?: boolean;
 
     /**
      * Host config in case embedded app is inside TS app itself
@@ -1159,7 +1159,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     customizations?: CustomisationsInterface;
     /**
      * Render this embed in dark appearance when `true`, and in light
-     * appearance when `false`, overriding the `darkModeEnabled` value passed
+     * appearance when `false`, overriding the `isDarkMode` value passed
      * to `init`.
      *
      * The host application owns the appearance of an embed, so this overrides
@@ -1173,11 +1173,11 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * // Replace AppEmbed with a specific embed component like SearchEmbed or LiveboardEmbed
      * const embed = new AppEmbed('#tsEmbed', {
      *   ... // other embed view config
-     *   darkModeEnabled: true,
+     *   isDarkMode: true,
      * });
      * ```
      */
-    darkModeEnabled?: boolean;
+    isDarkMode?: boolean;
     /**
      * Insert as a sibling of the target container, instead of appending to a
      * child inside it.
@@ -7095,7 +7095,7 @@ export enum Param {
     AnalystId = 'analystId',
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
     ShowAnswerEditPanel = 'showAnswerEditPanel',
-    DarkModeEnabled = 'darkModeEnabled',
+    IsDarkMode = 'isDarkMode',
     RadiantThemeEnabled = 'radiantThemeEnabled',
 }
 
