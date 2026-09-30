@@ -244,3 +244,4 @@ Look at `local/index.html` and `local/index.ts` for some starter code.
 <br/>
 
 Visual-Embed-SDK, © ThoughtSpot, Inc. 2023
+
