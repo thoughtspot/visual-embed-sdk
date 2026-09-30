@@ -150,6 +150,9 @@ const answerIdListRequests = new Map<string, Promise<string[] | null>>();
  * message order. The host app counts answers the same way, so the Nth id here
  * is the Nth stored answer.
  *
+ * @param conversationUrl - The conversation's base URL on the conversation
+ *   service, `{host}/conversation/v2/{encoded id}`.
+ * @param conversationId - The conversation identifier, used in log messages.
  * @returns The ids, or `null` when the conversation cannot be read. Never
  *   rejects, so callers sharing the request need no error handling of their own.
  */
@@ -187,9 +190,14 @@ async function fetchAnswerIds(conversationUrl: string, conversationId: string): 
  * The answer-id list for a conversation, joining a request already in flight
  * for it.
  *
+ * @param conversationUrl - The conversation's base URL on the conversation
+ *   service. Also the key requests are shared under.
+ * @param conversationId - The conversation identifier, used in log messages.
  * @param stale - A request the caller already read and found too short. It is
  *   not reused; the first caller to pass it starts a new request, and the
  *   others join that one.
+ * @returns The shared request: the ids, or `null` when the conversation cannot
+ *   be read. Never rejects.
  */
 function getAnswerIds(
     conversationUrl: string,
