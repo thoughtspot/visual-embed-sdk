@@ -1798,6 +1798,11 @@ export class TsEmbed {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_CALLED, {
             embedComponentType: this.viewConfig.embedComponentType,
         });
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_INIT_ACTIONS, {
+            embedComponentType: this.viewConfig.embedComponentType,
+            hiddenActions: this.viewConfig.hiddenActions ?? [],
+            visibleActions: this.viewConfig.visibleActions ?? [],
+        });
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
