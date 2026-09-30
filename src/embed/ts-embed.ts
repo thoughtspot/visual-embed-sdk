@@ -1802,6 +1802,7 @@ export class TsEmbed {
             embedComponentType: this.viewConfig.embedComponentType,
             hiddenActions: this.viewConfig.hiddenActions ?? [],
             visibleActions: this.viewConfig.visibleActions ?? [],
+            disabledActions: this.viewConfig.disabledActions ?? [],
         });
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
