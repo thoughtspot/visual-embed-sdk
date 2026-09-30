@@ -964,8 +964,10 @@ describe('startAutoMCPFrameRenderer', () => {
                 + `&${Param.TsmcpAnswerIndex}=5`;
             const { renderedSrc, frame } = await renderReplayFrame({}, src);
 
-            // Only the list call; there is no answer to load.
-            expect(fetchedUrls()).toHaveLength(1);
+            // The list, read once more in case it predated the answer; there is
+            // no answer to load.
+            expect(fetchedUrls()).toHaveLength(2);
+            expect(fetchedUrls().every((url) => url.endsWith('/public') && !url.includes('/load/'))).toBe(true);
             expect(renderedSrc).not.toContain('sessionId=');
             expect(frame.dataset.tsStaleAnswer).toBeUndefined();
         });
@@ -1028,6 +1030,103 @@ describe('startAutoMCPFrameRenderer', () => {
             // Resolution ran, and marking a missing frame did not throw.
             expect(fetchedUrls()).toHaveLength(2);
             expect(renderIFrameSpy).toHaveBeenCalledTimes(1);
+        });
+
+        describe('sharing the answer-id list', () => {
+            const replaySrc = (index: number, conversationId = CONVERSATION_ID) =>
+                `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true`
+                + `&${Param.TsmcpConversationId}=${conversationId}`
+                + `&${Param.TsmcpAnswerIndex}=${index}`;
+
+            /**
+             * Mounts all `srcs` in one batch, as a replayed chat does.
+             * Returns the rendered srcs.
+             */
+            async function renderReplayBatch(srcs: string[]): Promise<string[]> {
+                const rendered: string[] = [];
+                renderIFrameSpy.mockRestore();
+                renderIFrameSpy = jest.spyOn(TsEmbed.prototype as any, 'renderIFrame')
+                    .mockImplementation(async function (this: any, capturedSrc: string) {
+                        rendered.push(capturedSrc);
+                        this.iFrame = document.createElement('iframe');
+                    });
+
+                const observer = startAutoMCPFrameRenderer({});
+                const container = document.createElement('div');
+                srcs.forEach((src) => {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = src;
+                    container.appendChild(iframe);
+                });
+                document.body.appendChild(container);
+                await new Promise((r) => setTimeout(r, 100));
+                observer.disconnect();
+                return rendered;
+            }
+
+            const listCalls = () => fetchedUrls().filter((url) => !url.includes('/load/'));
+            const loadCalls = () => fetchedUrls().filter((url) => url.includes('/load/'));
+
+            test('concurrent frames from one conversation share one list call', async () => {
+                const rendered = await renderReplayBatch([replaySrc(0), replaySrc(1)]);
+
+                expect(listCalls()).toHaveLength(1);
+                // Each answer still loads its own live session.
+                expect(loadCalls()).toHaveLength(2);
+                expect(loadCalls().some((url) => url.includes('/message/ans_first/'))).toBe(true);
+                expect(loadCalls().some((url) => url.includes('/message/ans_second/'))).toBe(true);
+                expect(rendered.every((src) => src.includes('sessionId=fresh-session'))).toBe(true);
+            });
+
+            test('frames from different conversations do not share a list', async () => {
+                await renderReplayBatch([replaySrc(0), replaySrc(0, 'otherConversation')]);
+
+                expect(listCalls()).toHaveLength(2);
+                expect(listCalls().some((url) => url.includes('/otherConversation/'))).toBe(true);
+            });
+
+            test('a failed list is not reused by a later frame', async () => {
+                fetchMock.mockImplementation(async () => ({ ok: false, status: 500 } as any));
+                await renderReplayBatch([replaySrc(0)]);
+                expect(listCalls()).toHaveLength(1);
+
+                mockConversation(messagesPayload);
+                const rendered = await renderReplayBatch([replaySrc(0)]);
+
+                expect(listCalls()).toHaveLength(2);
+                expect(rendered[0]).toContain('sessionId=fresh-session');
+            });
+
+            test('a frame mounted after the batch settles reads a fresh list', async () => {
+                await renderReplayBatch([replaySrc(0)]);
+                await renderReplayBatch([replaySrc(1)]);
+
+                expect(listCalls()).toHaveLength(2);
+            });
+
+            test('a list too short for the index is read exactly once more', async () => {
+                // The first read predates the second answer; the
+                // second read has it.
+                let listReads = 0;
+                fetchMock.mockImplementation(async (input: any) => {
+                    const url = typeof input === 'string' ? input : input.url;
+                    if (url.includes('/load/public')) {
+                        return { ok: true, status: 200, json: async () => detailsPayload } as any;
+                    }
+                    listReads += 1;
+                    const messages = listReads === 1
+                        ? { messages: [messagesPayload.messages[0]] }
+                        : messagesPayload;
+                    return { ok: true, status: 200, json: async () => messages } as any;
+                });
+                const rendered = await renderReplayBatch([replaySrc(1), replaySrc(1)]);
+
+                // Both frames missed on the first list and joined one re-read.
+                expect(listCalls()).toHaveLength(2);
+                expect(loadCalls()).toHaveLength(2);
+                expect(loadCalls().every((url) => url.includes('/message/ans_second/'))).toBe(true);
+                expect(rendered.every((src) => src.includes('sessionId=fresh-session'))).toBe(true);
+            });
         });
 
         test('a frame without a conversation id makes no API calls and is unmarked', async () => {

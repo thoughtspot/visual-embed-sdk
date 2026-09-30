@@ -130,6 +130,87 @@ function answerIndexFromParam(raw: string | null): number {
     return Number.isInteger(parsed) && parsed >= 0 ? parsed : 0;
 }
 
+/**
+ * In-flight answer-id list requests, keyed by conversation-service URL.
+ *
+ * Replaying a stored chat mounts every one of its frames at once, and each
+ * frame resolves on its own. Without this, N frames from one conversation make
+ * N identical list calls. Sharing the in-flight request collapses them to one.
+ *
+ * Only the id list is shared, and only while its request is in flight: the
+ * entry is dropped once the request settles, whether it succeeded or not. A
+ * failed response is therefore never reused, and a frame mounted later always
+ * reads a fresh list. The per-answer load call is never shared - it returns
+ * live session state with its own expiry.
+ */
+const answerIdListRequests = new Map<string, Promise<string[] | null>>();
+
+/**
+ * Lists a conversation's answer ids: its non-thinking `answer` items, in
+ * message order. The host app counts answers the same way, so the Nth id here
+ * is the Nth stored answer.
+ *
+ * @returns The ids, or `null` when the conversation cannot be read. Never
+ *   rejects, so callers sharing the request need no error handling of their own.
+ */
+async function fetchAnswerIds(conversationUrl: string, conversationId: string): Promise<string[] | null> {
+    try {
+        const messagesResponse = await tokenizedFetch(`${conversationUrl}/public`, {
+            credentials: 'include',
+            headers: { Accept: 'application/json' },
+        });
+        if (!messagesResponse.ok) {
+            logger.warn(
+                `[AutoFrameRenderer] Conversation fetch failed for ${conversationId}: ${messagesResponse.status}`,
+            );
+            return null;
+        }
+        const messagesBody = await messagesResponse.json();
+        const messages = messagesBody?.messages;
+
+        const answerIds: string[] = [];
+        for (const message of Array.isArray(messages) ? messages : []) {
+            for (const item of message?.response_items || []) {
+                if (item?.type === 'answer' && item?.is_thinking === false && item?.answer_id) {
+                    answerIds.push(item.answer_id);
+                }
+            }
+        }
+        return answerIds;
+    } catch (e) {
+        logger.warn(`[AutoFrameRenderer] Failed to list answers for ${conversationId}: ${e}`);
+        return null;
+    }
+}
+
+/**
+ * The answer-id list for a conversation, joining a request already in flight
+ * for it.
+ *
+ * @param stale - A request the caller already read and found too short. It is
+ *   not reused; the first caller to pass it starts a new request, and the
+ *   others join that one.
+ */
+function getAnswerIds(
+    conversationUrl: string,
+    conversationId: string,
+    stale?: Promise<string[] | null>,
+): Promise<string[] | null> {
+    const inFlight = answerIdListRequests.get(conversationUrl);
+    if (inFlight && inFlight !== stale) {
+        return inFlight;
+    }
+    const request = fetchAnswerIds(conversationUrl, conversationId);
+    answerIdListRequests.set(conversationUrl, request);
+    const release = () => {
+        if (answerIdListRequests.get(conversationUrl) === request) {
+            answerIdListRequests.delete(conversationUrl);
+        }
+    };
+    request.then(release, release);
+    return request;
+}
+
 function isTSMCPIframe(iframe: HTMLIFrameElement) {
     try {
         const url = new URL(iframe.src);
@@ -206,6 +287,8 @@ class AutoFrameRenderer extends TsEmbed {
      *
      * 1. `GET {conv}/public` lists the conversation's messages; the
      *    non-thinking `answer` items, in message order, give the answer ids.
+     *    Frames from the same conversation share one in-flight call - see
+     *    {@link getAnswerIds}.
      * 2. `POST {conv}/message/{id}/load/public` turns the answer id at
      *    `answerIndex` into a live session identifier, generation number and
      *    agent-context state.
@@ -219,28 +302,16 @@ class AutoFrameRenderer extends TsEmbed {
     ): Promise<AnswerSessionParams | null> {
         const base = `${this.thoughtSpotHost}${CONVERSATION_SERVICE_PATH}/${encodeURIComponent(conversationId)}`;
         try {
-            const messagesResponse = await tokenizedFetch(`${base}/public`, {
-                credentials: 'include',
-                headers: { Accept: 'application/json' },
-            });
-            if (!messagesResponse.ok) {
-                logger.warn(
-                    `[AutoFrameRenderer] Conversation fetch failed for ${conversationId}: ${messagesResponse.status}`,
-                );
-                return null;
+            const listRequest = getAnswerIds(base, conversationId);
+            let answerIds = await listRequest;
+            if (answerIds && !answerIds[answerIndex]) {
+                // The list only grows, so a short one may predate this answer:
+                // a frame that joined a request started before it was added.
+                // Read the list once more before giving up.
+                answerIds = await getAnswerIds(base, conversationId, listRequest);
             }
-            const messagesBody = await messagesResponse.json();
-            const messages = messagesBody?.messages;
-
-            // Ordinal match: the host app counts answers the same way, so the
-            // Nth non-thinking answer item here is the Nth stored answer.
-            const answerIds: string[] = [];
-            for (const message of Array.isArray(messages) ? messages : []) {
-                for (const item of message?.response_items || []) {
-                    if (item?.type === 'answer' && item?.is_thinking === false && item?.answer_id) {
-                        answerIds.push(item.answer_id);
-                    }
-                }
+            if (!answerIds) {
+                return null;
             }
 
             const answerId = answerIds[answerIndex];
