@@ -1312,6 +1312,34 @@ describe('Unit test case for ts embed', () => {
             );
         });
 
+        test('should send visual-sdk-init-actions with configured actions, [] when unused', async () => {
+            await new SearchEmbed(getRootEl(), {
+                hiddenActions: [Action.Download],
+                disabledActions: [Action.Edit],
+            }).render();
+            expect(mockMixPanelEvent).toHaveBeenCalledWith(
+                MIXPANEL_EVENT.VISUAL_SDK_INIT_ACTIONS,
+                expect.objectContaining({
+                    hiddenActions: [Action.Download],
+                    visibleActions: [],
+                    disabledActions: [Action.Edit],
+                }),
+            );
+
+            mockMixPanelEvent.mockClear();
+            await new SearchEmbed(getRootEl(), {
+                visibleActions: [Action.Save],
+            }).render();
+            expect(mockMixPanelEvent).toHaveBeenCalledWith(
+                MIXPANEL_EVENT.VISUAL_SDK_INIT_ACTIONS,
+                expect.objectContaining({
+                    hiddenActions: [],
+                    visibleActions: [Action.Save],
+                    disabledActions: [],
+                }),
+            );
+        });
+
         test('Should remove prefetch iframe', async () => {
             await setup(true);
             const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>('.prefetchIframe');
