@@ -558,6 +558,28 @@ export interface EmbedConfig {
     blockNonEmbedFullAppAccess?: boolean;
 
     /**
+     * Render the embedded application in dark appearance when `true`, and in
+     * its default appearance when `false` or unset.
+     *
+     * The host application owns the appearance of an embed, so this overrides
+     * the appearance preference of the signed-in user and the color scheme of
+     * their operating system. If your application has light and dark themes,
+     * pass `true` while it shows the dark theme and `false` while it shows
+     * the light theme.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * // Your application's current theme, 'light' or 'dark'
+     * const appTheme = 'dark';
+     * init({
+     *   ...embedConfig,
+     *   isDarkMode: appTheme === 'dark',
+     * });
+     * ```
+     */
+    isDarkMode?: boolean;
+
+    /**
      * Host config in case embedded app is inside TS app itself
      * @hidden
      */
@@ -1139,6 +1161,31 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * @default ''
      */
     customizations?: CustomisationsInterface;
+    /**
+     * Render this embed in dark appearance when `true`, and in its default
+     * appearance when `false`, overriding the `isDarkMode` value passed to
+     * `init`.
+     *
+     * The host application owns the appearance of an embed, so this overrides
+     * the appearance preference of the signed-in user and the color scheme of
+     * their operating system. If your application has light and dark themes,
+     * pass `true` while it shows the dark theme and `false` while it shows
+     * the light theme. Leave it unset to inherit the `init` value.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * // Your application's current theme, 'light' or 'dark'
+     * const appTheme = 'dark';
+     * // Replace AppEmbed with a specific embed component like SearchEmbed or LiveboardEmbed
+     * const embed = new AppEmbed('#tsEmbed', {
+     *   ... // other embed view config
+     *   isDarkMode: appTheme === 'dark',
+     * });
+     * ```
+     */
+    isDarkMode?: boolean;
     /**
      * Insert as a sibling of the target container, instead of appending to a
      * child inside it.
@@ -7167,6 +7214,8 @@ export enum Param {
     SpotterDataSources = 'spotterDataSources',
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
     ShowAnswerEditPanel = 'showAnswerEditPanel',
+    IsDarkMode = 'isDarkMode',
+    RadiantThemeEnabled = 'radiantThemeEnabled',
     SpotterExperienceVersion = 'spotterExperienceVersion',
 }
 

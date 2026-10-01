@@ -45,6 +45,7 @@ import {
     getHostEventsConfig,
     getValueFromWindow,
     deserializeParam,
+    setParamIfDefined,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -132,8 +133,8 @@ const NO_RUNTIME_PARAMS = '&';
  * embed marker, the host application URL used to validate the message origin,
  * the SDK version, the flags that pick the authentication flow, and the
  * boot-time settings that would otherwise be applied a frame late (viewport,
- * log level, locale, formatting and org). Everything else is delivered over
- * `HostEvent.UpdateEmbedParams`.
+ * log level, locale, formatting, org and appearance). Everything else is
+ * delivered over `HostEvent.UpdateEmbedParams`.
  * @internal
  */
 const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
@@ -157,6 +158,8 @@ const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
     Param.DateFormatLocale,
     Param.CurrencyFormat,
     Param.Locale,
+    Param.IsDarkMode,
+    Param.RadiantThemeEnabled,
     Param.searchEmbed,
     Param.livedBoardEmbed,
     Param.isSpotterAgentEmbed,
@@ -844,6 +847,15 @@ export class TsEmbed {
         }
         if (this.embedConfig.currencyFormat) {
             queryParams[Param.CurrencyFormat] = this.embedConfig.currencyFormat;
+        }
+        // The view config wins over init, so an embed can opt out of a dark
+        // mode set in `init`. `??` and not `||`, so that an explicit `false`
+        // overrides an init-level `true`.
+        const isDarkMode = this.viewConfig.isDarkMode ?? this.embedConfig.isDarkMode;
+        setParamIfDefined(queryParams, Param.IsDarkMode, isDarkMode, true);
+        // The app's dark mode lives in its radiant theme, so turn that on too.
+        if (isDarkMode) {
+            queryParams[Param.RadiantThemeEnabled] = true;
         }
 
         const {

@@ -2577,6 +2577,85 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
+    describe('isDarkMode', () => {
+        const renderAppEmbed = async (viewConfig = {}) => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                frameParams: {
+                    width: '100%',
+                    height: '100%',
+                },
+                ...viewConfig,
+            });
+            appEmbed.render();
+            await waitFor(() => !!getIFrameEl());
+            return getIFrameSrc();
+        };
+
+        it('sends the appearance the host asked for in init, with the radiant theme', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                isDarkMode: true,
+            });
+
+            expectUrlToHaveParamsWithValues(await renderAppEmbed(), {
+                isDarkMode: true,
+                radiantThemeEnabled: true,
+            });
+        });
+
+        it('sends an explicit false', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                isDarkMode: false,
+            });
+
+            const src = await renderAppEmbed();
+            expectUrlToHaveParamsWithValues(src, { isDarkMode: false });
+            // `false` leaves the radiant theme to the cluster.
+            expect(src).not.toContain('radiantThemeEnabled=');
+        });
+
+        it('omits the param when the host says nothing', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+            });
+
+            // Absent rather than `isDarkMode=false`: an omitted param keeps the
+            // URL short, and the app treats a missing param like `false`.
+            const src = await renderAppEmbed();
+            expect(src).not.toContain('isDarkMode=');
+            expect(src).not.toContain('radiantThemeEnabled=');
+        });
+
+        it('lets the view config override the value set in init', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                isDarkMode: true,
+            });
+
+            const src = await renderAppEmbed({ isDarkMode: false });
+            expectUrlToHaveParamsWithValues(src, { isDarkMode: false });
+            expect(src).not.toContain('radiantThemeEnabled=');
+        });
+
+        it('lets additionalFlags override the radiant theme it turns on', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.None,
+                isDarkMode: true,
+            });
+
+            expectUrlToHaveParamsWithValues(
+                await renderAppEmbed({ additionalFlags: { radiantThemeEnabled: false } }),
+                { isDarkMode: true, radiantThemeEnabled: false },
+            );
+        });
+    });
+
     describe('validate preRender flow', () => {
         beforeAll(() => {
             init({
@@ -6806,6 +6885,13 @@ describe('excludeConfigFromURL', () => {
         });
 
         expect(src).toContain(`${Param.OverrideOrgId}=42`);
+    });
+
+    test('keeps the dark mode params on the URL when the flag is set', async () => {
+        const { src } = await renderAndGetSrc(withPostMessage({ ...lbConfig, isDarkMode: true }));
+
+        expect(src).toContain(`${Param.IsDarkMode}=true`);
+        expect(src).toContain(`${Param.RadiantThemeEnabled}=true`);
     });
 
     test('keeps the deep-link route on the URL when the flag is set', async () => {
