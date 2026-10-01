@@ -822,6 +822,29 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should include spotterUsageLimitConfig in APP_INIT embedParams', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterUsageLimitConfig: { isEnabled: true },
+        } as AppViewConfig);
+
+        mockMessageChannel();
+        appEmbed.render();
+
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage.mock.calls[0][0].data.embedParams.spotterUsageLimitConfig)
+                .toEqual({ isEnabled: true });
+        });
+    });
+
     test('should pass brandHeadline through spotterVizConfig in APP_INIT', async () => {
         const spotterViz = { brandName: 'MyBrand', brandHeadline: "Hi, there! I'm" };
         const appEmbed = new AppEmbed(getRootEl(), {

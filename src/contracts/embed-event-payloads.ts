@@ -13,6 +13,7 @@
  * @module contracts
  */
 import type { CustomActionPayload, EmbedEvent, MessagePayload } from '../types';
+import type { SpotterUsageLimitStatus } from '../embed/conversation';
 // Type-only: AnswerService is an SDK-side enrichment (see
 // EmbedEventEnvelopeExtension). Type-only import keeps the contracts subpath
 // free of any runtime dependency on the answer-service implementation.
@@ -35,6 +36,21 @@ export interface EmbedEventDataExtension {
      * `payload.data.id` to identify which action fired.
      */
     [EmbedEvent.CustomAction]: CustomActionPayload;
+    [EmbedEvent.SpotterUsageLimitUpgrade]: {
+        /**
+         * Total number of questions the user has asked, across all sessions.
+         * This is not reset per session.
+         */
+        usageCount: number;
+        /**
+         * The user's total question limit.
+         */
+        usageLimit: number;
+        /**
+         * Where the user's usage stands relative to the limit.
+         */
+        status: SpotterUsageLimitStatus;
+    };
 }
 
 /**

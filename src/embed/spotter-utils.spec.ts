@@ -4,9 +4,11 @@ import {
     buildSpotterShareConversationAppInitData,
     buildStarterPromptsAppInitData,
     buildSpotterAnalystAppInitData,
+    buildSpotterUsageLimitAppInitData,
 } from './spotter-utils';
 import { ErrorDetailsTypes, EmbedErrorCodes } from '../types';
 import { ERROR_MESSAGE } from '../errors';
+import { SpotterUsageCounterDisplayMode } from './conversation';
 
 describe('resolveEnablePastConversationsSidebar', () => {
     it('prefers spotterSidebarConfig value over standalone', () => {
@@ -272,5 +274,39 @@ describe('buildSpotterAnalystAppInitData', () => {
         });
         expect(result.embedParams?.spotterSidebarConfig).toEqual({ enablePastConversationsSidebar: true });
         expect(result.embedParams?.spotterAnalystConfig).toEqual({ analystId: 'analyst-id-1234' });
+    });
+});
+
+describe('buildSpotterUsageLimitAppInitData', () => {
+    const base = { type: 'APP_INIT' } as any;
+
+    it('returns the payload unchanged when the config is absent or empty', () => {
+        expect(buildSpotterUsageLimitAppInitData(base, {})).toBe(base);
+        expect(buildSpotterUsageLimitAppInitData(base, { spotterUsageLimitConfig: {} })).toBe(base);
+    });
+
+    it('passes the config through as a nested embedParams object', () => {
+        const spotterUsageLimitConfig = {
+            isEnabled: true,
+            isHostManaged: false,
+            isUpgradeButtonVisible: false,
+            isWarningBannerEnabled: false,
+            isLimitBannerEnabled: true,
+            usageCounterDisplayMode: SpotterUsageCounterDisplayMode.VisibleAfterWarning,
+        };
+        const result = buildSpotterUsageLimitAppInitData(base, { spotterUsageLimitConfig });
+        expect(result.embedParams).toEqual({ spotterUsageLimitConfig });
+    });
+
+    it('preserves existing embedParams keys', () => {
+        const withExisting = {
+            ...base,
+            embedParams: { spotterAnalystConfig: { analystId: 'analyst-id-1234' } },
+        } as any;
+        const result = buildSpotterUsageLimitAppInitData(withExisting, {
+            spotterUsageLimitConfig: { isEnabled: true },
+        });
+        expect(result.embedParams?.spotterAnalystConfig).toEqual({ analystId: 'analyst-id-1234' });
+        expect(result.embedParams?.spotterUsageLimitConfig).toEqual({ isEnabled: true });
     });
 });

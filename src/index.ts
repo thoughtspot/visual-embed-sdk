@@ -32,7 +32,7 @@ import { PinboardEmbed, LiveboardViewConfig, LiveboardEmbed } from './embed/live
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, BodylessConversationViewConfig} from './embed/bodyless-conversation';
-import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterAnalystConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, StarterPromptCategory, StarterPreviewDataCategory, StarterPromptQuestion, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
+import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterAnalystConfig, SpotterUsageLimitConfig, SpotterUsageLimitStatus, SpotterUsageCounterDisplayMode, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, StarterPromptCategory, StarterPreviewDataCategory, StarterPromptQuestion, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import { SpotterVizConfig, SpotterVizStarterPrompt, SpotterVizLoaderTip } from './embed/spotter-viz-utils';
 import { SpotterExperienceVersion } from './embed/spotter-utils';
 import {
@@ -143,6 +143,7 @@ import {
     VizScopedRequest,
     RequiredVizRequest,
     ConversationScopedRequest,
+    SpotterRefreshUsageLimitRequest,
     OpenFilterRequest,
     OpenFilterLiveboardRequest,
     OpenFilterSpotterRequest,
@@ -195,6 +196,9 @@ export {
     SpotterChatViewConfig,
     SpotterSidebarViewConfig,
     SpotterAnalystConfig,
+    SpotterUsageLimitConfig,
+    SpotterUsageLimitStatus,
+    SpotterUsageCounterDisplayMode,
     SpotterQueryMode,
     SpotterShareConversationConfig,
     StarterPromptsConfig,
@@ -276,6 +280,7 @@ export {
     VizScopedRequest,
     RequiredVizRequest,
     ConversationScopedRequest,
+    SpotterRefreshUsageLimitRequest,
     OpenFilterRequest,
     OpenFilterLiveboardRequest,
     OpenFilterSpotterRequest,

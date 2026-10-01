@@ -4074,6 +4074,25 @@ export enum EmbedEvent {
      */
     SpotterShareConversationMenuItemSidebarClicked = 'spotterShareConversationMenuItemSidebarClicked',
     /**
+     * Emitted when the user clicks the upgrade button in the Spotter usage
+     * limit counter or banner. Requires `spotterUsageLimitConfig.isEnabled`.
+     * The host is expected to run its own upgrade flow, then trigger
+     * {@link HostEvent.SpotterRefreshUsageLimit} so Spotter picks up the new
+     * limits.
+     *
+     * `usageCount` is the total number of questions the user has asked across
+     * all sessions, not just the current one.
+     * @example
+     * ```js
+     * spotterEmbed.on(EmbedEvent.SpotterUsageLimitUpgrade, (payload) => {
+     *     // payload.data: { usageCount: number, usageLimit: number,
+     *     //                 status: 'withinLimit' | 'almostReached' | 'limitReached' }
+     * })
+     * ```
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     */
+    SpotterUsageLimitUpgrade = 'spotterUsageLimitUpgrade',
+    /**
      * Emitted when a Spotter conversation is shared (recipients added, or a new
      * share created). The host builds its own link from shareId/convId + its
      * configured CONVERSATION_URL — no link string is sent. Distinct from
@@ -6723,6 +6742,29 @@ export enum HostEvent {
      * @version SDK: 1.52.0 | ThoughtSpot Cloud: 26.9.0.cl
      */
     ExitSpotterSharedConversation = 'ExitSpotterSharedConversation',
+    /**
+     * Makes Spotter re-read the usage-limit data, for example after the host
+     * runs an upgrade flow or changes the user's limits or usage. Requires
+     * `spotterUsageLimitConfig.isEnabled`.
+     *
+     * The payload is optional. Both fields apply only to the current session,
+     * so the host must send them again after a reload.
+     * - `isUnlimited`: when `true`, hides usage tracking entirely
+     * - `isUpgradeButtonVisible`: when `false`, hides the upgrade button,
+     *   for hosts that allow upgrading only once. Overrides the initial value
+     *   from `spotterUsageLimitConfig.isUpgradeButtonVisible`
+     *
+     * Payload: {@link SpotterRefreshUsageLimitRequest}.
+     * @example
+     * ```js
+     * spotterEmbed.trigger(HostEvent.SpotterRefreshUsageLimit);
+     * spotterEmbed.trigger(HostEvent.SpotterRefreshUsageLimit, {
+     *     isUpgradeButtonVisible: false,
+     * });
+     * ```
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     */
+    SpotterRefreshUsageLimit = 'SpotterRefreshUsageLimit',
     /**
      * Deletes the last prompt in spotter embed.
      * Payload: none.
