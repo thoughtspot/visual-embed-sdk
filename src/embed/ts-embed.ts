@@ -82,6 +82,7 @@ import {
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
+import { BOOTSTRAP_URL_PARAMS } from '../utils/bootstrap-url-params';
 import {
     getAuthPromise,
     renderInQueue,
@@ -125,58 +126,6 @@ const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 // truthy, so null or '' leaves the previous embed's values in place. '&' is
 // truthy and parses to {}.
 const NO_RUNTIME_PARAMS = '&';
-
-/**
- * Query parameters that stay on the iframe `src` when the embed sets the
- * `excludeConfigFromURL` additional flag. These are the parameters the
- * application shell needs before it can receive a postMessage at all: the
- * embed marker, the host application URL used to validate the message origin,
- * the SDK version, the flags that pick the authentication flow, and the
- * boot-time settings that would otherwise be applied a frame late (viewport,
- * log level, locale, formatting, org and appearance). Everything else is
- * delivered over `HostEvent.UpdateEmbedParams`.
- * @internal
- */
-const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
-    Param.EmbedApp,
-    Param.HostAppUrl,
-    Param.Version,
-    Param.AuthType,
-    Param.AutoLogin,
-    Param.DisableLoginRedirect,
-    Param.ForceSAMLAutoRedirect,
-    Param.cookieless,
-    Param.preAuthCache,
-    Param.blockNonEmbedFullAppAccess,
-    Param.OverrideOrgId,
-    Param.ViewPortHeight,
-    Param.ViewPortWidth,
-    Param.ClientLogLevel,
-    Param.OverrideNativeConsole,
-    Param.PendoTrackingKey,
-    Param.NumberFormatLocale,
-    Param.DateFormatLocale,
-    Param.CurrencyFormat,
-    Param.Locale,
-    Param.IsDarkMode,
-    Param.RadiantThemeEnabled,
-    Param.searchEmbed,
-    Param.livedBoardEmbed,
-    Param.isSpotterAgentEmbed,
-    Param.SpotterEnabled,
-    Param.IsFullAppEmbed,
-    Param.IsOnBeforeGetVizDataInterceptEnabled,
-    Param.LinkOverride,
-    Param.EnableLinkOverridesV2,
-    Param.DisableRedirectionLinksInNewTab,
-    Param.OverrideHistoryState,
-    Param.ForceTable,
-    Param.StringIDsUrl,
-    Param.DataSources,
-    Param.ExposeTranslationIDs,
-    Param.IconSpriteUrl,
-    Param.Tag,
-]);
 
 /**
  * The event id map from v2 event names to v1 event id
