@@ -32,8 +32,8 @@ export const describeRuntimeParameters = (
 });
 
 // Column names, parameter names and operands are customer data and must never
-// reach Mixpanel; an unrecognised shape is dropped rather than forwarded.
-export const removeRuntimeDataForTelemetry = <T extends Record<string, any>>(
+// reach Mixpanel; an unrecognized shape is dropped rather than forwarded.
+export const summarizeRuntimeDataForTelemetry = <T extends Record<string, any>>(
     viewConfig: T,
 ): Record<string, any> => {
     const { runtimeFilters, runtimeParameters, ...rest } = viewConfig ?? ({} as T);

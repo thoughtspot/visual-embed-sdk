@@ -1,7 +1,7 @@
 import {
     describeRuntimeFilters,
     describeRuntimeParameters,
-    removeRuntimeDataForTelemetry,
+    summarizeRuntimeDataForTelemetry,
 } from './runtimeTelemetry';
 import { RuntimeFilter, RuntimeFilterOp, RuntimeParameter } from '../types';
 import { ApplicabilityLevel } from '../contracts/ui-passthrough-contracts';
@@ -85,9 +85,9 @@ describe('describeRuntimeParameters', () => {
     });
 });
 
-describe('removeRuntimeDataForTelemetry', () => {
+describe('summarizeRuntimeDataForTelemetry', () => {
     test('never returns a column name, a parameter name or an operand', () => {
-        const props = removeRuntimeDataForTelemetry({
+        const props = summarizeRuntimeDataForTelemetry({
             liveboardId: 'lb-guid',
             runtimeFilters: customerFilters,
             runtimeParameters: customerParameters,
@@ -103,7 +103,7 @@ describe('removeRuntimeDataForTelemetry', () => {
 
     test('replaces both arrays with their summaries', () => {
         expect(
-            removeRuntimeDataForTelemetry({
+            summarizeRuntimeDataForTelemetry({
                 runtimeFilters: customerFilters,
                 runtimeParameters: customerParameters,
             }),
@@ -115,7 +115,7 @@ describe('removeRuntimeDataForTelemetry', () => {
 
     test('leaves every other view config property untouched', () => {
         expect(
-            removeRuntimeDataForTelemetry({
+            summarizeRuntimeDataForTelemetry({
                 liveboardId: 'lb-guid',
                 fullHeight: true,
                 hiddenActions: ['download'],
@@ -128,13 +128,13 @@ describe('removeRuntimeDataForTelemetry', () => {
     });
 
     test('omits the keys entirely when they are absent', () => {
-        const props = removeRuntimeDataForTelemetry({ liveboardId: 'lb-guid' });
+        const props = summarizeRuntimeDataForTelemetry({ liveboardId: 'lb-guid' });
         expect(props).not.toHaveProperty('runtimeFilters');
         expect(props).not.toHaveProperty('runtimeParameters');
     });
 
     test('drops a non-array value rather than passing it through', () => {
-        const props = removeRuntimeDataForTelemetry({
+        const props = summarizeRuntimeDataForTelemetry({
             runtimeFilters: { columnName: 'Patient SSN' } as any,
             runtimeParameters: 'Sales Region' as any,
         });
@@ -143,6 +143,6 @@ describe('removeRuntimeDataForTelemetry', () => {
     });
 
     test('tolerates an undefined view config', () => {
-        expect(removeRuntimeDataForTelemetry(undefined as any)).toEqual({});
+        expect(summarizeRuntimeDataForTelemetry(undefined as any)).toEqual({});
     });
 });
