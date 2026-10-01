@@ -7006,6 +7006,40 @@ export enum HostEvent {
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
     RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
+
+    /**
+     * Switch the embed between dark appearance and its default appearance
+     * while it is open, without reloading it.
+     * Payload: {@link UpdateThemeRequest}.
+     *
+     * Use it to keep the embed in step with a theme switch in your
+     * application; the appearance the embed loads with is set by `isDarkMode`.
+     * The event resolves with the applied value, such as `{ isDarkMode: true }`.
+     * When dark appearance is not available in the embed, the embed does not
+     * change and the event rejects with an error message instead.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @param - `isDarkMode` - `true` for dark appearance, `false` for the
+     * default appearance.
+     * @example
+     * ```js
+     * appEmbed.trigger(HostEvent.UpdateTheme, { isDarkMode: true });
+     * ```
+     * @example
+     * ```js
+     * // Follow a theme switch in your application
+     * const themeSwitch = document.querySelector('#theme-switch');
+     * themeSwitch.addEventListener('change', async (event) => {
+     *   try {
+     *     await appEmbed.trigger(HostEvent.UpdateTheme, {
+     *       isDarkMode: event.target.checked,
+     *     });
+     *   } catch (error) {
+     *     console.warn(error);
+     *   }
+     * });
+     * ```
+     */
+    UpdateTheme = 'UpdateTheme',
 }
 
 /**
