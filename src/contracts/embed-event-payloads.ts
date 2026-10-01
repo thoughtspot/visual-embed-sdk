@@ -19,6 +19,7 @@
 import type {
     CustomActionPayload, EmbedEvent, MessagePayload, RuntimeFilter,
 } from '../types';
+import type { SpotterUsageLimitStatus } from '../embed/conversation';
 // Type-only: AnswerService is an SDK-side enrichment (see
 // EmbedEventEnvelopeExtension). Type-only import keeps the contracts subpath
 // free of any runtime dependency on the answer-service implementation.
@@ -268,6 +269,23 @@ export interface AuthInitPayload extends EmbedEventPayloadBase {
     isLoggedIn?: boolean;
 }
 
+/** {@link EmbedEvent.SpotterUsageLimitUpgrade}. */
+export interface SpotterUsageLimitUpgradePayload extends EmbedEventPayloadBase {
+    /**
+     * Total number of questions the user has asked, across all sessions.
+     * This is not reset per session.
+     */
+    usageCount: number;
+    /**
+     * The user's total question limit.
+     */
+    usageLimit: number;
+    /**
+     * Where the user's usage stands relative to the limit.
+     */
+    status: SpotterUsageLimitStatus;
+}
+
 // ============================================================================
 // The map — every typed embed event, grouped by domain.
 // ============================================================================
@@ -360,6 +378,9 @@ export interface EmbedEventDataExtension {
     [EmbedEvent.LiveboardRendered]: EmptyPayload;
     [EmbedEvent.RequestVisibleEmbedCoordinates]: EmptyPayload;
     [EmbedEvent.EmbedIframeCenter]: EmptyPayload;
+
+    // --- Spotter usage ---
+    [EmbedEvent.SpotterUsageLimitUpgrade]: SpotterUsageLimitUpgradePayload;
 }
 
 // ============================================================================
