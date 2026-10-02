@@ -163,6 +163,8 @@ export class TsEmbed {
 
     protected isAppInitialized = false;
 
+    private excludedUrlParams: Record<string, any> | null = null;
+
     /**
      * A reference to the iframe within which the ThoughtSpot app
      * will be rendered.
@@ -584,6 +586,33 @@ export class TsEmbed {
         return this.getDefaultAppInitData();
     }
 
+    private withExcludedUrlParams(appInitData: Record<string, any>): Record<string, any> {
+        if (!this.excludedUrlParams) {
+            return appInitData;
+        }
+        const excludedParams = { ...this.excludedUrlParams };
+        const searchTokenString = excludedParams[Param.searchTokenString];
+        if (typeof searchTokenString === 'string') {
+            try {
+                excludedParams[Param.searchTokenString] = decodeURIComponent(searchTokenString);
+            } catch (e) {
+                logger.warn('Could not decode searchTokenString', e);
+            }
+        }
+        const tokenFromSearchOptions = appInitData.searchOptions?.searchTokenString;
+        if (tokenFromSearchOptions !== undefined) {
+            excludedParams[Param.searchTokenString] = tokenFromSearchOptions;
+        }
+        return {
+            ...excludedParams,
+            ...appInitData,
+            embedParams: {
+                ...excludedParams,
+                ...(appInitData.embedParams || {}),
+            },
+        };
+    }
+
     /**
      * Send Custom style as part of payload of APP_INIT
      * @param _
@@ -591,7 +620,7 @@ export class TsEmbed {
      */
     private appInitCb = async (_: any, responder: any) => {
         try {
-            const appInitData = await this.getAppInitData();
+            const appInitData = this.withExcludedUrlParams(await this.getAppInitData());
             this.isAppInitialized = true;
             responder({
                 type: EmbedEvent.APP_INIT,
@@ -973,11 +1002,20 @@ export class TsEmbed {
     protected getUrlQueryParamsObject(): Record<any, any> {
         const queryParams = this.getEmbedParamsObject();
         if (!this.isConfigExcludedFromUrl()) {
+            this.excludedUrlParams = null;
             return queryParams;
         }
-        return Object.fromEntries(
-            Object.entries(queryParams).filter(([key]) => BOOTSTRAP_URL_PARAMS.has(key)),
-        );
+        const urlParams: Record<any, any> = {};
+        const excludedParams: Record<string, any> = {};
+        Object.entries(queryParams).forEach(([key, value]) => {
+            if (BOOTSTRAP_URL_PARAMS.has(key)) {
+                urlParams[key] = value;
+            } else {
+                excludedParams[key] = deserializeParam(value);
+            }
+        });
+        this.excludedUrlParams = isEmpty(excludedParams) ? null : excludedParams;
+        return urlParams;
     }
 
     protected getRootIframeSrc() {
@@ -1701,9 +1739,6 @@ export class TsEmbed {
                 setTimeout(processEmbedContainerReady, AUTH_INIT_FALLBACK_DELAY);
             } else if (source === EmbedEvent.EmbedListenerReady) {
                 processEmbedContainerReady();
-                if (this.isConfigExcludedFromUrl()) {
-                    this.triggerUpdateEmbedParams();
-                }
             }
         };
 

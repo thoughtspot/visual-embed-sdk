@@ -29,6 +29,8 @@ export const BOOT_URL_PARAMS: readonly string[] = [
     Param.DateFormatLocale,
     Param.CurrencyFormat,
     Param.Locale,
+    Param.IsDarkMode,
+    Param.RadiantThemeEnabled,
     Param.searchEmbed,
     Param.livedBoardEmbed,
     Param.isSpotterAgentEmbed,
@@ -51,90 +53,10 @@ export const BOOT_URL_PARAMS: readonly string[] = [
 ];
 
 /**
- * Layout and chrome flags the app picks its first render from: navigation,
- * page versions, the Liveboard header and grid, the search bar and initial
- * query, and the Spotter experience. These would work over
- * `HostEvent.UpdateEmbedParams`, but arriving a frame late paints the default
- * layout first and then swaps it, so the embed flickers.
- * @internal
- */
-export const FIRST_RENDER_URL_PARAMS: readonly string[] = [
-    Param.IsDarkMode,
-    Param.RadiantThemeEnabled,
-    // App shell navigation.
-    Param.PrimaryNavHidden,
-    Param.NavigationVersion,
-    Param.HideHamburger,
-    Param.HideProfleAndHelp,
-    Param.HideApplicationSwitcher,
-    Param.HideOrgSwitcher,
-    Param.HideNotification,
-    Param.HideObjectSearch,
-    Param.HideHomepageLeftNav,
-    Param.HideObjects,
-    Param.HideTagFilterChips,
-    Param.EnableHomepageAnnouncement,
-    // Page versions.
-    Param.ModularHomeExperienceEnabled,
-    Param.HomepageVersion,
-    Param.ListPageVersion,
-    Param.HomePageSearchBarMode,
-    Param.IsUnifiedSearchExperienceEnabled,
-    Param.DataPanelV2Enabled,
-    Param.EnableConnectionNewExperience,
-    // Liveboard layout.
-    Param.LiveboardV2Enabled,
-    Param.LiveboardHeaderV2,
-    Param.HideLiveboardHeader,
-    Param.LiveboardHeaderSticky,
-    Param.ShowLiveboardTitle,
-    Param.ShowLiveboardDescription,
-    Param.HideTabPanel,
-    Param.Enable2ColumnLayout,
-    Param.IsLiveboardAlwaysOn12ColLayout,
-    Param.LiveboardGutter,
-    Param.IsLiveboardMasterpiecesEnabled,
-    Param.IsLiveboardStylingAndGroupingEnabled,
-    Param.EnableNewChartLibrary,
-    Param.visibleVizs,
-    Param.ShowLiveboardVerifiedBadge,
-    Param.ShowLiveboardReverifyBanner,
-    Param.ShowMaskedFilterChip,
-    Param.HideIrrelevantFiltersInTab,
-    Param.isCentralizedLiveboardFilterUXEnabled,
-    Param.OpenSpotterOnLiveboardByDefault,
-    // Search layout and the initial query.
-    Param.HideSearchBar,
-    Param.HideResult,
-    Param.CollapseSearchBarInitially,
-    Param.FocusSearchBarOnRender,
-    Param.ShowAnswerEditPanel,
-    Param.EnableSearchAssist,
-    Param.DataSourceMode,
-    Param.searchTokenString,
-    Param.executeSearch,
-    Param.EnableCustomColumnGroups,
-    Param.DataPanelCustomGroupsAccordionInitialState,
-    // Spotter experience and its empty state.
-    Param.UpdatedSpotterExperience,
-    Param.SpotterExperienceVersion,
-    Param.UpdatedSpotterChatPrompt,
-    Param.ShowSpotterRadiance,
-    Param.ShowSpotterLimitations,
-    Param.HideSampleQuestions,
-    Param.HideSourceSelection,
-    Param.DisableSourceSelection,
-    Param.IsStarterPromptsEnabled,
-];
-
-/**
  * Query parameters that stay on the iframe `src` when the embed sets the
- * `excludeConfigFromURL` additional flag: {@link BOOT_URL_PARAMS} and
- * {@link FIRST_RENDER_URL_PARAMS}. Everything else is delivered over
- * `HostEvent.UpdateEmbedParams`.
+ * `excludeConfigFromURL` additional flag: {@link BOOT_URL_PARAMS}. The rest
+ * go in the APP_INIT payload, which the app applies before its first render,
+ * and again over `HostEvent.UpdateEmbedParams`.
  * @internal
  */
-export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
-    ...BOOT_URL_PARAMS,
-    ...FIRST_RENDER_URL_PARAMS,
-]);
+export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>(BOOT_URL_PARAMS);

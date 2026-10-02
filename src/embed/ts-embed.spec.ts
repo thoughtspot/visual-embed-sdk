@@ -15,8 +15,6 @@ import {
     AnswerService,
     SpotterEmbed,
     SpotterEmbedViewConfig,
-    HomePage,
-    SpotterQueryMode,
 } from '../index';
 import {
     Action,
@@ -6865,39 +6863,39 @@ describe('excludeConfigFromURL', () => {
         expect(src).not.toContain('internalBlinkFlag');
     });
 
-    test('keeps the layout flags on the URL when the flag is set', async () => {
-        const { src } = await renderAndGetSrc(
-            withPostMessage({ ...lbConfig, hideLiveboardHeader: true }),
-        );
-
-        expect(src).toContain(`${Param.LiveboardV2Enabled}=true`);
-        expect(src).toContain(`${Param.DataPanelV2Enabled}=`);
-        expect(src).toContain(`${Param.HideLiveboardHeader}=true`);
-        expect(src).toContain(`${Param.ShowLiveboardVerifiedBadge}=`);
-    });
-
-    describe('layout flags that pick the first render', () => {
-        const excludeConfig = { additionalFlags: { excludeConfigFromURL: true } };
-
-        const getSrcFor = async (EmbedClass: any, viewConfig: any) => {
+    describe('params held back from the URL go in the APP_INIT payload', () => {
+        const renderEmbed = async (EmbedClass: any, viewConfig: any, excludeConfig = true) => {
             const embed = new EmbedClass(getRootEl(), {
                 ...defaultViewConfig,
                 ...viewConfig,
-                additionalFlags: { ...viewConfig.additionalFlags, excludeConfigFromURL: true },
+                additionalFlags: {
+                    ...viewConfig.additionalFlags,
+                    ...(excludeConfig && { excludeConfigFromURL: true }),
+                },
             });
             await embed.render();
             await waitFor(() => !!getIFrameEl());
-            return getIFrameSrc();
+            return embed;
         };
 
-        const expectOnUrl = (src: string, params: Record<string, unknown>) => {
-            Object.entries(params).forEach(([key, value]) => {
-                expect(src).toContain(`${key}=${value}`);
-            });
+        const requestAppInit = async (): Promise<any> => {
+            const mockPort: any = { postMessage: jest.fn() };
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+            await waitFor(() => mockPort.postMessage.mock.calls.length > 0);
+            return mockPort.postMessage.mock.calls[0][0].data;
         };
 
-        test('keeps the app navigation and page version flags', async () => {
-            const src = await getSrcFor(AppEmbed, {
+        const getAppInitFor = async (EmbedClass: any, viewConfig: any) => {
+            await renderEmbed(EmbedClass, viewConfig);
+            return requestAppInit();
+        };
+
+        test('sends the app navigation and page version flags', async () => {
+            const { embedParams } = await getAppInitFor(AppEmbed, {
                 showPrimaryNavbar: false,
                 hideHamburger: true,
                 hideNotification: true,
@@ -6911,27 +6909,28 @@ describe('excludeConfigFromURL', () => {
                 liveboardV2: true,
             });
 
-            expectOnUrl(src, {
-                [Param.PrimaryNavHidden]: true,
-                [Param.HideHamburger]: true,
-                [Param.HideNotification]: true,
-                [Param.HideObjectSearch]: true,
-                [Param.HideOrgSwitcher]: true,
-                [Param.HideApplicationSwitcher]: true,
-                [Param.HideProfleAndHelp]: true,
-                [Param.HideHomepageLeftNav]: true,
-                [Param.HideTagFilterChips]: true,
-                [Param.ModularHomeExperienceEnabled]: true,
-                [Param.LiveboardV2Enabled]: true,
-            });
-            expect(src).toContain(`${Param.NavigationVersion}=`);
-            expect(src).toContain(`${Param.HomepageVersion}=`);
+            expect(embedParams).toEqual(
+                expect.objectContaining({
+                    [Param.PrimaryNavHidden]: true,
+                    [Param.HideHamburger]: true,
+                    [Param.HideNotification]: true,
+                    [Param.HideObjectSearch]: true,
+                    [Param.HideOrgSwitcher]: true,
+                    [Param.HideApplicationSwitcher]: true,
+                    [Param.HideProfleAndHelp]: true,
+                    [Param.HideHomepageLeftNav]: true,
+                    [Param.HideTagFilterChips]: true,
+                    [Param.ModularHomeExperienceEnabled]: true,
+                    [Param.LiveboardV2Enabled]: true,
+                    [Param.NavigationVersion]: expect.any(String),
+                    [Param.HomepageVersion]: expect.any(String),
+                }),
+            );
         });
 
-        test('keeps the Liveboard layout flags and the viz embed marker', async () => {
-            const src = await getSrcFor(LiveboardEmbed, {
+        test('sends the Liveboard layout flags', async () => {
+            const { embedParams } = await getAppInitFor(LiveboardEmbed, {
                 liveboardId,
-                vizId: 'viz-1',
                 visibleVizs: ['viz-1'],
                 hideLiveboardHeader: true,
                 showLiveboardTitle: true,
@@ -6942,21 +6941,22 @@ describe('excludeConfigFromURL', () => {
                 showLiveboardVerifiedBadge: true,
             });
 
-            expectOnUrl(src, {
-                [Param.vizEmbed]: true,
-                [Param.HideLiveboardHeader]: true,
-                [Param.ShowLiveboardTitle]: true,
-                [Param.ShowLiveboardDescription]: true,
-                [Param.HideTabPanel]: true,
-                [Param.Enable2ColumnLayout]: true,
-                [Param.LiveboardHeaderSticky]: true,
-                [Param.ShowLiveboardVerifiedBadge]: true,
-            });
-            expect(src).toContain(`${Param.visibleVizs}=`);
+            expect(embedParams).toEqual(
+                expect.objectContaining({
+                    [Param.visibleVizs]: ['viz-1'],
+                    [Param.HideLiveboardHeader]: true,
+                    [Param.ShowLiveboardTitle]: true,
+                    [Param.ShowLiveboardDescription]: true,
+                    [Param.HideTabPanel]: true,
+                    [Param.Enable2ColumnLayout]: true,
+                    [Param.LiveboardHeaderSticky]: true,
+                    [Param.ShowLiveboardVerifiedBadge]: true,
+                }),
+            );
         });
 
-        test('keeps the search layout flags and the initial query', async () => {
-            const src = await getSrcFor(SearchEmbed, {
+        test('sends the search layout flags and the initial query', async () => {
+            const { embedParams } = await getAppInitFor(SearchEmbed, {
                 dataSource: 'ds-1',
                 searchOptions: {
                     searchTokenString: '[revenue]',
@@ -6968,20 +6968,21 @@ describe('excludeConfigFromURL', () => {
                 enableSearchAssist: true,
             });
 
-            expectOnUrl(src, {
-                [Param.HideResult]: true,
-                [Param.HideSearchBar]: true,
-                [Param.CollapseSearchBarInitially]: true,
-                [Param.EnableSearchAssist]: true,
-                [Param.executeSearch]: true,
-            });
-            expect(src).toContain(`${Param.searchTokenString}=`);
-            expect(src).toContain(`${Param.DataSourceMode}=`);
-            expect(src).toContain(`${Param.DataSources}=`);
+            expect(embedParams).toEqual(
+                expect.objectContaining({
+                    [Param.HideResult]: true,
+                    [Param.HideSearchBar]: true,
+                    [Param.CollapseSearchBarInitially]: true,
+                    [Param.EnableSearchAssist]: true,
+                    [Param.executeSearch]: true,
+                    [Param.searchTokenString]: expect.any(String),
+                    [Param.DataSourceMode]: expect.anything(),
+                }),
+            );
         });
 
-        test('keeps the Spotter empty-screen flags', async () => {
-            const src = await getSrcFor(SpotterEmbed, {
+        test('sends the Spotter empty-screen flags', async () => {
+            const { embedParams } = await getAppInitFor(SpotterEmbed, {
                 worksheetId: 'worksheet-1',
                 hideSampleQuestions: true,
                 hideSourceSelection: true,
@@ -6992,110 +6993,173 @@ describe('excludeConfigFromURL', () => {
                 spotterChatConfig: { enableStarterPrompts: true },
             });
 
-            expectOnUrl(src, {
-                [Param.HideSampleQuestions]: true,
-                [Param.HideSourceSelection]: true,
-                [Param.DisableSourceSelection]: true,
-                [Param.ShowSpotterLimitations]: true,
-                [Param.ShowSpotterRadiance]: true,
-                [Param.UpdatedSpotterChatPrompt]: true,
-                [Param.IsStarterPromptsEnabled]: true,
-            });
+            expect(embedParams).toEqual(
+                expect.objectContaining({
+                    [Param.HideSampleQuestions]: true,
+                    [Param.HideSourceSelection]: true,
+                    [Param.DisableSourceSelection]: true,
+                    [Param.ShowSpotterLimitations]: true,
+                    [Param.ShowSpotterRadiance]: true,
+                    [Param.UpdatedSpotterChatPrompt]: true,
+                    [Param.IsStarterPromptsEnabled]: true,
+                }),
+            );
         });
 
-        test('adds a layout flag only when the caller sets it', async () => {
-            const src = await getSrcFor(AppEmbed, {});
-
-            expect(src).not.toContain(`${Param.HideHamburger}=`);
-            expect(src).not.toContain(`${Param.HideNotification}=`);
-            expect(src).not.toContain(`${Param.HideObjectSearch}=`);
-            expect(src).not.toContain(`${Param.ModularHomeExperienceEnabled}=`);
-        });
-
-        // The lists in bootstrap-url-params.ts are the source of truth. Each
-        // param goes through additionalFlags so it is checked on its own,
-        // whichever embed normally sets it.
-        test.each([...BOOTSTRAP_URL_PARAMS])('keeps %s on the URL', async (param) => {
-            const src = await getSrcFor(LiveboardEmbed, {
+        test('sends the action and tab lists and the additionalFlags', async () => {
+            await renderEmbed(LiveboardEmbed, {
                 liveboardId,
-                additionalFlags: { [param]: 'bootstrap-value' },
+                visibleActions: [Action.Download],
+                visibleTabs: ['tab-1'],
+                additionalFlags: { internalBlinkFlag: true },
             });
-            expect(new URL(src).searchParams.has(param)).toBe(true);
+            const src = getIFrameSrc();
+            const { embedParams } = await requestAppInit();
+
+            expect(src).not.toContain(`${Param.VisibleActions}=`);
+            expect(src).not.toContain(`${Param.VisibleTabs}=`);
+            expect(embedParams).toEqual(
+                expect.objectContaining({
+                    [Param.VisibleActions]: [Action.Download],
+                    [Param.VisibleTabs]: ['tab-1'],
+                    internalBlinkFlag: true,
+                }),
+            );
         });
 
-        test('strips an additionalFlag that is in neither list', async () => {
-            expect(BOOTSTRAP_URL_PARAMS.has(Param.isPNGInScheduledEmailsEnabled)).toBe(false);
+        test('sends the params at the top level too, for the feature flags', async () => {
+            const appInitData = await getAppInitFor(AppEmbed, {
+                showPrimaryNavbar: false,
+                liveboardV2: true,
+                dataPanelV2: true,
+            });
 
-            const src = await getSrcFor(LiveboardEmbed, {
+            expect(appInitData).toEqual(
+                expect.objectContaining({
+                    [Param.PrimaryNavHidden]: true,
+                    [Param.LiveboardV2Enabled]: true,
+                    [Param.DataPanelV2Enabled]: true,
+                }),
+            );
+        });
+
+        test('lets the payload keys win over a param of the same name', async () => {
+            const appInitData = await getAppInitFor(LiveboardEmbed, {
                 liveboardId,
-                additionalFlags: { [Param.isPNGInScheduledEmailsEnabled]: true },
+                additionalFlags: { customActions: 'from-flags' },
             });
 
-            expect(new URL(src).searchParams.has(Param.isPNGInScheduledEmailsEnabled)).toBe(false);
+            expect(appInitData.customActions).toEqual([]);
         });
 
-        test('keeps a layout flag the caller set to false', async () => {
-            const src = await getSrcFor(AppEmbed, {
+        test("keeps the embed's own embedParams alongside the params", async () => {
+            const { embedParams } = await getAppInitFor(SpotterEmbed, {
+                worksheetId: 'worksheet-1',
+                hideSampleQuestions: true,
+                spotterSidebarConfig: { enablePastConversationsSidebar: true },
+            });
+
+            expect(embedParams).toEqual(
+                expect.objectContaining({
+                    [Param.HideSampleQuestions]: true,
+                    spotterSidebarConfig: expect.objectContaining({
+                        enablePastConversationsSidebar: true,
+                    }),
+                }),
+            );
+        });
+
+        test('sends the search token decoded', async () => {
+            const { embedParams } = await getAppInitFor(SearchEmbed, {
+                dataSource: 'ds-1',
+                searchOptions: { searchTokenString: '[revenue] [region]' },
+            });
+
+            expect(embedParams[Param.searchTokenString]).toBe('[revenue] [region]');
+        });
+
+        test('carries the token over when it is excluded from the URL', async () => {
+            const appInitData = await getAppInitFor(SearchEmbed, {
+                dataSource: 'ds-1',
+                excludeSearchTokenStringFromURL: true,
+                searchOptions: { searchTokenString: '[revenue]' },
+            });
+
+            expect(getIFrameSrc()).not.toContain(Param.searchTokenString);
+            expect(appInitData.searchOptions).toEqual({ searchTokenString: '[revenue]' });
+            expect(appInitData.embedParams[Param.searchTokenString]).toBe('[revenue]');
+        });
+
+        test('sends a flag the caller set to false', async () => {
+            const { embedParams } = await getAppInitFor(AppEmbed, {
                 showPrimaryNavbar: true,
                 liveboardV2: false,
                 modularHomeExperience: false,
             });
 
-            expectOnUrl(src, {
-                [Param.PrimaryNavHidden]: false,
-                [Param.LiveboardV2Enabled]: false,
-                [Param.ModularHomeExperienceEnabled]: false,
+            expect(embedParams).toEqual(
+                expect.objectContaining({
+                    [Param.PrimaryNavHidden]: false,
+                    [Param.LiveboardV2Enabled]: false,
+                    [Param.ModularHomeExperienceEnabled]: false,
+                }),
+            );
+        });
+
+        test('sends a flag only when the caller sets it', async () => {
+            const { embedParams } = await getAppInitFor(AppEmbed, {});
+
+            expect(embedParams).not.toHaveProperty(Param.HideHamburger);
+            expect(embedParams).not.toHaveProperty(Param.HideNotification);
+            expect(embedParams).not.toHaveProperty(Param.ModularHomeExperienceEnabled);
+        });
+
+        test('does not repeat the params that stay on the URL', async () => {
+            const { embedParams } = await getAppInitFor(LiveboardEmbed, { liveboardId });
+
+            Object.keys(embedParams).forEach((key) => {
+                expect(BOOTSTRAP_URL_PARAMS.has(key)).toBe(false);
             });
         });
 
-        test('keeps the Focused home page and the chat prompt it turns on', async () => {
-            const src = await getSrcFor(AppEmbed, {
-                discoveryExperience: { homePage: HomePage.Focused, listPageVersion: 'v3' },
-            });
+        test('leaves the APP_INIT payload unchanged when the flag is not set', async () => {
+            await renderEmbed(LiveboardEmbed, { liveboardId, hideLiveboardHeader: true }, false);
+            const appInitData = await requestAppInit();
 
-            expectOnUrl(src, {
-                [Param.HomepageVersion]: HomePage.Focused,
-                [Param.ListPageVersion]: 'v3',
-                [Param.UpdatedSpotterChatPrompt]: true,
-            });
+            expect(appInitData).not.toHaveProperty('embedParams');
+            expect(appInitData).not.toHaveProperty(Param.HideLiveboardHeader);
         });
 
-        test('keeps the Spotter query mode and the last selected source flag', async () => {
-            const spotterSrc = await getSrcFor(SpotterEmbed, {
-                worksheetId: 'worksheet-1',
-                defaultQueryMode: SpotterQueryMode.RESEARCH,
-            });
-            expectOnUrl(spotterSrc, { [Param.DefaultQueryMode]: SpotterQueryMode.RESEARCH });
+        test('sends no embedParams when every param stays on the URL', async () => {
+            const getParams = jest
+                .spyOn(LiveboardEmbed.prototype as any, 'getEmbedParamsObject')
+                .mockReturnValue({
+                    [Param.EmbedApp]: true,
+                    [Param.AuthType]: AuthType.None,
+                });
+            await renderEmbed(LiveboardEmbed, { liveboardId });
+            const appInitData = await requestAppInit();
+            getParams.mockRestore();
 
-            document.body.innerHTML = getDocumentBody();
-            const searchSrc = await getSrcFor(SearchEmbed, {
-                dataSource: 'ds-1',
-                useLastSelectedSources: true,
-            });
-            expect(searchSrc).toContain(`${Param.UseLastSelectedDataSource}=`);
+            expect(appInitData).not.toHaveProperty('embedParams');
         });
 
-        test('keeps the layout flags when excludeConfigFromURL is set in init', async () => {
+        test('sends the params when excludeConfigFromURL is set in init', async () => {
             init({
                 thoughtSpotHost,
                 authType: AuthType.None,
                 additionalFlags: { excludeConfigFromURL: true },
             });
-            const embed = new LiveboardEmbed(getRootEl(), {
-                ...defaultViewConfig,
-                liveboardId,
-                hideLiveboardHeader: true,
-                hiddenActions: [Action.Download],
-            });
-            await embed.render();
-            await waitFor(() => !!getIFrameEl());
-            const src = getIFrameSrc();
+            await renderEmbed(LiveboardEmbed, { liveboardId, hideLiveboardHeader: true }, false);
+            const { embedParams } = await requestAppInit();
 
-            expectOnUrl(src, { [Param.HideLiveboardHeader]: true });
-            expect(src).not.toContain('hideAction=');
+            expect(getIFrameSrc()).not.toContain(`${Param.HideLiveboardHeader}=`);
+            expect(embedParams).toEqual(
+                expect.objectContaining({ [Param.HideLiveboardHeader]: true }),
+            );
         });
 
-        test('keeps the layout flags on a pre-rendered embed', async () => {
+        test('sends the params for a pre-rendered embed', async () => {
             (window as any).ResizeObserver =
                 window.ResizeObserver ||
                 jest.fn().mockImplementation(() => ({
@@ -7105,55 +7169,61 @@ describe('excludeConfigFromURL', () => {
                 }));
             const embed = new LiveboardEmbed(getRootEl(), {
                 ...defaultViewConfig,
-                ...excludeConfig,
-                liveboardId,
-                hideLiveboardHeader: true,
-                hiddenActions: [Action.Download],
-                preRenderId: 'layout-flags-pre-render',
+                ...withPostMessage({ liveboardId, hideLiveboardHeader: true }),
+                preRenderId: 'app-init-pre-render',
             });
             await embed.preRender();
             await waitFor(() => !!getIFrameEl());
-            const src = getIFrameSrc();
+            const { embedParams } = await requestAppInit();
 
-            expectOnUrl(src, { [Param.HideLiveboardHeader]: true });
-            expect(src).not.toContain('hideAction=');
+            expect(embedParams).toEqual(
+                expect.objectContaining({ [Param.HideLiveboardHeader]: true }),
+            );
         });
 
-        test('still sends the layout flags over UpdateEmbedParams', async () => {
-            await getSrcFor(LiveboardEmbed, {
-                liveboardId,
-                hideLiveboardHeader: true,
-                showLiveboardTitle: true,
+        test('does not add the APP_INIT copy to UpdateEmbedParams', async () => {
+            mockMessageChannel();
+            (window as any).ResizeObserver =
+                window.ResizeObserver ||
+                jest.fn().mockImplementation(() => ({
+                    disconnect: jest.fn(),
+                    observe: jest.fn(),
+                    unobserve: jest.fn(),
+                }));
+            const embed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                ...withPostMessage({ liveboardId, hideLiveboardHeader: true }),
+                preRenderId: 'app-init-copy-pre-render',
             });
+            await embed.preRender();
+            await waitFor(() => !!getIFrameEl());
             signalFrameReady();
+            await executeAfterWait(() => {
+                expect(embed.isEmbedContainerLoaded).toBe(true);
+            });
+            // The show cycle is what sends UpdateEmbedParams.
+            await embed.showPreRender();
 
             await executeAfterWait(() => {
-                expect(mockProcessTrigger).toHaveBeenCalledWith(
-                    expect.any(Object),
-                    HostEvent.UpdateEmbedParams,
-                    expect.any(String),
-                    expect.objectContaining({
-                        [Param.HideLiveboardHeader]: true,
-                        [Param.ShowLiveboardTitle]: true,
-                    }),
-                    undefined,
+                const updateCall = mockProcessTrigger.mock.calls.find(
+                    (call) => call[1] === HostEvent.UpdateEmbedParams,
                 );
+                expect(updateCall[3]).toEqual(
+                    expect.objectContaining({ [Param.HideLiveboardHeader]: true }),
+                );
+                expect(updateCall[3]).not.toHaveProperty('embedParams');
             });
         });
 
-        test('still strips the action and tab lists and behavior-only flags', async () => {
-            const src = await getSrcFor(LiveboardEmbed, {
+        // bootstrap-url-params.ts is the source of truth. Each param goes
+        // through additionalFlags so it is checked on its own.
+        test.each([...BOOTSTRAP_URL_PARAMS])('keeps %s on the URL', async (param) => {
+            await renderEmbed(LiveboardEmbed, {
                 liveboardId,
-                visibleActions: [Action.Download],
-                disabledActions: [Action.Share],
-                visibleTabs: ['tab-1'],
-                isPNGInScheduledEmailsEnabled: true,
+                additionalFlags: { [param]: 'bootstrap-value' },
             });
 
-            expect(src).not.toContain(`${Param.VisibleActions}=`);
-            expect(src).not.toContain(`${Param.DisableActions}=`);
-            expect(src).not.toContain(`${Param.VisibleTabs}=`);
-            expect(src).not.toContain(`${Param.isPNGInScheduledEmailsEnabled}=`);
+            expect(new URL(getIFrameSrc()).searchParams.has(param)).toBe(true);
         });
     });
 
@@ -7193,37 +7263,28 @@ describe('excludeConfigFromURL', () => {
         expect(src).toContain(`/embed/viz/${liveboardId}`);
     });
 
-    test('sends the full config over UpdateEmbedParams once the frame is ready', async () => {
+    test('sends the config in APP_INIT, not UpdateEmbedParams, on the first load', async () => {
         await renderAndGetSrc(withPostMessage(lbConfig));
-
+        const mockPort: any = { postMessage: jest.fn() };
+        postMessageToParent(
+            getIFrameEl().contentWindow,
+            { type: EmbedEvent.APP_INIT, data: {} },
+            mockPort,
+        );
+        await waitFor(() => mockPort.postMessage.mock.calls.length > 0);
         signalFrameReady();
 
-        await executeAfterWait(() => {
-            expect(mockProcessTrigger).toHaveBeenCalledWith(
-                expect.any(Object),
-                HostEvent.UpdateEmbedParams,
-                expect.any(String),
-                expect.objectContaining({
-                    liveboardId,
-                    hiddenActions: [Action.Download],
-                    internalBlinkFlag: true,
-                    [Param.HideActions]: expect.arrayContaining([Action.Download]),
-                }),
-                undefined,
-            );
-        });
-    });
-
-    test('sends UpdateEmbedParams again every time the frame signals ready', async () => {
-        await renderAndGetSrc(withPostMessage(lbConfig));
-        signalFrameReady();
-        signalFrameReady();
-
+        expect(mockPort.postMessage.mock.calls[0][0].data.embedParams).toEqual(
+            expect.objectContaining({
+                internalBlinkFlag: true,
+                [Param.HideActions]: expect.arrayContaining([Action.Download]),
+            }),
+        );
         await executeAfterWait(() => {
             const updateCalls = mockProcessTrigger.mock.calls.filter(
                 (call) => call[1] === HostEvent.UpdateEmbedParams,
             );
-            expect(updateCalls).toHaveLength(2);
+            expect(updateCalls).toHaveLength(0);
         });
     });
 
@@ -7262,6 +7323,12 @@ describe('excludeConfigFromURL', () => {
         await executeAfterWait(() => {
             expect(embed.isEmbedContainerLoaded).toBe(true);
         });
+        // The frame being ready sends nothing; the config went in APP_INIT.
+        expect(
+            mockProcessTrigger.mock.calls.filter(
+                (call) => call[1] === HostEvent.UpdateEmbedParams,
+            ),
+        ).toHaveLength(0);
 
         mockProcessTrigger.mockClear();
         await embed.showPreRender();
