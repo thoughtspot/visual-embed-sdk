@@ -15,10 +15,15 @@ type CustomActionValidation = {
 };
 
 /**
+ * Maximum number of PRIMARY-position custom actions allowed
+ */
+const MAX_PRIMARY_ACTIONS_PER_TARGET = 2;
+
+/**
  * Configuration for custom action validation rules.
  * Defines allowed positions, metadata IDs, data model IDs, and fields for each target
  * type.
- * 
+ *
  */
 const customActionValidationConfig: Record<CustomActionTarget, {
     positions: string[];
@@ -55,12 +60,13 @@ const customActionValidationConfig: Record<CustomActionTarget, {
 /**
  * Validates a single custom action based on its target type
  * @param action - The custom action to validate
- * @param primaryActionsPerTarget - Map to track primary actions per target
+ * @param primaryActionsPerTarget - Map tracking PRIMARY actions accepted so
+ * far, keyed by target
  * @returns CustomActionValidation with isValid flag and reason string
- * 
+ *
  * @hidden
  */
-const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map<CustomActionTarget, CustomAction>): CustomActionValidation => {
+const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map<CustomActionTarget, CustomAction[]>): CustomActionValidation => {
     const { id: actionId, target: targetType, position, metadataIds, dataModelIds } = action;
 
     // Check if target type is supported
@@ -106,6 +112,16 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
     if (invalidFields.length > 0) {
         const supportedFields = config.allowedFields.join(', ');
         errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.INVALID_FIELDS(targetType, invalidFields, supportedFields));
+    }
+
+    // Enforce the max number of PRIMARY actions per target
+    if (position === CustomActionsPosition.PRIMARY && errors.length === 0) {
+        const acceptedPrimaryActions = primaryActionsPerTarget.get(targetType) || [];
+        if (acceptedPrimaryActions.length >= MAX_PRIMARY_ACTIONS_PER_TARGET) {
+            errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.TOO_MANY_PRIMARY_ACTIONS(actionId, targetType, MAX_PRIMARY_ACTIONS_PER_TARGET));
+        } else {
+            primaryActionsPerTarget.set(targetType, [...acceptedPrimaryActions, action]);
+        }
     }
 
     return {
@@ -171,7 +187,7 @@ const filterDuplicateIds = (actions: CustomAction[]): { actions: CustomAction[];
  */
 export const getCustomActions = (customActions: CustomAction[]): CustomActionsValidationResult => {
     const errors: string[] = [];
-    const primaryActionsPerTarget = new Map<CustomActionTarget, CustomAction>();
+    const primaryActionsPerTarget = new Map<CustomActionTarget, CustomAction[]>();
 
     if (!customActions || !Array.isArray(customActions)) {
         return { actions: [], errors: [] };
