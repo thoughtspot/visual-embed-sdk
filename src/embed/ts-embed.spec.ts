@@ -53,6 +53,7 @@ import {
 import * as config from '../config';
 import * as embedConfig from './embedConfig';
 import * as tsEmbedInstance from './ts-embed';
+import { BOOTSTRAP_URL_PARAMS } from './ts-embed';
 import * as mixpanelInstance from '../mixpanel-service';
 import * as authInstance from '../auth';
 import * as baseInstance from './base';
@@ -67,7 +68,6 @@ import * as sessionInfoService from '../utils/sessionInfoService';
 import * as authToken from '../authToken';
 import * as apiIntercept from '../api-intercept';
 import * as processData from '../utils/processData';
-import { BOOTSTRAP_URL_PARAMS } from '../utils/bootstrap-url-params';
 
 jest.mock('../utils/processTrigger');
 
@@ -6863,6 +6863,27 @@ describe('excludeConfigFromURL', () => {
         expect(src).not.toContain('internalBlinkFlag');
     });
 
+    describe('BOOTSTRAP_URL_PARAMS', () => {
+        test('keeps the auth and origin params', () => {
+            [Param.EmbedApp, Param.HostAppUrl, Param.Version, Param.AuthType].forEach(
+                (param) => {
+                    expect(BOOTSTRAP_URL_PARAMS.has(param)).toBe(true);
+                },
+            );
+        });
+
+        test('leaves the layout flags to the APP_INIT payload', () => {
+            [
+                Param.LiveboardV2Enabled,
+                Param.PrimaryNavHidden,
+                Param.HideSearchBar,
+                Param.SpotterExperienceVersion,
+            ].forEach((param) => {
+                expect(BOOTSTRAP_URL_PARAMS.has(param)).toBe(false);
+            });
+        });
+    });
+
     describe('params held back from the URL go in the APP_INIT payload', () => {
         const renderEmbed = async (EmbedClass: any, viewConfig: any, excludeConfig = true) => {
             const embed = new EmbedClass(getRootEl(), {
@@ -7215,7 +7236,7 @@ describe('excludeConfigFromURL', () => {
             });
         });
 
-        // bootstrap-url-params.ts is the source of truth. Each param goes
+        // BOOTSTRAP_URL_PARAMS is the source of truth. Each param goes
         // through additionalFlags so it is checked on its own.
         test.each([...BOOTSTRAP_URL_PARAMS])('keeps %s on the URL', async (param) => {
             await renderEmbed(LiveboardEmbed, {
