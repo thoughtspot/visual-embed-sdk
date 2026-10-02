@@ -92,6 +92,7 @@ export {
     ScheduleEmailRequest,
     NavigateRequest,
     SetActiveTabRequest,
+    UpdateThemeRequest,
     LiveboardTab,
     LiveboardGroup,
     ApplicabilityLevel,
