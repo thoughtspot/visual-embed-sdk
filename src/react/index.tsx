@@ -18,6 +18,9 @@ import { EmbedProps, getViewPropsAndListeners } from './util';
 import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
 import { ERROR_MESSAGE } from '../errors';
+import { DebugAgent, DebugAgentProps } from './DebugAgent';
+
+export { DebugAgent, DebugAgentProps };
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends AllEmbedViewConfig>(
     EmbedConstructor: T,
