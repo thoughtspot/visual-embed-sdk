@@ -952,6 +952,7 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
         spotterVizConfig?: SpotterVizConfig;
         spotterShareConversationConfig?: SpotterShareConversationConfig;
         starterPrompts?: StarterPromptsConfig;
+        enableSpotterInstructionAndMoreSettings?: boolean;
     };
 }
 
