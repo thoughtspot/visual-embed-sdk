@@ -6996,10 +6996,10 @@ describe('excludeConfigFromURL', () => {
                     [Param.CollapseSearchBarInitially]: true,
                     [Param.EnableSearchAssist]: true,
                     [Param.executeSearch]: true,
-                    [Param.searchTokenString]: expect.any(String),
                     [Param.DataSourceMode]: expect.anything(),
                 }),
             );
+            expect(embedParams).not.toHaveProperty(Param.searchTokenString);
         });
 
         test('sends the Spotter empty-screen flags', async () => {
@@ -7090,16 +7090,19 @@ describe('excludeConfigFromURL', () => {
             );
         });
 
-        test('sends the search token decoded', async () => {
+        test('keeps the search token on the URL', async () => {
             const { embedParams } = await getAppInitFor(SearchEmbed, {
                 dataSource: 'ds-1',
                 searchOptions: { searchTokenString: '[revenue] [region]' },
             });
 
-            expect(embedParams[Param.searchTokenString]).toBe('[revenue] [region]');
+            expect(new URL(getIFrameSrc()).searchParams.get(Param.searchTokenString)).toBe(
+                '[revenue] [region]',
+            );
+            expect(embedParams).not.toHaveProperty(Param.searchTokenString);
         });
 
-        test('carries the token over when it is excluded from the URL', async () => {
+        test('sends the token in searchOptions when it is excluded from the URL', async () => {
             const appInitData = await getAppInitFor(SearchEmbed, {
                 dataSource: 'ds-1',
                 excludeSearchTokenStringFromURL: true,
@@ -7107,8 +7110,9 @@ describe('excludeConfigFromURL', () => {
             });
 
             expect(getIFrameSrc()).not.toContain(Param.searchTokenString);
+            // The app merges searchOptions.searchTokenString into embedParams.
             expect(appInitData.searchOptions).toEqual({ searchTokenString: '[revenue]' });
-            expect(appInitData.embedParams[Param.searchTokenString]).toBe('[revenue]');
+            expect(appInitData.embedParams).not.toHaveProperty(Param.searchTokenString);
         });
 
         test('sends a flag the caller set to false', async () => {

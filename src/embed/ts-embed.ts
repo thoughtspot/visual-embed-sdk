@@ -180,6 +180,7 @@ export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
     Param.vizEmbed,
     Param.UseLastSelectedDataSource,
     Param.DefaultQueryMode,
+    Param.searchTokenString,
 ]);
 
 /**
@@ -645,24 +646,11 @@ export class TsEmbed {
         if (!this.excludedUrlParams) {
             return appInitData;
         }
-        const excludedParams = { ...this.excludedUrlParams };
-        const searchTokenString = excludedParams[Param.searchTokenString];
-        if (typeof searchTokenString === 'string') {
-            try {
-                excludedParams[Param.searchTokenString] = decodeURIComponent(searchTokenString);
-            } catch (e) {
-                logger.warn('Could not decode searchTokenString', e);
-            }
-        }
-        const tokenFromSearchOptions = appInitData.searchOptions?.searchTokenString;
-        if (tokenFromSearchOptions !== undefined) {
-            excludedParams[Param.searchTokenString] = tokenFromSearchOptions;
-        }
         return {
-            ...excludedParams,
+            ...this.excludedUrlParams,
             ...appInitData,
             embedParams: {
-                ...excludedParams,
+                ...this.excludedUrlParams,
                 ...(appInitData.embedParams || {}),
             },
         };
