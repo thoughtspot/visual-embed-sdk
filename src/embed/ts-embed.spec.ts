@@ -7048,29 +7048,35 @@ describe('excludeConfigFromURL', () => {
             );
         });
 
-        test('sends the params at the top level too, for the feature flags', async () => {
+        test('sends the feature flags only in embedParams', async () => {
             const appInitData = await getAppInitFor(AppEmbed, {
                 showPrimaryNavbar: false,
                 liveboardV2: true,
                 dataPanelV2: true,
             });
+            const featureFlags = {
+                [Param.PrimaryNavHidden]: true,
+                [Param.LiveboardV2Enabled]: true,
+                [Param.DataPanelV2Enabled]: true,
+            };
 
-            expect(appInitData).toEqual(
-                expect.objectContaining({
-                    [Param.PrimaryNavHidden]: true,
-                    [Param.LiveboardV2Enabled]: true,
-                    [Param.DataPanelV2Enabled]: true,
-                }),
-            );
+            // The app overrides its feature flags from embedParams.
+            expect(appInitData.embedParams).toEqual(expect.objectContaining(featureFlags));
+            Object.keys(featureFlags).forEach((flag) => {
+                expect(appInitData).not.toHaveProperty(flag);
+            });
         });
 
-        test('lets the payload keys win over a param of the same name', async () => {
-            const appInitData = await getAppInitFor(LiveboardEmbed, {
-                liveboardId,
-                additionalFlags: { customActions: 'from-flags' },
+        test("lets the embed's own embedParams win over a param of the same name", async () => {
+            const { embedParams } = await getAppInitFor(SpotterEmbed, {
+                worksheetId: 'worksheet-1',
+                spotterSidebarConfig: { enablePastConversationsSidebar: true },
+                additionalFlags: { spotterSidebarConfig: 'from-flags' },
             });
 
-            expect(appInitData.customActions).toEqual([]);
+            expect(embedParams.spotterSidebarConfig).toEqual(
+                expect.objectContaining({ enablePastConversationsSidebar: true }),
+            );
         });
 
         test("keeps the embed's own embedParams alongside the params", async () => {

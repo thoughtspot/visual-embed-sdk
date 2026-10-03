@@ -647,7 +647,6 @@ export class TsEmbed {
             return appInitData;
         }
         return {
-            ...this.excludedUrlParams,
             ...appInitData,
             embedParams: {
                 ...this.excludedUrlParams,
