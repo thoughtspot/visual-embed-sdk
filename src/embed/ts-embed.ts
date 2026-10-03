@@ -132,12 +132,13 @@ const NO_RUNTIME_PARAMS = '&';
  * application shell needs before it can receive a postMessage at all: the
  * embed marker, the host application URL used to validate the message origin,
  * the SDK version, the flags that pick the authentication flow, and the
- * boot-time settings that would otherwise be applied a frame late (viewport,
- * log level, locale, formatting, org and appearance). Everything else is
- * delivered over `HostEvent.UpdateEmbedParams`.
+ * boot-time settings (viewport, log level, locale, formatting, org and
+ * appearance). The rest go in the APP_INIT payload, which the app applies
+ * before its first render, and over `HostEvent.UpdateEmbedParams` when a
+ * pre-rendered embed is shown.
  * @internal
  */
-const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
+export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
     Param.EmbedApp,
     Param.HostAppUrl,
     Param.Version,
@@ -176,6 +177,10 @@ const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
     Param.ExposeTranslationIDs,
     Param.IconSpriteUrl,
     Param.Tag,
+    Param.vizEmbed,
+    Param.UseLastSelectedDataSource,
+    Param.DefaultQueryMode,
+    Param.searchTokenString,
 ]);
 
 /**
@@ -213,6 +218,8 @@ export class TsEmbed {
     protected embedContainerLoadedKey = '__tsEmbedContainerLoaded';
 
     protected isAppInitialized = false;
+
+    private excludedUrlParams: Record<string, any> | null = null;
 
     /**
      * A reference to the iframe within which the ThoughtSpot app
@@ -635,6 +642,19 @@ export class TsEmbed {
         return this.getDefaultAppInitData();
     }
 
+    private withExcludedUrlParams(appInitData: Record<string, any>): Record<string, any> {
+        if (!this.excludedUrlParams) {
+            return appInitData;
+        }
+        return {
+            ...appInitData,
+            embedParams: {
+                ...this.excludedUrlParams,
+                ...(appInitData.embedParams || {}),
+            },
+        };
+    }
+
     /**
      * Send Custom style as part of payload of APP_INIT
      * @param _
@@ -642,7 +662,7 @@ export class TsEmbed {
      */
     private appInitCb = async (_: any, responder: any) => {
         try {
-            const appInitData = await this.getAppInitData();
+            const appInitData = this.withExcludedUrlParams(await this.getAppInitData());
             this.isAppInitialized = true;
             responder({
                 type: EmbedEvent.APP_INIT,
@@ -1024,11 +1044,20 @@ export class TsEmbed {
     protected getUrlQueryParamsObject(): Record<any, any> {
         const queryParams = this.getEmbedParamsObject();
         if (!this.isConfigExcludedFromUrl()) {
+            this.excludedUrlParams = null;
             return queryParams;
         }
-        return Object.fromEntries(
-            Object.entries(queryParams).filter(([key]) => BOOTSTRAP_URL_PARAMS.has(key)),
-        );
+        const urlParams: Record<any, any> = {};
+        const excludedParams: Record<string, any> = {};
+        Object.entries(queryParams).forEach(([key, value]) => {
+            if (BOOTSTRAP_URL_PARAMS.has(key)) {
+                urlParams[key] = value;
+            } else {
+                excludedParams[key] = deserializeParam(value);
+            }
+        });
+        this.excludedUrlParams = isEmpty(excludedParams) ? null : excludedParams;
+        return urlParams;
     }
 
     protected getRootIframeSrc() {
@@ -1752,9 +1781,6 @@ export class TsEmbed {
                 setTimeout(processEmbedContainerReady, AUTH_INIT_FALLBACK_DELAY);
             } else if (source === EmbedEvent.EmbedListenerReady) {
                 processEmbedContainerReady();
-                if (this.isConfigExcludedFromUrl()) {
-                    this.triggerUpdateEmbedParams();
-                }
             }
         };
 
