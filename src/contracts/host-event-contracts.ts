@@ -53,6 +53,21 @@ export interface ConversationScopedRequest {
 }
 
 /**
+ * Request payload for {@link HostEvent.SpotterRefreshUsageLimit}. Both fields
+ * apply only to the current session.
+ */
+export interface SpotterRefreshUsageLimitRequest {
+    /**
+     * When `true`, hides usage tracking entirely.
+     */
+    isUnlimited?: boolean;
+    /**
+     * When `false`, hides the upgrade button.
+     */
+    isUpgradeButtonVisible?: boolean;
+}
+
+/**
  * Request payload for {@link HostEvent.OpenFilter}. Field requirements
  * vary by context (Search requires columnId/type/dataType/name); the
  * contract is the cross-context superset — the app validates per context
@@ -378,6 +393,7 @@ export interface HostEventRequestMap {
     [HostEvent.ShareSpotterConversation]: ConversationScopedRequest;
     [HostEvent.CloseSpotterShareConversation]: void;
     [HostEvent.ExitSpotterSharedConversation]: void;
+    [HostEvent.SpotterRefreshUsageLimit]: SpotterRefreshUsageLimitRequest;
     [HostEvent.PinSpotterConversation]: ConversationScopedRequest;
     [HostEvent.UnpinSpotterConversation]: ConversationScopedRequest;
     [HostEvent.EditLastPrompt]: string;

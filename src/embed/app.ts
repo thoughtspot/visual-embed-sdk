@@ -23,11 +23,12 @@ import {
 } from '../types';
 import { FullHeightController } from '../full-height';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig } from './conversation';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, SpotterUsageLimitConfig } from './conversation';
 import {
     buildSpotterSidebarAppInitData,
     buildSpotterShareConversationAppInitData,
     buildStarterPromptsAppInitData,
+    buildSpotterUsageLimitAppInitData,
     SpotterExperienceVersion,
 } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
@@ -791,6 +792,22 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      */
     spotterShareConversationConfig?: SpotterShareConversationConfig;
     /**
+     * Configuration for Spotter usage limits.
+     *
+     * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterUsageLimitConfig: {
+     *        enabled: true,
+     *    },
+     * })
+     * ```
+     */
+    spotterUsageLimitConfig?: SpotterUsageLimitConfig;
+    /**
      * Sets the default data sources (Models) for the Spotter experience shown on
      * the home page of the full app embed. Accepts a list of Model GUIDs to
      * preselect the data sources available to Spotter, or the literal
@@ -952,6 +969,7 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
         spotterVizConfig?: SpotterVizConfig;
         spotterShareConversationConfig?: SpotterShareConversationConfig;
         starterPrompts?: StarterPromptsConfig;
+        spotterUsageLimitConfig?: SpotterUsageLimitConfig;
     };
 }
 
@@ -1002,7 +1020,8 @@ export class AppEmbed extends V1Embed {
         );
         const vizInitData = buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
         const shareInitData = buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
-        return buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
+        const starterPromptsInitData = buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
+        return buildSpotterUsageLimitAppInitData(starterPromptsInitData, this.viewConfig);
     }
 
     /**

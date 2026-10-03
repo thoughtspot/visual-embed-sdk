@@ -7,6 +7,7 @@ import type {
     SpotterChatViewConfig,
     StarterPromptsConfig,
     SpotterAnalystConfig,
+    SpotterUsageLimitConfig,
 } from './conversation';
 import type { VisualizationOverrides } from '../types';
 
@@ -127,6 +128,23 @@ export function buildSpotterAnalystAppInitData<T extends DefaultAppInitData>(
         embedParams: {
             ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
             spotterAnalystConfig,
+        },
+    };
+}
+
+export function buildSpotterUsageLimitAppInitData<T extends DefaultAppInitData>(
+    initData: T,
+    viewConfig: { spotterUsageLimitConfig?: SpotterUsageLimitConfig },
+): T & { embedParams?: { spotterUsageLimitConfig?: SpotterUsageLimitConfig } } {
+    const { spotterUsageLimitConfig } = viewConfig;
+    if (!spotterUsageLimitConfig || Object.keys(spotterUsageLimitConfig).length === 0) {
+        return initData;
+    }
+    return {
+        ...initData,
+        embedParams: {
+            ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
+            spotterUsageLimitConfig,
         },
     };
 }
