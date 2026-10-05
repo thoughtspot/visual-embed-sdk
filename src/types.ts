@@ -5463,6 +5463,17 @@ export enum HostEvent {
      */
     EditVisualization = 'editVisualization',
     /**
+     * Exits Liveboard edit mode , equivalent to clicking the
+     * *Cancel* button in the Liveboard edit header. The Liveboard returns to
+     * view mode and the embedded app emits the {@link EmbedEvent.Cancel} event.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.ExitEditMode);
+     * ```
+     */
+    ExitEditMode = 'exitEditMode',
+    /**
      * Trigger the **Copy link** action on a Liveboard or visualization
      * Payload: {@link VizScopedRequest}.
      * @param - object - to trigger the action for a
