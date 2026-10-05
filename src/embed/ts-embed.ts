@@ -122,16 +122,8 @@ const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 
 const NON_INHERITED_PRERENDER_KEYS = new Set<string>([
-    'preRenderId',
-    'preRenderContainer',
-    'doNotTrackPreRenderSize',
     'runtimeFilters',
     'runtimeParameters',
-]);
-const NON_INHERITED_PRERENDER_CONFIG_KEYS = new Set<string>([
-    'id',
-    'containerSelector',
-    'doNotTrackSize',
 ]);
 
 // The container ignores runtimeFilterParams/runtimeParameterParams unless
@@ -1427,14 +1419,14 @@ export class TsEmbed {
     }
 
     private inheritPreRenderViewConfig(): void {
-        const preRenderViewConfig = (this.preRenderWrapper as any)?.[this.preRenderViewConfigKey];
+        const preRenderViewConfig = (this.preRenderWrapper as any)[this.preRenderViewConfigKey];
         if (!preRenderViewConfig) {
             return;
         }
         const fillUndefined = (
             target: Record<string, unknown>,
             source: Record<string, unknown>,
-            excluded: Set<string>,
+            excluded = new Set<string>(),
         ) => {
             Object.keys(source).forEach((key) => {
                 if (!excluded.has(key) && target[key] === undefined) {
@@ -1445,11 +1437,7 @@ export class TsEmbed {
         const viewConfig = this.viewConfig as Record<string, unknown>;
         if (preRenderViewConfig.preRenderConfig) {
             const preRenderConfig = { ...this.viewConfig.preRenderConfig };
-            fillUndefined(
-                preRenderConfig,
-                preRenderViewConfig.preRenderConfig,
-                NON_INHERITED_PRERENDER_CONFIG_KEYS,
-            );
+            fillUndefined(preRenderConfig, preRenderViewConfig.preRenderConfig);
             viewConfig.preRenderConfig = preRenderConfig;
         }
         fillUndefined(
