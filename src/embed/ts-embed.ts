@@ -121,6 +121,19 @@ const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 // post is not the same as the params being in effect.
 const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 
+// Keys a connecting embed never takes from the preRender's config: its own
+// preRender settings decide which frame it attaches to, and runtime filters and
+// parameters belong to the view being shown, so inheriting them would apply
+// filters the caller did not ask for.
+const NON_INHERITED_PRERENDER_KEYS = new Set<string>([
+    'preRenderId',
+    'preRenderConfig',
+    'preRenderContainer',
+    'doNotTrackPreRenderSize',
+    'runtimeFilters',
+    'runtimeParameters',
+]);
+
 // The container ignores runtimeFilterParams/runtimeParameterParams unless
 // truthy, so null or '' leaves the previous embed's values in place. '&' is
 // truthy and parses to {}.
@@ -251,6 +264,8 @@ export class TsEmbed {
     protected embedNodeKey = '__tsEmbed';
 
     protected embedContainerLoadedKey = '__tsEmbedContainerLoaded';
+
+    protected preRenderViewConfigKey = '__tsEmbedPreRenderViewConfig';
 
     protected isAppInitialized = false;
 
@@ -1411,6 +1426,20 @@ export class TsEmbed {
         this.applyPreRenderContainerPositioning();
     }
 
+    private inheritPreRenderViewConfig(): void {
+        const preRenderViewConfig = (this.preRenderWrapper as any)?.[this.preRenderViewConfigKey];
+        if (!preRenderViewConfig) {
+            return;
+        }
+        const viewConfig = this.viewConfig as Record<string, unknown>;
+        Object.keys(preRenderViewConfig).forEach((key) => {
+            if (NON_INHERITED_PRERENDER_KEYS.has(key) || viewConfig[key] !== undefined) {
+                return;
+            }
+            viewConfig[key] = preRenderViewConfig[key];
+        });
+    }
+
     private getCustomPreRenderContainer(): HTMLElement | null {
         const container = this.preRenderContainerEl;
         return container && container !== document.body ? container : null;
@@ -1485,6 +1514,7 @@ export class TsEmbed {
 
         this.preRenderChild = preRenderChild;
         this.preRenderWrapper = preRenderWrapper;
+        (preRenderWrapper as any)[this.preRenderViewConfigKey] = { ...this.viewConfig };
 
         if (preRenderChild instanceof HTMLIFrameElement) {
             this.setIframeElement(preRenderChild);
@@ -2254,6 +2284,7 @@ export class TsEmbed {
             return this.preRender(true);
         }
         this.isRendered = true;
+        this.inheritPreRenderViewConfig();
         this.beforePrerenderVisible();
 
         if (this.hostElement) {

@@ -5865,6 +5865,105 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         });
     });
 
+    describe('inheriting the preRender config', () => {
+        const lastUpdateParams = () => {
+            const calls = mockProcessTrigger.mock.calls.filter(
+                (call) => call[1] === HostEvent.UpdateEmbedParams,
+            );
+            return calls[calls.length - 1][3];
+        };
+
+        test('should take a value set only on the preRender when it is unset here', async () => {
+            await setupPreRenderTest('inherit-unset', {
+                liveboardId: 'original-lb',
+                isCentralizedLiveboardFilterUXEnabled: true,
+            });
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-unset',
+                liveboardId: 'original-lb',
+            });
+            embed2.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateParams()).toEqual(
+                    expect.objectContaining({ isCentralizedLiveboardFilterUXEnabled: true }),
+                );
+            });
+        });
+
+        test('should keep a value set here over the preRender value', async () => {
+            await setupPreRenderTest('inherit-override', {
+                liveboardId: 'original-lb',
+                isCentralizedLiveboardFilterUXEnabled: true,
+            });
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-override',
+                liveboardId: 'original-lb',
+                isCentralizedLiveboardFilterUXEnabled: false,
+            });
+            embed2.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateParams()).toEqual(
+                    expect.objectContaining({ isCentralizedLiveboardFilterUXEnabled: false }),
+                );
+            });
+        });
+
+        test('should not inherit the preRender runtime filters', async () => {
+            await setupPreRenderTest('inherit-filters', {
+                liveboardId: 'original-lb',
+                runtimeFilters: [
+                    { columnName: 'Color', operator: RuntimeFilterOp.IN, values: ['red'] },
+                ],
+            });
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-filters',
+                liveboardId: 'original-lb',
+            });
+            embed2.showPreRender();
+
+            await executeAfterWait(() => {
+                const params = lastUpdateParams();
+                expect(params.runtimeFilters).toBeUndefined();
+                expect(params.runtimeFilterParams).toBe('&');
+            });
+        });
+
+        test('should not inherit from an earlier embed that showed the preRender', async () => {
+            await setupPreRenderTest('inherit-no-leak', { liveboardId: 'original-lb' });
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-no-leak',
+                liveboardId: 'original-lb',
+                isCentralizedLiveboardFilterUXEnabled: true,
+            });
+            embed2.showPreRender();
+            await executeAfterWait(() => {
+                expect(lastUpdateParams()).toEqual(
+                    expect.objectContaining({ isCentralizedLiveboardFilterUXEnabled: true }),
+                );
+            });
+            embed2.hidePreRender();
+            mockProcessTrigger.mockClear();
+
+            const embed3 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-no-leak',
+                liveboardId: 'original-lb',
+            });
+            embed3.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateParams()).toEqual(
+                    expect.objectContaining({ isCentralizedLiveboardFilterUXEnabled: false }),
+                );
+            });
+        });
+    });
+
     test('should carry the new config filters in UpdateEmbedParams', async () => {
         await setupPreRenderTest('params-new-filters', { liveboardId: 'original-lb' });
 
