@@ -158,6 +158,25 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should hide and disable the Cancel button in the Liveboard edit header', async () => {
+        expect(Action.Cancel).toBe('cancel');
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.Cancel],
+            disabledActions: [Action.Cancel],
+            disabledActionReason: 'Save your changes to leave edit mode',
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideAction: JSON.stringify([Action.ReportError, Action.Cancel]),
+                disableAction: JSON.stringify([Action.Cancel]),
+                disableHint: 'Save your changes to leave edit mode',
+            });
+        });
+    });
+
     test('should hide and disable the Spotter button on the Liveboard header', async () => {
         expect(Action.SpotterOnLiveboard).toBe('spotterOnLiveboard');
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
