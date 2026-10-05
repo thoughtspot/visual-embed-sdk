@@ -127,59 +127,94 @@ const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 const NO_RUNTIME_PARAMS = '&';
 
 /**
- * Query parameters that stay on the iframe `src` when the embed sets the
- * `excludeConfigFromURL` additional flag. These are the parameters the
- * application shell needs before it can receive a postMessage at all: the
- * embed marker, the host application URL used to validate the message origin,
- * the SDK version, the flags that pick the authentication flow, and the
- * boot-time settings (viewport, log level, locale, formatting, org and
- * appearance). The rest go in the APP_INIT payload, which the app applies
- * before its first render, and over `HostEvent.UpdateEmbedParams` when a
- * pre-rendered embed is shown.
+ * Params kept on the iframe `src` when `excludeConfigFromURL` is set. The rest
+ * are sent in the APP_INIT payload.
  * @internal
  */
 export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
+    // Marks the app as embedded.
     Param.EmbedApp,
+    // The host page URL, used to validate the postMessage origin.
     Param.HostAppUrl,
+    // The SDK version.
     Param.Version,
+    // The authentication type set in init.
     Param.AuthType,
+    // Whether the app signs the user in automatically.
     Param.AutoLogin,
+    // Stops the app from redirecting to its login page.
     Param.DisableLoginRedirect,
+    // Forces the SAML redirect for EmbeddedSSO.
     Param.ForceSAMLAutoRedirect,
+    // Set for cookieless trusted authentication.
     Param.cookieless,
+    // Lets the app use the pre-fetched auth info.
     Param.preAuthCache,
+    // Blocks access to the full app outside the embed.
     Param.blockNonEmbedFullAppAccess,
+    // The org to load, which the auth info depends on.
     Param.OverrideOrgId,
+    // The host window height when the iframe loads.
     Param.ViewPortHeight,
+    // The host window width when the iframe loads.
     Param.ViewPortWidth,
+    // The app's client log level.
     Param.ClientLogLevel,
+    // Lets the app override the native console.
     Param.OverrideNativeConsole,
+    // An extra Pendo tracking key.
     Param.PendoTrackingKey,
+    // The locale for number formatting.
     Param.NumberFormatLocale,
+    // The locale for date formatting.
     Param.DateFormatLocale,
+    // The currency format.
     Param.CurrencyFormat,
+    // The UI language.
     Param.Locale,
+    // Turns on dark mode.
     Param.IsDarkMode,
+    // Turns on the radiant theme that dark mode needs.
     Param.RadiantThemeEnabled,
+    // Marks a SearchEmbed or SearchBarEmbed.
     Param.searchEmbed,
+    // Marks a LiveboardEmbed.
     Param.livedBoardEmbed,
+    // Marks a SpotterAgentEmbed.
     Param.isSpotterAgentEmbed,
+    // Marks a SpotterEmbed.
     Param.SpotterEnabled,
+    // Marks an AppEmbed.
     Param.IsFullAppEmbed,
+    // Legacy flag for the onBeforeGetVizData API intercept.
     Param.IsOnBeforeGetVizDataInterceptEnabled,
+    // Lets the host override links in the app.
     Param.LinkOverride,
+    // Turns on version 2 of the link overrides.
     Param.EnableLinkOverridesV2,
+    // Stops links from opening in a new tab.
     Param.DisableRedirectionLinksInNewTab,
+    // Uses replaceState instead of pushState for app navigation.
     Param.OverrideHistoryState,
+    // Shows search results as a table.
     Param.ForceTable,
+    // The URL of the custom string IDs file.
     Param.StringIDsUrl,
+    // The data sources that search opens with.
     Param.DataSources,
+    // Exposes translation IDs in the app.
     Param.ExposeTranslationIDs,
+    // The URL of the custom icon sprite.
     Param.IconSpriteUrl,
+    // The tag that filters the metadata lists in an AppEmbed.
     Param.Tag,
+    // Set when a Liveboard embed shows a single visualization (vizId).
     Param.vizEmbed,
+    // Whether search opens with the last-selected data sources.
     Param.UseLastSelectedDataSource,
+    // The query mode Spotter opens in.
     Param.DefaultQueryMode,
+    // The initial search query. Omitted with excludeSearchTokenStringFromURL.
     Param.searchTokenString,
 ]);
 
