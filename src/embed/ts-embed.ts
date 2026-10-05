@@ -254,7 +254,7 @@ export class TsEmbed {
 
     protected isAppInitialized = false;
 
-    private excludedUrlParams: Record<string, any> | null = null;
+    private excludedUrlParams: Record<string, any> = {};
 
     /**
      * A reference to the iframe within which the ThoughtSpot app
@@ -678,7 +678,7 @@ export class TsEmbed {
     }
 
     private withExcludedUrlParams(appInitData: Record<string, any>): Record<string, any> {
-        if (!this.excludedUrlParams) {
+        if (isEmpty(this.excludedUrlParams)) {
             return appInitData;
         }
         return {
@@ -1079,7 +1079,7 @@ export class TsEmbed {
     protected getUrlQueryParamsObject(): Record<any, any> {
         const queryParams = this.getEmbedParamsObject();
         if (!this.isConfigExcludedFromUrl()) {
-            this.excludedUrlParams = null;
+            this.excludedUrlParams = {};
             return queryParams;
         }
         const urlParams: Record<any, any> = {};
@@ -1091,7 +1091,7 @@ export class TsEmbed {
                 excludedParams[key] = deserializeParam(value);
             }
         });
-        this.excludedUrlParams = isEmpty(excludedParams) ? null : excludedParams;
+        this.excludedUrlParams = excludedParams;
         return urlParams;
     }
 
