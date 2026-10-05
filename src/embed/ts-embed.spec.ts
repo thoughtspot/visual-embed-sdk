@@ -5933,14 +5933,14 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             });
         });
 
-        test('should inherit the preRender zIndex', async () => {
+        test('should inherit the preRenderConfig when it is unset here', async () => {
             await setupPreRenderTest('inherit-zindex', {
                 liveboardId: 'original-lb',
                 preRenderConfig: { id: 'inherit-zindex', zIndex: -5 },
             });
 
             const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
-                preRenderConfig: { id: 'inherit-zindex' },
+                preRenderId: 'inherit-zindex',
                 liveboardId: 'original-lb',
             });
             await embed2.showPreRender();
@@ -5962,7 +5962,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             });
 
             const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
-                preRenderConfig: { id: 'inherit-container' },
+                preRenderId: 'inherit-container',
                 liveboardId: 'original-lb',
             });
             await embed2.showPreRender();
@@ -5997,6 +5997,41 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             );
         });
 
+        test('should keep an object set here whole', async () => {
+            await setupPreRenderTest('inherit-object', {
+                liveboardId: 'original-lb',
+                additionalFlags: { flagA: true },
+            });
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-object',
+                liveboardId: 'original-lb',
+                additionalFlags: { flagB: true },
+            });
+            embed2.showPreRender();
+
+            await executeAfterWait(() => {
+                const params = lastUpdateParams();
+                expect(params).toEqual(expect.objectContaining({ flagB: true }));
+                expect(params.flagA).toBeUndefined();
+            });
+        });
+
+        test('should keep a preRenderConfig set here whole', async () => {
+            await setupPreRenderTest('inherit-config-whole', {
+                liveboardId: 'original-lb',
+                preRenderConfig: { id: 'inherit-config-whole', zIndex: -5 },
+            });
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderConfig: { id: 'inherit-config-whole' },
+                liveboardId: 'original-lb',
+            });
+            await embed2.showPreRender();
+
+            expect((embed2 as any).getPreRenderConfig().zIndex).toBeUndefined();
+        });
+
         test('should use its own defaults when the wrapper has no saved config', async () => {
             await setupPreRenderTest('inherit-no-stash', {
                 liveboardId: 'original-lb',
@@ -6017,23 +6052,6 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                     expect.objectContaining({ isCentralizedLiveboardFilterUXEnabled: false }),
                 );
             });
-        });
-
-        test('should not mutate the preRenderConfig object the caller passed', async () => {
-            await setupPreRenderTest('inherit-no-mutate', {
-                liveboardId: 'original-lb',
-                preRenderConfig: { id: 'inherit-no-mutate', zIndex: -5 },
-            });
-
-            const callerPreRenderConfig = { id: 'inherit-no-mutate' };
-            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
-                preRenderConfig: callerPreRenderConfig,
-                liveboardId: 'original-lb',
-            });
-            await embed2.showPreRender();
-
-            expect(callerPreRenderConfig).toEqual({ id: 'inherit-no-mutate' });
-            expect((embed2 as any).getPreRenderConfig().zIndex).toBe(-5);
         });
 
         test('should leave the preRender config unchanged when it shows itself', async () => {

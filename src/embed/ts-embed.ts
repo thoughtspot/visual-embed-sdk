@@ -1423,28 +1423,12 @@ export class TsEmbed {
         if (!preRenderViewConfig) {
             return;
         }
-        const fillUndefined = (
-            target: Record<string, unknown>,
-            source: Record<string, unknown>,
-            excluded = new Set<string>(),
-        ) => {
-            Object.keys(source).forEach((key) => {
-                if (!excluded.has(key) && target[key] === undefined) {
-                    target[key] = source[key];
-                }
-            });
-        };
         const viewConfig = this.viewConfig as Record<string, unknown>;
-        if (preRenderViewConfig.preRenderConfig) {
-            const preRenderConfig = { ...this.viewConfig.preRenderConfig };
-            fillUndefined(preRenderConfig, preRenderViewConfig.preRenderConfig);
-            viewConfig.preRenderConfig = preRenderConfig;
-        }
-        fillUndefined(
-            viewConfig,
-            preRenderViewConfig,
-            new Set([...NON_INHERITED_PRERENDER_KEYS, 'preRenderConfig']),
-        );
+        Object.keys(preRenderViewConfig).forEach((key) => {
+            if (!NON_INHERITED_PRERENDER_KEYS.has(key) && viewConfig[key] === undefined) {
+                viewConfig[key] = preRenderViewConfig[key];
+            }
+        });
     }
 
     private getCustomPreRenderContainer(): HTMLElement | null {

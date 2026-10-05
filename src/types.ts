@@ -959,7 +959,9 @@ export interface PreRenderConfig {
      * An embed that shows a pre-rendered frame inherits any config property left
      * `undefined` from the embed that created the pre-render, so a flag set only on
      * the pre-render component still applies. A property set on the showing embed
-     * always wins. Runtime filters and runtime parameters are never inherited.
+     * always wins, and an object such as `additionalFlags` or `preRenderConfig`
+     * set there replaces the pre-render's object whole. Runtime filters and
+     * runtime parameters are never inherited.
      *
      * @default undefined
      */
