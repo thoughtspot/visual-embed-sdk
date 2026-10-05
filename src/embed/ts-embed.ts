@@ -254,7 +254,7 @@ export class TsEmbed {
 
     protected isAppInitialized = false;
 
-    private initDataParams: Record<string, any> = {};
+    private initDataParams: Partial<Record<Param, any>> & Record<string, any> = {};
 
     /**
      * A reference to the iframe within which the ThoughtSpot app
@@ -1083,7 +1083,7 @@ export class TsEmbed {
             return queryParams;
         }
         const urlParams: Record<any, any> = {};
-        const excludedParams: Record<string, any> = {};
+        const excludedParams: Partial<Record<Param, any>> & Record<string, any> = {};
         Object.entries(queryParams).forEach(([key, value]) => {
             if (BOOTSTRAP_URL_PARAMS.has(key)) {
                 urlParams[key] = value;
