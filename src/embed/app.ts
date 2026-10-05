@@ -962,23 +962,36 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
 export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
 
-    private readonly fullHeightController?: FullHeightController;
+    private fullHeightController?: FullHeightController;
 
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
-        if (this.viewConfig.fullHeight === true) {
-            this.fullHeightController = new FullHeightController(this.viewConfig, {
-                getIframe: () => this.iFrame,
-                setFrameHeight: (height) => this.setIFrameHeight(height),
-                on: (eventType, callback) => {
-                    this.on(eventType, callback);
-                },
-                trigger: (hostEvent, data) => {
-                    this.trigger(hostEvent, data);
-                },
-            });
+        this.setupFullHeight();
+    }
+
+    private setupFullHeight(): void {
+        if (this.fullHeightController) {
+            this.fullHeightController.viewConfig = this.viewConfig;
+            return;
         }
+        if (this.viewConfig.fullHeight !== true) {
+            return;
+        }
+        this.fullHeightController = new FullHeightController(this.viewConfig, {
+            getIframe: () => this.iFrame,
+            setFrameHeight: (height) => this.setIFrameHeight(height),
+            on: (eventType, callback) => {
+                this.on(eventType, callback);
+            },
+            trigger: (hostEvent, data) => {
+                this.trigger(hostEvent, data);
+            },
+        });
+    }
+
+    protected onPreRenderViewConfigInherited(): void {
+        this.setupFullHeight();
     }
 
     /**

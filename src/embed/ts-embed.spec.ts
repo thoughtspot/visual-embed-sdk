@@ -6032,6 +6032,147 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             expect((embed2 as any).getPreRenderConfig().zIndex).toBeUndefined();
         });
 
+        test('should turn on fullHeight when it is set only on the preRender', async () => {
+            await setupPreRenderTest('inherit-full-height', {
+                liveboardId: 'original-lb',
+                fullHeight: true,
+                lazyLoadingMargin: '10px',
+            });
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-full-height',
+                liveboardId: 'original-lb',
+            });
+            const setHeight = jest.spyOn(embed2 as any, 'setIFrameHeight').mockImplementation(() => {});
+            embed2.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateParams()).toEqual(
+                    expect.objectContaining({
+                        isFullHeightPinboard: true,
+                        isLazyLoadingForEmbedEnabled: true,
+                        rootMarginForLazyLoad: '10px',
+                    }),
+                );
+            });
+            (embed2 as any).fullHeightController.handleEmbedHeight({ data: 900 });
+            expect(setHeight).toHaveBeenCalledWith(900);
+        });
+
+        test('should refresh fullHeight settings set only on the preRender', async () => {
+            await setupPreRenderTest('inherit-full-height-margin', {
+                liveboardId: 'original-lb',
+                lazyLoadingMargin: '10px',
+                minimumHeight: 700,
+            });
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-full-height-margin',
+                liveboardId: 'original-lb',
+                fullHeight: true,
+            });
+            embed2.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateParams()).toEqual(
+                    expect.objectContaining({ rootMarginForLazyLoad: '10px' }),
+                );
+            });
+            expect((embed2 as any).fullHeightController.minimumHeight).toBe(700);
+        });
+
+        test('should leave fullHeight off when neither embed sets it', async () => {
+            await setupPreRenderTest('inherit-no-full-height', { liveboardId: 'original-lb' });
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-no-full-height',
+                liveboardId: 'original-lb',
+            });
+            embed2.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateParams().isFullHeightPinboard).toBeUndefined();
+            });
+            expect((embed2 as any).fullHeightController).toBeUndefined();
+        });
+
+        test('should turn on fullHeight for an AppEmbed when set only on the preRender', async () => {
+            createRootEleForEmbed();
+            mockMessageChannel();
+            const appPreRender = new AppEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-app-full-height',
+                fullHeight: true,
+            });
+            await appPreRender.preRender();
+            await waitFor(() => !!getIFrameEl());
+            appPreRender.isEmbedContainerLoaded = true;
+            mockProcessTrigger.mockClear();
+            mockProcessTrigger.mockResolvedValue({});
+
+            const app = new AppEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-app-full-height',
+            });
+            app.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateParams()).toEqual(
+                    expect.objectContaining({ isFullHeightPinboard: true }),
+                );
+            });
+            expect((app as any).fullHeightController).toBeDefined();
+        });
+
+        test('should refresh fullHeight settings on an AppEmbed', async () => {
+            createRootEleForEmbed();
+            mockMessageChannel();
+            const appPreRender = new AppEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-app-margin',
+                lazyLoadingMargin: '10px',
+            });
+            await appPreRender.preRender();
+            await waitFor(() => !!getIFrameEl());
+            appPreRender.isEmbedContainerLoaded = true;
+            mockProcessTrigger.mockClear();
+            mockProcessTrigger.mockResolvedValue({});
+
+            const app = new AppEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-app-margin',
+                fullHeight: true,
+            });
+            app.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateParams()).toEqual(
+                    expect.objectContaining({ rootMarginForLazyLoad: '10px' }),
+                );
+            });
+        });
+
+        test('should inherit on an embed with no extra setup to redo', async () => {
+            createRootEleForEmbed();
+            mockMessageChannel();
+            const searchPreRender = new SearchEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-search',
+                dataSources: ['ds-1'],
+            });
+            await searchPreRender.preRender();
+            await waitFor(() => !!getIFrameEl());
+            searchPreRender.isEmbedContainerLoaded = true;
+            mockProcessTrigger.mockClear();
+            mockProcessTrigger.mockResolvedValue({});
+
+            const search = new SearchEmbed('#tsEmbedDiv', {
+                preRenderId: 'inherit-search',
+            });
+            search.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateParams()).toEqual(
+                    expect.objectContaining({ dataSources: ['ds-1'] }),
+                );
+            });
+        });
+
         test('should use its own defaults when the wrapper has no saved config', async () => {
             await setupPreRenderTest('inherit-no-stash', {
                 liveboardId: 'original-lb',

@@ -1429,7 +1429,10 @@ export class TsEmbed {
                 viewConfig[key] = preRenderViewConfig[key];
             }
         });
+        this.onPreRenderViewConfigInherited();
     }
+
+    protected onPreRenderViewConfigInherited(): void {}
 
     private getCustomPreRenderContainer(): HTMLElement | null {
         const container = this.preRenderContainerEl;

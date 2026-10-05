@@ -608,27 +608,40 @@ export interface LiveboardViewConfig
 export class LiveboardEmbed extends V1Embed {
     protected viewConfig: LiveboardViewConfig;
 
-    private readonly fullHeightController?: FullHeightController;
+    private fullHeightController?: FullHeightController;
 
     constructor(domSelector: DOMSelector, viewConfig: LiveboardViewConfig) {
         viewConfig.embedComponentType = 'LiveboardEmbed';
         super(domSelector, viewConfig);
-        if (this.viewConfig.fullHeight === true) {
-            if (this.viewConfig.vizId) {
-                logger.warn('Full height is currently only supported for Liveboard embeds.'
-                    + 'Using full height with vizId might lead to unexpected behavior.');
-            }
-            this.fullHeightController = new FullHeightController(this.viewConfig, {
-                getIframe: () => this.iFrame,
-                setFrameHeight: (height) => this.setIFrameHeight(height),
-                on: (eventType, callback) => {
-                    this.on(eventType, callback);
-                },
-                trigger: (hostEvent, data) => {
-                    this.trigger(hostEvent, data);
-                },
-            });
+        this.setupFullHeight();
+    }
+
+    private setupFullHeight(): void {
+        if (this.fullHeightController) {
+            this.fullHeightController.viewConfig = this.viewConfig;
+            return;
         }
+        if (this.viewConfig.fullHeight !== true) {
+            return;
+        }
+        if (this.viewConfig.vizId) {
+            logger.warn('Full height is currently only supported for Liveboard embeds.'
+                + 'Using full height with vizId might lead to unexpected behavior.');
+        }
+        this.fullHeightController = new FullHeightController(this.viewConfig, {
+            getIframe: () => this.iFrame,
+            setFrameHeight: (height) => this.setIFrameHeight(height),
+            on: (eventType, callback) => {
+                this.on(eventType, callback);
+            },
+            trigger: (hostEvent, data) => {
+                this.trigger(hostEvent, data);
+            },
+        });
+    }
+
+    protected onPreRenderViewConfigInherited(): void {
+        this.setupFullHeight();
     }
 
     protected async getAppInitData(): Promise<LiveboardEmbedAppInitData> {
