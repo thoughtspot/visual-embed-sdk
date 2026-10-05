@@ -121,17 +121,17 @@ const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
 // post is not the same as the params being in effect.
 const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 
-// Keys a connecting embed never takes from the preRender's config: its own
-// preRender settings decide which frame it attaches to, and runtime filters and
-// parameters belong to the view being shown, so inheriting them would apply
-// filters the caller did not ask for.
 const NON_INHERITED_PRERENDER_KEYS = new Set<string>([
     'preRenderId',
-    'preRenderConfig',
     'preRenderContainer',
     'doNotTrackPreRenderSize',
     'runtimeFilters',
     'runtimeParameters',
+]);
+const NON_INHERITED_PRERENDER_CONFIG_KEYS = new Set<string>([
+    'id',
+    'containerSelector',
+    'doNotTrackSize',
 ]);
 
 // The container ignores runtimeFilterParams/runtimeParameterParams unless
@@ -1431,13 +1431,32 @@ export class TsEmbed {
         if (!preRenderViewConfig) {
             return;
         }
+        const fillUndefined = (
+            target: Record<string, unknown>,
+            source: Record<string, unknown>,
+            excluded: Set<string>,
+        ) => {
+            Object.keys(source).forEach((key) => {
+                if (!excluded.has(key) && target[key] === undefined) {
+                    target[key] = source[key];
+                }
+            });
+        };
         const viewConfig = this.viewConfig as Record<string, unknown>;
-        Object.keys(preRenderViewConfig).forEach((key) => {
-            if (NON_INHERITED_PRERENDER_KEYS.has(key) || viewConfig[key] !== undefined) {
-                return;
-            }
-            viewConfig[key] = preRenderViewConfig[key];
-        });
+        if (preRenderViewConfig.preRenderConfig) {
+            const preRenderConfig = { ...this.viewConfig.preRenderConfig };
+            fillUndefined(
+                preRenderConfig,
+                preRenderViewConfig.preRenderConfig,
+                NON_INHERITED_PRERENDER_CONFIG_KEYS,
+            );
+            viewConfig.preRenderConfig = preRenderConfig;
+        }
+        fillUndefined(
+            viewConfig,
+            preRenderViewConfig,
+            new Set([...NON_INHERITED_PRERENDER_KEYS, 'preRenderConfig']),
+        );
     }
 
     private getCustomPreRenderContainer(): HTMLElement | null {

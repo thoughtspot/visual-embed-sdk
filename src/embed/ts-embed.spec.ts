@@ -5933,6 +5933,24 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             });
         });
 
+        test('should inherit the preRender zIndex but keep its own preRender id', async () => {
+            await setupPreRenderTest('inherit-zindex', {
+                liveboardId: 'original-lb',
+                preRenderConfig: { id: 'inherit-zindex', zIndex: -5 },
+            });
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderConfig: { id: 'inherit-zindex' },
+                liveboardId: 'original-lb',
+            });
+            await embed2.showPreRender();
+            embed2.hidePreRender();
+
+            const wrapper = document.getElementById('tsEmbed-pre-render-wrapper-inherit-zindex');
+            expect(wrapper.style.zIndex).toBe('-5');
+            expect((embed2 as any).getPreRenderConfig().id).toBe('inherit-zindex');
+        });
+
         test('should not inherit from an earlier embed that showed the preRender', async () => {
             await setupPreRenderTest('inherit-no-leak', { liveboardId: 'original-lb' });
 

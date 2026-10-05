@@ -956,7 +956,7 @@ export interface PreRenderConfig {
      * Required by `preRender()`, `showPreRender()`, and `hidePreRender()`, which log
      * and do nothing without it.
      *
-     * An embed that shows a pre-rendered frame takes any config property it leaves
+     * An embed that shows a pre-rendered frame inherits any config property left
      * `undefined` from the embed that created the pre-render, so a flag set only on
      * the pre-render component still applies. A property set on the showing embed
      * always wins. Runtime filters and runtime parameters are never inherited.
