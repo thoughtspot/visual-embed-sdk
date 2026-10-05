@@ -1161,4 +1161,21 @@ describe('SpotterEmbed APP_INIT starterPrompts', () => {
         });
         expect(response.data.embedParams?.spotterAnalystConfig).toBeUndefined();
     });
+
+    it('should include spotterUsageLimitConfig in embedParams when set', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterAnalystConfig: { analystId: 'analyst-id-1234' },
+            spotterUsageLimitConfig: { isEnabled: true },
+        });
+        expect(response.data.embedParams.spotterUsageLimitConfig).toEqual({ isEnabled: true });
+        expect(response.data.embedParams.spotterAnalystConfig).toEqual({
+            analystId: 'analyst-id-1234',
+        });
+    });
+
+    it('should not include spotterUsageLimitConfig in embedParams when not configured', async () => {
+        const response = await getAppInitResponse({ worksheetId: 'ws1' });
+        expect(response.data.embedParams?.spotterUsageLimitConfig).toBeUndefined();
+    });
 });
