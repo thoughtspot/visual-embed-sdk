@@ -21,7 +21,6 @@ import {
     HostEventRequest,
     TriggerData,
     TriggerResponse,
-    UpdateThemeRequest,
 } from '../contracts/host-event-contracts';
 import { EmbedEventPayload } from '../contracts/embed-event-payloads';
 import { isMessageFromIframe } from '../utils/transport/iframe-transport';
@@ -1850,17 +1849,7 @@ export class TsEmbed {
                 }
                 throw err;
             },
-        ).then((response) => {
-            if (messageType === HostEvent.UpdateTheme) {
-                // Keep the appearance the app applied, so a later render or
-                // pre-render show sends it instead of the one it loaded with.
-                const { isDarkMode } = (response ?? {}) as Partial<UpdateThemeRequest>;
-                if (typeof isDarkMode === 'boolean') {
-                    this.viewConfig.isDarkMode = isDarkMode;
-                }
-            }
-            return response;
-        });
+        );
     }
 
     /**
