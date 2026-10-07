@@ -159,6 +159,7 @@ import {
     ScheduleEmailRequest,
     NavigateRequest,
     SetActiveTabRequest,
+    UpdateThemeRequest,
 } from './contracts/host-event-contracts';
 import {
     convertFilterChangedToUpdateFiltersPayload,
@@ -292,6 +293,7 @@ export {
     ScheduleEmailRequest,
     NavigateRequest,
     SetActiveTabRequest,
+    UpdateThemeRequest,
     LiveboardTab,
     LiveboardGroup,
     ApplicabilityLevel,
