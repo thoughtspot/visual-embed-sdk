@@ -795,6 +795,30 @@ describe('SpotterEmbed APP_INIT embedParams', () => {
         ).toEqual(spotterChatPinConfig);
     });
 
+    it('should send enableConnectorMarketplace in embedParams.spotterSidebarConfig, not the URL', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterSidebarConfig: {
+                enableConnectorMarketplace: true,
+            },
+        });
+        expect(response.data.embedParams.spotterSidebarConfig.enableConnectorMarketplace).toBe(true);
+        expect(getIFrameSrc()).not.toContain('enableConnectorMarketplace');
+    });
+
+    it('should send enableSpotterInstructionAndMoreSettings at the top level of embedParams', async () => {
+        const response = await getAppInitResponse({
+            worksheetId: 'ws1',
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                enableSpotterInstructionAndMoreSettings: true,
+            },
+        });
+        expect(response.data.embedParams.enableSpotterInstructionAndMoreSettings).toBe(true);
+        expect(response.data.embedParams.spotterSidebarConfig)
+            .not.toHaveProperty('enableSpotterInstructionAndMoreSettings');
+    });
+
     it('should populate enablePastConversationsSidebar from deprecated standalone flag', async () => {
         const response = await getAppInitResponse({
             worksheetId: 'ws1',
