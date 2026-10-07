@@ -9515,6 +9515,29 @@ export enum Action {
      * ```
      */
     CustomizeHomepage = 'customizeHomepage',
+    /**
+     * Controls the visibility and disabled state of the *Cancel* button in the
+     * Liveboard edit header, the button that discards the changes made in edit
+     * mode and returns the Liveboard to view mode. The button is shown only
+     * while the Liveboard is in edit mode.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * const liveboardEmbed = new LiveboardEmbed('#tsEmbed', {
+     *     ... // other embed view config
+     *     hiddenActions: [Action.Cancel],
+     * });
+     * ```
+     * @example
+     * ```js
+     * const liveboardEmbed = new LiveboardEmbed('#tsEmbed', {
+     *     ... // other embed view config
+     *     disabledActions: [Action.Cancel],
+     *     disabledActionReason: 'Save your changes to leave edit mode',
+     * });
+     * ```
+     */
+    Cancel = 'cancel',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
