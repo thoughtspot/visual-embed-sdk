@@ -4451,6 +4451,42 @@ export enum EmbedEvent {
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
     RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
+    /**
+     * Controls the visibility and disabled state of the edit (pencil) button next to the Liveboard title in the Liveboard header.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 10.3.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.RenameLiveboard],
+     *     disabledActions: [Action.RenameLiveboard],
+     * }
+     * ```
+     */
+    RenameLiveboard = 'renameLiveboard',
+    /**
+     * Controls the visibility and disabled state of the filter toggle button in the Liveboard header that opens and closes the filter panel.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 10.3.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.FilterPanelToggle],
+     *     disabledActions: [Action.FilterPanelToggle],
+     * }
+     * ```
+     */
+    FilterPanelToggle = 'filterPanelToggle',
+    /**
+     * Controls the visibility and disabled state of the "Add scenario" action on an Answer.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 9.8.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.AddScenario],
+     *     disabledActions: [Action.AddScenario],
+     * }
+     * ```
+     */
+    AddScenario = 'addScenario',
 }
 
 /**
