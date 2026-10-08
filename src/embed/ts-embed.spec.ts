@@ -3093,9 +3093,10 @@ describe('Unit test case for ts embed', () => {
                 expect(wrapper.style.transform).toBe('');
 
                 libEmbed.hidePreRender();
-                // Parked above its top edge, the hidden frame's size adds no
-                // scroll overflow; the measured size survives for the next
-                // show.
+                // Detached from every scroll container (fixed, resolves to the
+                // viewport), parked for the captured-fixed case, size
+                // preserved.
+                expect(wrapper.style.position).toBe('fixed');
                 expect(wrapper.style.transform).toBe('translateY(-100%)');
                 expect(wrapper.style.height).not.toBe('');
 

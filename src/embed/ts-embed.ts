@@ -2408,13 +2408,16 @@ export class TsEmbed {
             opacity: '0',
             pointerEvents: 'none',
             zIndex: zIndex !== undefined ? String(zIndex) : '-1000',
-            position: 'absolute',
+            // Resolves to the viewport, so the hidden frame belongs to no
+            // scroll container's overflow; syncPreRenderStyle restores absolute
+            // on show.
+            position: 'fixed',
             top: '0',
             left: '0',
             overflow: 'hidden',
-            // Parks the hidden frame above its own top edge so its measured
-            // size adds no overflow; scrollable overflow only ever extends
-            // downward.
+            // The one exception: a transformed or contained ancestor captures
+            // `fixed`; parking above the top edge keeps it out of that
+            // overflow.
             transform: PRERENDER_PARKED_TRANSFORM,
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
