@@ -1374,26 +1374,12 @@ export class TsEmbed {
     }
 
     /**
-     * Resolves the configured preRenderContainer to a live element. A string
-     * selector is re-queried on every call so a remounted container (E.g.: React
-     * replacing the node) resolves to the fresh element; an element passed
-     * directly cannot be re-resolved.
-     *
-     * With nothing configured the frame goes into the host element's nearest
-     * scrolling ancestor, falling back to `document.body`.
-     *
-     * The wrapper is absolutely positioned, so it follows the page for free —
-     * but only while it sits inside whatever scrolls. `document.body` is right
-     * only when the document itself is the scroller; an app that scrolls an
-     * inner element instead left the frame pinned to the viewport while the page
-     * moved under it (SCAL-338563). Being inside the scroller also lets wheel
-     * events chain out of the frame into it, which they cannot do from
-     * `document.body`.
-     *
-     * A scrolling ancestor is layout chrome rather than route content, so it
-     * outlives the embed in practice; and if it does go, the host element goes
-     * with it and this instance is remounting anyway.
-     * `reconcilePreRenderContainer` re-runs this on a detached container.
+     * Resolves the configured preRenderContainer, or defaults to the host's
+     * nearest scrolling ancestor (document.body if none). The absolutely
+     * positioned wrapper only follows the page while it sits inside what
+     * scrolls, so body is right only when the document itself scrolls — an inner
+     * scroller left the frame pinned to the viewport (SCAL-338563). A string
+     * selector is re-queried each call so a remounted container resolves fresh.
      */
     private resolvePreRenderContainerTarget(): HTMLElement {
         const containerConfig = this.getPreRenderConfig().containerSelector;

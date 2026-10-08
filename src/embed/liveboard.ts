@@ -1052,18 +1052,9 @@ export class LiveboardEmbed extends V1Embed {
         });
     }
 
-    /**
-     * Whether `previous` was showing what this instance is about to show.
-     *
-     * Undefined-valued keys are dropped before comparing. `navigateToLiveboard`
-     * assigns `vizId`, `activeTabId` and `personalizedViewId` unconditionally,
-     * so an instance that has been shown once carries those keys as `undefined`
-     * while a freshly constructed one does not have them at all. `isEqual`
-     * counts own keys, so without this the comparison can never be true after
-     * the first show — which is the whole case this exists for.
-     *
-     * Callbacks compare as equal: React passes a fresh closure per render.
-     */
+    // definedEntries drops undefined-valued keys: a shown instance carries
+    // vizId/activeTabId/etc as undefined, so a raw isEqual never matches again.
+    // Functions compare equal, since React passes a fresh closure per render.
     private isSameEmbedConfig(previous?: LiveboardEmbed): boolean {
         if (!previous) return false;
         if (previous === this) return true;
