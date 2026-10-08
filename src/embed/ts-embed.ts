@@ -2404,6 +2404,7 @@ export class TsEmbed {
             return;
         }
         const { zIndex } = this.getPreRenderConfig();
+        // A hidden pre-render frame must add no scroll space to the host page.
         const preRenderHideStyles = {
             opacity: '0',
             pointerEvents: 'none',
