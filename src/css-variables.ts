@@ -147,6 +147,39 @@ export interface CustomCssVariables {
     '--ts-var-search-bar-auto-complete-hover-background'?: string;
 
     /**
+     * Background color of the submit (*Go*) button in the search box.
+     */
+    '--ts-var-search-submit-button-background'?: string;
+
+    /**
+     * Color of the label and icon on the submit (*Go*) button in the search box.
+     */
+    '--ts-var-search-submit-button-color'?: string;
+
+    /**
+     * Background color of the submit (*Go*) button in the search box on hover.
+     * Defaults to the background color set for the non-hover state.
+     */
+    '--ts-var-search-submit-button--hover-background'?: string;
+
+    /**
+     * Border radius of the submit (*Go*) button in the search box. Default: `40px`.
+     */
+    '--ts-var-search-submit-button-border-radius'?: string;
+
+    /**
+     * Border width of the submit (*Go*) button in the search box. Default: `0`.
+     * The button has a fixed size, so a border reduces its inner area.
+     */
+    '--ts-var-search-submit-button-border-width'?: string;
+
+    /**
+     * Border color of the submit (*Go*) button in the search box.
+     * Visible only when `--ts-var-search-submit-button-border-width` is set.
+     */
+    '--ts-var-search-submit-button-border-color'?: string;
+
+    /**
      * Font color of the text in the search suggestion panel.
      */
     '--ts-var-search-auto-complete-font-color'?: string;
@@ -274,6 +307,236 @@ export interface CustomCssVariables {
     '--ts-var-button--tertiary--active-background'?: string;
 
     /**
+     * Font family specification for the text on the tertiary buttons.
+     * Defaults to the inherited font.
+     */
+    '--ts-var-button--tertiary--font-family'?: string;
+
+    /**
+     * Padding of buttons with text, for example, `6px 16px`. Applies to all button
+     * sizes and variants.
+     */
+    '--ts-var-button-padding'?: string;
+
+    /**
+     * Minimum width of buttons with text. Applies to all button sizes and variants.
+     */
+    '--ts-var-button-min-width'?: string;
+
+    /**
+     * Space between the icon and the label in a button. Default: `8px`.
+     */
+    '--ts-var-button-gap'?: string;
+
+    /**
+     * Height of buttons. Icon-only buttons remain square when this is set.
+     */
+    '--ts-var-button-height'?: string;
+
+    /**
+     * Font size of the button label. The line height scales proportionally.
+     */
+    '--ts-var-button-font-size'?: string;
+
+    /**
+     * Font weight of the button label. Default: `400`.
+     */
+    '--ts-var-button-font-weight'?: string;
+
+    /**
+     * Border width of buttons. Default: `0`. To show a border on a button variant,
+     * also set its border color, for example, `--ts-var-button--primary-border-color`.
+     */
+    '--ts-var-button-border-width'?: string;
+
+    /**
+     * Padding of the primary buttons with text.
+     * Overrides `--ts-var-button-padding` for primary buttons.
+     */
+    '--ts-var-button--primary-padding'?: string;
+
+    /**
+     * Minimum width of the primary buttons with text.
+     * Overrides `--ts-var-button-min-width` for primary buttons.
+     */
+    '--ts-var-button--primary-min-width'?: string;
+
+    /**
+     * Space between the icon and the label in the primary buttons.
+     * Overrides `--ts-var-button-gap` for primary buttons.
+     */
+    '--ts-var-button--primary-gap'?: string;
+
+    /**
+     * Font weight of the text on the primary buttons.
+     * Overrides `--ts-var-button-font-weight` for primary buttons.
+     */
+    '--ts-var-button--primary-font-weight'?: string;
+
+    /**
+     * Border color of the primary buttons.
+     * Visible only when `--ts-var-button-border-width` is set.
+     */
+    '--ts-var-button--primary-border-color'?: string;
+
+    /**
+     * Padding of the secondary buttons with text.
+     * Overrides `--ts-var-button-padding` for secondary buttons.
+     */
+    '--ts-var-button--secondary-padding'?: string;
+
+    /**
+     * Minimum width of the secondary buttons with text.
+     * Overrides `--ts-var-button-min-width` for secondary buttons.
+     */
+    '--ts-var-button--secondary-min-width'?: string;
+
+    /**
+     * Space between the icon and the label in the secondary buttons.
+     * Overrides `--ts-var-button-gap` for secondary buttons.
+     */
+    '--ts-var-button--secondary-gap'?: string;
+
+    /**
+     * Font weight of the text on the secondary buttons.
+     * Overrides `--ts-var-button-font-weight` for secondary buttons.
+     */
+    '--ts-var-button--secondary-font-weight'?: string;
+
+    /**
+     * Border color of the secondary buttons.
+     * Visible only when `--ts-var-button-border-width` is set.
+     */
+    '--ts-var-button--secondary-border-color'?: string;
+
+    /**
+     * Padding of the tertiary buttons with text.
+     * Overrides `--ts-var-button-padding` for tertiary buttons.
+     */
+    '--ts-var-button--tertiary-padding'?: string;
+
+    /**
+     * Minimum width of the tertiary buttons with text.
+     * Overrides `--ts-var-button-min-width` for tertiary buttons.
+     */
+    '--ts-var-button--tertiary-min-width'?: string;
+
+    /**
+     * Space between the icon and the label in the tertiary buttons.
+     * Overrides `--ts-var-button-gap` for tertiary buttons.
+     */
+    '--ts-var-button--tertiary-gap'?: string;
+
+    /**
+     * Font weight of the text on the tertiary buttons.
+     * Overrides `--ts-var-button-font-weight` for tertiary buttons.
+     */
+    '--ts-var-button--tertiary-font-weight'?: string;
+
+    /**
+     * Border color of the tertiary buttons.
+     * Visible only when `--ts-var-button-border-width` is set.
+     */
+    '--ts-var-button--tertiary-border-color'?: string;
+
+    /**
+     * Font color of the tab labels.
+     */
+    '--ts-var-tab-color'?: string;
+
+    /**
+     * Background color of the tabs.
+     */
+    '--ts-var-tab-background'?: string;
+
+    /**
+     * Font family specification for the tab labels.
+     */
+    '--ts-var-tab-font-family'?: string;
+
+    /**
+     * Font size of the tab labels.
+     */
+    '--ts-var-tab-font-size'?: string;
+
+    /**
+     * Font weight of the tab labels.
+     */
+    '--ts-var-tab-font-weight'?: string;
+
+    /**
+     * Padding of the tab items.
+     */
+    '--ts-var-tab-padding'?: string;
+
+    /**
+     * Height of the tab items.
+     */
+    '--ts-var-tab-height'?: string;
+
+    /**
+     * Border radius of the tab items.
+     */
+    '--ts-var-tab-border-radius'?: string;
+
+    /**
+     * Font color of the tab labels on hover.
+     */
+    '--ts-var-tab--hover-color'?: string;
+
+    /**
+     * Background color of the tab items on hover.
+     */
+    '--ts-var-tab--hover-background'?: string;
+
+    /**
+     * Font color of the selected tab label.
+     */
+    '--ts-var-tab--selected-color'?: string;
+
+    /**
+     * Background color of the selected tab item.
+     */
+    '--ts-var-tab--selected-background'?: string;
+
+    /**
+     * Font weight of the selected tab label.
+     */
+    '--ts-var-tab--selected-font-weight'?: string;
+
+    /**
+     * Color of the underline indicator on the selected tab, in the horizontal tab layout.
+     */
+    '--ts-var-tab--selected-indicator-color'?: string;
+
+    /**
+     * Thickness of the underline indicator on the selected tab, in the horizontal tab
+     * layout.
+     */
+    '--ts-var-tab--selected-indicator-height'?: string;
+
+    /**
+     * Border color of the divider below the horizontal tab strip.
+     */
+    '--ts-var-tab-list-border-color'?: string;
+
+    /**
+     * Color of the side rail indicator on the selected tab, in the vertical tab layout.
+     */
+    '--ts-var-tab--vertical--selected-indicator-color'?: string;
+
+    /**
+     * Thickness of the side rail indicator on the selected tab, in the vertical tab
+     * layout.
+     */
+    '--ts-var-tab--vertical--selected-indicator-width'?: string;
+
+    /**
+     * Border color of the divider beside the vertical tab strip.
+     */
+    '--ts-var-tab--vertical-list-border-color'?: string;
+
+    /**
      * Font color of the title text of a visualization or Answer.
      */
     '--ts-var-viz-title-color'?: string;
@@ -380,6 +643,124 @@ export interface CustomCssVariables {
      * Font family specification for the text on filter chips.
      */
     '--ts-var-chip-title-font-family'?: string;
+
+    /**
+     * Background color of attribute chips, such as attribute tokens in the search bar
+     * and attribute columns in the data panel.
+     * In chip components, `--ts-var-chip-background` takes precedence when set.
+     */
+    '--ts-var-chip--attribute-background'?: string;
+
+    /**
+     * Background color of attribute chips on hover.
+     */
+    '--ts-var-chip--attribute--hover-background'?: string;
+
+    /**
+     * Border color of attribute chips.
+     * Defaults to `--ts-var-chip--attribute-background`.
+     */
+    '--ts-var-chip--attribute-border-color'?: string;
+
+    /**
+     * Border color of attribute chips on hover.
+     * Defaults to `--ts-var-chip--attribute--hover-background`.
+     */
+    '--ts-var-chip--attribute--hover-border-color'?: string;
+
+    /**
+     * Background color of measure chips, such as measure tokens in the search bar
+     * and measure columns in the data panel.
+     * In chip components, `--ts-var-chip-background` takes precedence when set.
+     */
+    '--ts-var-chip--measure-background'?: string;
+
+    /**
+     * Background color of measure chips on hover.
+     */
+    '--ts-var-chip--measure--hover-background'?: string;
+
+    /**
+     * Border color of measure chips.
+     * Defaults to `--ts-var-chip--measure-background`.
+     */
+    '--ts-var-chip--measure-border-color'?: string;
+
+    /**
+     * Border color of measure chips on hover.
+     * Defaults to `--ts-var-chip--measure--hover-background`.
+     */
+    '--ts-var-chip--measure--hover-border-color'?: string;
+
+    /**
+     * Background color of date chips, such as date tokens in the search bar
+     * and date columns in the data panel.
+     * In chip components, `--ts-var-chip-background` takes precedence when set.
+     */
+    '--ts-var-chip--date-background'?: string;
+
+    /**
+     * Background color of date chips on hover.
+     */
+    '--ts-var-chip--date--hover-background'?: string;
+
+    /**
+     * Border color of date chips.
+     * Defaults to `--ts-var-chip--date-background`.
+     */
+    '--ts-var-chip--date-border-color'?: string;
+
+    /**
+     * Border color of date chips on hover.
+     * Defaults to `--ts-var-chip--date--hover-background`.
+     */
+    '--ts-var-chip--date--hover-border-color'?: string;
+
+    /**
+     * Background color of filter chips, such as filter tokens in the search bar.
+     * Also applies to neutral column chips, such as formula and set columns.
+     * In chip components, `--ts-var-chip-background` takes precedence when set.
+     */
+    '--ts-var-chip--filter-background'?: string;
+
+    /**
+     * Background color of filter chips on hover.
+     */
+    '--ts-var-chip--filter--hover-background'?: string;
+
+    /**
+     * Border color of filter chips.
+     * Defaults to `--ts-var-chip--filter-background`.
+     */
+    '--ts-var-chip--filter-border-color'?: string;
+
+    /**
+     * Border color of filter chips on hover.
+     * Defaults to `--ts-var-chip--filter--hover-background`.
+     */
+    '--ts-var-chip--filter--hover-border-color'?: string;
+
+    /**
+     * Background color of unrecognized tokens in the search bar.
+     */
+    '--ts-var-chip--unrecognized-background'?: string;
+
+    /**
+     * Background color of unrecognized tokens in the search bar on hover.
+     */
+    '--ts-var-chip--unrecognized--hover-background'?: string;
+
+    /**
+     * Border color of unrecognized tokens in the search bar.
+     * Defaults to `--ts-var-chip--unrecognized-background`.
+     */
+    '--ts-var-chip--unrecognized-border-color'?: string;
+
+    /**
+     * Border color of unrecognized tokens in the search bar on hover.
+     * Defaults to `--ts-var-chip--unrecognized--hover-background`.
+     */
+    '--ts-var-chip--unrecognized--hover-border-color'?: string;
 
     /**
      * Font color of axis title on charts.
@@ -594,7 +975,7 @@ export interface CustomCssVariables {
 
     /**
      * Padding of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -603,7 +984,7 @@ export interface CustomCssVariables {
 
     /**
      * Font size of the title of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -612,7 +993,7 @@ export interface CustomCssVariables {
 
     /**
      * Font weight of the title of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -621,7 +1002,7 @@ export interface CustomCssVariables {
 
     /**
      * Font size of the title of the tiles inside the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -630,7 +1011,7 @@ export interface CustomCssVariables {
 
     /**
      * Font weight of the title of the tiles inside the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -639,7 +1020,7 @@ export interface CustomCssVariables {
 
     /**
      * Padding of the group tiles in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -653,7 +1034,7 @@ export interface CustomCssVariables {
 
     /**
      * Background color of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -662,7 +1043,7 @@ export interface CustomCssVariables {
 
     /**
      * Border color of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -681,7 +1062,7 @@ export interface CustomCssVariables {
 
     /**
      * Font color of the title of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -690,7 +1071,7 @@ export interface CustomCssVariables {
 
     /**
      * Font color of the description of the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -699,7 +1080,7 @@ export interface CustomCssVariables {
 
     /**
      * Font color of the title of the tiles inside the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -708,7 +1089,7 @@ export interface CustomCssVariables {
 
     /**
      * Font color of the description of the tiles inside the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -717,7 +1098,7 @@ export interface CustomCssVariables {
 
     /**
      * Background color of the tiles inside the groups in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -726,7 +1107,7 @@ export interface CustomCssVariables {
 
     /**
      * Background color of the filter chips in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -735,7 +1116,7 @@ export interface CustomCssVariables {
 
     /**
      * Font color of the filter chips in the Liveboard.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -744,7 +1125,7 @@ export interface CustomCssVariables {
 
     /**
      * Background color of the filter chips in the Liveboard on hover.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -753,7 +1134,7 @@ export interface CustomCssVariables {
 
     /**
      * Background color of the filter chips in the Liveboard on active.
-     * 
+     *
      * Please enable the Liveboard Masterpieces feature in your ThoughtSpot instance and
      * then set the isLiveboardMasterpiecesEnabled SDK flag to true to start modifying
      * this CSS variable.
@@ -794,6 +1175,66 @@ export interface CustomCssVariables {
      * Font color of the hover tab in the Liveboard.
      */
     '--ts-var-liveboard-tab-hover-color'?: string;
+
+    /**
+     * Font color of the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-color'?: string;
+
+    /**
+     * Background color of the tab items in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-background'?: string;
+
+    /**
+     * Font family specification for the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-font-family'?: string;
+
+    /**
+     * Font size of the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-font-size'?: string;
+
+    /**
+     * Font weight of the tab labels in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-font-weight'?: string;
+
+    /**
+     * Border radius of the tab items in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-border-radius'?: string;
+
+    /**
+     * Background color of the tab items in the Liveboard on hover.
+     */
+    '--ts-var-liveboard-tab-hover-background'?: string;
+
+    /**
+     * Font color of the selected tab label in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-color'?: string;
+
+    /**
+     * Background color of the selected tab item in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-background'?: string;
+
+    /**
+     * Font weight of the selected tab label in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-font-weight'?: string;
+
+    /**
+     * Thickness of the underline indicator on the selected tab in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-selected-indicator-height'?: string;
+
+    /**
+     * Border color of the divider above the tab strip in the Liveboard.
+     */
+    '--ts-var-liveboard-tab-list-border-color'?: string;
 
     /**
      * Font size of the title of the tiles in the Liveboard.
@@ -938,7 +1379,7 @@ export interface CustomCssVariables {
      * Color of the negative change in the KPI.
      */
     '--ts-var-kpi-negative-change-color'?: string;
- 
+
     /**
      * Background color of the change analysis insights.
      */
@@ -958,17 +1399,17 @@ export interface CustomCssVariables {
      * Background color of the trend card in the SpotIQ analyze.
      */
     '--ts-var-spotiq-analyze-trend-card-background'?: string;
-    
+
     /**
      * Background color of the crosscorrelation card in the SpotIQ analyze.
      */
     '--ts-var-spotiq-analyze-crosscorrelation-card-background'?: string;
-    
+
     /**
      * Background color of the summary header in the CCA modal.
      */
     '--ts-var-cca-modal-summary-header-background'?: string;
-    
+
     /**
      * Width of the Spotter chat window.
      */
@@ -1249,7 +1690,8 @@ export interface CustomCssVariables {
 
     /**
      * Shared border color used throughout SpotterViz: input box, user message,
-     * header underline, left panel border, thinking step connector and dots.
+     * header underline, left panel border, thinking step connector and dots,
+     * and the attached-file upload card.
      */
     '--ts-var-spotterviz-border-color'?: string;
 
@@ -1266,17 +1708,24 @@ export interface CustomCssVariables {
 
     /**
      * Icon color for the reference-mode selected state — applies to
-     * both the toggle button when active and the icon badge on each
-     * referenced-entity chip in the chat input.
+     * the toggle button when active and the icon badge on each
+     * referenced-entity chip and the attached-file chip in the chat input.
      */
     '--ts-var-spotterviz-reference-icon-selected-color'?: string;
 
     /**
      * Background color for the reference-mode selected state — applies to
-     * both the reference mode toggle button when active and the icon badge
-     * on each referenced-entity chip in the chat input.
+     * the reference mode toggle button when active and the icon badge on
+     * each referenced-entity chip and the attached-file chip in the chat
+     * input.
      */
     '--ts-var-spotterviz-reference-icon-selected-background'?: string;
+
+    /**
+     * Background color of the file-type thumbnail on the attached-file card
+     * in the SpotterViz chat input.
+     */
+    '--ts-var-spotterviz-upload-card-thumbnail-background'?: string;
 
     /**
      * Background color of the shared conversation header (recipient's read-only view).

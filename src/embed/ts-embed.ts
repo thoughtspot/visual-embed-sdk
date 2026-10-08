@@ -46,6 +46,7 @@ import {
     getValueFromWindow,
     deserializeParam,
     getScrollableAncestors,
+    setParamIfDefined,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -80,6 +81,7 @@ import {
     BaseViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
+import { summarizeRuntimeDataForTelemetry } from '../utils/runtimeTelemetry';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
 import {
@@ -130,6 +132,98 @@ const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 const NO_RUNTIME_PARAMS = '&';
 
 /**
+ * Params kept on the iframe `src` when `excludeConfigFromURL` is set. The rest
+ * are sent in the APP_INIT payload.
+ * @internal
+ */
+export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
+    // Marks the app as embedded.
+    Param.EmbedApp,
+    // The host page URL, used to validate the postMessage origin.
+    Param.HostAppUrl,
+    // The SDK version.
+    Param.Version,
+    // The authentication type set in init.
+    Param.AuthType,
+    // Whether the app signs the user in automatically.
+    Param.AutoLogin,
+    // Stops the app from redirecting to its login page.
+    Param.DisableLoginRedirect,
+    // Forces the SAML redirect for EmbeddedSSO.
+    Param.ForceSAMLAutoRedirect,
+    // Set for cookieless trusted authentication.
+    Param.cookieless,
+    // Lets the app use the pre-fetched auth info.
+    Param.preAuthCache,
+    // Blocks access to the full app outside the embed.
+    Param.blockNonEmbedFullAppAccess,
+    // The org to load, which the auth info depends on.
+    Param.OverrideOrgId,
+    // The host window height when the iframe loads.
+    Param.ViewPortHeight,
+    // The host window width when the iframe loads.
+    Param.ViewPortWidth,
+    // The app's client log level.
+    Param.ClientLogLevel,
+    // Lets the app override the native console.
+    Param.OverrideNativeConsole,
+    // An extra Pendo tracking key.
+    Param.PendoTrackingKey,
+    // The locale for number formatting.
+    Param.NumberFormatLocale,
+    // The locale for date formatting.
+    Param.DateFormatLocale,
+    // The currency format.
+    Param.CurrencyFormat,
+    // The UI language.
+    Param.Locale,
+    // Turns on dark mode.
+    Param.IsDarkMode,
+    // Turns on the radiant theme that dark mode needs.
+    Param.RadiantThemeEnabled,
+    // Marks a SearchEmbed or SearchBarEmbed.
+    Param.searchEmbed,
+    // Marks a LiveboardEmbed.
+    Param.livedBoardEmbed,
+    // Marks a SpotterAgentEmbed.
+    Param.isSpotterAgentEmbed,
+    // Marks a SpotterEmbed.
+    Param.SpotterEnabled,
+    // Marks an AppEmbed.
+    Param.IsFullAppEmbed,
+    // Legacy flag for the onBeforeGetVizData API intercept.
+    Param.IsOnBeforeGetVizDataInterceptEnabled,
+    // Lets the host override links in the app.
+    Param.LinkOverride,
+    // Turns on version 2 of the link overrides.
+    Param.EnableLinkOverridesV2,
+    // Stops links from opening in a new tab.
+    Param.DisableRedirectionLinksInNewTab,
+    // Uses replaceState instead of pushState for app navigation.
+    Param.OverrideHistoryState,
+    // Shows search results as a table.
+    Param.ForceTable,
+    // The URL of the custom string IDs file.
+    Param.StringIDsUrl,
+    // The data sources that search opens with.
+    Param.DataSources,
+    // Exposes translation IDs in the app.
+    Param.ExposeTranslationIDs,
+    // The URL of the custom icon sprite.
+    Param.IconSpriteUrl,
+    // The tag that filters the metadata lists in an AppEmbed.
+    Param.Tag,
+    // Set when a Liveboard embed shows a single visualization (vizId).
+    Param.vizEmbed,
+    // Whether search opens with the last-selected data sources.
+    Param.UseLastSelectedDataSource,
+    // The query mode Spotter opens in.
+    Param.DefaultQueryMode,
+    // The initial search query. Omitted with excludeSearchTokenStringFromURL.
+    Param.searchTokenString,
+]);
+
+/**
  * The event id map from v2 event names to v1 event id
  * v1 events are the classic embed events implemented in Blink v1
  * We cannot rename v1 event types to maintain backward compatibility
@@ -164,6 +258,8 @@ export class TsEmbed {
     protected embedContainerLoadedKey = '__tsEmbedContainerLoaded';
 
     protected isAppInitialized = false;
+
+    private initDataParams: Partial<Record<Param, any>> & Record<string, any> = {};
 
     /**
      * A reference to the iframe within which the ThoughtSpot app
@@ -255,9 +351,10 @@ export class TsEmbed {
             ...viewConfig,
         };
         this.registerAppInit();
-        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
-            ...viewConfig,
-        });
+        uploadMixpanelEvent(
+            MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE,
+            summarizeRuntimeDataForTelemetry(viewConfig),
+        );
         const embedConfig = getEmbedConfig();
         if (embedConfig) {
             this.embedConfig = embedConfig;
@@ -585,6 +682,19 @@ export class TsEmbed {
         return this.getDefaultAppInitData();
     }
 
+    private withInitDataParams(appInitData: Record<string, any>): Record<string, any> {
+        if (isEmpty(this.initDataParams)) {
+            return appInitData;
+        }
+        return {
+            ...appInitData,
+            embedParams: {
+                ...this.initDataParams,
+                ...(appInitData.embedParams || {}),
+            },
+        };
+    }
+
     /**
      * Send Custom style as part of payload of APP_INIT
      * @param _
@@ -592,7 +702,7 @@ export class TsEmbed {
      */
     private appInitCb = async (_: any, responder: any) => {
         try {
-            const appInitData = await this.getAppInitData();
+            const appInitData = this.withInitDataParams(await this.getAppInitData());
             this.isAppInitialized = true;
             responder({
                 type: EmbedEvent.APP_INIT,
@@ -798,6 +908,15 @@ export class TsEmbed {
         if (this.embedConfig.currencyFormat) {
             queryParams[Param.CurrencyFormat] = this.embedConfig.currencyFormat;
         }
+        // The view config wins over init, so an embed can opt out of a dark
+        // mode set in `init`. `??` and not `||`, so that an explicit `false`
+        // overrides an init-level `true`.
+        const isDarkMode = this.viewConfig.isDarkMode ?? this.embedConfig.isDarkMode;
+        setParamIfDefined(queryParams, Param.IsDarkMode, isDarkMode, true);
+        // The app's dark mode lives in its radiant theme, so turn that on too.
+        if (isDarkMode) {
+            queryParams[Param.RadiantThemeEnabled] = true;
+        }
 
         const {
             disabledActions,
@@ -953,13 +1072,32 @@ export class TsEmbed {
     }
 
     protected getEmbedParams() {
-        const queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getUrlQueryParamsObject();
         return getQueryParamString(queryParams);
     }
 
     protected getEmbedParamsObject() {
         const params = this.getBaseQueryParams();
         return params;
+    }
+
+    protected getUrlQueryParamsObject(): Record<any, any> {
+        const queryParams = this.getEmbedParamsObject();
+        if (!this.isConfigExcludedFromUrl()) {
+            this.initDataParams = {};
+            return queryParams;
+        }
+        const urlParams: Record<any, any> = {};
+        const excludedParams: Partial<Record<Param, any>> & Record<string, any> = {};
+        Object.entries(queryParams).forEach(([key, value]) => {
+            if (BOOTSTRAP_URL_PARAMS.has(key)) {
+                urlParams[key] = value;
+            } else {
+                excludedParams[key] = deserializeParam(value);
+            }
+        });
+        this.initDataParams = excludedParams;
+        return urlParams;
     }
 
     protected getRootIframeSrc() {
@@ -1821,6 +1959,12 @@ export class TsEmbed {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_CALLED, {
             embedComponentType: this.viewConfig.embedComponentType,
         });
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_INIT_ACTIONS, {
+            embedComponentType: this.viewConfig.embedComponentType,
+            hiddenActions: this.viewConfig.hiddenActions ?? [],
+            visibleActions: this.viewConfig.visibleActions ?? [],
+            disabledActions: this.viewConfig.disabledActions ?? [],
+        });
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
@@ -2079,6 +2223,28 @@ export class TsEmbed {
     // blocked.
     protected preRenderParamsApplied: Promise<void> = Promise.resolve();
 
+    protected isConfigExcludedFromUrl(): boolean {
+        const flag =
+            this.viewConfig.additionalFlags?.excludeConfigFromURL ??
+            this.embedConfig.additionalFlags?.excludeConfigFromURL;
+        return flag === true || flag === 'true';
+    }
+
+    protected async triggerUpdateEmbedParams(): Promise<void> {
+        try {
+            const params = await this.getUpdateEmbedParamsObject();
+            this.trigger(HostEvent.UpdateEmbedParams, params);
+        } catch (error) {
+            logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
+            this.handleError({
+                errorType: ErrorDetailsTypes.API,
+                message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
+                code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                error: error?.message || error,
+            });
+        }
+    }
+
     protected beforePrerenderVisible(): void {
         // We can ignore this as its a bit expensive and the newer customers
         // have moved on to UpdateEmbedParams supported clusters
@@ -2089,16 +2255,7 @@ export class TsEmbed {
         this.preRenderParamsApplied = new Promise<void>((resolve) => {
             this.executeAfterEmbedContainerLoaded(async () => {
                 try {
-                    const params = await this.getUpdateEmbedParamsObject();
-                    this.trigger(HostEvent.UpdateEmbedParams, params);
-                } catch (error) {
-                    logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
-                    this.handleError({
-                        errorType: ErrorDetailsTypes.API,
-                        message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
-                        code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
-                        error: error?.message || error,
-                    });
+                    await this.triggerUpdateEmbedParams();
                 } finally {
                     setTimeout(resolve, UPDATE_EMBED_PARAMS_SETTLE_MS);
                 }

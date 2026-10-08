@@ -289,6 +289,16 @@ export interface SetActiveTabRequest {
 }
 
 /**
+ * Request payload for {@link HostEvent.UpdateTheme}.
+ */
+export interface UpdateThemeRequest {
+    /**
+     * `true` for dark appearance, `false` for the default appearance.
+     */
+    isDarkMode: boolean;
+}
+
+/**
  * Typed request payloads for host events that do not go through the UI
  * passthrough pipeline (`HostEvent` member → request type; `void` = no payload).
  *
@@ -387,6 +397,9 @@ export interface HostEventRequestMap {
     [HostEvent.InitSpotterVizConversation]: void;
     [HostEvent.OpenSpotterVizPanel]: void;
     [HostEvent.CloseSpotterVizPanel]: void;
+
+    // ==================== APPEARANCE ====================
+    [HostEvent.UpdateTheme]: UpdateThemeRequest;
 }
 
 /**

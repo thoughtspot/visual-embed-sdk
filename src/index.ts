@@ -34,6 +34,13 @@ import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, BodylessConversationViewConfig} from './embed/bodyless-conversation';
 import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterAnalystConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, StarterPromptCategory, StarterPreviewDataCategory, StarterPromptQuestion, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import { SpotterVizConfig, SpotterVizStarterPrompt, SpotterVizLoaderTip } from './embed/spotter-viz-utils';
+import { SpotterExperienceVersion } from './embed/spotter-utils';
+import {
+    LiveboardOverride,
+    LiveboardDataSourceOverride,
+    LiveboardFilterQuery,
+    LiveboardParameterQuery,
+} from './embed/liveboard-override-utils';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
@@ -84,7 +91,9 @@ import {
     VisualizationOverrides,
 } from './types';
 import { CustomCssVariables } from './css-variables';
-import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
+import {
+    AnswerService, SessionInterface, UnderlyingDataPoint, SortOptions,
+} from './utils/graphql/answerService/answerService';
 import { getEmbedConfig } from './embed/embedConfig';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 import { tokenizedFetch } from './tokenizedFetch';
@@ -150,6 +159,7 @@ import {
     ScheduleEmailRequest,
     NavigateRequest,
     SetActiveTabRequest,
+    UpdateThemeRequest,
 } from './contracts/host-event-contracts';
 import {
     convertFilterChangedToUpdateFiltersPayload,
@@ -202,6 +212,7 @@ export {
     // types
     SessionInterface,
     UnderlyingDataPoint,
+    SortOptions,
     Page,
     AuthType,
     RuntimeFilter,
@@ -216,9 +227,14 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    LiveboardOverride,
+    LiveboardDataSourceOverride,
+    LiveboardFilterQuery,
+    LiveboardParameterQuery,
     SpotterVizConfig,
     SpotterVizStarterPrompt,
     SpotterVizLoaderTip,
+    SpotterExperienceVersion,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,
@@ -277,6 +293,7 @@ export {
     ScheduleEmailRequest,
     NavigateRequest,
     SetActiveTabRequest,
+    UpdateThemeRequest,
     LiveboardTab,
     LiveboardGroup,
     ApplicabilityLevel,

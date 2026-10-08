@@ -106,6 +106,8 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
     HostEvent.InitSpotterVizConversation,
     HostEvent.OpenSpotterVizPanel,
     HostEvent.CloseSpotterVizPanel,
+    // Appearance
+    HostEvent.UpdateTheme,
 ];
 
 // Type-level assertions: compile failures here mean contract resolution
@@ -146,6 +148,7 @@ describe('event contracts (drift guardrails)', () => {
             'UpdateParameters',
             'UpdatePersonalisedView',
             'UpdateRuntimeFilters',
+            'UpdateTheme',
             'addColumns',
             'answerChartSwitcher',
             'createMonitor',
@@ -320,6 +323,7 @@ describe('event contracts (drift guardrails)', () => {
                 ],
             }),
             trigger(HostEvent.SpotterSearch, { query: 'revenue per year', executeSearch: true }),
+            trigger(HostEvent.UpdateTheme, { isDarkMode: true }),
         ];
         expect(ok.every(Boolean)).toBe(true);
     });

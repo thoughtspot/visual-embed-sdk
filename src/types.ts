@@ -558,6 +558,28 @@ export interface EmbedConfig {
     blockNonEmbedFullAppAccess?: boolean;
 
     /**
+     * Render the embedded application in dark appearance when `true`, and in
+     * its default appearance when `false` or unset.
+     *
+     * The host application owns the appearance of an embed, so this overrides
+     * the appearance preference of the signed-in user and the color scheme of
+     * their operating system. If your application has light and dark themes,
+     * pass `true` while it shows the dark theme and `false` while it shows
+     * the light theme.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * // Your application's current theme, 'light' or 'dark'
+     * const appTheme = 'dark';
+     * init({
+     *   ...embedConfig,
+     *   isDarkMode: appTheme === 'dark',
+     * });
+     * ```
+     */
+    isDarkMode?: boolean;
+
+    /**
      * Host config in case embedded app is inside TS app itself
      * @hidden
      */
@@ -1140,6 +1162,31 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      */
     customizations?: CustomisationsInterface;
     /**
+     * Render this embed in dark appearance when `true`, and in its default
+     * appearance when `false`, overriding the `isDarkMode` value passed to
+     * `init`.
+     *
+     * The host application owns the appearance of an embed, so this overrides
+     * the appearance preference of the signed-in user and the color scheme of
+     * their operating system. If your application has light and dark themes,
+     * pass `true` while it shows the dark theme and `false` while it shows
+     * the light theme. Leave it unset to inherit the `init` value.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * // Your application's current theme, 'light' or 'dark'
+     * const appTheme = 'dark';
+     * // Replace AppEmbed with a specific embed component like SearchEmbed or LiveboardEmbed
+     * const embed = new AppEmbed('#tsEmbed', {
+     *   ... // other embed view config
+     *   isDarkMode: appTheme === 'dark',
+     * });
+     * ```
+     */
+    isDarkMode?: boolean;
+    /**
      * Insert as a sibling of the target container, instead of appending to a
      * child inside it.
      *
@@ -1695,7 +1742,32 @@ export type AutoMCPFrameRendererViewConfig = Omit<
     | 'insertAsSibling'
     | 'primaryAction'
     | 'enableV2Shell_experimental'
->;
+> & {
+    /**
+     * Suppress the notice shown on answers re-resolved from a stored
+     * conversation. Those answers are re-run against current data, so by
+     * default the renderer marks them with a tooltip explaining that the
+     * numbers may differ from what the user originally saw. Set this to
+     * `true` to render them without any notice.
+     *
+     * Only affects frames carrying {@link Param.TsmcpConversationId}; frames
+     * that already contain their own session parameters are never marked.
+     * @default false
+     * @version SDK: 1.51.3
+     * @example
+     * ```js
+     * startAutoMCPFrameRenderer({ suppressStaleAnswerNotice: true });
+     * ```
+     */
+    suppressStaleAnswerNotice?: boolean;
+    /**
+     * Text of the notice described in {@link suppressStaleAnswerNotice}.
+     * Override it to translate the message or match your own product voice.
+     * @default 'This data may have changed since the last time you had a chat.'
+     * @version SDK: 1.51.3
+     */
+    staleAnswerNoticeText?: string;
+};
 
 /**
  * The configuration object for Home page embeds configs.
@@ -3348,6 +3420,36 @@ export enum EmbedEvent {
      */
     Edit = 'edit',
     /**
+     * Emitted when a user clicks **Edit** on a Liveboard.
+     *
+     * Fired alongside {@link EmbedEvent.Edit} for backward compatibility;
+     * listen to this instead of `Edit` to target the Liveboard surface only.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.EditLiveboard, payload => {
+     *    console.log('Liveboard edit', payload);
+     * })
+     * ```
+     */
+    EditLiveboard = 'editLiveboard',
+    /**
+     * Emitted when a user clicks **Edit** on a visualization inside a
+     * Liveboard.
+     *
+     * Fired alongside {@link EmbedEvent.Edit} for backward compatibility;
+     * listen to this instead of `Edit` to target the visualization surface
+     * only.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.EditVisualization, payload => {
+     *    console.log('visualization edit', payload);
+     * })
+     * ```
+     */
+    EditVisualization = 'editVisualization',
+    /**
      * Emitted when a user clicks *Make a copy* on a Liveboard
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      * @example
@@ -4221,7 +4323,7 @@ export enum EmbedEvent {
      *     // make action
      * });
      * ```
-     * 
+     *
      * @example
      * ```js
      * embed.on(subscribedEvent(HostEvent.Save), () => {
@@ -4231,7 +4333,7 @@ export enum EmbedEvent {
      * @version SDK: 1.48.0 | ThoughtSpot: 26.4.0.cl
      */
     Subscribed = 'Subscribed',
-    
+
     /**
      * Emitted when a user clicks the **Send Test Email** button in the
      * Liveboard schedule modal. Requires `isSendNowLiveboardSchedulingEnabled`
@@ -4348,7 +4450,7 @@ export enum EmbedEvent {
      * ```
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
-    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',    
+    RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
 }
 
 /**
@@ -4665,7 +4767,7 @@ export enum HostEvent {
      * ```js
      * // Preferred: use navigateToPage directly
      * appEmbed.navigateToPage(-1);
-     * 
+     *
      * // Numeric delta — go back one step
      * appEmbed.trigger(HostEvent.Navigate, -1);
      *
@@ -5331,6 +5433,46 @@ export enum HostEvent {
      * @version SDK: 1.15.0 | ThoughtSpot: 8.7.0.cl, 8.8.1.sw
      */
     Edit = 'edit',
+    /**
+     * Trigger the **Edit** action on a Liveboard only — does not affect a
+     * visualization's edit surface.
+     *
+     * Behaves like {@link HostEvent.Edit} restricted to the Liveboard
+     * surface. Use {@link HostEvent.EditVisualization} to target a
+     * visualization instead, or `HostEvent.Edit` to control whichever
+     * surface applies contextually (unchanged, existing behavior).
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.EditLiveboard)
+     * ```
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     */
+    EditLiveboard = 'editLiveboard',
+    /**
+     * Trigger the **Edit** action on a specific visualization inside a
+     * Liveboard only — does not affect the Liveboard-level edit surface.
+     * @param - Object parameter. Includes the following keys:
+     * - `vizId`: **Required.** The visualization to edit.
+     *
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.EditVisualization, {vizId:
+     * '730496d6-6903-4601-937e-2c691821af3c'})
+     * ```
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     */
+    EditVisualization = 'editVisualization',
+    /**
+     * Exits Liveboard edit mode , equivalent to clicking the
+     * *Cancel* button in the Liveboard edit header. The Liveboard returns to
+     * view mode and the embedded app emits the {@link EmbedEvent.Cancel} event.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.ExitEditMode);
+     * ```
+     */
+    ExitEditMode = 'exitEditMode',
     /**
      * Trigger the **Copy link** action on a Liveboard or visualization
      * Payload: {@link VizScopedRequest}.
@@ -6875,6 +7017,40 @@ export enum HostEvent {
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
     RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
+
+    /**
+     * Switch the embed between dark appearance and its default appearance
+     * while it is open, without reloading it.
+     * Payload: {@link UpdateThemeRequest}.
+     *
+     * Use it to keep the embed in step with a theme switch in your
+     * application; the appearance the embed loads with is set by `isDarkMode`.
+     * The event resolves with the applied value, such as `{ isDarkMode: true }`.
+     * When dark appearance is not available in the embed, the embed does not
+     * change and the event rejects with an error message instead.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @param - `isDarkMode` - `true` for dark appearance, `false` for the
+     * default appearance.
+     * @example
+     * ```js
+     * appEmbed.trigger(HostEvent.UpdateTheme, { isDarkMode: true });
+     * ```
+     * @example
+     * ```js
+     * // Follow a theme switch in your application
+     * const themeSwitch = document.querySelector('#theme-switch');
+     * themeSwitch.addEventListener('change', async (event) => {
+     *   try {
+     *     await appEmbed.trigger(HostEvent.UpdateTheme, {
+     *       isDarkMode: event.target.checked,
+     *     });
+     *   } catch (error) {
+     *     console.warn(error);
+     *   }
+     * });
+     * ```
+     */
+    UpdateTheme = 'UpdateTheme',
 }
 
 /**
@@ -6904,6 +7080,22 @@ export enum DataSourceVisualMode {
 
 export enum Param {
     Tsmcp = 'tsmcp',
+    /**
+     * Marker added by a host app replaying a stored conversation. Carries the
+     * analytical session (conversation) identifier, from which the renderer
+     * resolves the answer's current session parameters. Stripped before the
+     * URL reaches the ThoughtSpot application.
+     * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    TsmcpConversationId = 'tsmcpConversationId',
+    /**
+     * Zero-based position of the answer within the conversation, counting only
+     * non-thinking answer items in message order. Accompanies
+     * {@link TsmcpConversationId}; defaults to 0 when absent. Stripped before
+     * the URL reaches the ThoughtSpot application.
+     * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.9.0.cl
+     */
+    TsmcpAnswerIndex = 'tsmcpAnswerIndex',
     EmbedApp = 'embedApp',
     DataSources = 'dataSources',
     DataSourceMode = 'dataSourceMode',
@@ -7067,6 +7259,9 @@ export enum Param {
     SpotterDataSources = 'spotterDataSources',
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
     ShowAnswerEditPanel = 'showAnswerEditPanel',
+    IsDarkMode = 'isDarkMode',
+    RadiantThemeEnabled = 'radiantThemeEnabled',
+    SpotterExperienceVersion = 'spotterExperienceVersion',
 }
 
 /**
@@ -7530,12 +7725,43 @@ export enum Action {
      * The *Edit* action on the Liveboard page and in the
      * visualization menu.
      * Opens a Liveboard or visualization in edit mode.
+     *
+     * Controls both surfaces together. To target one surface only, use
+     * {@link Action.EditLiveboard} or {@link Action.EditVisualization}.
      * @example
      * ```js
      * disabledActions: [Action.Edit]
      * ```
      */
     Edit = 'edit',
+    /**
+     * The *Edit* action on the Liveboard page only.
+     * Opens a Liveboard in edit mode.
+     *
+     * Does not affect the *Edit* action in the visualization menu; use
+     * {@link Action.EditVisualization} for that, or {@link Action.Edit} to
+     * control both surfaces together.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.EditLiveboard]
+     * ```
+     */
+    EditLiveboard = 'editLiveboard',
+    /**
+     * The *Edit* action in the visualization `...` menu only.
+     * Opens a visualization in the editor.
+     *
+     * Does not affect the *Edit* action on the Liveboard page; use
+     * {@link Action.EditLiveboard} for that, or {@link Action.Edit} to
+     * control both surfaces together.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.EditVisualization]
+     * ```
+     */
+    EditVisualization = 'editVisualization',
     /**
      * The text edit option for Liveboard and visualization titles.
      * @example
@@ -9334,6 +9560,29 @@ export enum Action {
      * ```
      */
     CustomizeHomepage = 'customizeHomepage',
+    /**
+     * Controls the visibility and disabled state of the *Cancel* button in the
+     * Liveboard edit header, the button that discards the changes made in edit
+     * mode and returns the Liveboard to view mode. The button is shown only
+     * while the Liveboard is in edit mode.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * const liveboardEmbed = new LiveboardEmbed('#tsEmbed', {
+     *     ... // other embed view config
+     *     hiddenActions: [Action.Cancel],
+     * });
+     * ```
+     * @example
+     * ```js
+     * const liveboardEmbed = new LiveboardEmbed('#tsEmbed', {
+     *     ... // other embed view config
+     *     disabledActions: [Action.Cancel],
+     *     disabledActionReason: 'Save your changes to leave edit mode',
+     * });
+     * ```
+     */
+    Cancel = 'cancel',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
