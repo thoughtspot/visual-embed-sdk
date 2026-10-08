@@ -1025,7 +1025,7 @@ export class LiveboardEmbed extends V1Embed {
             // Navigate goes out first, so the container loads with the previous
             // config's filters.
             await this.preRenderParamsApplied;
-            if (this.isShowingLiveboardRoute(previousRoute)) {
+            if (this.isAlreadyOnSameRoute(previousRoute)) {
                 // Navigate to the route we are already on is a no-op, so the
                 // liveboard keeps its state. Home unmounts the container, which
                 // clears it.
@@ -1077,7 +1077,7 @@ export class LiveboardEmbed extends V1Embed {
     // The whole route, not just the liveboard id: the path is built from the
     // viz, tab and view too, so a same-liveboard show onto another tab is a
     // real navigation.
-    private isShowingLiveboardRoute(previousRoute?: LiveboardEmbed['currentLiveboardState']): boolean {
+    private isAlreadyOnSameRoute(previousRoute?: LiveboardEmbed['currentLiveboardState']): boolean {
         if (!previousRoute?.liveboardId) return false;
         const {
             liveboardId, vizId, activeTabId, personalizedViewId,
