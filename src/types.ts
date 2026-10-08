@@ -9574,7 +9574,7 @@ export enum Action {
     Cancel = 'cancel',
     /**
      * Controls the visibility and disabled state of the "Version history" menu item for a Liveboard or Answer.
-     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 9.8.0.cl
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 9.8.0.cl
      * @example
      * ```js
      * {
@@ -9586,7 +9586,7 @@ export enum Action {
     ShowVersionHistory = 'showVersionHistory',
     /**
      * Controls the visibility and disabled state of the "Enable version control" menu item for a Liveboard or Answer.
-     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 9.10.0.cl
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 9.10.0.cl
      * @example
      * ```js
      * {
@@ -9598,7 +9598,7 @@ export enum Action {
     EnableVersionControl = 'enableVersionControl',
     /**
      * Controls the visibility and disabled state of the "Disable version control" menu item for a Liveboard or Answer.
-     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 9.10.0.cl
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 9.10.0.cl
      * @example
      * ```js
      * {
@@ -9610,7 +9610,7 @@ export enum Action {
     DisableVersionControl = 'disableVersionControl',
     /**
      * Controls the visibility and disabled state of the "Withdraw verification" menu item for a verified Liveboard.
-     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 9.8.0.cl
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 9.8.0.cl
      * @example
      * ```js
      * {
@@ -9622,7 +9622,7 @@ export enum Action {
     WithdrawVerification = 'withdrawVerification',
     /**
      * Controls the visibility and disabled state of the "Switch to new chart experience" menu item on an Answer.
-     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 10.10.0.cl
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 10.10.0.cl
      * @example
      * ```js
      * {
@@ -9634,7 +9634,7 @@ export enum Action {
     SwitchToNewChartExperience = 'switchToNewChartExperience',
     /**
      * Controls the visibility and disabled state of the "Switch to classic chart experience" menu item on an Answer.
-     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 10.10.0.cl
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 10.10.0.cl
      * @example
      * ```js
      * {
@@ -9646,7 +9646,7 @@ export enum Action {
     SwitchToClassicChartExperience = 'switchToClassicChartExperience',
     /**
      * Controls the visibility and disabled state of the "Monitor" menu item on an Answer, which includes the alert options.
-     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 10.5.0.cl
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 10.5.0.cl
      * @example
      * ```js
      * {
@@ -9658,7 +9658,7 @@ export enum Action {
     Monitor = 'monitor',
     /**
      * Controls the visibility and disabled state of the "View explanation" button in the footer of a Spotter answer, which opens the explanation and verification details.
-     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * {
