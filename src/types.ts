@@ -9548,6 +9548,53 @@ export enum Action {
      * }
      * ```
      */
+    /**
+     * Controls the visibility of the "View Liveboard" link shown after a visualization is pinned to a Liveboard. The link cannot be disabled, so `disabledActions` has no effect.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 10.1.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.ViewLiveboard],
+     * }
+     * ```
+     */
+    ViewLiveboard = 'viewLiveboard',
+    /**
+     * Controls the visibility and disabled state of the edit (pencil) button next to the Liveboard title in the Liveboard header.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 10.3.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.RenameLiveboard],
+     *     disabledActions: [Action.RenameLiveboard],
+     * }
+     * ```
+     */
+    RenameLiveboard = 'renameLiveboard',
+    /**
+     * Controls the visibility and disabled state of the filter toggle button in the Liveboard header that opens and closes the filter panel.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 10.3.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.FilterPanelToggle],
+     *     disabledActions: [Action.FilterPanelToggle],
+     * }
+     * ```
+     */
+    FilterPanelToggle = 'filterPanelToggle',
+    /**
+     * Controls the visibility and disabled state of the "Add scenario" action on an Answer.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 9.8.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.AddScenario],
+     *     disabledActions: [Action.AddScenario],
+     * }
+     * ```
+     */
+    AddScenario = 'addScenario',
     CustomizeHomepage = 'customizeHomepage',
     /**
      * Controls the visibility and disabled state of the *Cancel* button in the
