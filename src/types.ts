@@ -9549,17 +9549,6 @@ export enum Action {
      * ```
      */
     /**
-     * Controls the visibility of the "View Liveboard" link shown after a visualization is pinned to a Liveboard. The link cannot be disabled, so `disabledActions` has no effect.
-     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 10.1.0.cl
-     * @example
-     * ```js
-     * {
-     *     hiddenActions: [Action.ViewLiveboard],
-     * }
-     * ```
-     */
-    ViewLiveboard = 'viewLiveboard',
-    /**
      * Controls the visibility and disabled state of the edit (pencil) button next to the Liveboard title in the Liveboard header.
      * @version SDK: 1.54.0 | ThoughtSpot Cloud: 10.3.0.cl
      * @example
