@@ -45,6 +45,7 @@ import {
     getHostEventsConfig,
     getValueFromWindow,
     deserializeParam,
+    getScrollableAncestors,
     setParamIfDefined,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
@@ -117,6 +118,9 @@ const TS_EMBED_ID = '_thoughtspot-embed';
  */
 const PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY = 'tsEmbedOriginalPosition';
 const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
+const PRERENDER_PARKED_TRANSFORM = 'translateY(-100%)';
+/** The height createPreRenderWrapper() seeds before anything is measured. */
+const UNMEASURED_WRAPPER_HEIGHT = '100vh';
 
 // The container applies UpdateEmbedParams through React state, so a delivered
 // post is not the same as the params being in effect.
@@ -326,8 +330,7 @@ export class TsEmbed {
 
     private preRenderContainerEl: HTMLElement = document.body;
 
-    private containerScrollListener: (() => void) | null = null;
-
+    /** Last height the embedded app reported, once fullHeight has measured one. */
     protected hostEventClient: HostEventClient;
 
     protected isReadyForRenderPromise;
@@ -1285,7 +1288,7 @@ export class TsEmbed {
             top: '0',
             left: '0',
             width: '100vw',
-            height: '100vh',
+            height: UNMEASURED_WRAPPER_HEIGHT,
         };
         setStyleProperties(preRenderWrapper, initialPreRenderWrapperStyle);
 
@@ -1371,10 +1374,12 @@ export class TsEmbed {
     }
 
     /**
-     * Resolves the configured preRenderContainer to a live element, falling
-     * back to `document.body`. A string selector is re-queried on every call so
-     * a remounted container (E.g.: React replacing the node) resolves to the
-     * fresh element; an element passed directly cannot be re-resolved.
+     * Resolves the configured preRenderContainer, or defaults to the host's
+     * nearest scrolling ancestor (document.body if none). The absolutely
+     * positioned wrapper only follows the page while it sits inside what
+     * scrolls, so body is right only when the document itself scrolls — an inner
+     * scroller left the frame pinned to the viewport (SCAL-338563). A string
+     * selector is re-queried each call so a remounted container resolves fresh.
      */
     private resolvePreRenderContainerTarget(): HTMLElement {
         const containerConfig = this.getPreRenderConfig().containerSelector;
@@ -1391,7 +1396,13 @@ export class TsEmbed {
         } else if (containerConfig) {
             container = containerConfig;
         }
-        return (container as HTMLElement) ?? document.body;
+        if (container) {
+            return container as HTMLElement;
+        }
+        if (!this.hostElement) {
+            return document.body;
+        }
+        return getScrollableAncestors(this.hostElement)[0] ?? document.body;
     }
 
     private inheritPreRenderContainer(): void {
@@ -1445,8 +1456,9 @@ export class TsEmbed {
      * Re-attaches the wrapper to a live container when the previously resolved
      * one has been detached or no longer holds the wrapper — e.g. the host app
      * remounted a custom preRenderContainer, which would otherwise leave a stale
-     * reference and collapse the wrapper. Only string selectors can be
-     * re-resolved; a container passed as an element is left untouched.
+     * reference and collapse the wrapper. Selectors and the auto-resolved
+     * scrolling ancestor are both re-resolved; a container passed as an element
+     * is left untouched, as there is nothing to re-query.
      */
     private reconcilePreRenderContainer(): void {
         const wrapper = this.preRenderWrapper;
@@ -1464,14 +1476,6 @@ export class TsEmbed {
         // do, e.g. a detached container passed as an HTMLElement.
         if (resolved === stored && stored.contains(wrapper)) {
             return;
-        }
-        if (this.containerScrollListener && stored !== resolved) {
-            if (stored !== document.body) {
-                stored.removeEventListener('scroll', this.containerScrollListener);
-            }
-            if (resolved !== document.body) {
-                resolved.addEventListener('scroll', this.containerScrollListener);
-            }
         }
         this.preRenderContainerEl = resolved;
         this.applyPreRenderContainerPositioning();
@@ -1541,10 +1545,11 @@ export class TsEmbed {
      */
     protected setIFrameHeight(height: number | string): void {
         if (this.isPreRendered) {
+            const next = getCssDimension(height);
             if (this.insertedDomEl) {
-                (this.insertedDomEl as HTMLElement).style.height = getCssDimension(height);
+                (this.insertedDomEl as HTMLElement).style.height = next;
             } else if (this.preRenderWrapper) {
-                this.preRenderWrapper.style.height = getCssDimension(height);
+                this.preRenderWrapper.style.height = next;
             }
         } else {
             // normal (non-preRender) mode: size the iframe directly
@@ -2115,15 +2120,27 @@ export class TsEmbed {
     }
 
     /**
-     * Detaches and clears the container scroll listener, if one is attached.
+     * Re-sizes the wrapper when its placeholder changes size.
+     *
+     * Position deliberately has no equivalent. An absolutely positioned wrapper
+     * follows its containing block for free, so a correctly placed frame is the
+     * browser's job and costs nothing; repositioning it on scroll would mean a
+     * layout read and a style write per frame to compensate for placing it in
+     * the wrong box. Size is the one thing the browser will not do for us: the
+     * placeholder grows when the embedded app reports a new height, and the
+     * wrapper has to be told.
      */
-    private removeContainerScrollListener(): void {
-        if (!this.containerScrollListener) {
+    private observePreRenderSize(): void {
+        if (this.getPreRenderConfig().doNotTrackSize || typeof ResizeObserver === 'undefined') {
             return;
         }
-        const customContainer = this.getCustomPreRenderContainer();
-        customContainer?.removeEventListener('scroll', this.containerScrollListener);
-        this.containerScrollListener = null;
+        const placeholder = this.getPreRenderPlaceHolderElement();
+        if (!placeholder) {
+            return;
+        }
+        this.resizeObserver?.disconnect();
+        this.resizeObserver = new ResizeObserver(() => this.syncPreRenderStyle());
+        this.resizeObserver.observe(placeholder);
     }
 
     /**
@@ -2133,7 +2150,7 @@ export class TsEmbed {
     public destroy(): void {
         try {
             this.removeFullscreenChangeHandler();
-            this.removeContainerScrollListener();
+            this.resizeObserver?.disconnect();
             this.unsubscribeToEvents();
             this.preRenderWrapper?.remove();
             this.restorePreRenderContainerPosition();
@@ -2260,14 +2277,18 @@ export class TsEmbed {
 
         if (this.hostElement) {
             this.insertedDomEl = this.createPreRenderPlaceholder();
-            if ((this.viewConfig as { fullHeight: boolean }).fullHeight) {
-                // If fullHeight has already sized the wrapper, seed the
-                // placeholder with the same height so syncPreRenderStyle gets
-                // an accurate rect.
-                const existingHeight = this.preRenderWrapper.style.height;
-                if (existingHeight) {
-                    (this.insertedDomEl as HTMLDivElement).style.height = existingHeight;
-                }
+            // Carry a height fullHeight has already measured onto the fresh
+            // placeholder, so a re-show does not flash at frameParams height.
+            // UNMEASURED_WRAPPER_HEIGHT is what createPreRenderWrapper() seeds
+            // before anything has been measured; treating that as a measurement
+            // is what made a first reveal overshoot to a full viewport.
+            const wrapperHeight = this.preRenderWrapper.style.height;
+            if (
+                (this.viewConfig as { fullHeight: boolean }).fullHeight
+                && wrapperHeight
+                && wrapperHeight !== UNMEASURED_WRAPPER_HEIGHT
+            ) {
+                (this.insertedDomEl as HTMLDivElement).style.height = wrapperHeight;
             }
 
             const placeHolderId = this.getPreRenderIds().placeHolder;
@@ -2284,32 +2305,20 @@ export class TsEmbed {
             this.hostElement.appendChild(this.insertedDomEl);
 
             this.syncPreRenderStyle();
-
-            const customContainer = this.getCustomPreRenderContainer();
-            if (customContainer && !this.containerScrollListener) {
-                this.containerScrollListener = () => this.syncPreRenderStyle();
-                customContainer.addEventListener('scroll', this.containerScrollListener);
-            }
-
-            if (!this.getPreRenderConfig().doNotTrackSize) {
-                const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
-                this.resizeObserver = new ResizeObserver((entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.target === observeTarget) {
-                            this.syncPreRenderStyle();
-                        }
-                    });
-                });
-                this.resizeObserver.observe(observeTarget);
-            }
+            this.observePreRenderSize();
         }
 
         removeStyleProperties(this.preRenderWrapper, [
             'z-index',
             'opacity',
-            'pointer-events',
             'overflow',
+            'transform',
         ]);
+        // Set rather than removed: a container that carries `pointer-events:
+        // none` — the usual styling for a parking root that must not swallow
+        // clicks — passes it down, and dropping the property here would leave
+        // the inherited `none` in force and the frame dead to input.
+        setStyleProperties(this.preRenderWrapper, { pointerEvents: 'auto' });
         this.subscribeToEvents();
 
         // Setup fullscreen change handler for prerendered components
@@ -2381,22 +2390,26 @@ export class TsEmbed {
             return;
         }
         const { zIndex } = this.getPreRenderConfig();
+        // A hidden pre-render frame must add no scroll space to the host page.
         const preRenderHideStyles = {
             opacity: '0',
             pointerEvents: 'none',
             zIndex: zIndex !== undefined ? String(zIndex) : '-1000',
-            position: 'absolute',
+            // Resolves to the viewport, so the hidden frame belongs to no
+            // scroll container's overflow; syncPreRenderStyle restores absolute
+            // on show.
+            position: 'fixed',
             top: '0',
             left: '0',
             overflow: 'hidden',
+            // The one exception: a transformed or contained ancestor captures
+            // `fixed`; parking above the top edge keeps it out of that
+            // overflow.
+            transform: PRERENDER_PARKED_TRANSFORM,
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
-        this.removeContainerScrollListener();
-
-        if (this.resizeObserver) {
-            this.resizeObserver.disconnect();
-        }
+        this.resizeObserver?.disconnect();
 
         const placeHolderEle = this.getPreRenderPlaceHolderElement();
         if (placeHolderEle) {

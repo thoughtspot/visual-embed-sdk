@@ -8,6 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import isEqualWith from 'lodash/isEqualWith';
 import { getPreview } from '../utils/graphql/preview-service';
 import { ERROR_MESSAGE } from '../errors';
 import {
@@ -605,6 +606,14 @@ export interface LiveboardViewConfig
  * })
  * ```
  */
+/**
+ * A shallow copy without the keys whose value is `undefined`, so a key that was
+ * assigned `undefined` compares equal to one that was never set.
+ */
+const definedEntries = (config: Record<string, any> = {}): Record<string, any> => Object.fromEntries(
+    Object.entries(config).filter(([, value]) => value !== undefined),
+);
+
 export class LiveboardEmbed extends V1Embed {
     protected viewConfig: LiveboardViewConfig;
 
@@ -1004,17 +1013,19 @@ export class LiveboardEmbed extends V1Embed {
         super.beforePrerenderVisible();
 
         // Captured before showPreRender() hands the wrapper over to this
-        // instance. Itself means a hide/show, not a hand-over, so there is
-        // nothing stale to clear.
+        // instance. React builds a new instance per mount, so an equal config
+        // is a hide/show, not a hand-over: there is nothing stale to clear.
         const previous = this.getPreRenderObj<LiveboardEmbed>();
-        const showing = previous === this ? undefined : previous?.currentLiveboardState;
+        const previousRoute = this.isSameEmbedConfig(previous)
+            ? undefined
+            : previous?.currentLiveboardState;
 
         this.executeAfterEmbedContainerLoaded(async () => {
             // Without this the params callback suspends on its await and
             // Navigate goes out first, so the container loads with the previous
             // config's filters.
             await this.preRenderParamsApplied;
-            if (this.isShowingLiveboardRoute(showing)) {
+            if (this.isAlreadyOnSameRoute(previousRoute)) {
                 // Navigate to the route we are already on is a no-op, so the
                 // liveboard keeps its state. Home unmounts the container, which
                 // clears it.
@@ -1041,18 +1052,31 @@ export class LiveboardEmbed extends V1Embed {
         });
     }
 
+    // definedEntries drops undefined-valued keys: a shown instance carries
+    // vizId/activeTabId/etc as undefined, so a raw isEqual never matches again.
+    // Functions compare equal, since React passes a fresh closure per render.
+    private isSameEmbedConfig(previous?: LiveboardEmbed): boolean {
+        if (!previous) return false;
+        if (previous === this) return true;
+        return isEqualWith(
+            definedEntries(previous.viewConfig),
+            definedEntries(this.viewConfig),
+            (a, b) => (typeof a === 'function' && typeof b === 'function' ? true : undefined),
+        );
+    }
+
     // The whole route, not just the liveboard id: the path is built from the
     // viz, tab and view too, so a same-liveboard show onto another tab is a
     // real navigation.
-    private isShowingLiveboardRoute(showing?: LiveboardEmbed['currentLiveboardState']): boolean {
-        if (!showing?.liveboardId) return false;
+    private isAlreadyOnSameRoute(previousRoute?: LiveboardEmbed['currentLiveboardState']): boolean {
+        if (!previousRoute?.liveboardId) return false;
         const {
             liveboardId, vizId, activeTabId, personalizedViewId,
         } = this.viewConfig;
-        return showing.liveboardId === liveboardId
-            && showing.vizId === vizId
-            && showing.activeTabId === activeTabId
-            && showing.personalizedViewId === personalizedViewId;
+        return previousRoute.liveboardId === liveboardId
+            && previousRoute.vizId === vizId
+            && previousRoute.activeTabId === activeTabId
+            && previousRoute.personalizedViewId === personalizedViewId;
     }
 
     protected async handleRenderForPrerender(): Promise<TsEmbed> {
