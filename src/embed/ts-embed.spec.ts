@@ -4062,6 +4062,55 @@ describe('Unit test case for ts embed', () => {
                 libEmbed.destroy();
             });
         });
+
+        // Customers subclass the embeds, so the protected pre-render hooks and
+        // fields are public API: they must keep working after the move into
+        // PreRenderController.
+        it('should keep the protected pre-render hooks and fields usable by subclasses', async () => {
+            createRootEleForEmbed();
+            const syncSpy = jest.fn();
+
+            class CustomEmbed extends LiveboardEmbed {
+                protected createPreRenderWrapper(): HTMLDivElement {
+                    const wrapper = super.createPreRenderWrapper();
+                    wrapper.classList.add('custom-wrapper');
+                    return wrapper;
+                }
+
+                public syncPreRenderStyle(): void {
+                    syncSpy();
+                    super.syncPreRenderStyle();
+                }
+
+                public get wrapperForTest(): HTMLElement {
+                    return this.preRenderWrapper;
+                }
+
+                public get childForTest(): HTMLElement {
+                    return this.preRenderChild;
+                }
+            }
+
+            const libEmbed = new CustomEmbed('#tsEmbedDiv', {
+                preRenderId: 'subclassed-pre-render',
+                liveboardId: 'myLiveboardId',
+            });
+            await libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+
+            const { wrapper, child } = libEmbed.getPreRenderIds();
+            expect(libEmbed.wrapperForTest).toBe(document.getElementById(wrapper));
+            expect(libEmbed.wrapperForTest.classList.contains('custom-wrapper')).toBe(true);
+            expect(libEmbed.childForTest).toBe(document.getElementById(child));
+            // Plain fields, as before, so a subclass can still redeclare them.
+            expect(Object.prototype.hasOwnProperty.call(libEmbed, 'preRenderWrapper')).toBe(true);
+            expect(Object.prototype.hasOwnProperty.call(libEmbed, 'preRenderChild')).toBe(true);
+
+            libEmbed.showPreRender();
+            expect(syncSpy).toHaveBeenCalled();
+
+            libEmbed.destroy();
+        });
     });
 
     describe('IdleSessionTimeout embedEvent for TrustedAuthTokenCookieless authType with autoLogin true', () => {
