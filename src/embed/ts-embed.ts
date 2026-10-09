@@ -92,7 +92,7 @@ import {
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
-import { PreRenderController, PreRenderIds } from '../pre-render';
+import { PreRenderController } from '../pre-render';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
 import {
@@ -322,6 +322,14 @@ export class TsEmbed {
         getPlaceholder: () => this.getPreRenderPlaceHolderElement(),
         getOwner: () => this.getPreRenderObj<TsEmbed>()?.preRenderController,
         syncStyle: () => this.syncPreRenderStyle(),
+        getWrapper: () => this.preRenderWrapper,
+        setWrapper: (wrapper) => {
+            this.preRenderWrapper = wrapper;
+        },
+        getChild: () => this.preRenderChild,
+        setChild: (child) => {
+            this.preRenderChild = child;
+        },
     });
 
     protected hostEventClient: HostEventClient;
@@ -1281,29 +1289,9 @@ export class TsEmbed {
         return this.preRenderController.createWrapper();
     }
 
-    /**
-     * The absolutely positioned element holding the pre-rendered child.
-     * Stored on the pre-render controller; kept here as an accessor so
-     * subclasses keep reading and writing it as before.
-     */
-    protected get preRenderWrapper(): HTMLElement {
-        return this.preRenderController.wrapper;
-    }
+    protected preRenderWrapper: HTMLElement;
 
-    protected set preRenderWrapper(wrapper: HTMLElement) {
-        this.preRenderController.wrapper = wrapper;
-    }
-
-    /**
-     * The pre-rendered content, usually the iframe. See `preRenderWrapper`.
-     */
-    protected get preRenderChild(): HTMLElement {
-        return this.preRenderController.child;
-    }
-
-    protected set preRenderChild(child: HTMLElement) {
-        this.preRenderController.child = child;
-    }
+    protected preRenderChild: HTMLElement;
 
     /**
      * Checks for an existing pre-rendered component and connects to it.
@@ -2124,7 +2112,11 @@ export class TsEmbed {
      * @property {string} wrapper - The HTML element ID for the PreRender wrapper.
      * @property {string} child - The HTML element ID for the PreRender child.
      */
-    public getPreRenderIds(): PreRenderIds {
+    public getPreRenderIds(): {
+        wrapper: string;
+        child: string;
+        placeHolder: string;
+    } {
         return this.preRenderController.getIds();
     }
 
