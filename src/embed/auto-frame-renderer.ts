@@ -261,7 +261,7 @@ function parseHideActions(value: unknown): string[] {
     } catch (e) {
         // Not JSON — fall back to a comma-separated list.
     }
-    return value.split(',').filter(Boolean);
+    return value.split(',').map((s) => s.trim()).filter(Boolean);
 }
 
 /**
@@ -319,10 +319,12 @@ class AutoFrameRenderer extends TsEmbed {
     protected getEmbedParamsObject() {
         const queryParams = super.getEmbedParamsObject();
         if (!queryParams[Param.VisibleActions]) {
-            queryParams[Param.HideActions] = [
-                ...(queryParams[Param.HideActions] ?? []),
-                ...HiddenActionItemByDefaultForMCPAnswers,
-            ];
+            // `additionalFlags` can override this with a non-array value, so
+            // normalize it rather than spreading it directly.
+            queryParams[Param.HideActions] = unionHideActions(
+                queryParams[Param.HideActions],
+                HiddenActionItemByDefaultForMCPAnswers,
+            );
         }
         queryParams[Param.IsMcpAnswerEmbed] = true;
         return queryParams;

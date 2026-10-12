@@ -451,6 +451,18 @@ describe('startAutoMCPFrameRenderer', () => {
                 expect(hidden).toContain(action));
         });
 
+        test('string hideAction from additionalFlags is parsed, not spread into chars', async () => {
+            const src = await captureRenderedSrc({
+                additionalFlags: { hideAction: `${Action.Share}, ${Action.Edit}` },
+            });
+            const hidden = parseHideAction(src);
+            expect(hidden).toContain(Action.Share);
+            expect(hidden).toContain(Action.Edit);
+            hidden.forEach((action) => expect(action.length).toBeGreaterThan(1));
+            HiddenActionItemByDefaultForMCPAnswers.forEach((action) =>
+                expect(hidden).toContain(action));
+        });
+
         test('allowlist wins: visibleActions skips the MCP denylist', async () => {
             const src = await captureRenderedSrc({ visibleActions: [Action.Pin] });
             expect(src).toContain('visibleAction');
