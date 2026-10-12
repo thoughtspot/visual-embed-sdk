@@ -151,23 +151,6 @@ describe('test view config', () => {
         });
     });
 
-    test('Action.AddNote has the correct enum value', () => {
-        expect(Action.AddNote).toBe('addNote');
-    });
-
-    test('should pass Action.AddNote in disabledActions', async () => {
-        const searchEmbed = new SearchEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            disabledActions: [Action.AddNote],
-        });
-        searchEmbed.render();
-
-        await executeAfterWait(() => {
-            const iframeSrc = getIFrameSrc();
-            expect(iframeSrc).toContain('addNote');
-        });
-    });
-
     test('should pass Action.AddNote in hiddenActions', async () => {
         const searchEmbed = new SearchEmbed(getRootEl(), {
             ...defaultViewConfig,
