@@ -61,6 +61,14 @@ export const addFilter = `
     }
 `;
 
+export const updateSort = `
+    mutation UpdateSort($session: BachSessionIdInput!, $sortOrder: [AnswerColumnSortInput!]!) {
+        Answer__updateSort(session: $session, sortOrder: $sortOrder) {
+            ${bachSessionId}
+        }
+    }
+`;
+
 export const getAnswer = `
     query GetAnswer($session: BachSessionIdInput!) {
         getAnswer(session: $session) {

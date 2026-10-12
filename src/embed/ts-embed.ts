@@ -10,20 +10,26 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import {
-    HostEventRequest,
-    TriggerPayload,
-    TriggerResponse,
     UIPassthroughArrayResponse,
     UIPassthroughEvent,
     UIPassthroughRequest,
-} from './hostEventClient/contracts';
+} from '../contracts/ui-passthrough-contracts';
+// Contract resolution comes from the shared contracts module (the single
+// source of truth for event payload shapes) rather than the legacy
+// UI-passthrough-only mapping.
+import {
+    HostEventRequest,
+    TriggerData,
+    TriggerResponse,
+} from '../contracts/host-event-contracts';
+import { EmbedEventPayload } from '../contracts/embed-event-payloads';
+import { isMessageFromIframe } from '../utils/transport/iframe-transport';
 import { logger } from '../utils/logger';
 import { getAuthenticationToken } from '../authToken';
 import { AnswerService } from '../utils/graphql/answerService/answerService';
 import {
     getEncodedQueryParamsString,
     getCssDimension,
-    getOffsetTop,
     embedEventStatus,
     setAttributes,
     getCustomisations,
@@ -39,6 +45,8 @@ import {
     getHostEventsConfig,
     getValueFromWindow,
     deserializeParam,
+    getScrollableAncestors,
+    setParamIfDefined,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import {
@@ -73,6 +81,7 @@ import {
     BaseViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
+import { summarizeRuntimeDataForTelemetry } from '../utils/runtimeTelemetry';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
 import {
@@ -109,6 +118,110 @@ const TS_EMBED_ID = '_thoughtspot-embed';
  */
 const PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY = 'tsEmbedOriginalPosition';
 const PRERENDER_WRAPPER_ID_PREFIX = 'tsEmbed-pre-render-wrapper-';
+const PRERENDER_PARKED_TRANSFORM = 'translateY(-100%)';
+/** The height createPreRenderWrapper() seeds before anything is measured. */
+const UNMEASURED_WRAPPER_HEIGHT = '100vh';
+
+// The container applies UpdateEmbedParams through React state, so a delivered
+// post is not the same as the params being in effect.
+const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
+
+// The container ignores runtimeFilterParams/runtimeParameterParams unless
+// truthy, so null or '' leaves the previous embed's values in place. '&' is
+// truthy and parses to {}.
+const NO_RUNTIME_PARAMS = '&';
+
+/**
+ * Params kept on the iframe `src` when `excludeConfigFromURL` is set. The rest
+ * are sent in the APP_INIT payload.
+ * @internal
+ */
+export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
+    // Marks the app as embedded.
+    Param.EmbedApp,
+    // The host page URL, used to validate the postMessage origin.
+    Param.HostAppUrl,
+    // The SDK version.
+    Param.Version,
+    // The authentication type set in init.
+    Param.AuthType,
+    // Whether the app signs the user in automatically.
+    Param.AutoLogin,
+    // Stops the app from redirecting to its login page.
+    Param.DisableLoginRedirect,
+    // Forces the SAML redirect for EmbeddedSSO.
+    Param.ForceSAMLAutoRedirect,
+    // Set for cookieless trusted authentication.
+    Param.cookieless,
+    // Lets the app use the pre-fetched auth info.
+    Param.preAuthCache,
+    // Blocks access to the full app outside the embed.
+    Param.blockNonEmbedFullAppAccess,
+    // The org to load, which the auth info depends on.
+    Param.OverrideOrgId,
+    // The host window height when the iframe loads.
+    Param.ViewPortHeight,
+    // The host window width when the iframe loads.
+    Param.ViewPortWidth,
+    // The app's client log level.
+    Param.ClientLogLevel,
+    // Lets the app override the native console.
+    Param.OverrideNativeConsole,
+    // An extra Pendo tracking key.
+    Param.PendoTrackingKey,
+    // The locale for number formatting.
+    Param.NumberFormatLocale,
+    // The locale for date formatting.
+    Param.DateFormatLocale,
+    // The currency format.
+    Param.CurrencyFormat,
+    // The UI language.
+    Param.Locale,
+    // Turns on dark mode.
+    Param.IsDarkMode,
+    // Turns on the radiant theme that dark mode needs.
+    Param.RadiantThemeEnabled,
+    // Marks a SearchEmbed or SearchBarEmbed.
+    Param.searchEmbed,
+    // Marks a LiveboardEmbed.
+    Param.livedBoardEmbed,
+    // Marks a SpotterAgentEmbed.
+    Param.isSpotterAgentEmbed,
+    // Marks a SpotterEmbed.
+    Param.SpotterEnabled,
+    // Marks an AppEmbed.
+    Param.IsFullAppEmbed,
+    // Legacy flag for the onBeforeGetVizData API intercept.
+    Param.IsOnBeforeGetVizDataInterceptEnabled,
+    // Lets the host override links in the app.
+    Param.LinkOverride,
+    // Turns on version 2 of the link overrides.
+    Param.EnableLinkOverridesV2,
+    // Stops links from opening in a new tab.
+    Param.DisableRedirectionLinksInNewTab,
+    // Uses replaceState instead of pushState for app navigation.
+    Param.OverrideHistoryState,
+    // Shows search results as a table.
+    Param.ForceTable,
+    // The URL of the custom string IDs file.
+    Param.StringIDsUrl,
+    // The data sources that search opens with.
+    Param.DataSources,
+    // Exposes translation IDs in the app.
+    Param.ExposeTranslationIDs,
+    // The URL of the custom icon sprite.
+    Param.IconSpriteUrl,
+    // The tag that filters the metadata lists in an AppEmbed.
+    Param.Tag,
+    // Set when a Liveboard embed shows a single visualization (vizId).
+    Param.vizEmbed,
+    // Whether search opens with the last-selected data sources.
+    Param.UseLastSelectedDataSource,
+    // The query mode Spotter opens in.
+    Param.DefaultQueryMode,
+    // The initial search query. Omitted with excludeSearchTokenStringFromURL.
+    Param.searchTokenString,
+]);
 
 /**
  * The event id map from v2 event names to v1 event id
@@ -142,7 +255,11 @@ export class TsEmbed {
      */
     protected embedNodeKey = '__tsEmbed';
 
+    protected embedContainerLoadedKey = '__tsEmbedContainerLoaded';
+
     protected isAppInitialized = false;
+
+    private initDataParams: Partial<Record<Param, any>> & Record<string, any> = {};
 
     /**
      * A reference to the iframe within which the ThoughtSpot app
@@ -213,8 +330,7 @@ export class TsEmbed {
 
     private preRenderContainerEl: HTMLElement = document.body;
 
-    private containerScrollListener: (() => void) | null = null;
-
+    /** Last height the embedded app reported, once fullHeight has measured one. */
     protected hostEventClient: HostEventClient;
 
     protected isReadyForRenderPromise;
@@ -235,9 +351,10 @@ export class TsEmbed {
             ...viewConfig,
         };
         this.registerAppInit();
-        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
-            ...viewConfig,
-        });
+        uploadMixpanelEvent(
+            MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE,
+            summarizeRuntimeDataForTelemetry(viewConfig),
+        );
         const embedConfig = getEmbedConfig();
         if (embedConfig) {
             this.embedConfig = embedConfig;
@@ -439,7 +556,7 @@ export class TsEmbed {
         const eventType = this.getEventType(event);
         const eventPort = this.getEventPort(event);
         const eventData = this.formatEventData(event, eventType);
-        if (event.source === this.iFrame.contentWindow) {
+        if (isMessageFromIframe(event, this.iFrame, this.thoughtSpotHost)) {
             const processedEventData = processEventData(
                 eventType,
                 eventData,
@@ -565,6 +682,19 @@ export class TsEmbed {
         return this.getDefaultAppInitData();
     }
 
+    private withInitDataParams(appInitData: Record<string, any>): Record<string, any> {
+        if (isEmpty(this.initDataParams)) {
+            return appInitData;
+        }
+        return {
+            ...appInitData,
+            embedParams: {
+                ...this.initDataParams,
+                ...(appInitData.embedParams || {}),
+            },
+        };
+    }
+
     /**
      * Send Custom style as part of payload of APP_INIT
      * @param _
@@ -572,7 +702,7 @@ export class TsEmbed {
      */
     private appInitCb = async (_: any, responder: any) => {
         try {
-            const appInitData = await this.getAppInitData();
+            const appInitData = this.withInitDataParams(await this.getAppInitData());
             this.isAppInitialized = true;
             responder({
                 type: EmbedEvent.APP_INIT,
@@ -720,7 +850,19 @@ export class TsEmbed {
             queryParams[key] = deserializeParam(queryParams[key]);
         });
         const appInitData = await this.getAppInitData();
-        return { ...this.viewConfig, ...queryParams, ...appInitData };
+        return {
+            ...this.viewConfig,
+            ...queryParams,
+            ...appInitData,
+            // A show cycle has no URL to carry these, so the payload always
+            // states them — including "none", which is the case that leaks the
+            // previous filters.
+            runtimeFilterParams:
+                getFilterQuery(this.viewConfig.runtimeFilters ?? []) || NO_RUNTIME_PARAMS,
+            runtimeParameterParams:
+                getRuntimeParameters(this.viewConfig.runtimeParameters ?? [])
+                || NO_RUNTIME_PARAMS,
+        };
     }
 
     /**
@@ -765,6 +907,15 @@ export class TsEmbed {
         }
         if (this.embedConfig.currencyFormat) {
             queryParams[Param.CurrencyFormat] = this.embedConfig.currencyFormat;
+        }
+        // The view config wins over init, so an embed can opt out of a dark
+        // mode set in `init`. `??` and not `||`, so that an explicit `false`
+        // overrides an init-level `true`.
+        const isDarkMode = this.viewConfig.isDarkMode ?? this.embedConfig.isDarkMode;
+        setParamIfDefined(queryParams, Param.IsDarkMode, isDarkMode, true);
+        // The app's dark mode lives in its radiant theme, so turn that on too.
+        if (isDarkMode) {
+            queryParams[Param.RadiantThemeEnabled] = true;
         }
 
         const {
@@ -921,13 +1072,32 @@ export class TsEmbed {
     }
 
     protected getEmbedParams() {
-        const queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getUrlQueryParamsObject();
         return getQueryParamString(queryParams);
     }
 
     protected getEmbedParamsObject() {
         const params = this.getBaseQueryParams();
         return params;
+    }
+
+    protected getUrlQueryParamsObject(): Record<any, any> {
+        const queryParams = this.getEmbedParamsObject();
+        if (!this.isConfigExcludedFromUrl()) {
+            this.initDataParams = {};
+            return queryParams;
+        }
+        const urlParams: Record<any, any> = {};
+        const excludedParams: Partial<Record<Param, any>> & Record<string, any> = {};
+        Object.entries(queryParams).forEach(([key, value]) => {
+            if (BOOTSTRAP_URL_PARAMS.has(key)) {
+                urlParams[key] = value;
+            } else {
+                excludedParams[key] = deserializeParam(value);
+            }
+        });
+        this.initDataParams = excludedParams;
+        return urlParams;
     }
 
     protected getRootIframeSrc() {
@@ -973,18 +1143,19 @@ export class TsEmbed {
     }
 
     /**
-     * Returns a merged {@link PreRenderConfig} object where each shared key
-     * prefers `preRenderConfig.key` over the top-level `viewConfig.key` for
-     * backward compatibility.
+     * Returns a merged {@link PreRenderConfig} object where each key prefers the
+     * value from `preRenderConfig` over its deprecated top-level `viewConfig`
+     * counterpart (`id`/`preRenderId`, `containerSelector`/`preRenderContainer`,
+     * `doNotTrackSize`/`doNotTrackPreRenderSize`) for backward compatibility.
      */
     protected getPreRenderConfig(): PreRenderConfig {
         const viewCfg = this.viewConfig as BaseViewConfig;
         const preRenderCfg = viewCfg.preRenderConfig ?? {};
         return {
             ...preRenderCfg,
-            preRenderId: preRenderCfg.preRenderId ?? viewCfg.preRenderId,
-            preRenderContainer: preRenderCfg.preRenderContainer ?? viewCfg.preRenderContainer,
-            doNotTrackPreRenderSize: preRenderCfg.doNotTrackPreRenderSize ?? viewCfg.doNotTrackPreRenderSize,
+            id: preRenderCfg.id ?? viewCfg.preRenderId,
+            containerSelector: preRenderCfg.containerSelector ?? viewCfg.preRenderContainer,
+            doNotTrackSize: preRenderCfg.doNotTrackSize ?? viewCfg.doNotTrackPreRenderSize,
         };
     }
 
@@ -992,7 +1163,7 @@ export class TsEmbed {
      * Returns true if this embed instance is configured for pre-rendering.
      */
     protected isPreRenderEmbed() {
-        return !!this.getPreRenderConfig().preRenderId;
+        return !!this.getPreRenderConfig().id;
     }
     protected handleInsertionIntoDOM(child: string | Node): void {
         if (this.isPreRenderEmbed()) {
@@ -1117,13 +1288,15 @@ export class TsEmbed {
             top: '0',
             left: '0',
             width: '100vw',
-            height: '100vh',
+            height: UNMEASURED_WRAPPER_HEIGHT,
         };
         setStyleProperties(preRenderWrapper, initialPreRenderWrapperStyle);
 
         return preRenderWrapper;
     }
 
+    // TODO(SCAL-338011): move the pre-render code out to its own file, the way
+    // full height did. It is spread across this class and getting messy.
     protected preRenderWrapper: HTMLElement;
 
     protected preRenderChild: HTMLElement;
@@ -1201,13 +1374,15 @@ export class TsEmbed {
     }
 
     /**
-     * Resolves the configured preRenderContainer to a live element, falling
-     * back to `document.body`. A string selector is re-queried on every call so
-     * a remounted container (E.g.: React replacing the node) resolves to the
-     * fresh element; an element passed directly cannot be re-resolved.
+     * Resolves the configured preRenderContainer, or defaults to the host's
+     * nearest scrolling ancestor (document.body if none). The absolutely
+     * positioned wrapper only follows the page while it sits inside what
+     * scrolls, so body is right only when the document itself scrolls — an inner
+     * scroller left the frame pinned to the viewport (SCAL-338563). A string
+     * selector is re-queried each call so a remounted container resolves fresh.
      */
     private resolvePreRenderContainerTarget(): HTMLElement {
-        const containerConfig = this.getPreRenderConfig().preRenderContainer;
+        const containerConfig = this.getPreRenderConfig().containerSelector;
         let container: Element | null = null;
         if (typeof containerConfig === 'string') {
             try {
@@ -1221,7 +1396,13 @@ export class TsEmbed {
         } else if (containerConfig) {
             container = containerConfig;
         }
-        return (container as HTMLElement) ?? document.body;
+        if (container) {
+            return container as HTMLElement;
+        }
+        if (!this.hostElement) {
+            return document.body;
+        }
+        return getScrollableAncestors(this.hostElement)[0] ?? document.body;
     }
 
     private inheritPreRenderContainer(): void {
@@ -1231,7 +1412,7 @@ export class TsEmbed {
         }
         const ownerContainer = preRenderedObject.preRenderContainerEl ?? document.body;
         if (
-            this.getPreRenderConfig().preRenderContainer
+            this.getPreRenderConfig().containerSelector
             && this.resolvePreRenderContainerTarget() !== ownerContainer
         ) {
             logger.warn(
@@ -1275,8 +1456,9 @@ export class TsEmbed {
      * Re-attaches the wrapper to a live container when the previously resolved
      * one has been detached or no longer holds the wrapper — e.g. the host app
      * remounted a custom preRenderContainer, which would otherwise leave a stale
-     * reference and collapse the wrapper. Only string selectors can be
-     * re-resolved; a container passed as an element is left untouched.
+     * reference and collapse the wrapper. Selectors and the auto-resolved
+     * scrolling ancestor are both re-resolved; a container passed as an element
+     * is left untouched, as there is nothing to re-query.
      */
     private reconcilePreRenderContainer(): void {
         const wrapper = this.preRenderWrapper;
@@ -1294,14 +1476,6 @@ export class TsEmbed {
         // do, e.g. a detached container passed as an HTMLElement.
         if (resolved === stored && stored.contains(wrapper)) {
             return;
-        }
-        if (this.containerScrollListener && stored !== resolved) {
-            if (stored !== document.body) {
-                stored.removeEventListener('scroll', this.containerScrollListener);
-            }
-            if (resolved !== document.body) {
-                resolved.addEventListener('scroll', this.containerScrollListener);
-            }
         }
         this.preRenderContainerEl = resolved;
         this.applyPreRenderContainerPositioning();
@@ -1371,10 +1545,11 @@ export class TsEmbed {
      */
     protected setIFrameHeight(height: number | string): void {
         if (this.isPreRendered) {
+            const next = getCssDimension(height);
             if (this.insertedDomEl) {
-                (this.insertedDomEl as HTMLElement).style.height = getCssDimension(height);
+                (this.insertedDomEl as HTMLElement).style.height = next;
             } else if (this.preRenderWrapper) {
-                this.preRenderWrapper.style.height = getCssDimension(height);
+                this.preRenderWrapper.style.height = next;
             }
         } else {
             // normal (non-preRender) mode: size the iframe directly
@@ -1470,41 +1645,6 @@ export class TsEmbed {
     }
 
     /**
-     * Calculates the iframe center for the current visible viewPort
-     * of iframe using Scroll position of Host App, offsetTop for iframe
-     * in Host app. ViewPort height of the tab.
-     * @returns iframe Center in visible viewport,
-     *  Iframe height,
-     *  View port height.
-     */
-    protected getIframeCenter() {
-        const offsetTopClient = getOffsetTop(this.iFrame);
-        const scrollTopClient = window.scrollY;
-        const viewPortHeight = window.innerHeight;
-        const iframeHeight = this.iFrame.offsetHeight;
-        const iframeScrolled = scrollTopClient - offsetTopClient;
-        let iframeVisibleViewPort;
-        let iframeOffset;
-
-        if (iframeScrolled < 0) {
-            iframeVisibleViewPort = viewPortHeight - (offsetTopClient - scrollTopClient);
-            iframeVisibleViewPort = Math.min(iframeHeight, iframeVisibleViewPort);
-            iframeOffset = 0;
-        } else {
-            iframeVisibleViewPort = Math.min(iframeHeight - iframeScrolled, viewPortHeight);
-            iframeOffset = iframeScrolled;
-        }
-        const iframeCenter = iframeOffset + iframeVisibleViewPort / 2;
-        return {
-            iframeCenter,
-            iframeScrolled,
-            iframeHeight,
-            viewPortHeight,
-            iframeVisibleViewPort,
-        };
-    }
-
-    /**
      * Registers an event listener to trigger an alert when the ThoughtSpot app
      * sends an event of a particular message type to the host application.
      * @param messageType The message type
@@ -1527,9 +1667,12 @@ export class TsEmbed {
      * });
      * ```
      */
-    public on(
-        messageType: EmbedEvent,
-        callback: MessageCallback,
+    public on<EmbedEventT extends EmbedEvent>(
+        messageType: EmbedEventT,
+        callback: (
+            payload: EmbedEventPayload<EmbedEventT>,
+            responder?: (data: any) => void,
+        ) => void,
         options: MessageOptions = { start: false },
         isRegisteredBySDK = false,
     ): typeof TsEmbed.prototype {
@@ -1607,14 +1750,35 @@ export class TsEmbed {
     protected getPreRenderObj<T extends TsEmbed>(): T {
         const embedObj = (this.preRenderWrapper as any)?.[this.embedNodeKey] as T;
         if (embedObj === (this as any)) {
-            logger.info('embedObj is same as this');
+            logger.debug('embedObj is same as this');
         }
         return embedObj;
+    }
+
+    protected takeOverPreRender(): void {
+        if (!this.preRenderWrapper) return;
+        (this.preRenderWrapper as any)[this.embedNodeKey] = this;
+    }
+
+    // The flag lives on the wrapper because it describes the iframe: an
+    // instance hidden when the container announced itself would otherwise
+    // report false forever.
+    private markEmbedContainerLoaded() {
+        this.isEmbedContainerLoaded = true;
+        if (this.preRenderWrapper) {
+            (this.preRenderWrapper as any)[this.embedContainerLoadedKey] = true;
+        }
     }
 
     private checkEmbedContainerLoaded() {
         if (this.isEmbedContainerLoaded) return true;
 
+        if ((this.preRenderWrapper as any)?.[this.embedContainerLoadedKey]) {
+            this.isEmbedContainerLoaded = true;
+            return true;
+        }
+
+        // Older builds stamped the flag on the instance, not the wrapper.
         const preRenderObj = this.getPreRenderObj<TsEmbed>();
         if (preRenderObj && preRenderObj.isEmbedContainerLoaded) {
             this.isEmbedContainerLoaded = true;
@@ -1647,14 +1811,15 @@ export class TsEmbed {
         (source: EmbedEvent.AuthInit | EmbedEvent.EmbedListenerReady) => () => {
             const processEmbedContainerReady = () => {
                 logger.debug('processEmbedContainerReady');
-                this.isEmbedContainerLoaded = true;
+                this.markEmbedContainerLoaded();
                 this.executeEmbedContainerReadyCallbacks();
             };
             if (source === EmbedEvent.AuthInit) {
                 const AUTH_INIT_FALLBACK_DELAY = 1000;
                 // Wait for 1 second to ensure the embed container is loaded
                 // This is a workaround to ensure the embed container is loaded
-                // this is needed until all clusters have EmbedListenerReady event
+                // this is needed until all clusters have EmbedListenerReady
+                // event
                 setTimeout(processEmbedContainerReady, AUTH_INIT_FALLBACK_DELAY);
             } else if (source === EmbedEvent.EmbedListenerReady) {
                 processEmbedContainerReady();
@@ -1663,8 +1828,12 @@ export class TsEmbed {
 
     /**
      * Triggers an event to the embedded app
+     *
+     * Payload typing: from SDK 1.52.0 (ThoughtSpot Cloud 26.9.0.cl), unknown fields
+     * on a known event's payload fail to compile. From SDK 1.54.0 (26.11.0.cl) the
+     * payload is checked strictly against the event contract — update call sites now.
      * @param {HostEvent} messageType The event type
-     * @param {any} data The payload to send with the message
+     * @param {TriggerData} data The payload, typed against the event's contract
      * @param {ContextType} context Optional context type to specify the context from which the event is triggered.
      * Use ContextType.Search for search answer context, ContextType.Answer for answer/explore context,
      * ContextType.Liveboard for liveboard context, or ContextType.Spotter for spotter context.
@@ -1687,7 +1856,10 @@ export class TsEmbed {
         ContextT extends ContextType = ContextType,
     >(
         messageType: HostEventT,
-        data: TriggerPayload<PayloadT, HostEventT> = {} as any,
+        // Contract shape is the contextual type: payload fields autocomplete
+        // and unknown fields on object literals are flagged. Strict checks
+        // land in SDK 1.54.0 — see TriggerData.
+        data: TriggerData<HostEventT> = {} as any,
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${messageType}`);
@@ -1773,6 +1945,12 @@ export class TsEmbed {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_RENDER_CALLED, {
             embedComponentType: this.viewConfig.embedComponentType,
         });
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_INIT_ACTIONS, {
+            embedComponentType: this.viewConfig.embedComponentType,
+            hiddenActions: this.viewConfig.hiddenActions ?? [],
+            visibleActions: this.viewConfig.visibleActions ?? [],
+            disabledActions: this.viewConfig.disabledActions ?? [],
+        });
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
@@ -1857,7 +2035,7 @@ export class TsEmbed {
             showPreRenderByDefault,
             replaceExistingPreRender,
         });
-        if (!this.getPreRenderConfig().preRenderId) {
+        if (!this.getPreRenderConfig().id) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
@@ -1942,15 +2120,27 @@ export class TsEmbed {
     }
 
     /**
-     * Detaches and clears the container scroll listener, if one is attached.
+     * Re-sizes the wrapper when its placeholder changes size.
+     *
+     * Position deliberately has no equivalent. An absolutely positioned wrapper
+     * follows its containing block for free, so a correctly placed frame is the
+     * browser's job and costs nothing; repositioning it on scroll would mean a
+     * layout read and a style write per frame to compensate for placing it in
+     * the wrong box. Size is the one thing the browser will not do for us: the
+     * placeholder grows when the embedded app reports a new height, and the
+     * wrapper has to be told.
      */
-    private removeContainerScrollListener(): void {
-        if (!this.containerScrollListener) {
+    private observePreRenderSize(): void {
+        if (this.getPreRenderConfig().doNotTrackSize || typeof ResizeObserver === 'undefined') {
             return;
         }
-        const customContainer = this.getCustomPreRenderContainer();
-        customContainer?.removeEventListener('scroll', this.containerScrollListener);
-        this.containerScrollListener = null;
+        const placeholder = this.getPreRenderPlaceHolderElement();
+        if (!placeholder) {
+            return;
+        }
+        this.resizeObserver?.disconnect();
+        this.resizeObserver = new ResizeObserver(() => this.syncPreRenderStyle());
+        this.resizeObserver.observe(placeholder);
     }
 
     /**
@@ -1960,7 +2150,7 @@ export class TsEmbed {
     public destroy(): void {
         try {
             this.removeFullscreenChangeHandler();
-            this.removeContainerScrollListener();
+            this.resizeObserver?.disconnect();
             this.unsubscribeToEvents();
             this.preRenderWrapper?.remove();
             this.restorePreRenderContainerPosition();
@@ -2014,24 +2204,48 @@ export class TsEmbed {
         return this.renderIFrame(prerenderFrameSrc);
     }
 
+    // Subclasses that navigate the pre-render on show must await this before
+    // triggering Navigate. Resolves even on failure, so navigation is never
+    // blocked.
+    protected preRenderParamsApplied: Promise<void> = Promise.resolve();
+
+    protected isConfigExcludedFromUrl(): boolean {
+        const flag =
+            this.viewConfig.additionalFlags?.excludeConfigFromURL ??
+            this.embedConfig.additionalFlags?.excludeConfigFromURL;
+        return flag === true || flag === 'true';
+    }
+
+    protected async triggerUpdateEmbedParams(): Promise<void> {
+        try {
+            const params = await this.getUpdateEmbedParamsObject();
+            this.trigger(HostEvent.UpdateEmbedParams, params);
+        } catch (error) {
+            logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
+            this.handleError({
+                errorType: ErrorDetailsTypes.API,
+                message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
+                code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
+                error: error?.message || error,
+            });
+        }
+    }
+
     protected beforePrerenderVisible(): void {
         // We can ignore this as its a bit expensive and the newer customers
         // have moved on to UpdateEmbedParams supported clusters
         // this.validatePreRenderViewConfig(this.viewConfig); removed in #517
         logger.debug('triggering UpdateEmbedParams', this.viewConfig);
-        this.executeAfterEmbedContainerLoaded(async () => {
-            try {
-                const params = await this.getUpdateEmbedParamsObject();
-                this.trigger(HostEvent.UpdateEmbedParams, params);
-            } catch (error) {
-                logger.error(ERROR_MESSAGE.UPDATE_PARAMS_FAILED, error);
-                this.handleError({
-                    errorType: ErrorDetailsTypes.API,
-                    message: error?.message || ERROR_MESSAGE.UPDATE_PARAMS_FAILED,
-                    code: EmbedErrorCodes.UPDATE_PARAMS_FAILED,
-                    error: error?.message || error,
-                });
-            }
+        // Created synchronously: a queued navigation needs something to await
+        // whether the container is already loaded or not.
+        this.preRenderParamsApplied = new Promise<void>((resolve) => {
+            this.executeAfterEmbedContainerLoaded(async () => {
+                try {
+                    await this.triggerUpdateEmbedParams();
+                } finally {
+                    setTimeout(resolve, UPDATE_EMBED_PARAMS_SETTLE_MS);
+                }
+            });
         });
     }
 
@@ -2043,14 +2257,14 @@ export class TsEmbed {
      */
     public async showPreRender(): Promise<TsEmbed> {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_SHOW_PRE_RENDER, {
-            preRenderId: this.getPreRenderConfig().preRenderId,
+            preRenderId: this.getPreRenderConfig().id,
             embedComponentType: this.viewConfig.embedComponentType,
         });
 
         if (this.shouldWaitForRenderPromise) await this.isReadyForRenderPromise;
 
 
-        if (!this.getPreRenderConfig().preRenderId) {
+        if (!this.getPreRenderConfig().id) {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
@@ -2063,60 +2277,58 @@ export class TsEmbed {
 
         if (this.hostElement) {
             this.insertedDomEl = this.createPreRenderPlaceholder();
-            if ((this.viewConfig as { fullHeight: boolean }).fullHeight) {
-                // If fullHeight has already sized the wrapper, seed the placeholder
-                // with the same height so syncPreRenderStyle gets an accurate rect.
-                const existingHeight = this.preRenderWrapper.style.height;
-                if (existingHeight) {
-                    (this.insertedDomEl as HTMLDivElement).style.height = existingHeight;
-                }
+            // Carry a height fullHeight has already measured onto the fresh
+            // placeholder, so a re-show does not flash at frameParams height.
+            // UNMEASURED_WRAPPER_HEIGHT is what createPreRenderWrapper() seeds
+            // before anything has been measured; treating that as a measurement
+            // is what made a first reveal overshoot to a full viewport.
+            const wrapperHeight = this.preRenderWrapper.style.height;
+            if (
+                (this.viewConfig as { fullHeight: boolean }).fullHeight
+                && wrapperHeight
+                && wrapperHeight !== UNMEASURED_WRAPPER_HEIGHT
+            ) {
+                (this.insertedDomEl as HTMLDivElement).style.height = wrapperHeight;
             }
 
             const placeHolderId = this.getPreRenderIds().placeHolder;
             // Remove any stale placeholder from a previous cycle. It is located
-            // via a subtree-wide querySelector, so it may be nested deeper than a
-            // direct child (E.g.: with fullHeight the host app can wrap it). Use
-            // Element.remove() — which detaches from whatever the real parent is —
-            // rather than hostElement.removeChild(), which throws NotFoundError
-            // when the match is not a direct child. Mirrors the wrapper/child
-            // cleanup in createPreRenderWrapper()/createPreRenderChild().
+            // via a subtree-wide querySelector, so it may be nested deeper
+            // than a direct child (E.g.: with fullHeight the host app can wrap
+            // it). Use Element.remove() — which detaches from whatever the real
+            // parent is — rather than hostElement.removeChild(), which throws
+            // NotFoundError when the match is not a direct child. Mirrors the
+            // wrapper/child cleanup in
+            // createPreRenderWrapper()/createPreRenderChild().
             this.hostElement.querySelector(`#${placeHolderId}`)?.remove();
 
             this.hostElement.appendChild(this.insertedDomEl);
 
             this.syncPreRenderStyle();
-
-            const customContainer = this.getCustomPreRenderContainer();
-            if (customContainer && !this.containerScrollListener) {
-                this.containerScrollListener = () => this.syncPreRenderStyle();
-                customContainer.addEventListener('scroll', this.containerScrollListener);
-            }
-
-            if (!this.getPreRenderConfig().doNotTrackPreRenderSize) {
-                const observeTarget = (this.insertedDomEl as HTMLElement) ?? this.hostElement;
-                this.resizeObserver = new ResizeObserver((entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.target === observeTarget) {
-                            this.syncPreRenderStyle();
-                        }
-                    });
-                });
-                this.resizeObserver.observe(observeTarget);
-            }
+            this.observePreRenderSize();
         }
 
         removeStyleProperties(this.preRenderWrapper, [
             'z-index',
             'opacity',
-            'pointer-events',
             'overflow',
+            'transform',
         ]);
+        // Set rather than removed: a container that carries `pointer-events:
+        // none` — the usual styling for a parking root that must not swallow
+        // clicks — passes it down, and dropping the property here would leave
+        // the inherited `none` in force and the frame dead to input.
+        setStyleProperties(this.preRenderWrapper, { pointerEvents: 'auto' });
         this.subscribeToEvents();
 
         // Setup fullscreen change handler for prerendered components
         if (this.iFrame) {
             this.setupFullscreenChangeHandler();
         }
+
+        // Last, so everything above still sees the instance being taken over
+        // from.
+        this.takeOverPreRender();
 
         return this;
     }
@@ -2167,7 +2379,7 @@ export class TsEmbed {
      */
     public hidePreRender(): void {
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_HIDE_PRE_RENDER, {
-            preRenderId: this.getPreRenderConfig().preRenderId,
+            preRenderId: this.getPreRenderConfig().id,
             embedComponentType: this.viewConfig.embedComponentType,
         });
 
@@ -2178,22 +2390,26 @@ export class TsEmbed {
             return;
         }
         const { zIndex } = this.getPreRenderConfig();
+        // A hidden pre-render frame must add no scroll space to the host page.
         const preRenderHideStyles = {
             opacity: '0',
             pointerEvents: 'none',
             zIndex: zIndex !== undefined ? String(zIndex) : '-1000',
-            position: 'absolute',
+            // Resolves to the viewport, so the hidden frame belongs to no
+            // scroll container's overflow; syncPreRenderStyle restores absolute
+            // on show.
+            position: 'fixed',
             top: '0',
             left: '0',
             overflow: 'hidden',
+            // The one exception: a transformed or contained ancestor captures
+            // `fixed`; parking above the top edge keeps it out of that
+            // overflow.
+            transform: PRERENDER_PARKED_TRANSFORM,
         };
         setStyleProperties(this.preRenderWrapper, preRenderHideStyles);
 
-        this.removeContainerScrollListener();
-
-        if (this.resizeObserver) {
-            this.resizeObserver.disconnect();
-        }
+        this.resizeObserver?.disconnect();
 
         const placeHolderEle = this.getPreRenderPlaceHolderElement();
         if (placeHolderEle) {
@@ -2211,7 +2427,7 @@ export class TsEmbed {
      * @property {string} child - The HTML element ID for the PreRender child.
      */
     public getPreRenderIds() {
-        const preRenderId = this.getPreRenderConfig().preRenderId;
+        const preRenderId = this.getPreRenderConfig().id;
         return {
             wrapper: `${PRERENDER_WRAPPER_ID_PREFIX}${preRenderId}`,
             child: `tsEmbed-pre-render-child-${preRenderId}`,
@@ -2338,12 +2554,18 @@ export class V1Embed extends TsEmbed {
      * });
      * ```
      */
-    public on(
-        messageType: EmbedEvent,
-        callback: MessageCallback,
+    public on<EmbedEventT extends EmbedEvent>(
+        messageType: EmbedEventT,
+        callback: (
+            payload: EmbedEventPayload<EmbedEventT>,
+            responder?: (data: any) => void,
+        ) => void,
         options: MessageOptions = { start: false },
     ): typeof TsEmbed.prototype {
-        const eventType = this.getCompatibleEventType(messageType);
+        // Mirror the base TsEmbed.on generic signature so the enriched
+        // EmbedEventPayload (e.g. CustomAction's answerService) flows through
+        // the override too, and the class hierarchy stays assignable.
+        const eventType = this.getCompatibleEventType(messageType) as EmbedEventT;
         return super.on(eventType, callback, options);
     }
 

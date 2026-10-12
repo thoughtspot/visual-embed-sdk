@@ -439,7 +439,8 @@ describe('getCustomActions function', () => {
                 metadataIds: { liveboardIds: ['lb-1'] },
             } as any;
             const result = getCustomActions([action]);
-            // Expect an error containing 'none' for unsupported metadataIds on SPOTTER
+            // Expect an error containing 'none' for unsupported metadataIds on
+            // SPOTTER
             expect(result.errors.some((e) => e.includes('none'))).toBe(true);
         });
 
@@ -452,7 +453,8 @@ describe('getCustomActions function', () => {
                 dataModelIds: { modelIds: ['model-1'] },
             } as any;
             const result = getCustomActions([action]);
-            // Expect an error containing 'none' for unsupported dataModelIds on LIVEBOARD
+            // Expect an error containing 'none' for unsupported dataModelIds
+            // on LIVEBOARD
             expect(result.errors.some((e) => e.includes('none'))).toBe(true);
         });
     });

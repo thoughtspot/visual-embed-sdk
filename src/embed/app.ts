@@ -9,22 +9,27 @@
  */
 
 import { logger } from '../utils/logger';
-import { calculateVisibleElementData, getEffectiveClippingAncestors, getQueryParamString, getScrollableAncestors, isUndefined, isValidCssMargin, setParamIfDefined } from '../utils';
-import { DEFAULT_LAZY_LOADING_MARGIN } from '../config';
+import { getQueryParamString, isUndefined, setParamIfDefined } from '../utils';
 import {
     Param,
     DOMSelector,
     HostEvent,
     EmbedEvent,
-    MessagePayload,
     AllEmbedViewConfig,
+    FullHeightViewConfig,
     DefaultAppInitData,
     VisualizationOverrides,
     SpotterFileUploadFileTypes,
 } from '../types';
+import { FullHeightController } from '../full-height';
 import { V1Embed } from './ts-embed';
 import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig } from './conversation';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
+import {
+    buildSpotterSidebarAppInitData,
+    buildSpotterShareConversationAppInitData,
+    buildStarterPromptsAppInitData,
+    SpotterExperienceVersion,
+} from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 
 /**
@@ -179,7 +184,7 @@ export interface DiscoveryExperience {
  * The view configuration for full app embedding.
  * @group Embed components
  */
-export interface AppViewConfig extends AllEmbedViewConfig {
+export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig {
     /**
      * If true, the top navigation bar within the ThoughtSpot app
      * is displayed. By default, the navigation bar is hidden.
@@ -465,34 +470,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     enableSearchAssist?: boolean;
     /**
-     * If set to true, the Liveboard container dynamically resizes
-     * according to the height of the Liveboard.
-     *
-     * **Note**: Using fullHeight loads all visualizations
-     * on the Liveboard simultaneously, which results in
-     * multiple warehouse queries and potentially a
-     * longer wait for the topmost visualizations to
-     * display on the screen. Setting fullHeight to
-     * `false` fetches visualizations incrementally as
-     * users scroll the page to view the charts and tables.
-     *
-     * From SDK 1.52.0, enabling `fullHeight` also turns on
-     * {@link lazyLoadingForFullHeight} and
-     * {@link enableScrollableContainerLazyLoading}, so visualizations load as
-     * they scroll into view. Set either flag to `false` to opt out.
-     *
-     * Supported embed types: `AppEmbed`
-     * @version SDK: 1.21.0 | ThoughtSpot: 9.4.0.cl, 9.4.0-sw
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#tsEmbed', {
-     *    ... // other embed view config
-     *    fullHeight: true,
-     * })
-     * ```
-     */
-    fullHeight?: boolean;
-    /**
      * Enables the V2 navigation and modular home page experience.
      * For more information,
      * see link:https://developers.thoughtspot.com/docs/full-app-customize[full app embed documentation].
@@ -636,9 +613,10 @@ export interface AppViewConfig extends AllEmbedViewConfig {
     isPNGInScheduledEmailsEnabled?: boolean;
 
     /**
-     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
-     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.8.0.cl.
+     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is
+     * rendered on a single page following the exact UI layout, instead of splitting
+     * visualizations across multiple A4 pages. This feature is GA from SDK version
+     * 1.51.0 and ThoughtSpot version 26.8.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
@@ -693,79 +671,7 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     isGranularXLSXCSVSchedulesEnabled?: boolean;
 
-    /**
-     * Loads visualizations only as they scroll into the viewport, instead of
-     * loading the whole full-height Liveboard at once.
-     *
-     * From SDK 1.52.0 this is enabled automatically whenever `fullHeight` is
-     * `true`. On SDK 1.51.0 and earlier it defaulted to `false` and had to be
-     * set explicitly. Set it to `false` to load every visualization upfront.
-     * The flag has no effect unless `fullHeight` is enabled.
-     *
-     * @type {boolean}
-     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
-     * @default true when `fullHeight` is enabled, from SDK 1.52.0
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#embed-container', {
-     *    // ...other options
-     *    fullHeight: true,
-     *    lazyLoadingForFullHeight: true,
-     * })
-     * ```
-     */
-    lazyLoadingForFullHeight?: boolean;
-    /**
-     * Computes the visible region of the embed against its scrollable and
-     * clipping ancestors, instead of treating the browser window as the only
-     * viewport, and tracks scroll and resize on those ancestors.
-     *
-     * From SDK 1.52.0 this is enabled automatically whenever `fullHeight` is
-     * `true`. On SDK 1.51.0 and earlier it defaulted to `false` and had to be
-     * set explicitly. Set it to `false` when the page scrolls with the window
-     * and the embed has no clipping ancestor, to skip the extra ancestor
-     * tracking.
-     *
-     * @type {boolean}
-     * @default true when `fullHeight` is enabled, from SDK 1.52.0
-     * @hidden
-     */
-    enableScrollableContainerLazyLoading?: boolean;
 
-    /**
-     * How far outside the viewport a visualization starts loading, when
-     * {@link lazyLoadingForFullHeight} is enabled.
-     *
-     * For example, if the margin is set to '10px',
-     * the visualization will be loaded 10px before its top edge is visible in the
-     * viewport.
-     *
-     * The format is similar to CSS margin, so `'500px 0px'` extends the
-     * prefetch 500px above and below the viewport and not sideways. Accepted
-     * units are `px`, `em`, `rem`, `%`, `vh` and `vw`, plus bare `0` and
-     * `auto`; an invalid value is logged and ignored.
-     *
-     * From SDK 1.52.0 this defaults to `'500px 0px'` — roughly one
-     * visualization ahead of the scroll position, so a chart has usually
-     * finished loading by the time it scrolls into view. Use a smaller margin
-     * to cut warehouse queries further, or `'0px'` to load a visualization
-     * only once it is actually visible.
-     *
-     * @type {string}
-     * @version SDK: 1.40.0 | ThoughtSpot: 10.12.0.cl
-     * @default '500px 0px' when `fullHeight` is enabled, from SDK 1.52.0
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#embed-container', {
-     *    // ...other options
-     *    fullHeight: true,
-     *    lazyLoadingForFullHeight: true,
-     *   // Using 0px, the visualization will be only loaded when it's visible in the viewport.
-     *    lazyLoadingMargin: '0px',
-     * })
-     * ```
-     */
-    lazyLoadingMargin?: string;
 
     /**
      * updatedSpotterChatPrompt : Controls the updated spotter chat prompt.
@@ -955,23 +861,6 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      */
     enableStopAnswerGenerationEmbed?: boolean;
     /**
-     * This is the minimum height (in pixels) for a full-height App.
-     * Setting this height helps resolve issues with empty Apps and
-     * other screens navigable from an App.
-     *
-     * @version SDK: 1.44.2 | ThoughtSpot: 10.15.0.cl
-     * @default 500
-     * @example
-     * ```js
-     * const embed = new AppEmbed('#embed', {
-     *   ... // other app view config
-     *   fullHeight: true,
-     *   minimumHeight: 600,
-     * });
-     * ```
-     */
-    minimumHeight?: number;
-    /**
      * To enable the homepage announcement banner.
      * Controls the visibility of the announcement section
      * on the homepage.
@@ -1022,6 +911,35 @@ export interface AppViewConfig extends AllEmbedViewConfig {
      * ```
      */
     updatedSpotterExperience?: boolean;
+
+    /**
+     * If set to `true`, the answer edit panel is hidden.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    hideAnswerEditPanel: true,
+     * })
+     * ```
+     */
+    hideAnswerEditPanel?: boolean;
+
+    /**
+     * The Spotter experience version to load for the Spotter surface shown within
+     * this embed.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+     * });
+     * ```
+     */
+    spotterExperienceVersion?: SpotterExperienceVersion;
 }
 
 /**
@@ -1034,6 +952,7 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
         spotterVizConfig?: SpotterVizConfig;
         spotterShareConversationConfig?: SpotterShareConversationConfig;
         starterPrompts?: StarterPromptsConfig;
+        enableSpotterInstructionAndMoreSettings?: boolean;
     };
 }
 
@@ -1044,33 +963,22 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
 export class AppEmbed extends V1Embed {
     protected viewConfig: AppViewConfig;
 
-    private defaultHeight = 500;
-
-    private lazyLoadScrollContainers: HTMLElement[] = [];
-
-    private lazyLoadResizeObserver: ResizeObserver | undefined;
+    private readonly fullHeightController?: FullHeightController;
 
     constructor(domSelector: DOMSelector, viewConfig: AppViewConfig) {
         viewConfig.embedComponentType = 'AppEmbed';
         super(domSelector, viewConfig);
         if (this.viewConfig.fullHeight === true) {
-            if (this.viewConfig.lazyLoadingForFullHeight === undefined) {
-                this.viewConfig.lazyLoadingForFullHeight = true;
-            }
-            if (this.viewConfig.enableScrollableContainerLazyLoading === undefined) {
-                this.viewConfig.enableScrollableContainerLazyLoading = true;
-            }
-            if (this.viewConfig.lazyLoadingMargin === undefined) {
-                this.viewConfig.lazyLoadingMargin = DEFAULT_LAZY_LOADING_MARGIN;
-            }
-
-            this.on(EmbedEvent.RouteChange, this.setIframeHeightForNonEmbedLiveboard);
-            this.on(EmbedEvent.EmbedHeight, this.updateIFrameHeight);
-            this.on(EmbedEvent.EmbedIframeCenter, this.embedIframeCenter);
-            this.on(
-                EmbedEvent.RequestVisibleEmbedCoordinates,
-                this.requestVisibleEmbedCoordinatesHandler,
-            );
+            this.fullHeightController = new FullHeightController(this.viewConfig, {
+                getIframe: () => this.iFrame,
+                setFrameHeight: (height) => this.setIFrameHeight(height),
+                on: (eventType, callback) => {
+                    this.on(eventType, callback);
+                },
+                trigger: (hostEvent, data) => {
+                    this.trigger(hostEvent, data);
+                },
+            });
         }
     }
 
@@ -1103,7 +1011,7 @@ export class AppEmbed extends V1Embed {
      * embedded Liveboard or visualization.
      */
     protected getEmbedParams() {
-        const params = this.getEmbedParamsObject();
+        const params = this.getUrlQueryParamsObject();
         return getQueryParamString(params, true);
     }
 
@@ -1122,7 +1030,6 @@ export class AppEmbed extends V1Embed {
             hideOrgSwitcher,
             enableSearchAssist,
             newConnectionsExperience,
-            fullHeight,
             dataPanelV2 = true,
             updatedSpotterExperience,
             hideLiveboardHeader = false,
@@ -1165,11 +1072,12 @@ export class AppEmbed extends V1Embed {
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
             spotterDataSources,
-            minimumHeight,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
             isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
+            hideAnswerEditPanel,
+            spotterExperienceVersion,
         } = this.viewConfig;
 
         let params: any = {};
@@ -1207,6 +1115,9 @@ export class AppEmbed extends V1Embed {
         if (!isUndefined(coverAndFilterOptionInPDF)) {
             params[Param.CoverAndFilterOptionInPDF] = !!coverAndFilterOptionInPDF;
         }
+        if (!isUndefined(hideAnswerEditPanel)) {
+            params[Param.ShowAnswerEditPanel] = !hideAnswerEditPanel;
+        }
 
         params = this.getBaseQueryParams(params);
 
@@ -1225,6 +1136,10 @@ export class AppEmbed extends V1Embed {
 
         if (spotterDataSources && spotterDataSources.length) {
             params[Param.SpotterDataSources] = JSON.stringify(spotterDataSources);
+        }
+
+        if (spotterExperienceVersion !== undefined) {
+            params[Param.SpotterExperienceVersion] = spotterExperienceVersion;
         }
 
         // Handle spotterChatConfig params
@@ -1270,15 +1185,7 @@ export class AppEmbed extends V1Embed {
             params[Param.HideNotification] = !!hideNotification;
         }
 
-        if (fullHeight === true) {
-            params[Param.fullHeight] = true;
-            if (this.viewConfig.lazyLoadingForFullHeight) {
-                params[Param.IsLazyLoadingForEmbedEnabled] = true;
-                if (isValidCssMargin(this.viewConfig.lazyLoadingMargin)) {
-                    params[Param.RootMarginForLazyLoad] = this.viewConfig.lazyLoadingMargin;
-                }
-            }
-        }
+        this.fullHeightController?.addQueryParams(params);
 
         if (tag) {
             params[Param.Tag] = tag;
@@ -1371,8 +1278,6 @@ export class AppEmbed extends V1Embed {
             params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled;
         }
 
-        this.defaultHeight = minimumHeight || this.defaultHeight;
-
         if (enableLiveboardDataCache !== undefined) {
             params[Param.EnableLiveboardDataCache] = enableLiveboardDataCache;
         }
@@ -1401,7 +1306,7 @@ export class AppEmbed extends V1Embed {
 
         // Navigation V1/V2 and home page V1/V2 are deprecated. V3 is now the
         // default experience, Need to send navigationVersion=v3 and
-        // homepageVersion=v3 even when the no discoveryExperience / 
+        // homepageVersion=v3 even when the no discoveryExperience /
         // modularHomeExperience config is set. Without these
         // params, older TSA versions (< 26.7) fall back to V2 for nav and
         // home page, so the defaults must be sent explicitly from the SDK.
@@ -1413,7 +1318,7 @@ export class AppEmbed extends V1Embed {
             if (discoveryExperience.listPageVersion !== undefined) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
-            
+
             if (discoveryExperience.homePage === HomePage.Focused) {
                 params[Param.HomepageVersion] = HomePage.Focused;
                 // The Focused (V4) homepage experience requires the updated
@@ -1426,32 +1331,6 @@ export class AppEmbed extends V1Embed {
         }
 
         return params;
-    }
-
-    private sendFullHeightLazyLoadData = () => {
-        const data = calculateVisibleElementData(
-            this.iFrame,
-            this.viewConfig.enableScrollableContainerLazyLoading,
-        );
-        // this should be fired only if the lazyLoadingForFullHeight and fullHeight are true
-        if(this.viewConfig.lazyLoadingForFullHeight && this.viewConfig.fullHeight){
-            this.trigger(HostEvent.VisibleEmbedCoordinates, data);
-        }
-    }
-
-    /**
-     * This is a handler for the RequestVisibleEmbedCoordinates event.
-     * It is used to send the visible coordinates data to the host application.
-     * @param data The event payload
-     * @param responder The responder function
-     */
-    private requestVisibleEmbedCoordinatesHandler = (data: MessagePayload, responder: any) => {
-        logger.info('Sending RequestVisibleEmbedCoordinates', data);
-        const visibleCoordinatesData = calculateVisibleElementData(
-            this.iFrame,
-            this.viewConfig.enableScrollableContainerLazyLoading,
-        );
-        responder({ type: EmbedEvent.RequestVisibleEmbedCoordinates, data: visibleCoordinatesData });
     }
 
     /**
@@ -1468,44 +1347,6 @@ export class AppEmbed extends V1Embed {
 
         return url;
     }
-
-    /**
-     * Set the iframe height as per the computed height received
-     * from the ThoughtSpot app.
-     * @param data The event payload
-     */
-    protected updateIFrameHeight = (data: MessagePayload) => {
-        this.setIFrameHeight(Math.max(data.data, this.defaultHeight));
-        this.sendFullHeightLazyLoadData();
-    };
-
-    private embedIframeCenter = (data: MessagePayload, responder: any) => {
-        const obj = this.getIframeCenter();
-        responder({ type: EmbedEvent.EmbedIframeCenter, data: obj });
-    };
-
-    private setIframeHeightForNonEmbedLiveboard = (data: MessagePayload) => {
-        const { height: frameHeight } = this.viewConfig.frameParams || {};
-
-        const liveboardRelatedRoutes = [
-            '/pinboard/',
-            '/insights/pinboard/',
-            '/schedules/',
-            '/embed/viz/',
-            '/embed/insights/viz/',
-            '/liveboard/',
-            '/insights/liveboard/',
-            '/tsl-editor/PINBOARD_ANSWER_BOOK/',
-            '/import-tsl/PINBOARD_ANSWER_BOOK/',
-        ];
-
-        if (liveboardRelatedRoutes.some((path) => data.data.currentPath.startsWith(path))) {
-            // Ignore the height reset of the frame, if the navigation is
-            // only within the liveboard page.
-            return;
-        }
-        this.setIFrameHeight(frameHeight || this.defaultHeight);
-    };
 
     /**
      * Gets the ThoughtSpot route of the page for a particular page ID.
@@ -1596,53 +1437,11 @@ export class AppEmbed extends V1Embed {
      */
     public destroy() {
         super.destroy();
-        this.unregisterLazyLoadEvents();
+        this.fullHeightController?.destroy();
     }
 
     private postRender() {
-        this.registerLazyLoadEvents();
-    }
-
-    private registerLazyLoadEvents() {
-        if (!this.iFrame) {
-            return;
-        }
-        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
-            this.unregisterLazyLoadEvents();
-            // TODO: Use passive: true, install modernizr to check for passive
-            window.addEventListener('resize', this.sendFullHeightLazyLoadData);
-            window.addEventListener('scroll', this.sendFullHeightLazyLoadData, true);
-            if (!this.viewConfig.enableScrollableContainerLazyLoading) {
-                return;
-            }
-            this.lazyLoadScrollContainers = getScrollableAncestors(this.iFrame);
-            this.lazyLoadScrollContainers.forEach((scrollContainer) => {
-                scrollContainer.addEventListener('scroll', this.sendFullHeightLazyLoadData);
-            });
-            if (typeof ResizeObserver !== 'undefined') {
-                const resizeTargets = new Set([
-                    this.iFrame.parentElement,
-                    ...getEffectiveClippingAncestors(this.iFrame),
-                ].filter(Boolean) as HTMLElement[]);
-                this.lazyLoadResizeObserver = new ResizeObserver(this.sendFullHeightLazyLoadData);
-                resizeTargets.forEach((resizeTarget) => {
-                    this.lazyLoadResizeObserver.observe(resizeTarget);
-                });
-            }
-        }
-    }
-
-    private unregisterLazyLoadEvents() {
-        if (this.viewConfig.fullHeight && this.viewConfig.lazyLoadingForFullHeight) {
-            window.removeEventListener('resize', this.sendFullHeightLazyLoadData);
-            window.removeEventListener('scroll', this.sendFullHeightLazyLoadData, true);
-            this.lazyLoadResizeObserver?.disconnect();
-            this.lazyLoadResizeObserver = undefined;
-            this.lazyLoadScrollContainers.forEach((scrollContainer) => {
-                scrollContainer.removeEventListener('scroll', this.sendFullHeightLazyLoadData);
-            });
-            this.lazyLoadScrollContainers = [];
-        }
+        this.fullHeightController?.onRender();
     }
 
     /**

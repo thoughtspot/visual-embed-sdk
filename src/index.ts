@@ -34,6 +34,13 @@ import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, BodylessConversationViewConfig} from './embed/bodyless-conversation';
 import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterAnalystConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, StarterPromptCategory, StarterPreviewDataCategory, StarterPromptQuestion, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import { SpotterVizConfig, SpotterVizStarterPrompt, SpotterVizLoaderTip } from './embed/spotter-viz-utils';
+import { SpotterExperienceVersion } from './embed/spotter-utils';
+import {
+    LiveboardOverride,
+    LiveboardDataSourceOverride,
+    LiveboardFilterQuery,
+    LiveboardParameterQuery,
+} from './embed/liveboard-override-utils';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
@@ -64,6 +71,7 @@ import {
     VizPoint,
     CustomActionPayload,
     ListPageColumns,
+    CustomAction,
     CustomActionsPosition,
     CustomActionTarget,
     InterceptedApiType,
@@ -83,7 +91,9 @@ import {
     VisualizationOverrides,
 } from './types';
 import { CustomCssVariables } from './css-variables';
-import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
+import {
+    AnswerService, SessionInterface, UnderlyingDataPoint, SortOptions,
+} from './utils/graphql/answerService/answerService';
 import { getEmbedConfig } from './embed/embedConfig';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 import { tokenizedFetch } from './tokenizedFetch';
@@ -95,10 +105,6 @@ import {
     UIPassthroughRequest,
     UIPassthroughResponse,
     UIPassthroughArrayResponse,
-    HostEventRequest,
-    HostEventResponse,
-    TriggerPayload,
-    TriggerResponse,
     LiveboardTab,
     LiveboardGroup,
     ApplicabilityLevel,
@@ -106,7 +112,61 @@ import {
     FilterUpdate,
     LiveboardFilter,
     LiveboardParameter,
-} from './embed/hostEventClient/contracts';
+    PinAnswerToLiveboardRequest,
+    PinAnswerToLiveboardResponse,
+    SaveAnswerRequest,
+    SaveAnswerResponse,
+    GetDiscoverabilityStatusResponse,
+    GetAvailableUIPassthroughsResponse,
+    GetAnswerConfigRequest,
+    GetUnsavedAnswerTMLRequest,
+    GetUnsavedAnswerTMLResponse,
+    GetAnswerSessionRequest,
+    GetAnswerSessionResponse,
+    GetFiltersRequest,
+    GetFiltersResponse,
+    GetIframeUrlResponse,
+    GetParametersResponse,
+    GetTMLRequest,
+    GetTabsResponse,
+    GetGroupsResponse,
+    GetExportRequestForCurrentPinboardResponse,
+    UpdateFiltersPassthroughRequest,
+    DrilldownRequest,
+} from './contracts/ui-passthrough-contracts';
+import {
+    HostEventRequest,
+    HostEventResponse,
+    TriggerPayload,
+    TriggerResponse,
+    TriggerData,
+    VizScopedRequest,
+    RequiredVizRequest,
+    ConversationScopedRequest,
+    OpenFilterRequest,
+    OpenFilterLiveboardRequest,
+    OpenFilterSpotterRequest,
+    OpenFilterSearchRequest,
+    DrillDownRequest,
+    OpenParameterRequest,
+    SearchRequest,
+    SpotterSearchRequest,
+    CrossFilterCondition,
+    UpdateCrossFilterRequest,
+    HostFilterUpdate,
+    UpdateFiltersRequest,
+    PersonalisedViewRequest,
+    ScheduleEmailRequest,
+    NavigateRequest,
+    SetActiveTabRequest,
+    UpdateThemeRequest,
+} from './contracts/host-event-contracts';
+import {
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
+} from './utils/filterConverter';
 
 export {
     init,
@@ -152,6 +212,7 @@ export {
     // types
     SessionInterface,
     UnderlyingDataPoint,
+    SortOptions,
     Page,
     AuthType,
     RuntimeFilter,
@@ -166,9 +227,14 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    LiveboardOverride,
+    LiveboardDataSourceOverride,
+    LiveboardFilterQuery,
+    LiveboardParameterQuery,
     SpotterVizConfig,
     SpotterVizStarterPrompt,
     SpotterVizLoaderTip,
+    SpotterExperienceVersion,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,
@@ -191,6 +257,7 @@ export {
     HomePage,
     ListPage,
     VizPoint,
+    CustomAction,
     CustomActionPayload,
     UIPassthroughEvent,
     // Host event payload / response contracts. These describe what to send with
@@ -205,12 +272,56 @@ export {
     HostEventResponse,
     TriggerPayload,
     TriggerResponse,
+    // Host event contract shapes, map and trigger() data type — see /contracts.
+    TriggerData,
+    VizScopedRequest,
+    RequiredVizRequest,
+    ConversationScopedRequest,
+    OpenFilterRequest,
+    OpenFilterLiveboardRequest,
+    OpenFilterSpotterRequest,
+    OpenFilterSearchRequest,
+    DrillDownRequest,
+    OpenParameterRequest,
+    SearchRequest,
+    SpotterSearchRequest,
+    CrossFilterCondition,
+    UpdateCrossFilterRequest,
+    HostFilterUpdate,
+    UpdateFiltersRequest,
+    PersonalisedViewRequest,
+    ScheduleEmailRequest,
+    NavigateRequest,
+    SetActiveTabRequest,
+    UpdateThemeRequest,
     LiveboardTab,
     LiveboardGroup,
     ApplicabilityLevel,
     Applicability,
     FilterUpdate,
     LiveboardFilter,
+    // UI passthrough request/response shapes (see UIPassthroughContractBase).
+    PinAnswerToLiveboardRequest,
+    PinAnswerToLiveboardResponse,
+    SaveAnswerRequest,
+    SaveAnswerResponse,
+    GetDiscoverabilityStatusResponse,
+    GetAvailableUIPassthroughsResponse,
+    GetAnswerConfigRequest,
+    GetUnsavedAnswerTMLRequest,
+    GetUnsavedAnswerTMLResponse,
+    GetAnswerSessionRequest,
+    GetAnswerSessionResponse,
+    GetFiltersRequest,
+    GetFiltersResponse,
+    GetIframeUrlResponse,
+    GetParametersResponse,
+    GetTMLRequest,
+    GetTabsResponse,
+    GetGroupsResponse,
+    GetExportRequestForCurrentPinboardResponse,
+    UpdateFiltersPassthroughRequest,
+    DrilldownRequest,
     LiveboardParameter,
     ListPageColumns,
     DataPanelCustomColumnGroupsAccordionState,
@@ -230,6 +341,10 @@ export {
     DataLabelFilterOperator,
     TableTheme,
     TableContentDensity,
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
 };
 
 export { resetCachedAuthToken } from './authToken';

@@ -24,6 +24,22 @@ export interface UnderlyingDataPoint {
     dataValue: any;
 }
 
+/**
+ * Describes how to sort a column when fetching data. Pass an array of these to
+ * sort by multiple columns, in priority order.
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.12.0.cl
+ */
+export interface SortOptions {
+    /**
+     * Name of the column to sort by. The column must exist in the data source.
+     */
+    columnName: string;
+    /**
+     * Sort direction. `true` sorts ascending, `false` sorts descending.
+     */
+    ascending: boolean;
+}
+
 export const DATA_TYPES = ['DATE', 'DATE_TIME', 'TIME'];
 
 /**
@@ -195,6 +211,30 @@ export class AnswerService {
         );
     }
 
+    /**
+     * Adapt the sort options into the `updateSort` payload and send it.
+     * @param sortOptions Columns to sort by, each with a direction.
+     * @param sourceDetail
+     */
+    private async adaptSorting(sortOptions: SortOptions[], sourceDetail: any) {
+        const { answer } = await this.executeQuery(queries.getAnswer, {});
+        const guidToColumnId = getGuidToColumnIdMap(answer);
+        const sortOrder = sortOptions.map((sort) => {
+            const guid = getGuidsFromColumnNames(sourceDetail, [sort.columnName])
+                .values().next().value;
+            return {
+                columnId: guidToColumnId.get(guid),
+                sortType: sort.ascending ? 'ASCENDING' : 'DESCENDING',
+            };
+        });
+        return this.executeQuery(
+            queries.updateSort,
+            {
+                sortOrder,
+            },
+        );
+    }
+
     public async updateDisplayMode(displayMode = "TABLE_MODE") {
         return this.executeQuery(
             queries.updateDisplayMode,
@@ -304,12 +344,15 @@ export class AnswerService {
      * automatically passed.
      * @param outputColumnNames
      * @param selectedPoints
+     * @param sortOptions Optional columns to sort the underlying data by.
      * @example
      * ```js
      *  embed.on(EmbedEvent.CustomAction, e => {
-     *     const underlying = await e.answerService.getUnderlyingDataForPoint([
-     *       'col name 1' // The column should exist in the data source.
-     *     ]);
+     *     const underlying = await e.answerService.getUnderlyingDataForPoint(
+     *       ['col name 1'], // The column should exist in the data source.
+     *       undefined,
+     *       [{ columnName: 'col name 1', ascending: true }],
+     *     );
      *     const data = await underlying.fetchData(0, 100);
      *  })
      * ```
@@ -318,6 +361,7 @@ export class AnswerService {
     public async getUnderlyingDataForPoint(
         outputColumnNames: string[],
         selectedPoints?: UnderlyingDataPoint[],
+        sortOptions?: SortOptions[],
     ): Promise<AnswerService> {
         if (!selectedPoints && !this.selectedPoints) {
             throw new Error('Needs to be triggered in context of a point');
@@ -359,6 +403,10 @@ export class AnswerService {
         const columnsToRemove = [...currentColumns].filter((col) => !ouputColumnGuids.has(col));
         if (columnsToRemove.length) {
             await unaggAnswerSession.removeColumns(columnsToRemove);
+        }
+
+        if (sortOptions?.length) {
+            await unaggAnswerSession.adaptSorting(sortOptions, sourceDetail);
         }
 
         return unaggAnswerSession;
@@ -435,6 +483,20 @@ export class AnswerService {
     public setTMLOverride(override: any) {
         this.tmlOverride = override;
     }
+}
+
+/**
+ * Build a map from a source column guid to the answer's viz column id, using
+ * the `referencedColumns` link on each viz column.
+ * @param answer
+ */
+function getGuidToColumnIdMap(answer: any): Map<string, string> {
+    const tableViz = answer.visualizations.find((viz: any) => viz.columns);
+    return new Map(
+        tableViz.columns.map(
+            (col: any) => [col.column.referencedColumns[0].guid, col.column.id],
+        ),
+    );
 }
 
 /**

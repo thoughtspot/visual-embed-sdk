@@ -34,7 +34,7 @@ const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V exte
             const { viewConfig, listeners } = getViewPropsAndListeners<Omit<U, 'className' | 'style'>, V>(
                 embedProps,
             );
-            const preRenderId = props.preRenderConfig?.preRenderId ?? props.preRenderId;
+            const preRenderId = props.preRenderConfig?.id ?? props.preRenderId;
 
             const handleDestroy = (tsEmbed: InstanceType<T>) => {
                 // do not destroy if it is a preRender component
@@ -116,9 +116,9 @@ interface SearchProps extends EmbedProps, SearchViewConfig { }
 
 /**
  * The PreRendered components require a preRender id. It can be supplied either
- * through `preRenderConfig.preRenderId` (SDK: 1.52.0 and later) or through the
+ * through `preRenderConfig.id` (SDK: 1.52.0 and later) or through the
  * top-level `preRenderId` prop (SDK: 1.25.0 and later, now deprecated).
- * `preRenderConfig.preRenderId` takes precedence when both are set.
+ * `preRenderConfig.id` takes precedence when both are set.
  *
  * Use PreRender to render the embed in the background and then
  * show or hide the rendered embed using showPreRender or hidePreRender respectively.
@@ -127,14 +127,14 @@ interface SearchProps extends EmbedProps, SearchViewConfig { }
  * // Preferred, SDK: 1.52.0 and later.
  * function LandingPageComponent() {
  *  return <PreRenderedLiveboardEmbed
- *      preRenderConfig={{ preRenderId: "someId" }}
+ *      preRenderConfig={{ id: "someId" }}
  *      liveboardId="libId"
  *  />
  * }
  *
  * function MyComponent() {
  *  return <LiveboardEmbed
- *      preRenderConfig={{ preRenderId: "someId" }}
+ *      preRenderConfig={{ id: "someId" }}
  *      liveboardId="libId"
  *  />
  * }
@@ -152,7 +152,7 @@ type PreRenderProps =
         /**
          * PreRender id to be used for PreRendering the embed.
          * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl
-         * @deprecated Use `preRenderConfig.preRenderId` instead.
+         * @deprecated Use `preRenderConfig.id` instead.
          */
         preRenderId: string;
         /**
@@ -166,16 +166,16 @@ type PreRenderProps =
         /**
          * PreRender id to be used for PreRendering the embed.
          * @version SDK: 1.25.0 | ThoughtSpot: 9.6.0.cl
-         * @deprecated Use `preRenderConfig.preRenderId` instead.
+         * @deprecated Use `preRenderConfig.id` instead.
          */
         preRenderId?: string;
         /**
-         * Configuration for the pre-render wrapper element. `preRenderId` is
+         * Configuration for the pre-render wrapper element. `id` is
          * required here when the top-level `preRenderId` prop is not passed.
          * See {@link PreRenderConfig} for available options.
          * @version SDK: 1.52.0
          */
-        preRenderConfig: PreRenderConfig & { preRenderId: string };
+        preRenderConfig: PreRenderConfig & { id: string };
     };
 
 /**

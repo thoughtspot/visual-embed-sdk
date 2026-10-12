@@ -1,4 +1,5 @@
 import { LiveboardViewConfig, LiveboardEmbed } from './liveboard';
+import { SpotterExperienceVersion } from './spotter-utils';
 import { init, UIPassthroughEvent } from '../index';
 import {
     Action,
@@ -157,6 +158,25 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should hide and disable the Cancel button in the Liveboard edit header', async () => {
+        expect(Action.Cancel).toBe('cancel');
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.Cancel],
+            disabledActions: [Action.Cancel],
+            disabledActionReason: 'Save your changes to leave edit mode',
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideAction: JSON.stringify([Action.ReportError, Action.Cancel]),
+                disableAction: JSON.stringify([Action.Cancel]),
+                disableHint: 'Save your changes to leave edit mode',
+            });
+        });
+    });
+
     test('should hide and disable the Spotter button on the Liveboard header', async () => {
         expect(Action.SpotterOnLiveboard).toBe('spotterOnLiveboard');
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -170,6 +190,37 @@ describe('Liveboard/viz embed tests', () => {
             expectUrlToHaveParamsWithValues(getIFrameSrc(), {
                 hideAction: JSON.stringify([Action.ReportError, Action.SpotterOnLiveboard]),
                 disableAction: JSON.stringify([Action.SpotterOnLiveboard]),
+            });
+        });
+    });
+
+    test('should set EditLiveboard and EditVisualization independently of each other and of Edit', async () => {
+        expect(Action.Edit).toBe('edit');
+        expect(Action.EditLiveboard).toBe('editLiveboard');
+        expect(Action.EditVisualization).toBe('editVisualization');
+
+        const liveboardEmbed1 = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.EditVisualization],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed1.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideAction: JSON.stringify([Action.ReportError, Action.EditVisualization]),
+            });
+        });
+
+        document.body.innerHTML = getDocumentBody();
+        const liveboardEmbed2 = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.EditLiveboard],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed2.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideAction: JSON.stringify([Action.ReportError, Action.EditLiveboard]),
             });
         });
     });
@@ -953,7 +1004,7 @@ describe('Liveboard/viz embed tests', () => {
         const spySetIFrameHeight = jest.spyOn(myObject, 'setIFrameHeight');
 
         myObject.render();
-        myObject.setIframeHeightForNonEmbedLiveboard({
+        myObject.fullHeightController.handleRouteChange({
             data: { currentPath: '/embed/viz/' },
             type: 'Route',
         });
@@ -971,7 +1022,7 @@ describe('Liveboard/viz embed tests', () => {
         const spySetIFrameHeight = jest.spyOn(myObject, 'setIFrameHeight');
 
         myObject.render();
-        myObject.setIframeHeightForNonEmbedLiveboard({
+        myObject.fullHeightController.handleRouteChange({
             data: { currentPath: '/embed/insights/viz/' },
             type: 'Route',
         });
@@ -991,7 +1042,7 @@ describe('Liveboard/viz embed tests', () => {
             .mockImplementation(jest.fn());
 
         myObject.render();
-        myObject.setIframeHeightForNonEmbedLiveboard({
+        myObject.fullHeightController.handleRouteChange({
             data: { currentPath: '/some/other/path/' },
             type: 'Route',
         });
@@ -1335,12 +1386,12 @@ describe('Liveboard/viz embed tests', () => {
         }, 1002);
     });
 
-    test('navigateToLiveboard should call preRender when preRenderConfig.preRenderId is set', () => {
+    test('navigateToLiveboard should call preRender when preRenderConfig.id is set', () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
             preRenderConfig: {
-                preRenderId: 'config-pre-render-id',
+                id: 'config-pre-render-id',
             },
         } as LiveboardViewConfig);
 
@@ -1353,13 +1404,13 @@ describe('Liveboard/viz embed tests', () => {
         expect(preRenderSpy).toHaveBeenCalledWith(true);
     });
 
-    test('navigateToLiveboard should prefer preRenderConfig.preRenderId over top-level preRenderId', () => {
+    test('navigateToLiveboard should prefer preRenderConfig.id over top-level preRenderId', () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
             liveboardId,
             preRenderId: 'top-level-id',
             preRenderConfig: {
-                preRenderId: 'config-level-id',
+                id: 'config-level-id',
             },
         } as LiveboardViewConfig);
 
@@ -1621,6 +1672,58 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    describe('liveboardOverride in APP_INIT embedParams', () => {
+        const liveboardOverride = {
+            dataSourceOverride: [{
+                dataSourceIdentifier: 'model-guid',
+                filterQuery: [{ tabName: 'Sales', groupName: 'Region', filterQueryToken: 'color = red' }],
+            }],
+        };
+
+        const getAppInitResponse = async (viewConfig: Partial<LiveboardViewConfig>) => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                liveboardId,
+                ...viewConfig,
+            } as LiveboardViewConfig);
+
+            mockMessageChannel();
+            await liveboardEmbed.render();
+
+            const mockPort: any = { postMessage: jest.fn() };
+            await executeAfterWait(() => {
+                postMessageToParent(getIFrameEl().contentWindow, { type: EmbedEvent.APP_INIT, data: {} }, mockPort);
+            });
+            let data: any;
+            await executeAfterWait(() => {
+                data = mockPort.postMessage.mock.calls[0][0].data;
+            });
+            return data;
+        };
+
+        test('should include liveboardOverride when provided', async () => {
+            const data = await getAppInitResponse({ liveboardOverride });
+            expect(data.embedParams.liveboardOverride).toEqual(liveboardOverride);
+        });
+
+        test('should not include liveboardOverride when not provided', async () => {
+            const data = await getAppInitResponse({});
+            expect(data.embedParams?.liveboardOverride).toBeUndefined();
+        });
+
+        test('should not include liveboardOverride when dataSourceOverride is empty', async () => {
+            const data = await getAppInitResponse({ liveboardOverride: { dataSourceOverride: [] } });
+            expect(data.embedParams?.liveboardOverride).toBeUndefined();
+        });
+
+        test('should send liveboardOverride alongside spotterVizConfig', async () => {
+            const spotterViz = { brandName: 'MyBrand' };
+            const data = await getAppInitResponse({ liveboardOverride, spotterViz });
+            expect(data.embedParams.liveboardOverride).toEqual(liveboardOverride);
+            expect(data.embedParams.spotterVizConfig).toEqual(spotterViz);
+        });
+    });
+
     test('should include starterPrompts in APP_INIT embedParams', async () => {
         const starterPrompts = {
             enable: true,
@@ -1869,8 +1972,11 @@ describe('Liveboard/viz embed tests', () => {
                 );
                 expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
 
+                // Navigate is held behind this show-cycle's
+                // UpdateEmbedParams, so wait out the settle
+                // window (SCAL-336321).
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
-            });
+            }, 300);
         });
 
         test('it should navigateToLiveboard with liveboard id is not passed with AuthInit event', async () => {
@@ -1932,7 +2038,10 @@ describe('Liveboard/viz embed tests', () => {
                 );
                 expect(iFrame.src).toMatch(/http:\/\/tshost\/.*&isLiveboardEmbed=true.*#$/);
                 expect(consoleSpy).toHaveBeenCalledTimes(0);
-            }, 1005);
+                // 1000ms AuthInit fallback + the 200ms settle
+                // window before Navigate goes out (SCAL-336321),
+                // so 1005 is no longer enough.
+            }, 1305);
         });
 
 
@@ -2059,12 +2168,6 @@ describe('Liveboard/viz embed tests', () => {
                 fullHeight: true,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBe(true);
-            expect(
-                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
-            ).toBe(true);
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBe('500px 0px');
-
             await liveboardEmbed.render();
 
             await executeAfterWait(() => {
@@ -2081,11 +2184,14 @@ describe('Liveboard/viz embed tests', () => {
                 liveboardId,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
-            expect(
-                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
-            ).toBeUndefined();
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).not.toContain('isFullHeightPinboard');
+                expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+            }, 100);
         });
 
         test('should not write the defaults back onto the caller view config', async () => {
@@ -2109,11 +2215,14 @@ describe('Liveboard/viz embed tests', () => {
                 fullHeight: false,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingForFullHeight).toBeUndefined();
-            expect(
-                (liveboardEmbed as any).viewConfig.enableScrollableContainerLazyLoading,
-            ).toBeUndefined();
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBeUndefined();
+            await liveboardEmbed.render();
+
+            await executeAfterWait(() => {
+                const iframeSrc = getIFrameSrc();
+                expect(iframeSrc).not.toContain('isFullHeightPinboard');
+                expect(iframeSrc).not.toContain('isLazyLoadingForEmbedEnabled');
+                expect(iframeSrc).not.toContain('rootMarginForLazyLoad');
+            }, 100);
         });
 
         test('should default lazyLoadingMargin when lazyLoadingForFullHeight is set explicitly', async () => {
@@ -2124,14 +2233,12 @@ describe('Liveboard/viz embed tests', () => {
                 lazyLoadingForFullHeight: true,
             } as LiveboardViewConfig);
 
-            expect((liveboardEmbed as any).viewConfig.lazyLoadingMargin).toBe(
-                DEFAULT_LAZY_LOADING_MARGIN,
-            );
-
             await liveboardEmbed.render();
 
             await executeAfterWait(() => {
-                expect(getIFrameSrc()).toContain('rootMarginForLazyLoad=500px%200px');
+                expect(getIFrameSrc()).toContain(
+                    `rootMarginForLazyLoad=${encodeURIComponent(DEFAULT_LAZY_LOADING_MARGIN)}`,
+                );
             }, 100);
         });
 
@@ -2370,7 +2477,7 @@ describe('Liveboard/viz embed tests', () => {
             await liveboardEmbed.render();
 
             // Trigger the lazy load data calculation
-            (liveboardEmbed as any).sendFullHeightLazyLoadData();
+            (liveboardEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 0,
@@ -2393,7 +2500,7 @@ describe('Liveboard/viz embed tests', () => {
             await liveboardEmbed.render();
 
             // Trigger the lazy load data calculation
-            (liveboardEmbed as any).sendFullHeightLazyLoadData();
+            (liveboardEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 0,
@@ -2426,7 +2533,7 @@ describe('Liveboard/viz embed tests', () => {
             await liveboardEmbed.render();
 
             // Trigger the lazy load data calculation
-            (liveboardEmbed as any).sendFullHeightLazyLoadData();
+            (liveboardEmbed as any).fullHeightController.sendVisibleCoordinates();
 
             expect(mockTrigger).toHaveBeenCalledWith(HostEvent.VisibleEmbedCoordinates, {
                 top: 50,
@@ -2538,7 +2645,7 @@ describe('Liveboard/viz embed tests', () => {
             const mockResponder = jest.fn();
 
             // Trigger the handler directly
-            (liveboardEmbed as any).requestVisibleEmbedCoordinatesHandler({}, mockResponder);
+            (liveboardEmbed as any).fullHeightController.handleRequestVisibleCoordinates({}, mockResponder);
 
             // Verify the responder was called with the correct data
             expect(mockResponder).toHaveBeenCalledWith({
@@ -2581,6 +2688,22 @@ describe('Liveboard/viz embed tests', () => {
             document.body.innerHTML = getDocumentBody();
         });
 
+        // beforePrerenderVisible() no longer navigates
+        // synchronously: Navigate is held until this show-cycle's
+        // UpdateEmbedParams has been posted and given
+        // UPDATE_EMBED_PARAMS_SETTLE_MS (200ms) to apply
+        // (SCAL-336321). These tests must wait that window out
+        // rather than read the spy inline.
+        const waitForPreRenderNavigate = () => new Promise((resolve) => {
+            setTimeout(resolve, 300);
+        });
+
+        // A home hop waits twice: params settle, then home settle. Generous
+        // margin over the two windows so a slow run does not flake.
+        const waitForHomeHopNavigate = () => new Promise((resolve) => {
+            setTimeout(resolve, 900);
+        });
+
         test('should call navigateToLiveboard after embed container is loaded in beforePrerenderVisible', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 liveboardId,
@@ -2603,6 +2726,7 @@ describe('Liveboard/viz embed tests', () => {
             // Simulate embed container becoming ready
             liveboardEmbed.isEmbedContainerLoaded = true;
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
 
             // Now navigateToLiveboard should be called
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
@@ -2613,7 +2737,7 @@ describe('Liveboard/viz embed tests', () => {
             );
         });
 
-        test('should update currentLiveboardState for prerender object when embed container loads', async () => {
+        test('should route via home when the pre-render is already on this route', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
                 liveboardId,
                 vizId,
@@ -2621,6 +2745,289 @@ describe('Liveboard/viz embed tests', () => {
                 ...defaultViewConfig,
             });
 
+            // Navigate to the route it is already on is a no-op, so the
+            // liveboard keeps its state. Home unmounts the container.
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue({
+                currentLiveboardState: {
+                    liveboardId,
+                    vizId,
+                    activeTabId,
+                    personalizedViewId: undefined,
+                },
+            } as any);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForHomeHopNavigate();
+
+            expect(triggerSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                liveboardId,
+                vizId,
+                activeTabId,
+                undefined,
+            );
+            // Home first, or we would clear what we just asked for.
+            expect(triggerSpy.mock.invocationCallOrder[0]).toBeLessThan(
+                navigateToLiveboardSpy.mock.invocationCallOrder[0],
+            );
+        });
+
+        test('should not wait for the container to acknowledge the home hop', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue({
+                currentLiveboardState: {
+                    liveboardId,
+                    vizId,
+                    activeTabId,
+                    personalizedViewId: undefined,
+                },
+            } as any);
+
+            // A real home hop never settles until the 30s trigger timeout.
+            // Awaiting it parked the liveboard on home for that long.
+            jest.spyOn(liveboardEmbed, 'trigger').mockImplementation(
+                (event: any, payload: any) => (event === HostEvent.Navigate && payload === 'home'
+                    ? new Promise<any>(() => { /* never settles */ })
+                    : Promise.resolve(undefined as any)),
+            );
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForHomeHopNavigate();
+
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                liveboardId,
+                vizId,
+                activeTabId,
+                undefined,
+            );
+        });
+
+        test('should not route via home when the embed is showing itself again', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            // A hide/show of one embed, not a hand-over: the state is this
+            // user's own, so clearing it would lose their session.
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(liveboardEmbed);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            expect(triggerSpy).not.toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+            expect(navigateToLiveboardSpy).toHaveBeenCalled();
+        });
+
+        test('should not route via home when a new instance shows an equal config', async () => {
+            const viewConfig = {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            };
+            const previous = new LiveboardEmbed(getRootEl(), { ...viewConfig, beforeRender: () => {} } as any);
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), { ...viewConfig, beforeRender: () => {} } as any);
+
+            // React constructs a new embed on every mount.
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(previous);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            expect(triggerSpy).not.toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+            expect(navigateToLiveboardSpy).toHaveBeenCalled();
+        });
+
+        test('should not route via home when the previous instance has been shown once', async () => {
+            // navigateToLiveboard assigns vizId/activeTabId/personalizedViewId
+            // unconditionally, so a shown instance carries them as undefined
+            // while a fresh one lacks the keys entirely. Comparing raw objects
+            // counts own keys, so it never matches again.
+            const viewConfig = { liveboardId, ...defaultViewConfig };
+            const previous = new LiveboardEmbed(getRootEl(), { ...viewConfig } as any);
+            (previous as any).viewConfig.vizId = undefined;
+            (previous as any).viewConfig.activeTabId = undefined;
+            (previous as any).viewConfig.personalizedViewId = undefined;
+
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), { ...viewConfig } as any);
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(previous);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            expect(triggerSpy).not.toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+        });
+
+        test('should route via home when a new instance shows the same route with other filters', async () => {
+            const viewConfig = {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            };
+            const previous = new LiveboardEmbed(getRootEl(), {
+                ...viewConfig,
+                runtimeFilters: [{ columnName: 'region', operator: RuntimeFilterOp.EQ, values: ['east'] }],
+            });
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                ...viewConfig,
+                runtimeFilters: [{ columnName: 'region', operator: RuntimeFilterOp.EQ, values: ['west'] }],
+            });
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue(previous);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForHomeHopNavigate();
+
+            expect(triggerSpy).toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+        });
+
+        test('should not route via home when the pre-render is on another liveboard', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue({
+                currentLiveboardState: {
+                    liveboardId: 'a-different-liveboard',
+                    vizId,
+                    activeTabId,
+                    personalizedViewId: undefined,
+                },
+            } as any);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            // A real route change unmounts the liveboard by itself.
+            expect(triggerSpy).not.toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+            expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
+                liveboardId,
+                vizId,
+                activeTabId,
+                undefined,
+            );
+        });
+
+        test('should not route via home for the same liveboard on a different tab', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            // Same liveboard, different tab — a real navigation.
+            jest.spyOn(liveboardEmbed as any, 'getPreRenderObj').mockReturnValue({
+                currentLiveboardState: {
+                    liveboardId,
+                    vizId,
+                    activeTabId: 'another-tab',
+                    personalizedViewId: undefined,
+                },
+            } as any);
+            const triggerSpy = jest
+                .spyOn(liveboardEmbed, 'trigger')
+                .mockImplementation(() => Promise.resolve(undefined as any));
+            const navigateToLiveboardSpy = jest
+                .spyOn(liveboardEmbed, 'navigateToLiveboard')
+                .mockImplementation(() => Promise.resolve(undefined));
+
+            liveboardEmbed.isEmbedContainerLoaded = false;
+            liveboardEmbed['beforePrerenderVisible']();
+            liveboardEmbed.isEmbedContainerLoaded = true;
+            liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
+
+            expect(triggerSpy).not.toHaveBeenCalledWith(HostEvent.Navigate, 'home');
+            expect(navigateToLiveboardSpy).toHaveBeenCalled();
+        });
+
+        test('should update currentLiveboardState on the embed showing when the container loads', async () => {
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId,
+                vizId,
+                activeTabId,
+                ...defaultViewConfig,
+            });
+
+            // The state is written on the embed that is being shown, which is
+            // also the one the pre-render wrapper ends up pointing at. Writing
+            // it on the predecessor left "current" naming a liveboard that
+            // stopped being current one hand-over ago.
             const mockPreRenderObj = {
                 currentLiveboardState: {},
             };
@@ -2637,13 +3044,16 @@ describe('Liveboard/viz embed tests', () => {
             // Simulate embed container becoming ready
             liveboardEmbed.isEmbedContainerLoaded = true;
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
 
-            // Check that currentLiveboardState was updated
-            expect(mockPreRenderObj.currentLiveboardState).toEqual({
+            expect(liveboardEmbed.currentLiveboardState).toEqual({
                 liveboardId,
                 vizId,
                 activeTabId,
+                personalizedViewId: undefined,
             });
+            // and NOT on the instance it took the pre-render over from
+            expect(mockPreRenderObj.currentLiveboardState).toEqual({});
         });
 
         test('should handle beforePrerenderVisible when embed container is already loaded', async () => {
@@ -2661,8 +3071,9 @@ describe('Liveboard/viz embed tests', () => {
 
             // Call beforePrerenderVisible
             liveboardEmbed['beforePrerenderVisible']();
+            await waitForPreRenderNavigate();
 
-            // navigateToLiveboard should be called immediately
+            // navigateToLiveboard should be called once the params have settled
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
                 liveboardId,
                 vizId,
@@ -2691,6 +3102,7 @@ describe('Liveboard/viz embed tests', () => {
             // Simulate embed container becoming ready
             liveboardEmbed.isEmbedContainerLoaded = true;
             liveboardEmbed['executeEmbedContainerReadyCallbacks']();
+            await waitForPreRenderNavigate();
 
             // navigateToLiveboard should still be called
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
@@ -2720,6 +3132,7 @@ describe('Liveboard/viz embed tests', () => {
 
             // Call beforePrerenderVisible
             liveboardEmbed['beforePrerenderVisible']();
+            await waitForPreRenderNavigate();
 
             // Check that all parameters are passed correctly
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
@@ -2743,6 +3156,7 @@ describe('Liveboard/viz embed tests', () => {
 
             // Call beforePrerenderVisible
             liveboardEmbed['beforePrerenderVisible']();
+            await waitForPreRenderNavigate();
 
             // Check that undefined parameters are passed correctly
             expect(navigateToLiveboardSpy).toHaveBeenCalledWith(
@@ -2764,7 +3178,7 @@ describe('Liveboard/viz embed tests', () => {
                 minimumHeight: 800,
             });
             await liveboardEmbed.render();
-            expect(liveboardEmbed['defaultHeight']).toBe(800);
+            expect(liveboardEmbed['fullHeightController'].minimumHeight).toBe(800);
         });
         test('should set default height to 700 when default height is provided', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -2774,7 +3188,7 @@ describe('Liveboard/viz embed tests', () => {
                 defaultHeight: 700,
             });
             await liveboardEmbed.render();
-            expect(liveboardEmbed['defaultHeight']).toBe(700);
+            expect(liveboardEmbed['fullHeightController'].minimumHeight).toBe(700);
         });
         test('should set default height to 800 when minimum height is provided but default height is not', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -2784,7 +3198,7 @@ describe('Liveboard/viz embed tests', () => {
                 minimumHeight: 800,
             });
             await liveboardEmbed.render();
-            expect(liveboardEmbed['defaultHeight']).toBe(800);
+            expect(liveboardEmbed['fullHeightController'].minimumHeight).toBe(800);
         });
         test('should set default height to 500 when neither default height nor minimum height is provided', async () => {
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
@@ -2793,7 +3207,7 @@ describe('Liveboard/viz embed tests', () => {
                 fullHeight: true,
             });
             await liveboardEmbed.render();
-            expect(liveboardEmbed['defaultHeight']).toBe(500);
+            expect(liveboardEmbed['fullHeightController'].minimumHeight).toBe(500);
         });
     });
 });
@@ -2835,8 +3249,8 @@ describe('LiveboardEmbed updatedSpotterExperience tests', () => {
 
     describe('trigger typing contracts (compile-time)', () => {
         // Enforced by ts-jest at compile time. LiveboardEmbed OVERRIDES
-        // TsEmbed.trigger, so its generic defaults must be asserted separately —
-        // a bare `PayloadT` on the override silently collapses no-payload
+        // TsEmbed.trigger, so its generic defaults must be asserted separately
+        // — a bare `PayloadT` on the override silently collapses no-payload
         // responses back to `any` for every LiveboardEmbed consumer.
         type IsAny<T> = 0 extends 1 & T ? true : false;
         type Extends<A, B> = A extends B ? true : false;
@@ -2854,7 +3268,8 @@ describe('LiveboardEmbed updatedSpotterExperience tests', () => {
                 { numberOfTabs: number; orderedTabIds: string[] }
             > = true;
             const probeUnknownField = (r: TabsResponse) =>
-                // @ts-expect-error — field not on the GetTabs contract (was silent when `any`)
+                // @ts-expect-error — field not on the GetTabs contract (was
+                // silent when `any`)
                 r.tabCount;
             void probeUnknownField;
 
@@ -2865,5 +3280,40 @@ describe('LiveboardEmbed updatedSpotterExperience tests', () => {
             expect([tabsIsTyped, tabsHasContractFields, reloadStaysAny])
                 .toEqual([false, true, true]);
         });
+    });
+});
+
+describe('LiveboardEmbed spotterExperienceVersion tests', () => {
+    beforeEach(() => {
+        document.body.innerHTML = getDocumentBody();
+    });
+
+    const renderWithConfig = async (config: Partial<LiveboardViewConfig>) => {
+        document.body.innerHTML = getDocumentBody();
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            ...config,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        let src = '';
+        await executeAfterWait(() => {
+            src = getIFrameSrc();
+        });
+        return src;
+    };
+
+    test('should add the spotterExperienceVersion param when spotterExperienceVersion is set', async () => {
+        const src = await renderWithConfig({
+            spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+        });
+        expect(src).toContain(
+            `spotterExperienceVersion=${SpotterExperienceVersion.SPOTTER_2026_11}`,
+        );
+    });
+
+    test('should not add the spotterExperienceVersion param when spotterExperienceVersion is not set', async () => {
+        const src = await renderWithConfig({});
+        expect(src).not.toContain('spotterExperienceVersion=');
     });
 });
