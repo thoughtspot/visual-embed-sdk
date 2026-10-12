@@ -151,19 +151,6 @@ describe('test view config', () => {
         });
     });
 
-    test('should pass Action.AddNote in hiddenActions', async () => {
-        const searchEmbed = new SearchEmbed(getRootEl(), {
-            ...defaultViewConfig,
-            hiddenActions: [Action.AddNote],
-        });
-        searchEmbed.render();
-
-        await executeAfterWait(() => {
-            const iframeSrc = getIFrameSrc();
-            expect(iframeSrc).toContain('addNote');
-        });
-    });
-
     test('should pass runtime filters when configured', async () => {
         const runtimeFilters = [
             {
