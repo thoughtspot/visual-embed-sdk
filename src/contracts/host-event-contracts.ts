@@ -381,6 +381,7 @@ export interface HostEventRequestMap {
     [HostEvent.AIHighlights]: void;
     [HostEvent.SendTestScheduleEmail]: ScheduleEmailRequest;
     [HostEvent.RefreshLiveboardBrowserCache]: ScheduleEmailRequest;
+    [HostEvent.OpenAddTabModal]: void;
 
     // ==================== SPOTTER ====================
     [HostEvent.SpotterSearch]: SpotterSearchRequest;

@@ -229,6 +229,30 @@ describe('HostEvent.OpenAddParameterModal', () => {
 });
 
 // ---------------------------------------------------------------------------
+// 10e – OpenAddTabModal
+// ---------------------------------------------------------------------------
+describe('HostEvent.OpenAddTabModal', () => {
+    test('postMessage type is openAddTabModal (camelCase, no payload)', async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard();
+        await executeAfterWait(() => {
+            lb.trigger(HostEvent.OpenAddTabModal);
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({ type: 'openAddTabModal' }),
+                thoughtSpotHost,
+                expect.anything(),
+            );
+        });
+    });
+
+    test('returns null when !isRendered', async () => {
+        const lb = unrenderedLiveboard();
+        const result = await lb.trigger(HostEvent.OpenAddTabModal);
+        expect(result).toBeNull();
+    });
+});
+
+// ---------------------------------------------------------------------------
 // 11 – AddColumns
 // ---------------------------------------------------------------------------
 describe('HostEvent.AddColumns', () => {
