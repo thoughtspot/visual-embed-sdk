@@ -4,38 +4,305 @@
  * Typed payload contracts for {@link EmbedEvent}s (ThoughtSpot app -> SDK).
  *
  * The SDK delivers embed events to `embed.on()` callbacks wrapped in the
- * {@link MessagePayload} envelope `{ type, data, status? }`. The map below
- * types the `data` field per event. Events absent from the map resolve to
- * `any` until their payload is audited against what the host actually sends
- * (codify observed behavior, not documented behavior).
+ * {@link MessagePayload} envelope `{ type, data, status? }`. {@link
+ * EmbedEventDataExtension} types the `data` field per event; events absent from
+ * it resolve to `any`. Shapes are composed from a few scope mixins so related
+ * events share one definition, and each is loose: known fields are typed, and
+ * the host may send more, so unknown keys stay `any` (a callback reading an
+ * un-typed field keeps compiling).
  *
+ * These mirror the host app's `embed-event-schema` (dispatch side). Codify what
+ * the host actually sends, not what the docs say, and keep the two in sync.
  * Same additive-only evolution rules as host-event-contracts.ts.
  * @module contracts
  */
-import type { CustomActionPayload, EmbedEvent, MessagePayload } from '../types';
+import type {
+    CustomActionPayload, EmbedEvent, MessagePayload, RuntimeFilter,
+} from '../types';
 // Type-only: AnswerService is an SDK-side enrichment (see
 // EmbedEventEnvelopeExtension). Type-only import keeps the contracts subpath
 // free of any runtime dependency on the answer-service implementation.
 import type { AnswerService } from '../utils/graphql/answerService/answerService';
 
+// ============================================================================
+// Scope mixins — the field clusters events share.
+// ============================================================================
+
 /**
- * Typed `data` field per embed event. Seed with audited events only.
+ * Base for every payload. Known fields are declared on the interfaces below;
+ * additional fields the host may send stay `any`, so a callback reading one
+ * keeps compiling.
+ */
+export interface EmbedEventPayloadBase {
+    [key: string]: any;
+}
+
+/** Present on events raised from a Spotter conversation. */
+export interface ConversationScope extends EmbedEventPayloadBase {
+    convId?: string;
+    messageId?: string;
+}
+
+/** Scoped to a single visualization (optionally within a conversation). */
+export interface VizScope extends ConversationScope {
+    vizId?: string;
+}
+
+/** Scoped to a Liveboard. */
+export interface LiveboardScope extends EmbedEventPayloadBase {
+    liveboardId?: string;
+}
+
+/** Scoped to an Answer. */
+export interface AnswerScope extends EmbedEventPayloadBase {
+    answerId?: string;
+    vizId?: string;
+}
+
+/** Actions available on a viz within a Liveboard. */
+export interface LiveboardVizScope extends LiveboardScope, VizScope {}
+
+/** An empty payload — the event carries no data. */
+export type EmptyPayload = Record<string, never>;
+
+// ============================================================================
+// Event payloads — one interface per distinct shape.
+// ============================================================================
+
+/** The answer data backing the embed, delivered with {@link EmbedEvent.Data}. */
+export interface DataEventPayload extends VizScope {
+    embedAnswerData?: any;
+}
+
+/** {@link EmbedEvent.Error}. `message` may be a single string or a list. */
+export interface EmbedErrorPayload extends EmbedEventPayloadBase {
+    errorType?: any;
+    message?: string | string[];
+    code?: any;
+    error?: { message?: string };
+    errors?: string[];
+}
+
+export interface FilterChangedPayload extends EmbedEventPayloadBase {
+    liveboardFilters?: any[];
+    runtimeFilters?: RuntimeFilter[];
+}
+
+export interface CrossFilterChangedPayload extends EmbedEventPayloadBase {
+    action?: string;
+    filterContentList?: any;
+    filterRemoved?: string[];
+    removableColumnsFilterContent?: any;
+}
+
+export interface ParameterChangedPayload extends ConversationScope {
+    parameters?: any[];
+}
+
+export interface QueryChangedPayload extends VizScope {
+    search?: string;
+}
+
+/**
+ * Data-source(s) chosen in the picker. The host sends an object; older hosts may
+ * send a bare list of worksheet ids, so {@link EmbedEvent.DataSourceSelected}
+ * resolves to `string[] | DataSourceSelectedPayload`.
+ */
+export interface DataSourceSelectedPayload extends EmbedEventPayloadBase {
+    worksheetId?: string;
+    worksheetName?: string;
+    worksheetIds?: string[];
+}
+
+/** Shared by {@link EmbedEvent.VizPointClick} and its siblings. */
+export interface VizInteractionPayload extends VizScope {
+    clickedPoint?: any;
+    selectedPoints?: any[];
+    embedAnswerData?: any;
+}
+
+export interface DrilldownPayload extends ConversationScope {
+    drillColumn?: any;
+    clickedPoint?: any;
+    selectedPoints?: any[];
+}
+
+export interface TableVizRenderedPayload extends VizScope {
+    id?: string;
+    data?: any;
+}
+
+export interface SaveEventPayload extends LiveboardVizScope {
+    answerId?: string;
+}
+
+export interface MakeACopyPayload extends LiveboardVizScope {
+    newLiveboardId?: string;
+}
+
+/** Downloads, either viz/answer scoped or Liveboard scoped. */
+export interface DownloadEventPayload extends VizScope {
+    answerId?: string;
+    liveboardId?: string;
+}
+
+/** TML export/edit/update — answer or Liveboard scoped. */
+export interface TmlEventPayload extends EmbedEventPayloadBase {
+    answerId?: string;
+    liveboardId?: string;
+    vizId?: string;
+}
+
+export interface AnswerChartSwitcherPayload extends ConversationScope {
+    answerId?: string;
+    /** The mode switched to (chart or table). */
+    chartType?: string;
+}
+
+export interface CopyToClipboardPayload extends ConversationScope {
+    answerId?: string;
+}
+
+export interface PinEventPayload extends VizScope {
+    liveboardId?: string;
+    containerId?: string;
+    answerId?: string;
+}
+
+export interface CopyLinkPayload extends LiveboardScope {
+    vizId?: string;
+    metricId?: any;
+}
+
+export interface FavoritePayload extends LiveboardScope {
+    isFavorite?: boolean;
+}
+
+export interface TestScheduleEmailPayload extends LiveboardScope {
+    sendToSelf?: boolean;
+}
+
+/** Note: the app sends `liveboardID` (capital ID) for this event. */
+export interface RenamePayload extends EmbedEventPayloadBase {
+    liveboardID?: string;
+    vizId?: string;
+    title?: string;
+    description?: string;
+}
+
+export interface PersonalisedViewPayload extends LiveboardScope {
+    viewName?: string;
+    viewId?: string;
+    isPublic?: boolean;
+}
+
+export interface ExitPresentModePayload extends EmbedEventPayloadBase {
+    type?: string;
+    data?: any;
+}
+
+/** {@link EmbedEvent.AuthInit}. */
+export interface AuthInitPayload extends EmbedEventPayloadBase {
+    /** Whether authentication was successful. */
+    isLoggedIn?: boolean;
+}
+
+// ============================================================================
+// The map — every typed embed event, grouped by domain.
+// ============================================================================
+
+/**
+ * Typed `data` field per embed event. Events not listed resolve to `any`.
  */
 export interface EmbedEventDataExtension {
-    [EmbedEvent.AuthInit]: {
-        /**
-         * Whether authentication was successful.
-         */
-        isLoggedIn?: boolean;
-        [key: string]: any;
-    };
+    // --- Lifecycle and auth ---
+    [EmbedEvent.AuthInit]: AuthInitPayload;
     [EmbedEvent.EmbedListenerReady]: Record<string, any>;
+    [EmbedEvent.Error]: EmbedErrorPayload | string;
+
+    // --- Custom actions ---
     /**
      * Fired when a callback-type custom action is triggered. Use
-     * `payload.data.id` to identify which action fired.
+     * `payload.data.id` to identify which action fired; see also
+     * {@link CustomActionEventPayload} for the `answerService` enrichment.
      */
     [EmbedEvent.CustomAction]: CustomActionPayload;
+
+    // --- Filters and parameters ---
+    [EmbedEvent.FilterChanged]: FilterChangedPayload;
+    [EmbedEvent.CrossFilterChanged]: CrossFilterChangedPayload;
+    [EmbedEvent.ParameterChanged]: ParameterChangedPayload;
+
+    // --- Visualization interactions ---
+    [EmbedEvent.VizPointClick]: VizInteractionPayload;
+    [EmbedEvent.VizPointDoubleClick]: VizInteractionPayload;
+    [EmbedEvent.VizPointRightClick]: VizInteractionPayload;
+    [EmbedEvent.Drilldown]: DrilldownPayload;
+    [EmbedEvent.TableVizRendered]: TableVizRenderedPayload;
+
+    // --- Data and query ---
+    [EmbedEvent.Data]: DataEventPayload;
+    [EmbedEvent.QueryChanged]: string | QueryChangedPayload;
+
+    // --- Answer and viz actions ---
+    [EmbedEvent.Save]: SaveEventPayload;
+    [EmbedEvent.Edit]: LiveboardVizScope;
+    [EmbedEvent.Present]: LiveboardVizScope;
+    [EmbedEvent.Explore]: LiveboardVizScope;
+    [EmbedEvent.MakeACopy]: MakeACopyPayload;
+    [EmbedEvent.AnswerDelete]: AnswerScope;
+    [EmbedEvent.AnswerChartSwitcher]: AnswerChartSwitcherPayload;
+    [EmbedEvent.CopyToClipboard]: CopyToClipboardPayload;
+    [EmbedEvent.SpotIQAnalyze]: AnswerScope;
+    [EmbedEvent.ShowUnderlyingData]: AnswerScope;
+    [EmbedEvent.AddToCoaching]: VizScope;
+    [EmbedEvent.Pin]: PinEventPayload;
+
+    // --- Downloads ---
+    [EmbedEvent.Download]: VizScope;
+    [EmbedEvent.DownloadAsPng]: DownloadEventPayload;
+    [EmbedEvent.DownloadAsCsv]: DownloadEventPayload;
+    [EmbedEvent.DownloadAsXlsx]: DownloadEventPayload;
+    [EmbedEvent.DownloadAsPdf]: DownloadEventPayload;
+    [EmbedEvent.DownloadLiveboardAsContinuousPDF]: LiveboardScope;
+
+    // --- TML ---
+    [EmbedEvent.ExportTML]: TmlEventPayload;
+    [EmbedEvent.EditTML]: TmlEventPayload;
+    [EmbedEvent.UpdateTML]: TmlEventPayload;
+
+    // --- Liveboard actions ---
+    [EmbedEvent.Cancel]: LiveboardScope;
+    [EmbedEvent.Delete]: LiveboardScope;
+    [EmbedEvent.Schedule]: LiveboardScope;
+    [EmbedEvent.SchedulesList]: LiveboardScope;
+    [EmbedEvent.SendTestScheduleEmail]: TestScheduleEmailPayload;
+    [EmbedEvent.LiveboardInfo]: LiveboardScope;
+    [EmbedEvent.AIHighlights]: LiveboardScope;
+    [EmbedEvent.Rename]: RenamePayload;
+    [EmbedEvent.AddToFavorites]: FavoritePayload;
+    [EmbedEvent.CopyLink]: CopyLinkPayload;
+    [EmbedEvent.ExitPresentMode]: ExitPresentModePayload;
+
+    // --- Personalised views ---
+    [EmbedEvent.SavePersonalisedView]: PersonalisedViewPayload;
+    [EmbedEvent.UpdatePersonalisedView]: PersonalisedViewPayload;
+
+    // --- Columns and sources ---
+    [EmbedEvent.AddRemoveColumns]: string[];
+    [EmbedEvent.DataSourceSelected]: string[] | DataSourceSelectedPayload;
+
+    // --- Dialogs and lifecycle ---
+    [EmbedEvent.DialogOpen]: EmptyPayload;
+    [EmbedEvent.DialogClose]: EmptyPayload;
+    [EmbedEvent.LiveboardRendered]: EmptyPayload;
+    [EmbedEvent.RequestVisibleEmbedCoordinates]: EmptyPayload;
+    [EmbedEvent.EmbedIframeCenter]: EmptyPayload;
 }
+
+// ============================================================================
+// Resolvers — what `on()` delivers and how to annotate a callback.
+// ============================================================================
 
 /**
  * Resolves the typed `data` payload for an embed event; `any` when the

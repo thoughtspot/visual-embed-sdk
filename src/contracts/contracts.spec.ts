@@ -15,6 +15,8 @@
  * stop — that breaks published SDK consumers and the host runtime validation
  * derived from these contracts.
  */
+import * as fs from 'fs';
+import * as path from 'path';
 import { HostEvent, EmbedEvent, RuntimeFilterOp } from '../types';
 import { UIPassthroughEvent } from './ui-passthrough-contracts';
 import type {
@@ -234,17 +236,121 @@ describe('event contracts (drift guardrails)', () => {
         );
     });
 
-    test('embed event enum wire values referenced by typed payloads are stable', () => {
+    test('typed embed event wire values are stable (additive-only)', () => {
         expect(
             [
+                EmbedEvent.AIHighlights,
+                EmbedEvent.AddRemoveColumns,
+                EmbedEvent.AddToCoaching,
+                EmbedEvent.AddToFavorites,
+                EmbedEvent.AnswerChartSwitcher,
+                EmbedEvent.AnswerDelete,
                 EmbedEvent.AuthInit,
-                EmbedEvent.EmbedListenerReady,
+                EmbedEvent.Cancel,
+                EmbedEvent.CopyLink,
+                EmbedEvent.CopyToClipboard,
+                EmbedEvent.CrossFilterChanged,
                 EmbedEvent.CustomAction,
+                EmbedEvent.Data,
+                EmbedEvent.DataSourceSelected,
+                EmbedEvent.Delete,
+                EmbedEvent.DialogClose,
+                EmbedEvent.DialogOpen,
+                EmbedEvent.Download,
+                EmbedEvent.DownloadAsCsv,
+                EmbedEvent.DownloadAsPdf,
+                EmbedEvent.DownloadAsPng,
+                EmbedEvent.DownloadAsXlsx,
+                EmbedEvent.DownloadLiveboardAsContinuousPDF,
+                EmbedEvent.Drilldown,
+                EmbedEvent.Edit,
+                EmbedEvent.EditTML,
+                EmbedEvent.EmbedIframeCenter,
+                EmbedEvent.EmbedListenerReady,
+                EmbedEvent.Error,
+                EmbedEvent.ExitPresentMode,
+                EmbedEvent.Explore,
+                EmbedEvent.ExportTML,
+                EmbedEvent.FilterChanged,
+                EmbedEvent.LiveboardInfo,
+                EmbedEvent.LiveboardRendered,
+                EmbedEvent.MakeACopy,
+                EmbedEvent.ParameterChanged,
+                EmbedEvent.Pin,
+                EmbedEvent.Present,
+                EmbedEvent.QueryChanged,
+                EmbedEvent.Rename,
+                EmbedEvent.RequestVisibleEmbedCoordinates,
+                EmbedEvent.Save,
+                EmbedEvent.SavePersonalisedView,
+                EmbedEvent.Schedule,
+                EmbedEvent.SchedulesList,
+                EmbedEvent.SendTestScheduleEmail,
+                EmbedEvent.ShowUnderlyingData,
+                EmbedEvent.SpotIQAnalyze,
+                EmbedEvent.TableVizRendered,
+                EmbedEvent.UpdatePersonalisedView,
+                EmbedEvent.UpdateTML,
+                EmbedEvent.VizPointClick,
+                EmbedEvent.VizPointDoubleClick,
+                EmbedEvent.VizPointRightClick,
             ].map((e) => `${e}`).sort(),
         ).toEqual([
+            'AIHighlights',
+            'EmbedIframeCenter',
             'EmbedListenerReady',
+            'Error',
+            'PinboardRendered',
+            'TableVizRendered',
+            'addRemoveColumns',
+            'addToCoaching',
+            'addToFavorites',
+            'answerChartSwitcher',
+            'answerDelete',
             'authInit',
+            'cancel',
+            'context-menu-item-copy-to-clipboard',
+            'cross-filter-changed',
             'customAction',
+            'data',
+            'dataSourceSelected',
+            'delete',
+            'dialog-close',
+            'dialog-open',
+            'download',
+            'downloadAsCsv',
+            'downloadAsPdf',
+            'downloadAsPng',
+            'downloadAsXlsx',
+            'downloadLiveboardAsContinuousPDF',
+            'drillDown',
+            'edit',
+            'editTSL',
+            'embedDocument',
+            'exitPresentMode',
+            'explore',
+            'exportTSL',
+            'filterChanged',
+            'makeACopy',
+            'parameterChanged',
+            'pin',
+            'pinboardInfo',
+            'present',
+            'queryChanged',
+            'rename',
+            'requestVisibleEmbedCoordinates',
+            'save',
+            'savePersonalisedView',
+            'schedule-list',
+            'sendTestScheduleEmail',
+            'showUnderlyingData',
+            'spotIQAnalyze',
+            'subscription',
+            'updatePersonalisedView',
+            'updateTSL',
+            'vizPointClick',
+            'vizPointDoubleClick',
+            'vizPointRightClick',
         ]);
     });
 
@@ -262,7 +368,7 @@ describe('event contracts (drift guardrails)', () => {
         const svc: AnswerServiceField = undefined;
         expect(svc).toBeUndefined();
         // Untyped embed event stays `any` (backward compatible).
-        const untyped: EmbedEventData<EmbedEvent.Data> = { anything: 'goes' };
+        const untyped: EmbedEventData<EmbedEvent.RouteChange> = { anything: 'goes' };
         expect(untyped).toBeDefined();
     });
 
@@ -392,5 +498,41 @@ describe('event contracts (drift guardrails)', () => {
 
         const all = [valid, empty, loose, topExtra, nestedExtra, zeroOverlap, bad];
         expect([...all, voidEmpty, unmapped].every(Boolean)).toBe(true);
+    });
+
+    // Doc <-> type drift guard. Event enum members document their payload with a
+    // `Payload: {@link XxxRequest}` / `{@link XxxPayload}` TypeDoc link. TypeScript
+    // does NOT validate {@link} targets, so documenting an event's payload without
+    // declaring the type ships a dangling doc link and an untyped event. This test
+    // fails in exactly that case: every payload link in types.ts must resolve to a
+    // real declared contract type.
+    test('event doc payload links resolve to a declared type (docs and types must agree)', () => {
+        const contractsDir = __dirname;
+        const sources = [
+            fs.readFileSync(path.join(contractsDir, '../types.ts'), 'utf8'),
+            ...fs
+                .readdirSync(contractsDir)
+                .filter((f) => f.endsWith('.ts') && !f.endsWith('.spec.ts'))
+                .map((f) => fs.readFileSync(path.join(contractsDir, f), 'utf8')),
+        ];
+
+        // Every type/interface/enum/class declared across types.ts + contracts.
+        const declared = new Set<string>();
+        const declRe = /(?:export\s+)?(?:declare\s+)?(?:abstract\s+)?(?:interface|type|enum|class)\s+(\w+)/g;
+        for (const src of sources) {
+            for (const m of src.matchAll(declRe)) declared.add(m[1]);
+        }
+
+        // Payload-shaped {@link} references in the event docs (types.ts).
+        const typesSrc = sources[0];
+        const linkRe = /\{@link\s+(\w+(?:Request|Payload))\b[^}]*\}/g;
+        const dangling = new Set<string>();
+        for (const m of typesSrc.matchAll(linkRe)) {
+            if (!declared.has(m[1])) dangling.add(m[1]);
+        }
+
+        // If this fails, a doc links a payload type that does not exist — add the
+        // type (and map it), or fix the link.
+        expect([...dangling]).toEqual([]);
     });
 });
