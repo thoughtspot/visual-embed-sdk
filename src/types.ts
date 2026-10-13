@@ -7307,6 +7307,21 @@ export type SpotterFileUploadFileTypes = {
 
 export enum Action {
     /**
+     * The **Add** button on a Liveboard in edit mode.
+     * Controls the visibility and disabled state of the Add panel button
+     * in the Liveboard edit toolbar, which allows users to add
+     * visualizations, filters, parameters, and tabs.
+     * @example
+     * ```js
+     * hiddenActions: [Action.LiveboardAddPanel]
+     * // or
+     * disabledActions: [Action.LiveboardAddPanel]
+     * ```
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     */
+    LiveboardAddPanel = 'liveboardAddPanel',
+    /**
+     *
      * The **Save** action on an Answer or Liveboard.
      * Allows users to save the changes.
      * @example

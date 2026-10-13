@@ -194,6 +194,51 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should hide the LiveboardAddPanel action', async () => {
+        expect(Action.LiveboardAddPanel).toBe('liveboardAddPanel');
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.LiveboardAddPanel],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideAction: JSON.stringify([Action.ReportError, Action.LiveboardAddPanel]),
+            });
+        });
+    });
+
+    test('should disable the LiveboardAddPanel action with a reason', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            disabledActions: [Action.LiveboardAddPanel],
+            disabledActionReason: 'Action denied',
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                disableAction: JSON.stringify([Action.LiveboardAddPanel]),
+                disableHint: 'Action denied',
+            });
+        });
+    });
+
+    test('should set LiveboardAddPanel in visible actions', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            visibleActions: [Action.LiveboardAddPanel],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                visibleAction: JSON.stringify([Action.LiveboardAddPanel]),
+            });
+        });
+    });
+
     test('should set EditLiveboard and EditVisualization independently of each other and of Edit', async () => {
         expect(Action.Edit).toBe('edit');
         expect(Action.EditLiveboard).toBe('editLiveboard');
