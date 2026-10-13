@@ -45,3 +45,9 @@ export const CUSTOM_ACTIONS_ERROR_MESSAGE = {
     INVALID_MENU_INDEX_POSITION: (id: string, position: string) => `Custom Action Validation Error for '${id}': 'menuIndex' is only valid for position: MENU, but got position '${position}'`,
     DUPLICATE_IDS: (id: string, duplicateNames: string[], keptName: string) => `Duplicate custom action ID '${id}' found. Actions with names '${duplicateNames.join("', '")}' will be ignored. Keeping '${keptName}'.`,
 };
+
+export const DISABLED_ACTION_REASON_WARNING = {
+    INVALID_TYPE: (type: string) => `disabledActionReason must be a string or an object keyed by Action. The ${type} value is ignored.`,
+    UNKNOWN_KEY: (key: string) => `disabledActionReason key '${key}' is not an Action or GENERIC_REASON and is ignored.`,
+    NON_STRING_REASON: (key: string) => `disabledActionReason value for '${key}' must be a string and is ignored.`,
+};
