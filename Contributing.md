@@ -84,7 +84,13 @@ To add or change one:
 2. Keep it **loose**: fields optional, and the base's `[key: string]: any` index
    signature lets a callback read fields the host also sends without breaking.
    Codify what the host actually sends, not what the docs say.
-3. Add the event's wire value to the stable list in `contracts.spec.ts` (same
+3. On the `EmbedEvent` enum member in `src/types.ts`, add a `Payload: {@link
+   XxxPayload}.` line (`Payload: none.` for empty events, `Payload: string[].`
+   for list payloads). Two tests in `contracts.spec.ts` keep docs and types
+   aligned: a `{@link}` to a type that doesn't exist fails, and documenting
+   `Payload: {@link X}` on an event that isn't in `EmbedEventDataExtension` fails
+   — so a documented payload is always backed by a real typed map entry.
+4. Add the event's wire value to the stable list in `contracts.spec.ts` (same
    additive-only rule as host events).
 
 #### Mirroring

@@ -525,7 +525,7 @@ describe('event contracts (drift guardrails)', () => {
 
         // Payload-shaped {@link} references in the event docs (types.ts).
         const typesSrc = sources[0];
-        const linkRe = /\{@link\s+(\w+(?:Request|Payload))\b[^}]*\}/g;
+        const linkRe = /\{@link\s+(\w+(?:Request|Payload|Scope))\b[^}]*\}/g;
         const dangling = new Set<string>();
         for (const m of typesSrc.matchAll(linkRe)) {
             if (!declared.has(m[1])) dangling.add(m[1]);
@@ -534,5 +534,42 @@ describe('event contracts (drift guardrails)', () => {
         // If this fails, a doc links a payload type that does not exist — add the
         // type (and map it), or fix the link.
         expect([...dangling]).toEqual([]);
+    });
+
+    // Doc drives the type: if an event's TypeDoc documents a payload with a
+    // `Payload: {@link X}` link, that event MUST be typed in EmbedEventDataExtension.
+    // Otherwise the published doc promises a payload type while `on()` still hands
+    // back `any`. Adding the doc link is the trigger; this fails until the event is
+    // added to the map.
+    test('every embed event with a Payload {@link} is typed in the map', () => {
+        const typesSrc = fs.readFileSync(
+            path.join(__dirname, '..', 'types.ts'), 'utf8',
+        );
+        const payloadsSrc = fs.readFileSync(
+            path.join(__dirname, 'embed-event-payloads.ts'), 'utf8',
+        );
+
+        // Events typed in the map.
+        const mapBody = payloadsSrc.match(
+            /EmbedEventDataExtension\s*\{([\s\S]*?)\n\}/,
+        )?.[1] ?? '';
+        const typedMembers = new Set(
+            [...mapBody.matchAll(/\[EmbedEvent\.(\w+)\]/g)].map((m) => m[1]),
+        );
+
+        // EmbedEvent members whose doc carries a `Payload: {@link ...}` link.
+        const enumBody = typesSrc.match(
+            /export enum EmbedEvent\s*\{([\s\S]*?)\n\}/,
+        )?.[1] ?? '';
+        const documentedWithLink: string[] = [];
+        for (const m of enumBody.matchAll(/\/\*\*([\s\S]*?)\*\/\s*(\w+)\s*=/g)) {
+            if (/Payload:\s*\{@link/.test(m[1])) documentedWithLink.push(m[2]);
+        }
+
+        // Documented a payload type but not mapped -> on() still returns `any`.
+        const documentedButUntyped = documentedWithLink.filter(
+            (name) => !typedMembers.has(name),
+        );
+        expect(documentedButUntyped).toEqual([]);
     });
 });

@@ -2680,6 +2680,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @returns isLoggedIn - A Boolean specifying whether authentication was successful.
+     * Payload: {@link AuthInitPayload}.
      */
     AuthInit = 'authInit',
     /**
@@ -2699,6 +2700,7 @@ export enum EmbedEvent {
     /**
      * Data pertaining to an Answer, Liveboard or Spotter visualization is received.
      * The event payload includes the raw data of the object.
+     * Payload: {@link DataEventPayload}.
      * @return data -  Answer of Liveboard data
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
@@ -2712,6 +2714,7 @@ export enum EmbedEvent {
     Data = 'data',
     /**
      * Search query has been updated by the user.
+     * Payload: {@link QueryChangedPayload} or a string.
      * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 8.4.1.sw
      * @example
      * ```js
@@ -2754,6 +2757,7 @@ export enum EmbedEvent {
      *     })
      * })
      * ```
+     * Payload: {@link DrilldownPayload}.
      */
     Drilldown = 'drillDown',
     /**
@@ -2766,6 +2770,7 @@ export enum EmbedEvent {
      *    console.log('DataSourceSelected', payload);
      * })
      * ```
+     * Payload: {@link DataSourceSelectedPayload} or string[].
      */
     DataSourceSelected = 'dataSourceSelected',
     /**
@@ -2778,6 +2783,7 @@ export enum EmbedEvent {
      *   console.log('AddRemoveColumns', payload);
      * })
      * ```
+     * Payload: string[].
      */
     AddRemoveColumns = 'addRemoveColumns',
     /**
@@ -2795,6 +2801,7 @@ export enum EmbedEvent {
      *     }
      * })
      * ```
+     * Payload: {@link CustomActionPayload} (on() enriches it to {@link CustomActionEventPayload}).
      */
     CustomAction = 'customAction',
     /**
@@ -2807,6 +2814,7 @@ export enum EmbedEvent {
      *      console.log('VizPointDoubleClick', payload);
      * })
      * ```
+     * Payload: {@link VizInteractionPayload}.
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
@@ -2826,6 +2834,7 @@ export enum EmbedEvent {
      *   )
      * });
      * ```
+     * Payload: {@link VizInteractionPayload}.
      */
     VizPointClick = 'vizPointClick',
     /**
@@ -2878,6 +2887,7 @@ export enum EmbedEvent {
      *   // { errorType: "API", message: '...', code: '...' }
      * });
      * ```
+     * Payload: {@link EmbedErrorPayload} or a string.
      */
     Error = 'Error',
     /**
@@ -2930,6 +2940,7 @@ export enum EmbedEvent {
      * The center of visible iframe viewport is calculated.
      * @returns data - The center of the visible Iframe viewport.
      * @hidden
+     * Payload: none.
      */
     EmbedIframeCenter = 'EmbedIframeCenter',
     /**
@@ -2986,6 +2997,7 @@ export enum EmbedEvent {
      *    console.log('dialog open', payload);
      *  })
      * ```
+     * Payload: none.
      */
     DialogOpen = 'dialog-open',
     /**
@@ -2997,6 +3009,7 @@ export enum EmbedEvent {
      *     console.log('dialog close', payload);
      * })
      * ```
+     * Payload: none.
      */
     DialogClose = 'dialog-close',
     /**
@@ -3019,6 +3032,7 @@ export enum EmbedEvent {
      * embed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
      * };
      * ```
+     * Payload: none.
      */
     LiveboardRendered = 'PinboardRendered',
     /**
@@ -3049,6 +3063,7 @@ export enum EmbedEvent {
      *    console.log('Save', payload)
      * })
      * ```
+     * Payload: {@link SaveEventPayload}.
      */
     Save = 'save',
     /**
@@ -3065,6 +3080,7 @@ export enum EmbedEvent {
      * vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * })
      * ```
+     * Payload: {@link VizScope}.
      */
     Download = 'download',
     /**
@@ -3084,6 +3100,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
      *   console.log('download PNG', payload)})
      * ```
+     * Payload: {@link DownloadEventPayload}.
      */
     DownloadAsPng = 'downloadAsPng',
     /**
@@ -3103,6 +3120,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {
      *   console.log('download PDF', payload)})
      * ```
+     * Payload: {@link DownloadEventPayload}.
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
@@ -3122,6 +3140,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.DownloadAsCsv, payload => {
      *    console.log('download CSV', payload)})
      * ```
+     * Payload: {@link DownloadEventPayload}.
      */
     DownloadAsCsv = 'downloadAsCsv',
     /**
@@ -3141,6 +3160,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
      *   console.log('download Xlsx', payload)})
      * ```
+     * Payload: {@link DownloadEventPayload}.
      */
     DownloadAsXlsx = 'downloadAsXlsx',
     /**
@@ -3152,6 +3172,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.DownloadLiveboardAsContinuousPDF, payload => {
      *   console.log('download liveboard as continuous PDF', payload)})
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     DownloadLiveboardAsContinuousPDF = 'downloadLiveboardAsContinuousPDF',
     /**
@@ -3168,6 +3189,7 @@ export enum EmbedEvent {
      * appEmbed.on(EmbedEvent.AnswerDelete, payload => {
      *    console.log('delete answer', payload)})
      * ```
+     * Payload: {@link AnswerScope}.
      */
     AnswerDelete = 'answerDelete',
     /**
@@ -3179,6 +3201,7 @@ export enum EmbedEvent {
      *   console.log('AI Highlights', payload);
      * })
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     AIHighlights = 'AIHighlights',
     /**
@@ -3200,6 +3223,7 @@ export enum EmbedEvent {
      *    console.log('pin', payload)
      * })
      * ```
+     * Payload: {@link PinEventPayload}.
      */
     Pin = 'pin',
     /**
@@ -3218,6 +3242,7 @@ export enum EmbedEvent {
      *   console.log('SpotIQ analyze', payload)
      * })
      * ```
+     * Payload: {@link AnswerScope}.
      */
     SpotIQAnalyze = 'spotIQAnalyze',
     /**
@@ -3271,6 +3296,7 @@ export enum EmbedEvent {
      *    console.log('copy to clipboard', payload);
      * })
      * ```
+     * Payload: {@link CopyToClipboardPayload}.
      */
     CopyToClipboard = 'context-menu-item-copy-to-clipboard',
     /**
@@ -3282,6 +3308,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.UpdateTML)
      * })
      * ```
+     * Payload: {@link TmlEventPayload}.
      */
     UpdateTML = 'updateTSL',
     /**
@@ -3294,6 +3321,7 @@ export enum EmbedEvent {
      *    console.log('Edit TML', payload);
      * })
      * ```
+     * Payload: {@link TmlEventPayload}.
      */
     EditTML = 'editTSL',
     /**
@@ -3311,6 +3339,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.ExportTML, payload => {
      *     console.log('Export TML', payload)})
      * ```
+     * Payload: {@link TmlEventPayload}.
      */
     ExportTML = 'exportTSL',
     /**
@@ -3349,6 +3378,7 @@ export enum EmbedEvent {
      *    console.log('show data', payload);
      * })
      * ```
+     * Payload: {@link AnswerScope}.
      */
     ShowUnderlyingData = 'showUnderlyingData',
     /**
@@ -3360,6 +3390,7 @@ export enum EmbedEvent {
      *    console.log('switch view', payload);
      * })
      * ```
+     * Payload: {@link AnswerChartSwitcherPayload}.
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
@@ -3381,6 +3412,7 @@ export enum EmbedEvent {
      *    console.log('Liveboard details', payload);
      * })
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     LiveboardInfo = 'pinboardInfo',
     /**
@@ -3392,6 +3424,7 @@ export enum EmbedEvent {
      *    console.log('favorites', payload);
      * })
      * ```
+     * Payload: {@link FavoritePayload}.
      */
     AddToFavorites = 'addToFavorites',
     /**
@@ -3403,6 +3436,7 @@ export enum EmbedEvent {
      *    console.log('Liveboard schedule', payload);
      * })
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     Schedule = 'subscription',
     /**
@@ -3417,6 +3451,7 @@ export enum EmbedEvent {
      *    console.log('Liveboard edit', payload);
      * })
      * ```
+     * Payload: {@link LiveboardVizScope}.
      */
     Edit = 'edit',
     /**
@@ -3458,6 +3493,7 @@ export enum EmbedEvent {
      *    console.log('Copy', payload);
      * })
      * ```
+     * Payload: {@link MakeACopyPayload}.
      */
     MakeACopy = 'makeACopy',
     /**
@@ -3473,6 +3509,7 @@ export enum EmbedEvent {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * })
      * ```
+     * Payload: {@link LiveboardVizScope}.
      */
     Present = 'present',
     /**
@@ -3483,6 +3520,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.Delete,
      *   {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     Delete = 'delete',
     /**
@@ -3492,6 +3530,7 @@ export enum EmbedEvent {
      * ```js
      * liveboardEmbed.on(EmbedEvent.SchedulesList)
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     SchedulesList = 'schedule-list',
     /**
@@ -3501,6 +3540,7 @@ export enum EmbedEvent {
      * ```js
      * liveboardEmbed.on(EmbedEvent.Cancel)
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     Cancel = 'cancel',
     /**
@@ -3511,6 +3551,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.Explore,  {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
+     * Payload: {@link LiveboardVizScope}.
      */
     Explore = 'explore',
     /**
@@ -3521,6 +3562,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.CopyLink, {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
+     * Payload: {@link CopyLinkPayload}.
      */
     CopyLink = 'embedDocument',
     /**
@@ -3532,6 +3574,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.CrossFilterChanged, {
      *    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
+     * Payload: {@link CrossFilterChangedPayload}.
      */
     CrossFilterChanged = 'cross-filter-changed',
     /**
@@ -3543,6 +3586,7 @@ export enum EmbedEvent {
      *    console.log('VizPointClick', payload)
      * })
      * ```
+     * Payload: {@link VizInteractionPayload}.
      */
     VizPointRightClick = 'vizPointRightClick',
     /**
@@ -3570,6 +3614,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw
+     * Payload: {@link FilterChangedPayload}.
      */
     FilterChanged = 'filterChanged',
     /**
@@ -3592,6 +3637,7 @@ export enum EmbedEvent {
      * @returns isPublic: boolean
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * Payload: {@link PersonalisedViewPayload}.
      */
     UpdatePersonalisedView = 'updatePersonalisedView',
     /**
@@ -3613,6 +3659,7 @@ export enum EmbedEvent {
      * @returns isPublic: boolean
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * Payload: {@link PersonalisedViewPayload}.
      */
     SavePersonalisedView = 'savePersonalisedView',
     /**
@@ -3687,6 +3734,7 @@ export enum EmbedEvent {
     /**
      * Emitted when a Liveboard or visualization is renamed.
      * @version SDK: 1.28.0 | ThoughtSpot: 9.10.5.cl, 10.1.0.sw
+     * Payload: {@link RenamePayload}.
      */
     Rename = 'rename',
     /**
@@ -3772,6 +3820,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @version SDK: 1.29.0 | ThoughtSpot: 10.3.0.cl
+     * Payload: {@link ParameterChangedPayload}.
      */
     ParameterChanged = 'parameterChanged',
     /**
@@ -3815,6 +3864,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
+     * Payload: {@link TableVizRenderedPayload}.
      */
     TableVizRendered = 'TableVizRendered',
     /**
@@ -3839,12 +3889,14 @@ export enum EmbedEvent {
      * @hidden
      * Emitted when a user exits present mode.
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * Payload: {@link ExitPresentModePayload}.
      */
     ExitPresentMode = 'exitPresentMode',
     /**
      * Emitted when a user requests the full height lazy load data.
      * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      * @hidden
+     * Payload: none.
      */
     RequestVisibleEmbedCoordinates = 'requestVisibleEmbedCoordinates',
     /**
@@ -3878,6 +3930,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * Payload: {@link VizScope}.
      */
     AddToCoaching = 'addToCoaching',
     /**
@@ -3967,6 +4020,7 @@ export enum EmbedEvent {
      *     console.log('EmbedListenerReady');
      * })
      * ```
+     * Payload: none.
      */
     EmbedListenerReady = 'EmbedListenerReady',
     /**
@@ -4346,6 +4400,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+     * Payload: {@link TestScheduleEmailPayload}.
      */
     SendTestScheduleEmail = 'sendTestScheduleEmail',
 
