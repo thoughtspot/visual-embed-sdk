@@ -4865,6 +4865,20 @@ export enum HostEvent {
      * ```
      */
     OpenAddParameterModal = 'openAddParameterModal',
+
+    /**
+     * Add a tab to the Liveboard, the same action as the *Tab* option in the
+     * *Add* dropdown in the Liveboard edit header.
+     *
+     * The Liveboard must be in edit mode; the event is ignored otherwise.
+     *
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.OpenAddTabModal);
+     * ```
+     */
+    OpenAddTabModal = 'openAddTabModal',
     /**
      * Open the parameter panel for a particular parameter on a Liveboard.
      * Mirrors {@link HostEvent.OpenFilter} for parameters.
