@@ -33,6 +33,8 @@ import {
     EmbedErrorCodes,
     EmbedErrorSeverity,
     ContextObject,
+    GENERIC_REASON,
+    DisabledActionReasonMap,
 } from '../types';
 import {
     executeAfterWait,
@@ -6063,6 +6065,41 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                             values: ['North'],
                         },
                     ],
+                }),
+                undefined,
+            );
+        });
+    });
+
+    test('should carry a disabledActionReason map in UpdateEmbedParams', async () => {
+        await setupPreRenderTest('params-disabled-reason', { liveboardId: 'original-lb' });
+        jest.spyOn(logger, 'warn').mockImplementation(() => {});
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'params-disabled-reason',
+            liveboardId: 'original-lb',
+            disabledActions: [Action.Download, Action.Save],
+            disabledActionReason: {
+                [Action.Download]: 'Downloads require a Pro license',
+                [GENERIC_REASON]: 'Not available for your account',
+                notAnAction: 'dropped',
+            } as DisabledActionReasonMap,
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({
+                    // Parsed back from JSON, with the unknown key already
+                    // dropped.
+                    [Param.DisableActionReason]: {
+                        [Action.Download]: 'Downloads require a Pro license',
+                        [GENERIC_REASON]: 'Not available for your account',
+                    },
                 }),
                 undefined,
             );

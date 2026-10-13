@@ -6,6 +6,7 @@ import {
     AuthType,
     ContextMenuTriggerOptions,
     EmbedEvent,
+    GENERIC_REASON,
     HostEvent,
     RuntimeFilterOp,
 } from '../types';
@@ -140,6 +141,41 @@ describe('Liveboard/viz embed tests', () => {
                 getIFrameSrc(),
                 `http://${thoughtSpotHost}/?embedApp=true&${defaultParamsWithoutHiddenActions}&disableAction=[%22${Action.DownloadAsCsv}%22,%22${Action.DownloadAsPdf}%22,%22${Action.DownloadAsXlsx}%22]&disableHint=Action%20denied&hideAction=[%22${Action.ReportError}%22]${prefixParams}#/embed/viz/${liveboardId}`,
             );
+        });
+    });
+
+    test('should send a per-action disabledActionReason map as JSON', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            disabledActions: [Action.Download, Action.Save, Action.Share],
+            disabledActionReason: {
+                [Action.Download]: 'Downloads require a Pro license',
+                [Action.Save]: 'You have read-only access',
+                [GENERIC_REASON]: 'Not available for your account',
+            },
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            const disableHint = new URL(getIFrameSrc()).searchParams.get('disableHint');
+            expect(JSON.parse(disableHint)).toEqual({
+                [Action.Download]: 'Downloads require a Pro license',
+                [Action.Save]: 'You have read-only access',
+                [GENERIC_REASON]: 'Not available for your account',
+            });
+        });
+    });
+
+    test('should not send disableHint for an empty disabledActionReason map', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            disabledActions: [Action.Download],
+            disabledActionReason: {},
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(new URL(getIFrameSrc()).searchParams.has('disableHint')).toBe(false);
         });
     });
 
