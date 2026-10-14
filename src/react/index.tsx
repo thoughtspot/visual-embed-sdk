@@ -18,6 +18,7 @@ import { EmbedProps, getViewPropsAndListeners } from './util';
 import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
 import { ERROR_MESSAGE } from '../errors';
+import { DebugAgent, DebugAgentProps } from './DebugAgent';
 
 const componentFactory = <T extends typeof TsEmbed, U extends EmbedProps, V extends AllEmbedViewConfig>(
     EmbedConstructor: T,
@@ -293,6 +294,26 @@ export const PreRenderedLiveboardEmbed = componentFactory<
 >(_LiveboardEmbed, true);
 
 export const PreRenderedPinboardEmbed = PreRenderedLiveboardEmbed;
+
+/**
+ * React component for a floating debug-agent chat panel. Renders only when
+ * `init()` was called with `enableDebugAgent: true` — safe to mount
+ * unconditionally alongside your embed components.
+ * @example
+ * ```tsx
+ * init({ thoughtSpotHost, authType, enableDebugAgent: true });
+ *
+ * function App() {
+ *   return (
+ *     <>
+ *       <LiveboardEmbed liveboardId="..." />
+ *       <DebugAgent />
+ *     </>
+ *   );
+ * }
+ * ```
+ */
+export { DebugAgent, DebugAgentProps };
 
 interface SearchBarEmbedProps extends EmbedProps, SearchBarViewConfig { }
 
