@@ -10,7 +10,12 @@ import { EndPoints } from './authService';
 function tokenizedFailureLoggedFetch(url: string, options: RequestInit = {}): Promise<Response> {
     return tokenizedFetch(url, options).then(async (r) => {
         if (!r.ok && r.type !== 'opaqueredirect' && r.type !== 'opaque') {
-            logger.error(`Failed to fetch ${url}`, await r.text?.());
+            // Clone before reading so the original Response body remains
+            // intact for the caller. Some endpoints (e.g. /prism/preauth/info
+            // on Okta-enabled clusters) return non-OK statuses with a valid
+            // JSON body that callers still need to parse.
+            const forLogging = typeof r.clone === 'function' ? r.clone() : r;
+            logger.error(`Failed to fetch ${url}`, await forLogging.text?.());
         }
         return r;
     });
