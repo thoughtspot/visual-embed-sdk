@@ -7165,6 +7165,7 @@ export enum Param {
      * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.9.0.cl
      */
     TsmcpAnswerIndex = 'tsmcpAnswerIndex',
+    IsMcpAnswerEmbed = 'isMcpAnswerEmbed',
     EmbedApp = 'embedApp',
     DataSources = 'dataSources',
     DataSourceMode = 'dataSourceMode',
