@@ -29,8 +29,6 @@ describe('PreRenderController', () => {
     const originalResizeObserver = (window as any).ResizeObserver;
 
     const createController = () => {
-        let wrapper: HTMLElement | undefined;
-        let child: HTMLElement | undefined;
         host = {
             getConfig: () => config,
             getHostElement: () => hostElement,
@@ -39,14 +37,6 @@ describe('PreRenderController', () => {
             getPlaceholder: () => placeholder,
             getOwner: () => owner,
             syncStyle: jest.fn(),
-            getWrapper: () => wrapper,
-            setWrapper: (next) => {
-                wrapper = next;
-            },
-            getChild: () => child,
-            setChild: (next) => {
-                child = next;
-            },
         };
         return new PreRenderController(host);
     };

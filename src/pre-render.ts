@@ -46,14 +46,6 @@ export interface PreRenderEmbedHost {
     getPlaceholder: () => HTMLElement | undefined;
     getOwner: () => PreRenderController | undefined;
     syncStyle: () => void;
-    /**
-     * The wrapper and child stay as fields on the embed, where subclasses
-     * have always read and written them; the controller only borrows them.
-     */
-    getWrapper: () => HTMLElement | undefined;
-    setWrapper: (wrapper: HTMLElement) => void;
-    getChild: () => HTMLElement | undefined;
-    setChild: (child: HTMLElement) => void;
 }
 
 export class PreRenderController {
@@ -65,6 +57,10 @@ export class PreRenderController {
 
     private resizeObserver: ResizeObserver | undefined;
 
+    private wrapperEl: HTMLElement | undefined;
+
+    private childEl: HTMLElement | undefined;
+
     constructor(private readonly host: PreRenderEmbedHost) {}
 
     public get container(): HTMLElement {
@@ -72,19 +68,19 @@ export class PreRenderController {
     }
 
     public get wrapper(): HTMLElement | undefined {
-        return this.host.getWrapper();
+        return this.wrapperEl;
     }
 
     public set wrapper(wrapper: HTMLElement) {
-        this.host.setWrapper(wrapper);
+        this.wrapperEl = wrapper;
     }
 
     public get child(): HTMLElement | undefined {
-        return this.host.getChild();
+        return this.childEl;
     }
 
     public set child(child: HTMLElement) {
-        this.host.setChild(child);
+        this.childEl = child;
     }
 
     public getIds(): PreRenderIds {
