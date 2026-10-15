@@ -7,8 +7,14 @@ const VALID_REASON_KEYS: ReadonlySet<string> = new Set<string>([
     GENERIC_REASON,
 ]);
 
+// Built-in type of a value, lower-cased: 'object', 'array', 'map', 'date', ...
+const getTypeName = (value: unknown): string => (
+    Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
+);
+
+// Only `{ ... }` objects; arrays, Maps, Dates and other built-ins are not.
 const isPlainObject = (value: unknown): value is Record<string, unknown> => (
-    typeof value === 'object' && value !== null && !Array.isArray(value)
+    getTypeName(value) === 'object'
 );
 
 /**
@@ -33,8 +39,7 @@ export const getDisabledActionReasonParam = (
         return reason;
     }
     if (!isPlainObject(reason)) {
-        const type = Array.isArray(reason) ? 'array' : typeof reason;
-        logger.warn(DISABLED_ACTION_REASON_WARNING.INVALID_TYPE(type));
+        logger.warn(DISABLED_ACTION_REASON_WARNING.INVALID_TYPE(getTypeName(reason)));
         return undefined;
     }
 
