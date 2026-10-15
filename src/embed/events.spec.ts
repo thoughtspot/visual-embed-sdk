@@ -1153,18 +1153,41 @@ describe('EmbedEvent payload and routing', () => {
                 { tabId: 'tab-2', tabName: 'Details' },
             ],
             tabs: [
-                { id: 'tab-1', name: 'Overview', vizCount: 2, filters: [] as string[] },
-                { id: 'tab-2', name: 'Details', vizCount: 3, filters: [] as string[] },
+                {
+                    id: 'tab-1',
+                    name: 'Overview',
+                    vizCount: 2,
+                    filters: [{
+                        columnName: 'revenue',
+                        dataType: 'DOUBLE',
+                        columnType: 'MEASURE',
+                        isEditable: true,
+                        isMandatory: false,
+                        dataSource: 'Sales',
+                        filterContent: [{ filterType: 'IN', isNegated: false, values: ['100'] }],
+                    }],
+                },
+                {
+                    id: 'tab-2',
+                    name: 'Details',
+                    vizCount: 3,
+                    filters: [] as Array<Record<string, unknown>>,
+                },
             ],
             liveboardFilters: [
                 {
                     columnName: 'city',
                     dataType: 'CHAR',
-                    filterType: 'IN',
-                    values: ['Atlanta', 'Boise'],
+                    columnType: 'ATTRIBUTE',
+                    isEditable: true,
+                    isMandatory: false,
+                    dataSource: 'Retail',
+                    filterContent: [
+                        { filterType: 'IN', isNegated: false, values: ['Atlanta', 'Boise'] },
+                    ],
                 },
             ],
-            parameters: [{ name: 'num', defaultValue: '0', dataType: 'INT64' }],
+            parameters: [{ id: 'p-1', name: 'num', defaultValue: '0', dataType: 'INT64' }],
         };
 
         await executeAfterWait(() => {
@@ -1182,8 +1205,10 @@ describe('EmbedEvent payload and routing', () => {
             expect(received.name).toBe(headerPayload.name);
             expect(received.orderedTabs).toEqual(headerPayload.orderedTabs);
             expect(received.tabs).toHaveLength(2);
+            expect(received.tabs[0].filters[0].columnName).toBe('revenue');
+            expect(received.tabs[0].filters[0].filterContent[0].values).toEqual(['100']);
             expect(received.liveboardFilters[0].columnName).toBe('city');
-            expect(received.liveboardFilters[0].values).toEqual(['Atlanta', 'Boise']);
+            expect(received.liveboardFilters[0].filterContent[0].values).toEqual(['Atlanta', 'Boise']);
             expect(received.parameters).toEqual(headerPayload.parameters);
         }, EVENT_WAIT_TIME);
     });
