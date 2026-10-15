@@ -1061,6 +1061,16 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     /**
      * The tooltip to display for disabled actions.
      *
+     * Pass a string to show the same reason on every action in
+     * {@link disabledActions}.
+     *
+     * Pass a {@link DisabledActionReasonMap} to give each action its own reason.
+     * An action without an entry shows the {@link GENERIC_REASON} value if one
+     * is set, and no tooltip otherwise. Keys that are not an {@link Action} or
+     * {@link GENERIC_REASON} are ignored with a console warning.
+     * The object form requires SDK 1.53.1 and ThoughtSpot Cloud 26.12.0.cl or
+     * later.
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
@@ -1072,8 +1082,23 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *    disabledActionReason: "Reason for disabling",
      * });
      * ```
+     * @example
+     * ```js
+     * import { Action, GENERIC_REASON } from '@thoughtspot/visual-embed-sdk';
+     *
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    disabledActions: [Action.Download, Action.Save, Action.Share],
+     *    disabledActionReason: {
+     *        [Action.Download]: 'Downloads require a Pro license',
+     *        [Action.Save]: 'You have read-only access to this Liveboard',
+     *        // Optional. Shown on Action.Share, which has no entry of its own.
+     *        [GENERIC_REASON]: 'This action is not available for your account',
+     *    },
+     * });
+     * ```
      */
-    disabledActionReason?: string;
+    disabledActionReason?: string | DisabledActionReasonMap;
     /**
      * The list of actions to completely remove from the embedded view.
      * Hidden actions are not visible to the user at all (fully removed from the UI).
@@ -9819,6 +9844,33 @@ export enum Action {
      */
     SpotterViewExplanation = 'spotterViewExplanation',
 }
+
+/**
+ * Key for the optional catch-all reason in a {@link DisabledActionReasonMap}.
+ * A disabled action that has no entry of its own shows this reason.
+ * @version SDK: 1.53.1 | ThoughtSpot Cloud: 26.12.0.cl
+ * @example
+ * ```js
+ * const embed = new LiveboardEmbed('#tsEmbed', {
+ *    ... // other embed view config
+ *    disabledActions: [Action.Download, Action.Share],
+ *    disabledActionReason: {
+ *        [Action.Download]: 'Downloads require a Pro license',
+ *        [GENERIC_REASON]: 'This action is not available for your account',
+ *    },
+ * });
+ * ```
+ */
+export const GENERIC_REASON = 'GENERIC_REASON' as const;
+
+/**
+ * Tooltip text for disabled actions, keyed by {@link Action}, with an optional
+ * {@link GENERIC_REASON} fallback. Every key is optional. A disabled action with
+ * no entry and no {@link GENERIC_REASON} shows no tooltip.
+ * @version SDK: 1.53.1 | ThoughtSpot Cloud: 26.12.0.cl
+ */
+export type DisabledActionReasonMap = Partial<Record<Action | typeof GENERIC_REASON, string>>;
+
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
 }
