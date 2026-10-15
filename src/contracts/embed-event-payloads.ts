@@ -201,6 +201,67 @@ export interface ExitPresentModePayload extends EmbedEventPayloadBase {
     data?: any;
 }
 
+/** Tab metadata within a Liveboard header. */
+export interface LiveboardTabInfo {
+    id?: string;
+    name?: string;
+    vizCount?: number;
+    filters?: LiveboardFilterInfo[];
+}
+
+/** Ordered tab reference within a Liveboard header. */
+export interface LiveboardOrderedTab {
+    tabId?: string;
+    tabName?: string;
+}
+
+/** Individual filter condition within a Liveboard filter. */
+export interface LiveboardFilterContent {
+    filterType?: string;
+    isNegated?: boolean;
+    values?: string[];
+}
+
+/** Filter applied to a Liveboard or tab. */
+export interface LiveboardFilterInfo {
+    columnName?: string;
+    dataType?: string;
+    columnType?: string;
+    isEditable?: boolean;
+    isMandatory?: boolean;
+    dataSource?: string;
+    filterContent?: LiveboardFilterContent[];
+}
+
+/** Parameter defined on a Liveboard. */
+export interface LiveboardParameterInfo {
+    id?: string;
+    name?: string;
+    description?: string;
+    dataType?: string;
+    defaultValue?: string;
+    overrideValue?: string;
+    valueType?: string;
+}
+
+/** {@link EmbedEvent.LiveboardHeaderLoaded}. */
+export interface LiveboardHeaderLoadedPayload extends LiveboardScope {
+    name?: string;
+    description?: string;
+    author?: { id?: string; displayName?: string };
+    dateCreated?: number;
+    dateModified?: number;
+    modifiedBy?: string;
+    isFavorite?: boolean;
+    isDiscoverable?: boolean;
+    permission?: string;
+    dataSourceAccessLevel?: string;
+    orderedTabs?: LiveboardOrderedTab[];
+    tabs?: LiveboardTabInfo[];
+    liveboardFilters?: LiveboardFilterInfo[];
+    parameters?: LiveboardParameterInfo[];
+}
+
 /** {@link EmbedEvent.AuthInit}. */
 export interface AuthInitPayload extends EmbedEventPayloadBase {
     /** Whether authentication was successful. */
@@ -295,6 +356,7 @@ export interface EmbedEventDataExtension {
     // --- Dialogs and lifecycle ---
     [EmbedEvent.DialogOpen]: EmptyPayload;
     [EmbedEvent.DialogClose]: EmptyPayload;
+    [EmbedEvent.LiveboardHeaderLoaded]: LiveboardHeaderLoadedPayload;
     [EmbedEvent.LiveboardRendered]: EmptyPayload;
     [EmbedEvent.RequestVisibleEmbedCoordinates]: EmptyPayload;
     [EmbedEvent.EmbedIframeCenter]: EmptyPayload;

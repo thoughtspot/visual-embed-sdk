@@ -3036,6 +3036,24 @@ export enum EmbedEvent {
      */
     LiveboardRendered = 'PinboardRendered',
     /**
+     * Emitted when the header of a Liveboard has loaded.
+     * The Liveboard header loads before the visualizations,
+     * so you can use this event to show early content or
+     * trigger actions without waiting for the full
+     * Liveboard to render.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.LiveboardHeaderLoaded,
+     *     payload => {
+     *         console.log('Liveboard header is loaded',
+     *             payload);
+     *     })
+     * ```
+     * Payload: {@link LiveboardHeaderLoadedPayload}.
+     */
+    LiveboardHeaderLoaded = 'LiveboardHeaderLoaded',
+    /**
      * Emits all events.
      * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      * @example
