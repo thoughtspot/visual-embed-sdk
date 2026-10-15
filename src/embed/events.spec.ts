@@ -580,6 +580,7 @@ describe('EmbedEvent basic routing', () => {
         ['SpotterVizError', EmbedEvent.SpotterVizError],
         ['SpotterVizClosed', EmbedEvent.SpotterVizClosed],
         ['LiveboardHeaderLoaded', EmbedEvent.LiveboardHeaderLoaded],
+        ['LiveboardTopUsersLoaded', EmbedEvent.LiveboardTopUsersLoaded],
         ['RefreshLiveboardBrowserCache', EmbedEvent.RefreshLiveboardBrowserCache],
         ['V1Data', EmbedEvent.V1Data],
         ['SpotterShareConversationButtonHeaderClicked', EmbedEvent.SpotterShareConversationButtonHeaderClicked],
@@ -1210,6 +1211,41 @@ describe('EmbedEvent payload and routing', () => {
             expect(received.liveboardFilters[0].columnName).toBe('city');
             expect(received.liveboardFilters[0].filterContent[0].values).toEqual(['Atlanta', 'Boise']);
             expect(received.parameters).toEqual(headerPayload.parameters);
+        }, EVENT_WAIT_TIME);
+    });
+
+    test('LiveboardTopUsersLoaded payload preserves liveboardId and topUsers', async () => {
+        const handler = jest.fn();
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        } as LiveboardViewConfig);
+        liveboardEmbed.on(EmbedEvent.LiveboardTopUsersLoaded, handler).render();
+
+        const topUsersPayload = {
+            liveboardId: '73789007-3f47-4cb2-bc14-ec9f44eaf542',
+            topUsers: [
+                { id: 'user-1', displayName: 'Alice' },
+                { id: 'user-2', displayName: 'Bob' },
+            ],
+        };
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.LiveboardTopUsersLoaded,
+                data: topUsersPayload,
+            });
+        });
+
+        await executeAfterWait(() => {
+            expect(handler).toHaveBeenCalled();
+            const received = handler.mock.calls[0][0].data;
+            expect(received.liveboardId).toBe(topUsersPayload.liveboardId);
+            expect(received.topUsers).toHaveLength(2);
+            expect(received.topUsers[0].id).toBe('user-1');
+            expect(received.topUsers[0].displayName).toBe('Alice');
+            expect(received.topUsers[1].displayName).toBe('Bob');
         }, EVENT_WAIT_TIME);
     });
 
