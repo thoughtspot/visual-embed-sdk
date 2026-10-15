@@ -9664,6 +9664,42 @@ export enum Action {
      */
     CustomizeHomepage = 'customizeHomepage',
     /**
+     * Controls the visibility and disabled state of the rename button next to the Liveboard title in the Liveboard header.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.RenameLiveboard],
+     *     disabledActions: [Action.RenameLiveboard],
+     * }
+     * ```
+     */
+    RenameLiveboard = 'renameLiveboard',
+    /**
+     * Controls the visibility and disabled state of the filter toggle button in the Liveboard header that opens and closes the filter panel.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.FilterPanelToggle],
+     *     disabledActions: [Action.FilterPanelToggle],
+     * }
+     * ```
+     */
+    FilterPanelToggle = 'filterPanelToggle',
+    /**
+     * Controls the visibility and disabled state of the "Add scenario" action on an Answer.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.AddScenario],
+     *     disabledActions: [Action.AddScenario],
+     * }
+     * ```
+     */
+    AddScenario = 'addScenario',
+    /**
      * Controls the visibility and disabled state of the *Cancel* button in the
      * Liveboard edit header, the button that discards the changes made in edit
      * mode and returns the Liveboard to view mode. The button is shown only
