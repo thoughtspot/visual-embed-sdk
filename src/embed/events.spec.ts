@@ -579,6 +579,7 @@ describe('EmbedEvent basic routing', () => {
         ['SpotterVizCheckpointRestored', EmbedEvent.SpotterVizCheckpointRestored],
         ['SpotterVizError', EmbedEvent.SpotterVizError],
         ['SpotterVizClosed', EmbedEvent.SpotterVizClosed],
+        ['LiveboardHeaderLoaded', EmbedEvent.LiveboardHeaderLoaded],
         ['RefreshLiveboardBrowserCache', EmbedEvent.RefreshLiveboardBrowserCache],
         ['V1Data', EmbedEvent.V1Data],
         ['SpotterShareConversationButtonHeaderClicked', EmbedEvent.SpotterShareConversationButtonHeaderClicked],
@@ -1129,6 +1130,61 @@ describe('EmbedEvent payload and routing', () => {
         await executeAfterWait(() => {
             const types = allHandler.mock.calls.map((c) => c[0].type);
             expect(types).toContain(EmbedEvent.SpotterVizClosed);
+        }, EVENT_WAIT_TIME);
+    });
+
+    test('LiveboardHeaderLoaded payload preserves liveboardId, name, tabs, and filters', async () => {
+        const handler = jest.fn();
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        } as LiveboardViewConfig);
+        liveboardEmbed.on(EmbedEvent.LiveboardHeaderLoaded, handler).render();
+
+        const headerPayload = {
+            liveboardId: '73789007-3f47-4cb2-bc14-ec9f44eaf542',
+            name: 'Sales Performance',
+            description: '',
+            author: { id: 'author-1', displayName: 'Administrator' },
+            isFavorite: false,
+            permission: 'MODIFY',
+            orderedTabs: [
+                { tabId: 'tab-1', tabName: 'Overview' },
+                { tabId: 'tab-2', tabName: 'Details' },
+            ],
+            tabs: [
+                { id: 'tab-1', name: 'Overview', vizCount: 2, filters: [] as string[] },
+                { id: 'tab-2', name: 'Details', vizCount: 3, filters: [] as string[] },
+            ],
+            liveboardFilters: [
+                {
+                    columnName: 'city',
+                    dataType: 'CHAR',
+                    filterType: 'IN',
+                    values: ['Atlanta', 'Boise'],
+                },
+            ],
+            parameters: [{ name: 'num', defaultValue: '0', dataType: 'INT64' }],
+        };
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.LiveboardHeaderLoaded,
+                data: headerPayload,
+            });
+        });
+
+        await executeAfterWait(() => {
+            expect(handler).toHaveBeenCalled();
+            const received = handler.mock.calls[0][0].data;
+            expect(received.liveboardId).toBe(headerPayload.liveboardId);
+            expect(received.name).toBe(headerPayload.name);
+            expect(received.orderedTabs).toEqual(headerPayload.orderedTabs);
+            expect(received.tabs).toHaveLength(2);
+            expect(received.liveboardFilters[0].columnName).toBe('city');
+            expect(received.liveboardFilters[0].values).toEqual(['Atlanta', 'Boise']);
+            expect(received.parameters).toEqual(headerPayload.parameters);
         }, EVENT_WAIT_TIME);
     });
 
