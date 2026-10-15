@@ -3054,6 +3054,22 @@ export enum EmbedEvent {
      */
     LiveboardHeaderLoaded = 'LiveboardHeaderLoaded',
     /**
+     * Emitted when the top users (recent viewers) of a
+     * Liveboard have been loaded. The payload contains the
+     * list of users who have recently viewed the Liveboard.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.LiveboardTopUsersLoaded,
+     *     payload => {
+     *         console.log('Top users loaded',
+     *             payload);
+     *     })
+     * ```
+     * Payload: {@link LiveboardTopUsersLoadedPayload}.
+     */
+    LiveboardTopUsersLoaded = 'LiveboardTopUsersLoaded',
+    /**
      * Emits all events.
      * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      * @example

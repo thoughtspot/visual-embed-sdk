@@ -262,6 +262,16 @@ export interface LiveboardHeaderLoadedPayload extends LiveboardScope {
     parameters?: LiveboardParameterInfo[];
 }
 
+export interface LiveboardTopUser {
+    id?: string;
+    displayName?: string;
+}
+
+/** {@link EmbedEvent.LiveboardTopUsersLoaded}. */
+export interface LiveboardTopUsersLoadedPayload extends LiveboardScope {
+    topUsers?: LiveboardTopUser[];
+}
+
 /** {@link EmbedEvent.AuthInit}. */
 export interface AuthInitPayload extends EmbedEventPayloadBase {
     /** Whether authentication was successful. */
@@ -357,6 +367,7 @@ export interface EmbedEventDataExtension {
     [EmbedEvent.DialogOpen]: EmptyPayload;
     [EmbedEvent.DialogClose]: EmptyPayload;
     [EmbedEvent.LiveboardHeaderLoaded]: LiveboardHeaderLoadedPayload;
+    [EmbedEvent.LiveboardTopUsersLoaded]: LiveboardTopUsersLoadedPayload;
     [EmbedEvent.LiveboardRendered]: EmptyPayload;
     [EmbedEvent.RequestVisibleEmbedCoordinates]: EmptyPayload;
     [EmbedEvent.EmbedIframeCenter]: EmptyPayload;
