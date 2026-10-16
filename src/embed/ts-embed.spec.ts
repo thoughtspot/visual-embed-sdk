@@ -6144,7 +6144,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
     });
 
     test('should trigger Navigate only after UpdateEmbedParams has settled', async () => {
-        await setupPreRenderTest('navigate-after-params', {
+        const embed1 = await setupPreRenderTest('navigate-after-params', {
             liveboardId: 'original-lb',
             runtimeFilters: [
                 {
@@ -6162,16 +6162,22 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
 
         embed2.showPreRender();
 
+        // Earlier tests' pre-renders can still be navigating, so only look at
+        // the calls aimed at this pre-render's iframe
+        const getEventTypes = () => mockProcessTrigger.mock.calls
+            .filter((call: any[]) => call[0] === (embed1 as any).iFrame)
+            .map((call: any[]) => call[1]);
+
         // Inside the settle window the params are already out
         // and Navigate is not.
         await executeAfterWait(() => {
-            const eventTypes = mockProcessTrigger.mock.calls.map((call: any[]) => call[1]);
+            const eventTypes = getEventTypes();
             expect(eventTypes).toContain(HostEvent.UpdateEmbedParams);
             expect(eventTypes).not.toContain(HostEvent.Navigate);
         }, 50);
 
         await executeAfterWait(() => {
-            const eventTypes = mockProcessTrigger.mock.calls.map((call: any[]) => call[1]);
+            const eventTypes = getEventTypes();
             // A Navigate that beat the params would make the container load
             // `updated-lb` while still holding `original-lb`'s runtime filters,
             // and drop the params that then arrive mid-load (SCAL-336321).
