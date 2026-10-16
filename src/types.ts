@@ -3016,6 +3016,38 @@ export enum EmbedEvent {
      * Emitted when the Liveboard shell loads.
      * You can use this event as a hook to trigger
      * other events on the rendered Liveboard.
+     *
+     * From SDK: 1.57.0 | ThoughtSpot Cloud: 27.1.0.cl, the payload contains basic
+     * details of the rendered Liveboard. On earlier versions the payload is empty,
+     * so check that a field is present before you use it:
+     * - `liveboardId`: GUID of the Liveboard
+     * - `name`, `description`: Liveboard name and description
+     * - `activeTabId`: ID of the tab that is currently active
+     * - `tabs`: array of `{ id, name }` for the visible tabs
+     * - `vizCount`: number of tiles in `visualizations`, including Note tiles
+     * - `visualizations`: array of `{ vizId, vizName, vizType, chartType,
+     *   answerId, dataSourceIds, isTimeSeries, tabId, groupId }` in layout order.
+     *   Tiles inside a group are listed here too, with `groupId` set. `vizType`
+     *   is the tile type, for example `NOTE_TILE` or `PINNED_ANSWER`. `chartType`
+     *   (for example `KPI`, `LINE`, or `NONE` for a table) and `answerId` are
+     *   absent for Note tiles. `isTimeSeries` is `true` for a time-series KPI
+     *   tile and `false` otherwise. `vizId` is the tile ID, not the underlying
+     *   answer ID.
+     * - `groups`: array of `{ groupId, name, tabId, vizIds }` for the Liveboard
+     *   groups. `vizIds` are the tiles in `visualizations` that belong to the group.
+     * - `activeViewId`: GUID of the applied Personalized View, if any
+     * - `defaultViewId`: GUID of the Liveboard's default Personalized View, if any
+     * - `objectAccessLevel`: the user's access to the Liveboard, one of
+     *   `MODIFY`, `MODIFY_METADATA_READ_CONTENT`, `READ_METADATA_MODIFY_CONTENT`,
+     *   `READ_ONLY`, or `NO_ACCESS`
+     * - `dataSourceNamesWithNoAccess`: names of data sources the user cannot access
+     * - `personalisedViews`: array of `{ viewId, viewName }` for the available
+     *   Personalized Views
+     * - `filterCount`: number of Liveboard filters, one per filtered column.
+     *   To get the filter details, use {@link HostEvent.GetFilters}.
+     * - `parameterCount`: number of Liveboard parameters. To get the parameter
+     *   details, use {@link HostEvent.GetParameters}.
+     *
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
