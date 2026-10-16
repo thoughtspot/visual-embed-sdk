@@ -255,6 +255,13 @@ describe('PreRenderController', () => {
             expect(controller.insertPlaceholder()).toBeUndefined();
         });
 
+        it('does not insert a placeholder before the wrapper is mounted', () => {
+            const controller = createController();
+
+            expect(controller.insertPlaceholder()).toBeUndefined();
+            expect(hostElement.childElementCount).toBe(0);
+        });
+
         it('sizes the placeholder from the frame params', () => {
             const controller = createController();
             mount(controller);

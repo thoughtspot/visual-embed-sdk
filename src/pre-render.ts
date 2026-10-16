@@ -117,7 +117,8 @@ export class PreRenderController {
 
     public insertPlaceholder(): HTMLDivElement | undefined {
         const hostElement = this.host.getHostElement();
-        if (!hostElement) {
+        const { wrapper } = this;
+        if (!hostElement || !wrapper) {
             return undefined;
         }
         const placeholder = this.createPlaceholder();
@@ -126,7 +127,7 @@ export class PreRenderController {
         // UNMEASURED_WRAPPER_HEIGHT is what createWrapper() seeds before
         // anything has been measured; treating that as a measurement is what
         // made a first reveal overshoot to a full viewport.
-        const wrapperHeight = this.wrapper.style.height;
+        const wrapperHeight = wrapper.style.height;
         if (
             this.host.isFullHeight()
             && wrapperHeight
@@ -303,7 +304,7 @@ export class PreRenderController {
         if (!owner || owner === this) {
             return;
         }
-        const ownerContainer = owner.containerEl ?? document.body;
+        const ownerContainer = owner.container ?? document.body;
         if (
             this.host.getConfig().containerSelector
             && this.resolveContainerTarget() !== ownerContainer
