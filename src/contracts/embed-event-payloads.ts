@@ -16,7 +16,9 @@
  * Same additive-only evolution rules as host-event-contracts.ts.
  * @module contracts
  */
-import type { CustomActionPayload, EmbedEvent, MessagePayload, RuntimeFilter } from '../types';
+import type {
+    CustomActionPayload, EmbedEvent, MessagePayload, RuntimeFilter,
+} from '../types';
 // Type-only: AnswerService is an SDK-side enrichment (see
 // EmbedEventEnvelopeExtension). Type-only import keeps the contracts subpath
 // free of any runtime dependency on the answer-service implementation.
@@ -28,6 +30,7 @@ export interface LiveboardRenderedTabInfo {
 }
 
 export interface LiveboardVizInfo {
+    /** ID of the tile. It is not the ID of the answer. */
     vizId: string;
     vizName?: string;
     /** Type of the tile, for example `PINNED_ANSWER` or `NOTE_TILE`. */
@@ -50,9 +53,6 @@ export interface LiveboardGroupInfo {
     vizIds: string[];
 }
 
-/**
- * Payload of {@link EmbedEvent.LiveboardRendered}.
- */
 export interface LiveboardRenderedData {
     liveboardId?: string;
     name?: string;
@@ -61,17 +61,31 @@ export interface LiveboardRenderedData {
     tabs?: LiveboardRenderedTabInfo[];
     /** Number of tiles in `visualizations`, including Note tiles. */
     vizCount?: number;
+    /** The tiles in layout order. Tiles in a group are included. */
     visualizations?: LiveboardVizInfo[];
     groups?: LiveboardGroupInfo[];
+    /** GUID of the Personalized View that is applied, if any. */
     activeViewId?: string;
+    /** GUID of the default Personalized View, if any. */
     defaultViewId?: string;
+    /**
+     * Access level of the user to the Liveboard: `MODIFY`,
+     * `MODIFY_METADATA_READ_CONTENT`, `READ_METADATA_MODIFY_CONTENT`, `READ_ONLY`,
+     * or `NO_ACCESS`.
+     */
     objectAccessLevel?: string;
     dataSourceNamesWithNoAccess?: string[];
     personalisedViews?: { viewId: string; viewName: string }[];
+    /**
+     * Number of filter groups in the Liveboard.
+     * To get the filters, use {@link HostEvent.GetFilters}.
+     */
     filterGroupCount?: number;
+    /** To get the parameters, use {@link HostEvent.GetParameters}. */
     parameterCount?: number;
     [key: string]: any;
 }
+
 // ============================================================================
 // Scope mixins — the field clusters events share.
 // ============================================================================
@@ -327,11 +341,6 @@ export interface EmbedEventDataExtension {
     // --- Lifecycle and auth ---
     [EmbedEvent.AuthInit]: AuthInitPayload;
     [EmbedEvent.EmbedListenerReady]: Record<string, any>;
-    /**
-     * Details of the Liveboard once its layout has rendered. Fields are absent
-     * on ThoughtSpot versions that send an empty payload.
-     */
-    [EmbedEvent.LiveboardRendered]: LiveboardRenderedData;
     [EmbedEvent.Error]: EmbedErrorPayload | string;
 
     // --- Custom actions ---
@@ -410,6 +419,7 @@ export interface EmbedEventDataExtension {
     [EmbedEvent.DialogOpen]: EmptyPayload;
     [EmbedEvent.DialogClose]: EmptyPayload;
     [EmbedEvent.LiveboardHeaderLoaded]: LiveboardHeaderLoadedPayload;
+    [EmbedEvent.LiveboardRendered]: LiveboardRenderedData;
     [EmbedEvent.RequestVisibleEmbedCoordinates]: EmptyPayload;
     [EmbedEvent.EmbedIframeCenter]: EmptyPayload;
 }
@@ -423,15 +433,18 @@ export interface EmbedEventDataExtension {
  * event has not been audited/typed yet.
  */
 export type EmbedEventData<EmbedEventT extends EmbedEvent> =
-    EmbedEventT extends keyof EmbedEventDataExtension ? EmbedEventDataExtension[EmbedEventT] : any;
+    EmbedEventT extends keyof EmbedEventDataExtension
+        ? EmbedEventDataExtension[EmbedEventT]
+        : any;
 
 /**
  * Full envelope delivered to `embed.on()` callbacks for a given event:
  * the wire fields (`type`, `status`) plus the typed `data`.
  */
-export type EmbedEventPayload<EmbedEventT extends EmbedEvent> = Omit<MessagePayload, 'data'> & {
-    data: EmbedEventData<EmbedEventT>;
-};
+export type EmbedEventPayload<EmbedEventT extends EmbedEvent> =
+    Omit<MessagePayload, 'data'> & {
+        data: EmbedEventData<EmbedEventT>;
+    };
 
 /**
  * Payload delivered to `on(EmbedEvent.CustomAction)`. Beyond the wire fields,
@@ -452,9 +465,8 @@ export type EmbedEventPayload<EmbedEventT extends EmbedEvent> = Omit<MessagePayl
  * {@link MessagePayload}, which the enrichment cannot be intersected into
  * without restructuring that registry.
  */
-export type CustomActionEventPayload = EmbedEventPayload<EmbedEvent.CustomAction> & {
-    answerService?: AnswerService;
-};
+export type CustomActionEventPayload =
+    EmbedEventPayload<EmbedEvent.CustomAction> & { answerService?: AnswerService };
 
 /**
  * String-name keyed view for the host side (addresses events by wire value).
