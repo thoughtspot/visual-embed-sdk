@@ -22,26 +22,24 @@ import type { CustomActionPayload, EmbedEvent, MessagePayload, RuntimeFilter } f
 // free of any runtime dependency on the answer-service implementation.
 import type { AnswerService } from '../utils/graphql/answerService/answerService';
 
-export interface LiveboardTabInfo {
+export interface LiveboardRenderedTabInfo {
     id: string;
     name: string;
 }
 
 export interface LiveboardVizInfo {
-    /** Tile ID, not the underlying answer ID. */
     vizId: string;
     vizName?: string;
-    /** Tile type, for example `PINNED_ANSWER` or `NOTE_TILE`. */
+    /** Type of the tile, for example `PINNED_ANSWER` or `NOTE_TILE`. */
     vizType?: string;
-    /** For example `KPI`, `LINE`, or `NONE` for a table. Absent for Note tiles. */
+    /** For example `KPI`, `LINE`, or `NONE` for a table. Note tiles do not have it. */
     chartType?: string;
-    /** Absent for Note tiles. */
+    /** Note tiles do not have it. */
     answerId?: string;
     dataSourceIds?: string[];
-    /** `true` for a time-series KPI tile, `false` otherwise. */
     isTimeSeries?: boolean;
     tabId?: string;
-    /** Set when the tile belongs to a group listed in `groups`. */
+    /** Set when the tile is in a group from `groups`. */
     groupId?: string;
 }
 
@@ -49,7 +47,6 @@ export interface LiveboardGroupInfo {
     groupId: string;
     name?: string;
     tabId?: string;
-    /** `vizId`s of the tiles in this group. */
     vizIds: string[];
 }
 
@@ -61,7 +58,7 @@ export interface LiveboardRenderedData {
     name?: string;
     description?: string;
     activeTabId?: string;
-    tabs?: LiveboardTabInfo[];
+    tabs?: LiveboardRenderedTabInfo[];
     /** Number of tiles in `visualizations`, including Note tiles. */
     vizCount?: number;
     visualizations?: LiveboardVizInfo[];
@@ -71,8 +68,7 @@ export interface LiveboardRenderedData {
     objectAccessLevel?: string;
     dataSourceNamesWithNoAccess?: string[];
     personalisedViews?: { viewId: string; viewName: string }[];
-    /** Number of Liveboard filters (one per filtered column). */
-    filterCount?: number;
+    filterGroupCount?: number;
     parameterCount?: number;
     [key: string]: any;
 }
