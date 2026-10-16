@@ -9433,6 +9433,28 @@ export enum Action {
      */
     SpotterOnLiveboard = 'spotterOnLiveboard',
     /**
+     * The **View explanation** button on Spotter answer cards, which opens the
+     * Answer Verification experience in `SpotterEmbed` (and the deprecated
+     * `ConversationEmbed`).
+     *
+     * Adding it to `hiddenActions` (or leaving it out of `visibleActions`)
+     * removes the button and restores the classic answer footer actions
+     * (Pin, Save, Download, Edit) with no explanation pane. Adding it to
+     * `disabledActions` keeps the button visible but inert, and shows the
+     * host's `disabledActionReason` as the tooltip.
+     *
+     * The button only exists when Answer Verification
+     * (`enableAnswerVerification`) is enabled on the cluster. This action
+     * controls its visibility; it does not turn the feature on.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterViewExplanation]
+     * disabledActions: [Action.SpotterViewExplanation]
+     * ```
+     */
+    SpotterViewExplanation = 'spotterViewExplanation',
+    /***
      * Controls the visibility and disabled state of the "Chart Type" menu item
      * in Chart Settings V2.
      * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
