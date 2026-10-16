@@ -3016,6 +3016,12 @@ export enum EmbedEvent {
      * Emitted when the Liveboard shell loads.
      * You can use this event as a hook to trigger
      * other events on the rendered Liveboard.
+     *
+     * From SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl, the payload contains basic
+     * data about the rendered Liveboard. In earlier versions, the payload is empty.
+     * Make sure that a field is present before you use it.
+     * Payload: {@link LiveboardRenderedData}.
+     *
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -3032,7 +3038,6 @@ export enum EmbedEvent {
      * embed.trigger(HostEvent.SetVisibleVizs, ['viz1', 'viz2']);
      * };
      * ```
-     * Payload: none.
      */
     LiveboardRendered = 'PinboardRendered',
     /**

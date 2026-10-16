@@ -161,6 +161,12 @@ import {
     SetActiveTabRequest,
     UpdateThemeRequest,
 } from './contracts/host-event-contracts';
+import type {
+    LiveboardRenderedData,
+    LiveboardVizInfo,
+    LiveboardGroupInfo,
+    LiveboardRenderedTabInfo,
+} from './contracts/embed-event-payloads';
 import {
     convertFilterChangedToUpdateFiltersPayload,
     FilterChangedPayload,
@@ -345,6 +351,10 @@ export {
     FilterChangedPayload,
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
+    LiveboardRenderedData,
+    LiveboardVizInfo,
+    LiveboardGroupInfo,
+    LiveboardRenderedTabInfo,
 };
 
 export { resetCachedAuthToken } from './authToken';
