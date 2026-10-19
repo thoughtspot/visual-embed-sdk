@@ -10305,9 +10305,10 @@ export interface ContextObject {
          */
         name: string;
         /**
-         * Type of the context object.
+         * Layer type of the context object: `page` or `dialog`. The context
+         * itself (liveboard, search-answer, spotter, …) is in `name`.
          */
-        type: ContextType;
+        type: 'page' | 'dialog';
         /**
          * Object IDs of the context object.
          */
@@ -10321,7 +10322,10 @@ export interface ContextObject {
          * Name of the current context object.
          */
         name: string;
-        type: ContextType;
+        /**
+         * Layer type of the current context object: `page` or `dialog`.
+         */
+        type: 'page' | 'dialog';
         objectIds: ObjectIds;
     };
 }
