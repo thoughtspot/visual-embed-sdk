@@ -35,6 +35,73 @@ All the events are listed in `src/types.ts`.
 
 These are all the actions in the TS application, like "Save", "MakeACopy" etc. Listed in `src/types.ts`.
 
+### Contributing event types
+
+Event payload types in this SDK are the **public, curated** view of a wire
+contract whose shapes originate in the ThoughtSpot host application. The two
+sides are maintained separately and can drift, so adding or changing an event
+means updating both. This section is the checklist.
+
+The SDK is only ever a consumer/sender of the wire protocol: it *sends* host
+events and *receives* embed events. The host validates host events and produces
+embed-event payloads, so the shapes are authored there first, then mirrored here.
+
+#### Host events (outbound — `embed.trigger()`)
+
+The typed request per host event lives in
+`src/contracts/host-event-contracts.ts` (`HostEventRequestMap`), and the
+customer-facing docs live on the `HostEvent` enum members in `src/types.ts`.
+
+To add or change one:
+
+1. Add or edit the request interface in `host-event-contracts.ts` and map it in
+   `HostEventRequestMap` under the `HostEvent` member.
+2. On the `HostEvent` enum member in `src/types.ts`, add a `Payload: {@link
+   XRequest}.` line so the docs link to the type. No-payload events say
+   `Payload: none.`.
+3. Export any new interface from `src/index.ts` **and** `src/react/all-types-export.ts`
+   (the React surface is a hand-maintained duplicate; the parity test enforces it).
+4. Add the event's wire value to the stable list in
+   `src/contracts/contracts.spec.ts`. That list is an additive-only lock: a
+   removed or renamed value is a breaking change, not a refactor.
+
+`trigger()` accepts an all-optional (`DeepPartial`) view of the request today;
+required-field strictness is planned for a later major and is called out in the
+doc comments. Keep new fields optional unless you intend to break callers.
+
+#### Embed events (inbound — `embed.on()`)
+
+The typed payload per embed event lives in
+`src/contracts/embed-event-payloads.ts` (`EmbedEventDataExtension`). `on()` and
+the React `on{Event}` props deliver it automatically, so once an event is in the
+map, consumers get it typed with no further wiring.
+
+To add or change one:
+
+1. Add a payload interface, composing from the scope mixins
+   (`LiveboardScope`, `VizScope`, `AnswerScope`, …) where the shape is shared,
+   and map it in `EmbedEventDataExtension` under the `EmbedEvent` member.
+2. Keep it **loose**: fields optional, and the base's `[key: string]: any` index
+   signature lets a callback read fields the host also sends without breaking.
+   Codify what the host actually sends, not what the docs say.
+3. On the `EmbedEvent` enum member in `src/types.ts`, add a `Payload: {@link
+   XxxPayload}.` line (`Payload: none.` for empty events, `Payload: string[].`
+   for list payloads). Two tests in `contracts.spec.ts` keep docs and types
+   aligned: a `{@link}` to a type that doesn't exist fails, and documenting
+   `Payload: {@link X}` on an event that isn't in `EmbedEventDataExtension` fails
+   — so a documented payload is always backed by a real typed map entry.
+4. Add the event's wire value to the stable list in `contracts.spec.ts` (same
+   additive-only rule as host events).
+
+#### Mirroring
+
+Because the shapes originate in the host app, a new event or a changed payload
+there needs a matching update here. The two repos are kept in sync by hand — the
+host app's `embed-event-schema` names this SDK file to update, and the same in
+reverse. There is no build-time coupling between the repos (by design, so each
+ships on its own release), so treat a divergence you spot as a defect to fix
+here, and mirror any host-app change into the map above.
+
 ### Documentation
 
 All publicly exposed methods, events, actions, classes, enums and interfaces should have JSDoc clearly explaining their

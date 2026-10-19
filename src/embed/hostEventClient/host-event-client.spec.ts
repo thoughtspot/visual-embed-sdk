@@ -979,11 +979,14 @@ describe('HostEventClient', () => {
             const { client } = createHostEventClient();
             mockProcessTrigger.mockReset();
 
-            // Flow per triggerHostEvent call when GetAvailableUIPassthroughs rejects:
-            //   1. getAvailableUIPassthroughKeys → processTrigger(UIPassthrough, GetAvailableUIPassthroughs) → rejects → returns []
-            //   2. keys=[] so getDataWithPassthroughFallback is called →
-            //      triggerUIPassthroughApi(GetAnswerSession) → processTrigger(UIPassthrough) → null → hostEventFallback called
-            //   3. hostEventFallback → processTrigger(GetAnswerSession) → legacy result
+            // Flow per triggerHostEvent call when GetAvailableUIPassthroughs
+            // rejects: 1. getAvailableUIPassthroughKeys →
+            // processTrigger(UIPassthrough, GetAvailableUIPassthroughs) →
+            // rejects → returns [] 2. keys=[] so getDataWithPassthroughFallback
+            // is called → triggerUIPassthroughApi(GetAnswerSession) →
+            // processTrigger(UIPassthrough) → null → hostEventFallback called
+            // 3. hostEventFallback → processTrigger(GetAnswerSession) → legacy
+            // result
 
             // First triggerHostEvent: 3 calls
             mockProcessTrigger.mockRejectedValueOnce(new Error('network error')); // call 1
@@ -992,14 +995,16 @@ describe('HostEventClient', () => {
 
             await client.triggerHostEvent(HostEvent.GetAnswerSession, { vizId: '1' });
 
-            // Second triggerHostEvent: cache was NOT set, so GetAvailableUIPassthroughs is retried: 3 more calls
+            // Second triggerHostEvent: cache was NOT set, so
+            // GetAvailableUIPassthroughs is retried: 3 more calls
             mockProcessTrigger.mockRejectedValueOnce(new Error('network error')); // call 4
             mockProcessTrigger.mockResolvedValueOnce(null);                       // call 5
             mockProcessTrigger.mockResolvedValueOnce({ session: 'leg2' });        // call 6
 
             await client.triggerHostEvent(HostEvent.GetAnswerSession, { vizId: '2' });
 
-            // 6 total calls: GetAvailableUIPassthroughs was called TWICE (cache not set after catch)
+            // 6 total calls: GetAvailableUIPassthroughs was called TWICE
+            // (cache not set after catch)
             expect(mockProcessTrigger).toHaveBeenCalledTimes(6);
             const availableCallsCount = mockProcessTrigger.mock.calls.filter(
                 (call) => call[3]?.type === UIPassthroughEvent.GetAvailableUIPassthroughs,
@@ -1175,7 +1180,8 @@ describe('HostEventClient', () => {
                 { numberOfTabs: number; orderedTabIds: string[] }
             > = true;
             const probeUnknownField = (r: TabsResponse) =>
-                // @ts-expect-error — field not on the GetTabs contract (was silent when `any`)
+                // @ts-expect-error — field not on the GetTabs contract (was
+                // silent when `any`)
                 r.tabCount;
             void probeUnknownField;
 

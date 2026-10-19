@@ -34,6 +34,13 @@ import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
 import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, BodylessConversationViewConfig} from './embed/bodyless-conversation';
 import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterAnalystConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, StarterPromptCategory, StarterPreviewDataCategory, StarterPromptQuestion, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import { SpotterVizConfig, SpotterVizStarterPrompt, SpotterVizLoaderTip } from './embed/spotter-viz-utils';
+import { SpotterExperienceVersion } from './embed/spotter-utils';
+import {
+    LiveboardOverride,
+    LiveboardDataSourceOverride,
+    LiveboardFilterQuery,
+    LiveboardParameterQuery,
+} from './embed/liveboard-override-utils';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
@@ -84,7 +91,9 @@ import {
     VisualizationOverrides,
 } from './types';
 import { CustomCssVariables } from './css-variables';
-import { AnswerService, SessionInterface, UnderlyingDataPoint } from './utils/graphql/answerService/answerService';
+import {
+    AnswerService, SessionInterface, UnderlyingDataPoint, SortOptions,
+} from './utils/graphql/answerService/answerService';
 import { getEmbedConfig } from './embed/embedConfig';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from './mixpanel-service';
 import { tokenizedFetch } from './tokenizedFetch';
@@ -150,7 +159,58 @@ import {
     ScheduleEmailRequest,
     NavigateRequest,
     SetActiveTabRequest,
+    UpdateThemeRequest,
 } from './contracts/host-event-contracts';
+import type {
+    LiveboardRenderedData,
+    LiveboardVizInfo,
+    LiveboardGroupInfo,
+    LiveboardRenderedTabInfo,
+    EmbedEventPayloadBase,
+    ConversationScope,
+    VizScope,
+    LiveboardScope,
+    AnswerScope,
+    LiveboardVizScope,
+    DataEventPayload,
+    EmbedErrorPayload,
+    CrossFilterChangedPayload,
+    ParameterChangedPayload,
+    QueryChangedPayload,
+    DataSourceSelectedPayload,
+    VizInteractionPayload,
+    DrilldownPayload,
+    TableVizRenderedPayload,
+    SaveEventPayload,
+    MakeACopyPayload,
+    DownloadEventPayload,
+    TmlEventPayload,
+    AnswerChartSwitcherPayload,
+    CopyToClipboardPayload,
+    PinEventPayload,
+    CopyLinkPayload,
+    FavoritePayload,
+    TestScheduleEmailPayload,
+    RenamePayload,
+    PersonalisedViewPayload,
+    ExitPresentModePayload,
+    LiveboardTabInfo,
+    LiveboardOrderedTab,
+    LiveboardFilterContent,
+    LiveboardFilterInfo,
+    LiveboardParameterInfo,
+    LiveboardHeaderLoadedPayload,
+    AuthInitPayload,
+    CustomActionEventPayload,
+    EmbedEventData,
+    EmbedEventPayload,
+} from './contracts/embed-event-payloads';
+import {
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
+} from './utils/filterConverter';
 
 export {
     init,
@@ -196,6 +256,7 @@ export {
     // types
     SessionInterface,
     UnderlyingDataPoint,
+    SortOptions,
     Page,
     AuthType,
     RuntimeFilter,
@@ -210,9 +271,14 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    LiveboardOverride,
+    LiveboardDataSourceOverride,
+    LiveboardFilterQuery,
+    LiveboardParameterQuery,
     SpotterVizConfig,
     SpotterVizStarterPrompt,
     SpotterVizLoaderTip,
+    SpotterExperienceVersion,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,
@@ -271,6 +337,7 @@ export {
     ScheduleEmailRequest,
     NavigateRequest,
     SetActiveTabRequest,
+    UpdateThemeRequest,
     LiveboardTab,
     LiveboardGroup,
     ApplicabilityLevel,
@@ -318,6 +385,52 @@ export {
     DataLabelFilterOperator,
     TableTheme,
     TableContentDensity,
+    convertFilterChangedToUpdateFiltersPayload,
+    FilterChangedPayload,
+    UpdateFiltersFilterParam,
+    UpdateFiltersPayload,
+    LiveboardRenderedData,
+    LiveboardVizInfo,
+    LiveboardGroupInfo,
+    LiveboardRenderedTabInfo,
+    EmbedEventPayloadBase,
+    ConversationScope,
+    VizScope,
+    LiveboardScope,
+    AnswerScope,
+    LiveboardVizScope,
+    DataEventPayload,
+    EmbedErrorPayload,
+    CrossFilterChangedPayload,
+    ParameterChangedPayload,
+    QueryChangedPayload,
+    DataSourceSelectedPayload,
+    VizInteractionPayload,
+    DrilldownPayload,
+    TableVizRenderedPayload,
+    SaveEventPayload,
+    MakeACopyPayload,
+    DownloadEventPayload,
+    TmlEventPayload,
+    AnswerChartSwitcherPayload,
+    CopyToClipboardPayload,
+    PinEventPayload,
+    CopyLinkPayload,
+    FavoritePayload,
+    TestScheduleEmailPayload,
+    RenamePayload,
+    PersonalisedViewPayload,
+    ExitPresentModePayload,
+    LiveboardTabInfo,
+    LiveboardOrderedTab,
+    LiveboardFilterContent,
+    LiveboardFilterInfo,
+    LiveboardParameterInfo,
+    LiveboardHeaderLoadedPayload,
+    AuthInitPayload,
+    CustomActionEventPayload,
+    EmbedEventData,
+    EmbedEventPayload,
 };
 
 export { resetCachedAuthToken } from './authToken';

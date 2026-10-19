@@ -3,6 +3,7 @@ import { processTrigger as processTriggerService } from '../../utils/processTrig
 import { getEmbedConfig } from '../embedConfig';
 import {
     isValidUpdateFiltersPayload,
+    resolveUpdateFiltersAliases,
     isValidUpdateParametersPayload,
     isValidDrillDownPayload,
     throwUpdateFiltersValidationError,
@@ -27,7 +28,8 @@ import {
 /**
  * Maps HostEvent to its corresponding UIPassthroughEvent.
  * Includes both custom-handler events (Pin, SaveAnswer, UpdateFilters, DrillDown)
- * and getter events (GetAnswerSession, GetFilters, etc.) that use getDataWithPassthroughFallback.
+ * and getter events (GetAnswerSession, GetFilters, etc.) that use
+ * getDataWithPassthroughFallback.
  */
 const PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
     // Custom handlers (setters with special logic)
@@ -249,13 +251,17 @@ export class HostEventClient {
     }
 
     // The shared contract accepts both current (columnName/operator) and
-    // legacy (column/oper) filter field names — as does the validation
-    // above and the app at runtime. The UIPassthrough FilterUpdate type
-    // still requires the legacy names; bridge until that contract is
-    // audited.
+    // legacy (column/oper) filter field names, but only the legacy pair is
+    // understood downstream, so the payload is rewritten before it is
+    // forwarded — otherwise a columnName/operator filter passes validation
+    // here and is then silently ignored by the app. The cast bridges the
+    // UIPassthrough FilterUpdate type, which still declares only the legacy
+    // names.
+    const resolvedPayload = resolveUpdateFiltersAliases(payload);
+
     return this.handleHostEventWithParam(
         UIPassthroughEvent.UpdateFilters,
-        payload as UIPassthroughRequest<UIPassthroughEvent.UpdateFilters>,
+        resolvedPayload as UIPassthroughRequest<UIPassthroughEvent.UpdateFilters>,
         context as ContextType,
     );
   }
@@ -268,7 +274,8 @@ export class HostEventClient {
       throwUpdateParametersValidationError();
     }
 
-    // UpdateParameters has no UI passthrough contract; dispatch over the legacy channel
+    // UpdateParameters has no UI passthrough contract; dispatch over the
+    // legacy channel
     return this.hostEventFallback(HostEvent.UpdateParameters, payload, context);
   }
 
@@ -285,8 +292,8 @@ export class HostEventClient {
 
   /**
    * Dispatches a host event using the appropriate channel:
-   * 1. If the embedded app supports UI passthrough for this event, use it (custom handler or getter).
-   * 2. Otherwise fall back to the legacy host event channel.
+   * 1. If the embedded app supports UI passthrough for this event, use it (custom
+   * handler or getter). 2. Otherwise fall back to the legacy host event channel.
    *
    * @param hostEvent - The host event to trigger
    * @param payload - Optional payload for the event
@@ -304,7 +311,8 @@ export class HostEventClient {
       const customHandler = this.customHandlers[hostEvent];
       const passthroughEvent = PASSTHROUGH_MAP[hostEvent];
 
-      // If embedded app supports passthrough but not this event, use legacy channel
+      // If embedded app supports passthrough but not this event, use legacy
+      // channel
       const keys = passthroughEvent ? await this.getAvailableUIPassthroughKeys(context as ContextType) : [];
       if (passthroughEvent && keys.length > 0 && !keys.includes(passthroughEvent)) {
           return this.hostEventFallback(hostEvent, payload, context) as any;

@@ -8,6 +8,7 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
+import isEqualWith from 'lodash/isEqualWith';
 import { getPreview } from '../utils/graphql/preview-service';
 import { ERROR_MESSAGE } from '../errors';
 import {
@@ -34,11 +35,13 @@ import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
-import { buildStarterPromptsAppInitData } from './spotter-utils';
+import { buildStarterPromptsAppInitData, SpotterExperienceVersion } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
+import { LiveboardOverride, buildLiveboardOverrideAppInitData } from './liveboard-override-utils';
 
-// Home unmounts the liveboard container, which is how its state gets cleared. The
-// settle window gives the container time to do it before we ask for the liveboard back.
+// Home unmounts the liveboard container, which is how its state gets cleared.
+// The settle window gives the container time to do it before we ask for the
+// liveboard back.
 const HOME_ROUTE = 'home';
 const HOME_SETTLE_MS = 200;
 
@@ -50,6 +53,7 @@ export interface LiveboardEmbedAppInitData extends DefaultAppInitData {
     embedParams?: {
         spotterVizConfig?: SpotterVizConfig;
         starterPrompts?: StarterPromptsConfig;
+        liveboardOverride?: LiveboardOverride;
     };
 }
 
@@ -59,7 +63,8 @@ export interface LiveboardEmbedAppInitData extends DefaultAppInitData {
  * @group Embed components
  */
 export interface LiveboardViewConfig
-    extends BaseViewConfig,
+    extends
+        BaseViewConfig,
         FullHeightViewConfig,
         LiveboardOtherViewConfig,
         LiveboardAppEmbedViewConfig {
@@ -354,9 +359,10 @@ export interface LiveboardViewConfig
      */
     isPNGInScheduledEmailsEnabled?: boolean;
     /**
-     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
-     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.8.0.cl.
+     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is
+     * rendered on a single page following the exact UI layout, instead of splitting
+     * visualizations across multiple A4 pages. This feature is GA from SDK version
+     * 1.51.0 and ThoughtSpot version 26.8.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
@@ -543,6 +549,46 @@ export interface LiveboardViewConfig
      * ```
      */
     updatedSpotterExperience?: boolean;
+    /**
+     * Filters and Parameters to apply to the Liveboard when it loads.
+     *
+     * In an embedded Liveboard, this is the only way to set these overrides.
+     * The `filter` and `parameter` URL query params are ignored.
+     * Clauses without a query token are dropped.
+     *
+     * Supported embed types: `LiveboardEmbed`
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    liveboardOverride: {
+     *        dataSourceOverride: [{
+     *            dataSourceIdentifier: '<model-guid>',
+     *            filterQuery: [{
+     *                tabName: 'Sales',
+     *                groupName: 'Region',
+     *                filterQueryToken: 'color = red',
+     *            }],
+     *        }],
+     *    },
+     * })
+     * ```
+     */
+    liveboardOverride?: LiveboardOverride;
+    /**
+     * The Spotter experience version to load for the Spotter surface shown within
+     * this embed.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other options
+     *    spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+     * });
+     * ```
+     */
+    spotterExperienceVersion?: SpotterExperienceVersion;
 }
 
 /**
@@ -560,6 +606,14 @@ export interface LiveboardViewConfig
  * })
  * ```
  */
+/**
+ * A shallow copy without the keys whose value is `undefined`, so a key that was
+ * assigned `undefined` compares equal to one that was never set.
+ */
+const definedEntries = (config: Record<string, any> = {}): Record<string, any> => Object.fromEntries(
+    Object.entries(config).filter(([, value]) => value !== undefined),
+);
+
 export class LiveboardEmbed extends V1Embed {
     protected viewConfig: LiveboardViewConfig;
 
@@ -589,7 +643,8 @@ export class LiveboardEmbed extends V1Embed {
     protected async getAppInitData(): Promise<LiveboardEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
         const vizInitData = buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
-        return buildStarterPromptsAppInitData(vizInitData, this.viewConfig);
+        const starterPromptsInitData = buildStarterPromptsAppInitData(vizInitData, this.viewConfig);
+        return buildLiveboardOverrideAppInitData(starterPromptsInitData, this.viewConfig);
     }
 
     /**
@@ -597,7 +652,7 @@ export class LiveboardEmbed extends V1Embed {
      * embedded Liveboard or visualization.
      */
     protected getEmbedParams() {
-        const params = this.getEmbedParamsObject();
+        const params = this.getUrlQueryParamsObject();
         const queryParams = getQueryParamString(params, true);
         return queryParams;
     }
@@ -650,6 +705,7 @@ export class LiveboardEmbed extends V1Embed {
             isThisPeriodInDateFiltersEnabled,
             isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
+            spotterExperienceVersion,
         } = this.viewConfig;
 
         const preventLiveboardFilterRemoval = this.viewConfig.preventLiveboardFilterRemoval
@@ -717,6 +773,10 @@ export class LiveboardEmbed extends V1Embed {
 
         if (isLiveboardStylingAndGroupingEnabled !== undefined) {
             params[Param.IsLiveboardStylingAndGroupingEnabled] = isLiveboardStylingAndGroupingEnabled;
+        }
+
+        if (spotterExperienceVersion !== undefined) {
+            params[Param.SpotterExperienceVersion] = spotterExperienceVersion;
         }
 
         if (liveboardGutter !== undefined) {
@@ -952,22 +1012,27 @@ export class LiveboardEmbed extends V1Embed {
     protected beforePrerenderVisible(): void {
         super.beforePrerenderVisible();
 
-        // Captured before showPreRender() hands the wrapper over to this instance.
-        // Itself means a hide/show, not a hand-over, so there is nothing stale to clear.
+        // Captured before showPreRender() hands the wrapper over to this
+        // instance. React builds a new instance per mount, so an equal config
+        // is a hide/show, not a hand-over: there is nothing stale to clear.
         const previous = this.getPreRenderObj<LiveboardEmbed>();
-        const showing = previous === this ? undefined : previous?.currentLiveboardState;
+        const previousRoute = this.isSameEmbedConfig(previous)
+            ? undefined
+            : previous?.currentLiveboardState;
 
         this.executeAfterEmbedContainerLoaded(async () => {
-            // Without this the params callback suspends on its await and Navigate
-            // goes out first, so the container loads with the previous config's filters.
+            // Without this the params callback suspends on its await and
+            // Navigate goes out first, so the container loads with the previous
+            // config's filters.
             await this.preRenderParamsApplied;
-            if (this.isShowingLiveboardRoute(showing)) {
-                // Navigate to the route we are already on is a no-op, so the liveboard
-                // keeps its state. Home unmounts the container, which clears it.
+            if (this.isAlreadyOnSameRoute(previousRoute)) {
+                // Navigate to the route we are already on is a no-op, so the
+                // liveboard keeps its state. Home unmounts the container, which
+                // clears it.
                 this.trigger(HostEvent.Navigate, HOME_ROUTE)
                     .catch((error) => logger.warn('Could not route via home', error));
-                // Not awaited above: the container never acks Navigate, so that promise
-                // only settles on the 30s trigger timeout.
+                // Not awaited above: the container never acks Navigate, so
+                // that promise only settles on the 30s trigger timeout.
                 await new Promise((resolve) => {
                     setTimeout(resolve, HOME_SETTLE_MS);
                 });
@@ -987,17 +1052,31 @@ export class LiveboardEmbed extends V1Embed {
         });
     }
 
-    // The whole route, not just the liveboard id: the path is built from the viz, tab
-    // and view too, so a same-liveboard show onto another tab is a real navigation.
-    private isShowingLiveboardRoute(showing?: LiveboardEmbed['currentLiveboardState']): boolean {
-        if (!showing?.liveboardId) return false;
+    // definedEntries drops undefined-valued keys: a shown instance carries
+    // vizId/activeTabId/etc as undefined, so a raw isEqual never matches again.
+    // Functions compare equal, since React passes a fresh closure per render.
+    private isSameEmbedConfig(previous?: LiveboardEmbed): boolean {
+        if (!previous) return false;
+        if (previous === this) return true;
+        return isEqualWith(
+            definedEntries(previous.viewConfig),
+            definedEntries(this.viewConfig),
+            (a, b) => (typeof a === 'function' && typeof b === 'function' ? true : undefined),
+        );
+    }
+
+    // The whole route, not just the liveboard id: the path is built from the
+    // viz, tab and view too, so a same-liveboard show onto another tab is a
+    // real navigation.
+    private isAlreadyOnSameRoute(previousRoute?: LiveboardEmbed['currentLiveboardState']): boolean {
+        if (!previousRoute?.liveboardId) return false;
         const {
             liveboardId, vizId, activeTabId, personalizedViewId,
         } = this.viewConfig;
-        return showing.liveboardId === liveboardId
-            && showing.vizId === vizId
-            && showing.activeTabId === activeTabId
-            && showing.personalizedViewId === personalizedViewId;
+        return previousRoute.liveboardId === liveboardId
+            && previousRoute.vizId === vizId
+            && previousRoute.activeTabId === activeTabId
+            && previousRoute.personalizedViewId === personalizedViewId;
     }
 
     protected async handleRenderForPrerender(): Promise<TsEmbed> {
