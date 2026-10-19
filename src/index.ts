@@ -202,6 +202,8 @@ import type {
     LiveboardHeaderLoadedPayload,
     AuthInitPayload,
     CustomActionEventPayload,
+    EmbedEventData,
+    EmbedEventPayload,
 } from './contracts/embed-event-payloads';
 import {
     convertFilterChangedToUpdateFiltersPayload,
@@ -427,6 +429,8 @@ export {
     LiveboardHeaderLoadedPayload,
     AuthInitPayload,
     CustomActionEventPayload,
+    EmbedEventData,
+    EmbedEventPayload,
 };
 
 export { resetCachedAuthToken } from './authToken';

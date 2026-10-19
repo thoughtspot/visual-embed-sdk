@@ -179,4 +179,6 @@ export {
     LiveboardHeaderLoadedPayload,
     AuthInitPayload,
     CustomActionEventPayload,
+    EmbedEventData,
+    EmbedEventPayload,
 } from '../index';
