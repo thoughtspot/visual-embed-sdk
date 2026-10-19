@@ -9849,18 +9849,6 @@ export enum Action {
      * ```
      */
     Monitor = 'monitor',
-    /**
-     * Controls the visibility and disabled state of the "View explanation" button in the footer of a Spotter answer, which opens the explanation and verification details.
-     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
-     * @example
-     * ```js
-     * {
-     *     hiddenActions: [Action.SpotterViewExplanation],
-     *     disabledActions: [Action.SpotterViewExplanation],
-     * }
-     * ```
-     */
-    SpotterViewExplanation = 'spotterViewExplanation',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
