@@ -62,8 +62,10 @@ release you are building against for the other:
 
 **Only the SDK version may be `<TBD>`.** The ThoughtSpot release is not derivable from this repo,
 so no automation can fill it in — you have to state it. Use `*` if the member isn't gated on a
-cluster version. A `<TBD>` after the `|`, or an annotation with no ThoughtSpot release at all,
-fails the `validate-version-tags` PR check.
+cluster version. A `<TBD>` after the `|`, or an annotation with no ThoughtSpot release at all
+(including a blank one such as `| ThoughtSpot Cloud:`), fails the `validate-version-tags` PR check.
+So does any SDK version that is neither `X.Y.Z` nor exactly `<TBD>` — a typo such as `<TDB>` would
+otherwise ship to the docs site as-is.
 
 The `bump-version-and-pr` workflow then replaces every `<TBD>` with the version being released,
 before it regenerates the typedoc JSON the docs site is built from, and commits the result as part
@@ -77,7 +79,13 @@ sometimes correct.
 Locally: `npm run lint-versions` runs the PR check, `npm run resolve-versions` does the release
 rewrite (add `--dry-run` to preview), and `npm run check-versions` fails if any `<TBD>` is left.
 That last one also runs on `prepublishOnly`, so a release can never be published with an
-unresolved placeholder in its public docs.
+unresolved placeholder in its public docs. The rewrite checks every annotation first and changes
+no file if any of them can't be resolved.
+
+Pre-releases (`X.Y.Z-beta.N`) are published from branches the release bump hasn't run on, so for
+them a leftover SDK `<TBD>` is only a warning; every other problem still fails. If a stable publish
+fails on `<TBD>` after the bump already ran, a PR with a placeholder was merged in between — re-run
+the `bump-version-and-pr` workflow.
 
 
 ### Building and Testing
