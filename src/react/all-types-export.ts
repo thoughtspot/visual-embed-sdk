@@ -139,4 +139,8 @@ export {
     FilterChangedPayload,
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
+    LiveboardRenderedData,
+    LiveboardVizInfo,
+    LiveboardGroupInfo,
+    LiveboardRenderedTabInfo,
 } from '../index';

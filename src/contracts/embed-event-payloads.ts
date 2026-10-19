@@ -24,6 +24,68 @@ import type {
 // free of any runtime dependency on the answer-service implementation.
 import type { AnswerService } from '../utils/graphql/answerService/answerService';
 
+export interface LiveboardRenderedTabInfo {
+    id: string;
+    name: string;
+}
+
+export interface LiveboardVizInfo {
+    /** ID of the tile. It is not the ID of the answer. */
+    vizId: string;
+    vizName?: string;
+    /** Type of the tile, for example `PINNED_ANSWER` or `NOTE_TILE`. */
+    vizType?: string;
+    /** For example `KPI`, `LINE`, or `NONE` for a table. Note tiles do not have it. */
+    chartType?: string;
+    /** Note tiles do not have it. */
+    answerId?: string;
+    dataSourceIds?: string[];
+    isTimeSeries?: boolean;
+    tabId?: string;
+    /** Set when the tile is in a group from `groups`. */
+    groupId?: string;
+}
+
+export interface LiveboardGroupInfo {
+    groupId: string;
+    name?: string;
+    tabId?: string;
+    vizIds: string[];
+}
+
+export interface LiveboardRenderedData {
+    liveboardId?: string;
+    name?: string;
+    description?: string;
+    activeTabId?: string;
+    tabs?: LiveboardRenderedTabInfo[];
+    /** Number of tiles in `visualizations`, including Note tiles. */
+    vizCount?: number;
+    /** The tiles in layout order. Tiles in a group are included. */
+    visualizations?: LiveboardVizInfo[];
+    groups?: LiveboardGroupInfo[];
+    /** GUID of the Personalized View that is applied, if any. */
+    activeViewId?: string;
+    /** GUID of the default Personalized View, if any. */
+    defaultViewId?: string;
+    /**
+     * Access level of the user to the Liveboard: `MODIFY`,
+     * `MODIFY_METADATA_READ_CONTENT`, `READ_METADATA_MODIFY_CONTENT`, `READ_ONLY`,
+     * or `NO_ACCESS`.
+     */
+    objectAccessLevel?: string;
+    dataSourceNamesWithNoAccess?: string[];
+    personalisedViews?: { viewId: string; viewName: string }[];
+    /**
+     * Number of filter groups in the Liveboard.
+     * To get the filters, use {@link HostEvent.GetFilters}.
+     */
+    filterGroupCount?: number;
+    /** To get the parameters, use {@link HostEvent.GetParameters}. */
+    parameterCount?: number;
+    [key: string]: any;
+}
+
 // ============================================================================
 // Scope mixins — the field clusters events share.
 // ============================================================================
@@ -357,7 +419,7 @@ export interface EmbedEventDataExtension {
     [EmbedEvent.DialogOpen]: EmptyPayload;
     [EmbedEvent.DialogClose]: EmptyPayload;
     [EmbedEvent.LiveboardHeaderLoaded]: LiveboardHeaderLoadedPayload;
-    [EmbedEvent.LiveboardRendered]: EmptyPayload;
+    [EmbedEvent.LiveboardRendered]: LiveboardRenderedData;
     [EmbedEvent.RequestVisibleEmbedCoordinates]: EmptyPayload;
     [EmbedEvent.EmbedIframeCenter]: EmptyPayload;
 }
