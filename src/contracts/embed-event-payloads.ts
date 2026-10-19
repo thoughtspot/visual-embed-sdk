@@ -329,7 +329,10 @@ export interface LiveboardTopUser {
     displayName?: string;
 }
 
-/** {@link EmbedEvent.LiveboardTopUsersLoaded}. */
+/**
+ * {@link EmbedEvent.LiveboardTopUsersLoaded}. containing the top users info for the
+ * Liveboard.
+ */
 export interface LiveboardTopUsersLoadedPayload extends LiveboardScope {
     topUsers?: LiveboardTopUser[];
 }
