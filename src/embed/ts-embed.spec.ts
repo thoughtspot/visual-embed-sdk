@@ -33,6 +33,7 @@ import {
     EmbedErrorCodes,
     EmbedErrorSeverity,
     ContextObject,
+    PageType,
 } from '../types';
 import {
     executeAfterWait,
@@ -4748,13 +4749,13 @@ describe('Unit test case for ts embed', () => {
                 stack: [
                     {
                         name: 'Liveboard',
-                        type: 'Liveboard' as any,
+                        type: PageType.Page,
                         objectIds: { liveboardId: 'lb-123' },
                     },
                 ],
                 currentContext: {
                     name: 'Liveboard',
-                    type: 'Liveboard' as any,
+                    type: PageType.Page,
                     objectIds: { liveboardId: 'lb-123' },
                 },
             };

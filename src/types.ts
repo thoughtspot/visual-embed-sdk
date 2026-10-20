@@ -10532,6 +10532,22 @@ export interface ObjectIds {
     modalTitle?: string;
 }
 
+/**
+ * Layer type of a {@link ContextObject} entry: whether the context is a full
+ * page or a dialog/modal rendered over one. The context itself (liveboard,
+ * search answer, spotter, …) is carried in `name` as a {@link ContextType}.
+ */
+export enum PageType {
+    /**
+     * A full page.
+     */
+    Page = 'page',
+    /**
+     * A dialog or modal rendered over a page.
+     */
+    Dialog = 'dialog',
+}
+
 export interface ContextObject {
     /**
      * Stack of context objects.
@@ -10542,10 +10558,11 @@ export interface ContextObject {
          */
         name: string;
         /**
-         * Layer type of the context object: `page` or `dialog`. The context
-         * itself (liveboard, search-answer, spotter, …) is in `name`.
+         * Layer type of the context object: {@link PageType.Page} or
+         * {@link PageType.Dialog}. The context itself (liveboard,
+         * search-answer, spotter, …) is in `name`.
          */
-        type: 'page' | 'dialog';
+        type: PageType;
         /**
          * Object IDs of the context object.
          */
@@ -10560,9 +10577,10 @@ export interface ContextObject {
          */
         name: string;
         /**
-         * Layer type of the current context object: `page` or `dialog`.
+         * Layer type of the current context object: {@link PageType.Page} or
+         * {@link PageType.Dialog}.
          */
-        type: 'page' | 'dialog';
+        type: PageType;
         objectIds: ObjectIds;
     };
 }
