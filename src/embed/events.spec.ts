@@ -579,6 +579,8 @@ describe('EmbedEvent basic routing', () => {
         ['SpotterVizCheckpointRestored', EmbedEvent.SpotterVizCheckpointRestored],
         ['SpotterVizError', EmbedEvent.SpotterVizError],
         ['SpotterVizClosed', EmbedEvent.SpotterVizClosed],
+        ['LiveboardHeaderLoaded', EmbedEvent.LiveboardHeaderLoaded],
+        ['LiveboardTopUsersLoaded', EmbedEvent.LiveboardTopUsersLoaded],
         ['RefreshLiveboardBrowserCache', EmbedEvent.RefreshLiveboardBrowserCache],
         ['V1Data', EmbedEvent.V1Data],
         ['SpotterShareConversationButtonHeaderClicked', EmbedEvent.SpotterShareConversationButtonHeaderClicked],
@@ -1129,6 +1131,121 @@ describe('EmbedEvent payload and routing', () => {
         await executeAfterWait(() => {
             const types = allHandler.mock.calls.map((c) => c[0].type);
             expect(types).toContain(EmbedEvent.SpotterVizClosed);
+        }, EVENT_WAIT_TIME);
+    });
+
+    test('LiveboardHeaderLoaded payload preserves liveboardId, name, tabs, and filters', async () => {
+        const handler = jest.fn();
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        } as LiveboardViewConfig);
+        liveboardEmbed.on(EmbedEvent.LiveboardHeaderLoaded, handler).render();
+
+        const headerPayload = {
+            liveboardId: '73789007-3f47-4cb2-bc14-ec9f44eaf542',
+            name: 'Sales Performance',
+            description: '',
+            author: { id: 'author-1', displayName: 'Administrator' },
+            isFavorite: false,
+            permission: 'MODIFY',
+            orderedTabs: [
+                { tabId: 'tab-1', tabName: 'Overview' },
+                { tabId: 'tab-2', tabName: 'Details' },
+            ],
+            tabs: [
+                {
+                    id: 'tab-1',
+                    name: 'Overview',
+                    vizCount: 2,
+                    filters: [{
+                        columnName: 'revenue',
+                        dataType: 'DOUBLE',
+                        columnType: 'MEASURE',
+                        isEditable: true,
+                        isMandatory: false,
+                        dataSource: 'Sales',
+                        filterContent: [{ filterType: 'IN', isNegated: false, values: ['100'] }],
+                    }],
+                },
+                {
+                    id: 'tab-2',
+                    name: 'Details',
+                    vizCount: 3,
+                    filters: [] as Array<Record<string, unknown>>,
+                },
+            ],
+            liveboardFilters: [
+                {
+                    columnName: 'city',
+                    dataType: 'CHAR',
+                    columnType: 'ATTRIBUTE',
+                    isEditable: true,
+                    isMandatory: false,
+                    dataSource: 'Retail',
+                    filterContent: [
+                        { filterType: 'IN', isNegated: false, values: ['Atlanta', 'Boise'] },
+                    ],
+                },
+            ],
+            parameters: [{ id: 'p-1', name: 'num', defaultValue: '0', dataType: 'INT64' }],
+        };
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.LiveboardHeaderLoaded,
+                data: headerPayload,
+            });
+        });
+
+        await executeAfterWait(() => {
+            expect(handler).toHaveBeenCalled();
+            const received = handler.mock.calls[0][0].data;
+            expect(received.liveboardId).toBe(headerPayload.liveboardId);
+            expect(received.name).toBe(headerPayload.name);
+            expect(received.orderedTabs).toEqual(headerPayload.orderedTabs);
+            expect(received.tabs).toHaveLength(2);
+            expect(received.tabs[0].filters[0].columnName).toBe('revenue');
+            expect(received.tabs[0].filters[0].filterContent[0].values).toEqual(['100']);
+            expect(received.liveboardFilters[0].columnName).toBe('city');
+            expect(received.liveboardFilters[0].filterContent[0].values).toEqual(['Atlanta', 'Boise']);
+            expect(received.parameters).toEqual(headerPayload.parameters);
+        }, EVENT_WAIT_TIME);
+    });
+
+    test('LiveboardTopUsersLoaded payload preserves liveboardId and topUsers', async () => {
+        const handler = jest.fn();
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId: 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0',
+        } as LiveboardViewConfig);
+        liveboardEmbed.on(EmbedEvent.LiveboardTopUsersLoaded, handler).render();
+
+        const topUsersPayload = {
+            liveboardId: '73789007-3f47-4cb2-bc14-ec9f44eaf542',
+            topUsers: [
+                { id: 'user-1', displayName: 'Alice' },
+                { id: 'user-2', displayName: 'Bob' },
+            ],
+        };
+
+        await executeAfterWait(() => {
+            const iframe = getIFrameEl();
+            postMessageToParent(iframe.contentWindow, {
+                type: EmbedEvent.LiveboardTopUsersLoaded,
+                data: topUsersPayload,
+            });
+        });
+
+        await executeAfterWait(() => {
+            expect(handler).toHaveBeenCalled();
+            const received = handler.mock.calls[0][0].data;
+            expect(received.liveboardId).toBe(topUsersPayload.liveboardId);
+            expect(received.topUsers).toHaveLength(2);
+            expect(received.topUsers[0].id).toBe('user-1');
+            expect(received.topUsers[0].displayName).toBe('Alice');
+            expect(received.topUsers[1].displayName).toBe('Bob');
         }, EVENT_WAIT_TIME);
     });
 

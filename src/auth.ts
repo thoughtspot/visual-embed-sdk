@@ -426,11 +426,18 @@ export const doBasicAuth = async (embedConfig: EmbedConfig): Promise<boolean> =>
  * @param ssoURL
  * @param triggerContainer
  * @param triggerText
+ * @param thoughtSpotHost
  */
-async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, triggerText: string) {
+async function samlPopupFlow(
+    ssoURL: string,
+    triggerContainer: DOMSelector,
+    triggerText: string,
+    thoughtSpotHost: string,
+) {
+    const thoughtSpotOrigin = new URL(thoughtSpotHost).origin;
     let popupClosedCheck: NodeJS.Timeout;
     const openPopup = () => {
-        if (samlAuthWindow === null || samlAuthWindow.closed) {
+        if (!samlAuthWindow || samlAuthWindow.closed) {
             samlAuthWindow = window.open(
                 ssoURL,
                 '_blank',
@@ -461,7 +468,13 @@ async function samlPopupFlow(ssoURL: string, triggerContainer: DOMSelector, trig
     }
     samlCompletionPromise = samlCompletionPromise || new Promise<void>((resolve, reject) => {
         window.addEventListener('message', (e) => {
-            if (e.data.type === EmbedEvent.SAMLComplete) {
+            // Only the SSO popup we opened, on the ThoughtSpot origin, may
+            // complete the flow or hand us a token; anything else could
+            // inject an attacker's token into the auth cache.
+            if (e.origin !== thoughtSpotOrigin || !samlAuthWindow || e.source !== samlAuthWindow) {
+                return;
+            }
+            if (e.data?.type === EmbedEvent.SAMLComplete) {
                 if (e.data.accessToken) {
                     const decodedToken = decodeURIComponent(e.data.accessToken);
                     storeAuthTokenInCache(decodedToken);
@@ -506,7 +519,12 @@ const doSSOAuth = async (embedConfig: EmbedConfig, ssoEndPoint: string): Promise
 
     const ssoURL = `${thoughtSpotHost}${ssoEndPoint}`;
     if (embedConfig.inPopup) {
-        await samlPopupFlow(ssoURL, embedConfig.authTriggerContainer, embedConfig.authTriggerText);
+        await samlPopupFlow(
+            ssoURL,
+            embedConfig.authTriggerContainer,
+            embedConfig.authTriggerText,
+            thoughtSpotHost,
+        );
         const cachedToken = getCacheAuthToken();
         if (cachedToken) {
             loggedInStatus = true;
@@ -519,12 +537,23 @@ const doSSOAuth = async (embedConfig: EmbedConfig, ssoEndPoint: string): Promise
     window.location.href = ssoURL;
 };
 
+/**
+ * The popup's SSO completion page. hostAppOrigin tells ThoughtSpot which
+ * origin opened the popup; the cluster only posts a token back to it if it
+ * is an allowed redirect domain.
+ * @param thoughtSpotHost
+ */
+const getSSOCompletePageUrl = (thoughtSpotHost: string): string => {
+    const hostAppOrigin = encodeURIComponent(window.location.origin);
+    return `${thoughtSpotHost}/v2/#/embed/saml-complete?hostAppOrigin=${hostAppOrigin}`;
+};
+
 export const doSamlAuth = async (embedConfig: EmbedConfig) => {
     const { thoughtSpotHost } = embedConfig;
     // redirect for SSO, when the SSO authentication is done, this page will be
     // loaded again and the same JS will execute again.
     const ssoRedirectUrl = embedConfig.inPopup
-        ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
+        ? getSSOCompletePageUrl(thoughtSpotHost)
         : getRedirectUrl(
             window.location.href,
             SSO_REDIRECTION_MARKER_GUID,
@@ -543,7 +572,7 @@ export const doOIDCAuth = async (embedConfig: EmbedConfig) => {
     // redirect for SSO, when the SSO authentication is done, this page will be
     // loaded again and the same JS will execute again.
     const ssoRedirectUrl = embedConfig.noRedirect || embedConfig.inPopup
-        ? `${thoughtSpotHost}/v2/#/embed/saml-complete`
+        ? getSSOCompletePageUrl(thoughtSpotHost)
         : getRedirectUrl(
             window.location.href,
             SSO_REDIRECTION_MARKER_GUID,

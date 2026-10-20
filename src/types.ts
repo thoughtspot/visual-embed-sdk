@@ -2680,6 +2680,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @returns isLoggedIn - A Boolean specifying whether authentication was successful.
+     * Payload: {@link AuthInitPayload}.
      */
     AuthInit = 'authInit',
     /**
@@ -2699,6 +2700,7 @@ export enum EmbedEvent {
     /**
      * Data pertaining to an Answer, Liveboard or Spotter visualization is received.
      * The event payload includes the raw data of the object.
+     * Payload: {@link DataEventPayload}.
      * @return data -  Answer of Liveboard data
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
@@ -2712,6 +2714,7 @@ export enum EmbedEvent {
     Data = 'data',
     /**
      * Search query has been updated by the user.
+     * Payload: {@link QueryChangedPayload} or a string.
      * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 8.4.1.sw
      * @example
      * ```js
@@ -2754,6 +2757,7 @@ export enum EmbedEvent {
      *     })
      * })
      * ```
+     * Payload: {@link DrilldownPayload}.
      */
     Drilldown = 'drillDown',
     /**
@@ -2766,6 +2770,7 @@ export enum EmbedEvent {
      *    console.log('DataSourceSelected', payload);
      * })
      * ```
+     * Payload: {@link DataSourceSelectedPayload} or string[].
      */
     DataSourceSelected = 'dataSourceSelected',
     /**
@@ -2778,6 +2783,7 @@ export enum EmbedEvent {
      *   console.log('AddRemoveColumns', payload);
      * })
      * ```
+     * Payload: string[].
      */
     AddRemoveColumns = 'addRemoveColumns',
     /**
@@ -2795,6 +2801,7 @@ export enum EmbedEvent {
      *     }
      * })
      * ```
+     * Payload: {@link CustomActionPayload} (on() enriches it to {@link CustomActionEventPayload}).
      */
     CustomAction = 'customAction',
     /**
@@ -2807,6 +2814,7 @@ export enum EmbedEvent {
      *      console.log('VizPointDoubleClick', payload);
      * })
      * ```
+     * Payload: {@link VizInteractionPayload}.
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
@@ -2826,6 +2834,7 @@ export enum EmbedEvent {
      *   )
      * });
      * ```
+     * Payload: {@link VizInteractionPayload}.
      */
     VizPointClick = 'vizPointClick',
     /**
@@ -2878,6 +2887,7 @@ export enum EmbedEvent {
      *   // { errorType: "API", message: '...', code: '...' }
      * });
      * ```
+     * Payload: {@link EmbedErrorPayload} or a string.
      */
     Error = 'Error',
     /**
@@ -2930,6 +2940,7 @@ export enum EmbedEvent {
      * The center of visible iframe viewport is calculated.
      * @returns data - The center of the visible Iframe viewport.
      * @hidden
+     * Payload: none.
      */
     EmbedIframeCenter = 'EmbedIframeCenter',
     /**
@@ -2986,6 +2997,7 @@ export enum EmbedEvent {
      *    console.log('dialog open', payload);
      *  })
      * ```
+     * Payload: none.
      */
     DialogOpen = 'dialog-open',
     /**
@@ -2997,12 +3009,19 @@ export enum EmbedEvent {
      *     console.log('dialog close', payload);
      * })
      * ```
+     * Payload: none.
      */
     DialogClose = 'dialog-close',
     /**
      * Emitted when the Liveboard shell loads.
      * You can use this event as a hook to trigger
      * other events on the rendered Liveboard.
+     *
+     * From SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl, the payload contains basic
+     * data about the rendered Liveboard. In earlier versions, the payload is empty.
+     * Make sure that a field is present before you use it.
+     * Payload: {@link LiveboardRenderedData}.
+     *
      * @version SDK: 1.9.1 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -3021,6 +3040,40 @@ export enum EmbedEvent {
      * ```
      */
     LiveboardRendered = 'PinboardRendered',
+    /**
+     * Emitted when the header of a Liveboard has loaded.
+     * The Liveboard header loads before the visualizations,
+     * so you can use this event to show early content or
+     * trigger actions without waiting for the full
+     * Liveboard to render.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.LiveboardHeaderLoaded,
+     *     payload => {
+     *         console.log('Liveboard header is loaded',
+     *             payload);
+     *     })
+     * ```
+     * Payload: {@link LiveboardHeaderLoadedPayload}.
+     */
+    LiveboardHeaderLoaded = 'LiveboardHeaderLoaded',
+    /**
+     * Emitted when the top users (recent viewers) of a
+     * Liveboard have been loaded. The payload contains the
+     * list of users who have recently viewed the Liveboard.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.LiveboardTopUsersLoaded,
+     *     payload => {
+     *         console.log('Top users loaded',
+     *             payload);
+     *     })
+     * ```
+     * Payload: {@link LiveboardTopUsersLoadedPayload}.
+     */
+    LiveboardTopUsersLoaded = 'LiveboardTopUsersLoaded',
     /**
      * Emits all events.
      * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
@@ -3049,6 +3102,7 @@ export enum EmbedEvent {
      *    console.log('Save', payload)
      * })
      * ```
+     * Payload: {@link SaveEventPayload}.
      */
     Save = 'save',
     /**
@@ -3065,6 +3119,7 @@ export enum EmbedEvent {
      * vizId: '730496d6-6903-4601-937e-2c691821af3c'
      * })
      * ```
+     * Payload: {@link VizScope}.
      */
     Download = 'download',
     /**
@@ -3084,6 +3139,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
      *   console.log('download PNG', payload)})
      * ```
+     * Payload: {@link DownloadEventPayload}.
      */
     DownloadAsPng = 'downloadAsPng',
     /**
@@ -3103,6 +3159,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.DownloadAsPdf, payload => {
      *   console.log('download PDF', payload)})
      * ```
+     * Payload: {@link DownloadEventPayload}.
      */
     DownloadAsPdf = 'downloadAsPdf',
     /**
@@ -3122,6 +3179,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.DownloadAsCsv, payload => {
      *    console.log('download CSV', payload)})
      * ```
+     * Payload: {@link DownloadEventPayload}.
      */
     DownloadAsCsv = 'downloadAsCsv',
     /**
@@ -3141,6 +3199,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.DownloadAsXlsx, payload => {
      *   console.log('download Xlsx', payload)})
      * ```
+     * Payload: {@link DownloadEventPayload}.
      */
     DownloadAsXlsx = 'downloadAsXlsx',
     /**
@@ -3152,6 +3211,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.DownloadLiveboardAsContinuousPDF, payload => {
      *   console.log('download liveboard as continuous PDF', payload)})
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     DownloadLiveboardAsContinuousPDF = 'downloadLiveboardAsContinuousPDF',
     /**
@@ -3168,6 +3228,7 @@ export enum EmbedEvent {
      * appEmbed.on(EmbedEvent.AnswerDelete, payload => {
      *    console.log('delete answer', payload)})
      * ```
+     * Payload: {@link AnswerScope}.
      */
     AnswerDelete = 'answerDelete',
     /**
@@ -3179,6 +3240,7 @@ export enum EmbedEvent {
      *   console.log('AI Highlights', payload);
      * })
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     AIHighlights = 'AIHighlights',
     /**
@@ -3200,6 +3262,7 @@ export enum EmbedEvent {
      *    console.log('pin', payload)
      * })
      * ```
+     * Payload: {@link PinEventPayload}.
      */
     Pin = 'pin',
     /**
@@ -3218,6 +3281,7 @@ export enum EmbedEvent {
      *   console.log('SpotIQ analyze', payload)
      * })
      * ```
+     * Payload: {@link AnswerScope}.
      */
     SpotIQAnalyze = 'spotIQAnalyze',
     /**
@@ -3271,6 +3335,7 @@ export enum EmbedEvent {
      *    console.log('copy to clipboard', payload);
      * })
      * ```
+     * Payload: {@link CopyToClipboardPayload}.
      */
     CopyToClipboard = 'context-menu-item-copy-to-clipboard',
     /**
@@ -3282,6 +3347,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.UpdateTML)
      * })
      * ```
+     * Payload: {@link TmlEventPayload}.
      */
     UpdateTML = 'updateTSL',
     /**
@@ -3294,6 +3360,7 @@ export enum EmbedEvent {
      *    console.log('Edit TML', payload);
      * })
      * ```
+     * Payload: {@link TmlEventPayload}.
      */
     EditTML = 'editTSL',
     /**
@@ -3311,6 +3378,7 @@ export enum EmbedEvent {
      * searchEmbed.on(EmbedEvent.ExportTML, payload => {
      *     console.log('Export TML', payload)})
      * ```
+     * Payload: {@link TmlEventPayload}.
      */
     ExportTML = 'exportTSL',
     /**
@@ -3349,6 +3417,7 @@ export enum EmbedEvent {
      *    console.log('show data', payload);
      * })
      * ```
+     * Payload: {@link AnswerScope}.
      */
     ShowUnderlyingData = 'showUnderlyingData',
     /**
@@ -3360,6 +3429,7 @@ export enum EmbedEvent {
      *    console.log('switch view', payload);
      * })
      * ```
+     * Payload: {@link AnswerChartSwitcherPayload}.
      */
     AnswerChartSwitcher = 'answerChartSwitcher',
     /**
@@ -3381,6 +3451,7 @@ export enum EmbedEvent {
      *    console.log('Liveboard details', payload);
      * })
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     LiveboardInfo = 'pinboardInfo',
     /**
@@ -3392,6 +3463,7 @@ export enum EmbedEvent {
      *    console.log('favorites', payload);
      * })
      * ```
+     * Payload: {@link FavoritePayload}.
      */
     AddToFavorites = 'addToFavorites',
     /**
@@ -3403,6 +3475,7 @@ export enum EmbedEvent {
      *    console.log('Liveboard schedule', payload);
      * })
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     Schedule = 'subscription',
     /**
@@ -3417,6 +3490,7 @@ export enum EmbedEvent {
      *    console.log('Liveboard edit', payload);
      * })
      * ```
+     * Payload: {@link LiveboardVizScope}.
      */
     Edit = 'edit',
     /**
@@ -3458,6 +3532,7 @@ export enum EmbedEvent {
      *    console.log('Copy', payload);
      * })
      * ```
+     * Payload: {@link MakeACopyPayload}.
      */
     MakeACopy = 'makeACopy',
     /**
@@ -3473,6 +3548,7 @@ export enum EmbedEvent {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * })
      * ```
+     * Payload: {@link LiveboardVizScope}.
      */
     Present = 'present',
     /**
@@ -3483,6 +3559,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.Delete,
      *   {vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     Delete = 'delete',
     /**
@@ -3492,6 +3569,7 @@ export enum EmbedEvent {
      * ```js
      * liveboardEmbed.on(EmbedEvent.SchedulesList)
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     SchedulesList = 'schedule-list',
     /**
@@ -3501,6 +3579,7 @@ export enum EmbedEvent {
      * ```js
      * liveboardEmbed.on(EmbedEvent.Cancel)
      * ```
+     * Payload: {@link LiveboardScope}.
      */
     Cancel = 'cancel',
     /**
@@ -3511,6 +3590,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.Explore,  {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
+     * Payload: {@link LiveboardVizScope}.
      */
     Explore = 'explore',
     /**
@@ -3521,6 +3601,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.CopyLink, {
      *   vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
+     * Payload: {@link CopyLinkPayload}.
      */
     CopyLink = 'embedDocument',
     /**
@@ -3532,6 +3613,7 @@ export enum EmbedEvent {
      * liveboardEmbed.on(EmbedEvent.CrossFilterChanged, {
      *    vizId: '730496d6-6903-4601-937e-2c691821af3c'})
      * ```
+     * Payload: {@link CrossFilterChangedPayload}.
      */
     CrossFilterChanged = 'cross-filter-changed',
     /**
@@ -3543,6 +3625,7 @@ export enum EmbedEvent {
      *    console.log('VizPointClick', payload)
      * })
      * ```
+     * Payload: {@link VizInteractionPayload}.
      */
     VizPointRightClick = 'vizPointRightClick',
     /**
@@ -3570,6 +3653,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @version SDK: 1.23.0 | ThoughtSpot: 9.4.0.cl, 9.5.0.sw
+     * Payload: {@link FilterChangedPayload}.
      */
     FilterChanged = 'filterChanged',
     /**
@@ -3592,6 +3676,7 @@ export enum EmbedEvent {
      * @returns isPublic: boolean
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * Payload: {@link PersonalisedViewPayload}.
      */
     UpdatePersonalisedView = 'updatePersonalisedView',
     /**
@@ -3613,6 +3698,7 @@ export enum EmbedEvent {
      * @returns isPublic: boolean
      * @version SDK: 1.26.0 | ThoughtSpot: 9.7.0.cl, 9.8.0.sw
      * @deprecated SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
+     * Payload: {@link PersonalisedViewPayload}.
      */
     SavePersonalisedView = 'savePersonalisedView',
     /**
@@ -3687,6 +3773,7 @@ export enum EmbedEvent {
     /**
      * Emitted when a Liveboard or visualization is renamed.
      * @version SDK: 1.28.0 | ThoughtSpot: 9.10.5.cl, 10.1.0.sw
+     * Payload: {@link RenamePayload}.
      */
     Rename = 'rename',
     /**
@@ -3772,6 +3859,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @version SDK: 1.29.0 | ThoughtSpot: 10.3.0.cl
+     * Payload: {@link ParameterChangedPayload}.
      */
     ParameterChanged = 'parameterChanged',
     /**
@@ -3815,6 +3903,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @version SDK: 1.37.0 | ThoughtSpot: 10.8.0.cl
+     * Payload: {@link TableVizRenderedPayload}.
      */
     TableVizRendered = 'TableVizRendered',
     /**
@@ -3839,12 +3928,14 @@ export enum EmbedEvent {
      * @hidden
      * Emitted when a user exits present mode.
      * @version SDK: 1.40.0 | ThoughtSpot: 10.11.0.cl
+     * Payload: {@link ExitPresentModePayload}.
      */
     ExitPresentMode = 'exitPresentMode',
     /**
      * Emitted when a user requests the full height lazy load data.
      * @version SDK: 1.39.0 | ThoughtSpot: 10.10.0.cl
      * @hidden
+     * Payload: none.
      */
     RequestVisibleEmbedCoordinates = 'requestVisibleEmbedCoordinates',
     /**
@@ -3878,6 +3969,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @version SDK: 1.45.0 | ThoughtSpot: 26.2.0.cl
+     * Payload: {@link VizScope}.
      */
     AddToCoaching = 'addToCoaching',
     /**
@@ -3967,6 +4059,7 @@ export enum EmbedEvent {
      *     console.log('EmbedListenerReady');
      * })
      * ```
+     * Payload: none.
      */
     EmbedListenerReady = 'EmbedListenerReady',
     /**
@@ -4346,6 +4439,7 @@ export enum EmbedEvent {
      * })
      * ```
      * @version SDK: 1.48.0 | ThoughtSpot Cloud: 26.5.0.cl
+     * Payload: {@link TestScheduleEmailPayload}.
      */
     SendTestScheduleEmail = 'sendTestScheduleEmail',
 
@@ -7110,6 +7204,7 @@ export enum Param {
      * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.9.0.cl
      */
     TsmcpAnswerIndex = 'tsmcpAnswerIndex',
+    IsMcpAnswerEmbed = 'isMcpAnswerEmbed',
     EmbedApp = 'embedApp',
     DataSources = 'dataSources',
     DataSourceMode = 'dataSourceMode',
@@ -9359,6 +9454,28 @@ export enum Action {
      */
     SpotterOnLiveboard = 'spotterOnLiveboard',
     /**
+     * The **View explanation** button on Spotter answer cards, which opens the
+     * Answer Verification experience in `SpotterEmbed` (and the deprecated
+     * `ConversationEmbed`).
+     *
+     * Adding it to `hiddenActions` (or leaving it out of `visibleActions`)
+     * removes the button and restores the classic answer footer actions
+     * (Pin, Save, Download, Edit) with no explanation pane. Adding it to
+     * `disabledActions` keeps the button visible but inert, and shows the
+     * host's `disabledActionReason` as the tooltip.
+     *
+     * The button only exists when Answer Verification
+     * (`enableAnswerVerification`) is enabled on the cluster. This action
+     * controls its visibility; it does not turn the feature on.
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * hiddenActions: [Action.SpotterViewExplanation]
+     * disabledActions: [Action.SpotterViewExplanation]
+     * ```
+     */
+    SpotterViewExplanation = 'spotterViewExplanation',
+    /***
      * Controls the visibility and disabled state of the "Chart Type" menu item
      * in Chart Settings V2.
      * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
@@ -9590,6 +9707,42 @@ export enum Action {
      */
     CustomizeHomepage = 'customizeHomepage',
     /**
+     * Controls the visibility and disabled state of the rename button next to the Liveboard title in the Liveboard header.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.RenameLiveboard],
+     *     disabledActions: [Action.RenameLiveboard],
+     * }
+     * ```
+     */
+    RenameLiveboard = 'renameLiveboard',
+    /**
+     * Controls the visibility and disabled state of the filter toggle button in the Liveboard header that opens and closes the filter panel.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.FilterPanelToggle],
+     *     disabledActions: [Action.FilterPanelToggle],
+     * }
+     * ```
+     */
+    FilterPanelToggle = 'filterPanelToggle',
+    /**
+     * Controls the visibility and disabled state of the "Add scenario" action on an Answer.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.AddScenario],
+     *     disabledActions: [Action.AddScenario],
+     * }
+     * ```
+     */
+    AddScenario = 'addScenario',
+    /**
      * Controls the visibility and disabled state of the *Cancel* button in the
      * Liveboard edit header, the button that discards the changes made in edit
      * mode and returns the Liveboard to view mode. The button is shown only
@@ -9612,6 +9765,90 @@ export enum Action {
      * ```
      */
     Cancel = 'cancel',
+    /**
+     * Controls the visibility and disabled state of the "Version history" menu item for a Liveboard or Answer.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 9.8.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.ShowVersionHistory],
+     *     disabledActions: [Action.ShowVersionHistory],
+     * }
+     * ```
+     */
+    ShowVersionHistory = 'showVersionHistory',
+    /**
+     * Controls the visibility and disabled state of the "Enable version control" menu item for a Liveboard or Answer.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 9.10.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.EnableVersionControl],
+     *     disabledActions: [Action.EnableVersionControl],
+     * }
+     * ```
+     */
+    EnableVersionControl = 'enableVersionControl',
+    /**
+     * Controls the visibility and disabled state of the "Disable version control" menu item for a Liveboard or Answer.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 9.10.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.DisableVersionControl],
+     *     disabledActions: [Action.DisableVersionControl],
+     * }
+     * ```
+     */
+    DisableVersionControl = 'disableVersionControl',
+    /**
+     * Controls the visibility and disabled state of the "Withdraw verification" menu item for a verified Liveboard.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 9.8.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.WithdrawVerification],
+     *     disabledActions: [Action.WithdrawVerification],
+     * }
+     * ```
+     */
+    WithdrawVerification = 'withdrawVerification',
+    /**
+     * Controls the visibility and disabled state of the "Switch to new chart experience" menu item on an Answer.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 10.10.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.SwitchToNewChartExperience],
+     *     disabledActions: [Action.SwitchToNewChartExperience],
+     * }
+     * ```
+     */
+    SwitchToNewChartExperience = 'switchToNewChartExperience',
+    /**
+     * Controls the visibility and disabled state of the "Switch to classic chart experience" menu item on an Answer.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 10.10.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.SwitchToClassicChartExperience],
+     *     disabledActions: [Action.SwitchToClassicChartExperience],
+     * }
+     * ```
+     */
+    SwitchToClassicChartExperience = 'switchToClassicChartExperience',
+    /**
+     * Controls the visibility and disabled state of the "Monitor" menu item on an Answer, which includes the alert options.
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 10.5.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.Monitor],
+     *     disabledActions: [Action.Monitor],
+     * }
+     * ```
+     */
+    Monitor = 'monitor',
 }
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;

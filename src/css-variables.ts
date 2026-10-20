@@ -1784,4 +1784,172 @@ export interface CustomCssVariables {
      * Background color of the shimmer sweep animation's gradient mid-stop.
      */
     '--ts-var-shimmer-sweep-background'?: string;
+
+    /**
+     * Secondary accent color. Used as the background of cross-filter chips in the
+     * filter panel and to highlight Liveboard visualizations and Answer headers
+     * impacted by a cross filter.
+     */
+    '--ts-var-root-secondary-color'?: string;
+
+    /**
+     * Background color of the action items in the top navigation bar, such as the
+     * search bar, Help menu, Org switcher, user menu, and notifications, on hover
+     * or when selected.
+     */
+    '--ts-var-nav-action-item-background'?: string;
+
+    /**
+     * Border color of the action items in the top navigation bar, such as the
+     * Org switcher and the search bar.
+     */
+    '--ts-var-nav-action-item-border-color'?: string;
+
+    /**
+     * Border color of the search bar in the top navigation bar on hover.
+     */
+    '--ts-var-nav-action-item-border-secondary-color'?: string;
+
+    /**
+     * Placeholder text color of the search bar and menus in the top navigation
+     * bar. Also used as the background of the Help menu button when the menu
+     * is open.
+     */
+    '--ts-var-nav-action-item-placeholder-color'?: string;
+
+    /**
+     * Background color of the natural language search bar header in Sage
+     * embed.
+     */
+    '--ts-var-sage-bar-header-background-color'?: string;
+
+    /**
+     * Background color of the data source selector in the natural language
+     * search bar.
+     */
+    '--ts-var-source-selector-background-color'?: string;
+
+    /**
+     * Background color of the data source selector in the natural language
+     * search bar on hover.
+     */
+    '--ts-var-source-selector-hover-color'?: string;
+
+    /**
+     * Font color of the text in the natural language search box.
+     */
+    '--ts-var-sage-search-box-font-color'?: string;
+
+    /**
+     * Background color of the natural language search box.
+     */
+    '--ts-var-sage-search-box-background-color'?: string;
+
+    /**
+     * Background color of the AI-generated answer container in Sage embed.
+     */
+    '--ts-var-sage-embed-background-color'?: string;
+
+    /**
+     * Background color of the suggested (seed) questions shown in the natural
+     * language search bar and Spotter.
+     */
+    '--ts-var-sage-seed-questions-background'?: string;
+
+    /**
+     * Font color of the suggested (seed) questions shown in the natural
+     * language search bar and Spotter.
+     */
+    '--ts-var-sage-seed-questions-font-color'?: string;
+
+    /**
+     * Background color of the suggested (seed) questions shown in the natural
+     * language search bar and Spotter on hover.
+     */
+    '--ts-var-sage-seed-questions-hover-background'?: string;
+
+    /**
+     * Background of the AI gradient border around the natural language search bar
+     * and the Spotter prompt input. Accepts any CSS background value, for example,
+     * a `linear-gradient(...)` or a solid color.
+     */
+    '--ts-var-ai-gradient-color'?: string;
+
+    /**
+     * Background color of the separator line between sections of a menu.
+     */
+    '--ts-var-menu-seperator-background'?: string;
+
+    /**
+     * Start color of the gradient background on the icon of custom menu items in
+     * the navigation. Defaults to the value of `--ts-var-root-color`.
+     */
+    '--ts-var-home-card-color'?: string;
+
+    /**
+     * Font color of the heading text on the suggestion cards in the favorites
+     * carousel on the Home page.
+     */
+    '--ts-var-home-favorite-suggestion-card-text-font-color'?: string;
+
+    /**
+     * Background color of a highlighted checkbox row on hover.
+     */
+    '--ts-var-checkbox-highlighted-hover-color'?: string;
+
+    /**
+     * Font family of the group title in a Liveboard. Defaults to the value of
+     * `--ts-var-viz-title-font-family`.
+     */
+    '--ts-var-liveboard-group-title-font-family'?: string;
+
+    /**
+     * Font family of the group description in a Liveboard. Defaults to the value
+     * of `--ts-var-viz-description-font-family`.
+     */
+    '--ts-var-liveboard-group-description-font-family'?: string;
+
+    /**
+     * Font family of the visualization titles inside a Liveboard group. Defaults
+     * to the value of `--ts-var-viz-title-font-family`.
+     */
+    '--ts-var-liveboard-group-tile-title-font-family'?: string;
+
+    /**
+     * Font family of the visualization descriptions inside a Liveboard group.
+     * Defaults to the value of `--ts-var-viz-description-font-family`.
+     */
+    '--ts-var-liveboard-group-tile-description-font-family'?: string;
+
+    /**
+     * Font color of the filter chips in a Liveboard on hover. Defaults to the
+     * value of `--ts-var-chip--hover-color`.
+     */
+    '--ts-var-liveboard-chip--hover-color'?: string;
+
+    /**
+     * Font color of the filter chips in a Liveboard when active. Defaults to the
+     * value of `--ts-var-chip--active-color`.
+     */
+    '--ts-var-liveboard-chip--active-color'?: string;
+
+    /**
+     * Background color of the styling panel in the Liveboard. Defaults to the
+     * value of `--ts-var-liveboard-edit-bar-background`.
+     */
+    '--ts-var-liveboard-styling-panel-background'?: string;
+
+    /**
+     * Border radius of the visualization container on the Answer page. On a
+     * Liveboard, this value is derived from `--ts-var-liveboard-tile-border-radius`
+     * and `--ts-var-viz-border-radius`; use those to style Liveboard tiles.
+     */
+    '--ts-var-tile-viz-border-radius'?: string;
+
+    /**
+     * Color of the outline (halo) drawn around data labels on charts, which keeps
+     * the labels readable over chart elements. Defaults to the value of
+     * `--ts-var-root-color`.
+     */
+    '--ts-var-chart-data-label-stroke-color'?: string;
 }
