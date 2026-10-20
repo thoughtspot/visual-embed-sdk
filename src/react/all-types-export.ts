@@ -37,6 +37,7 @@ export {
     SortOptions,
     EmbedEvent,
     HostEvent,
+    PageType,
     DataSourceVisualMode,
     Action,
     EmbedConfig,
