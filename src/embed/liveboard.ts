@@ -8,7 +8,6 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import DOMPurify from 'dompurify';
 import isEqualWith from 'lodash/isEqualWith';
 import { getPreview } from '../utils/graphql/preview-service';
 import { ERROR_MESSAGE } from '../errors';
@@ -988,6 +987,11 @@ export class LiveboardEmbed extends V1Embed {
             // iframe). Injecting it raw is an XSS sink — event handlers/scripts
             // in the snapshot would run in the embedder's origin. Sanitize it
             // before injecting (SCAL-344913 / OFFSEC-1120).
+            //
+            // DOMPurify is loaded on demand so its ~8kB (gzipped) only ships to
+            // consumers that opt into the preview loader, keeping it out of the
+            // main bundle for everyone else.
+            const { default: DOMPurify } = await import('dompurify');
             previewDiv.innerHTML = DOMPurify.sanitize(preview.vizContent);
             this.hostElement.appendChild(previewDiv);
             this.hostElement.style.position = 'relative';
