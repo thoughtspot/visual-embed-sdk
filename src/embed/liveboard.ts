@@ -980,13 +980,19 @@ export class LiveboardEmbed extends V1Embed {
             }
             addPreviewStylesIfNotPresent();
 
-            const div = document.createElement('div');
-            div.innerHTML = `
-                <div class=ts-viz-preview-loader>
-                    ${preview.vizContent}
-                </div>
-                `;
-            const previewDiv = div.firstElementChild as HTMLElement;
+            const previewDiv = document.createElement('div');
+            previewDiv.className = 'ts-viz-preview-loader';
+            // vizContent is a stored, client-supplied snapshot that is rendered
+            // in the embedding page's own origin (outside the ThoughtSpot
+            // iframe). Injecting it raw is an XSS sink — event handlers/scripts
+            // in the snapshot would run in the embedder's origin. Sanitize it
+            // before injecting (SCAL-344913 / OFFSEC-1120).
+            //
+            // DOMPurify is loaded on demand so its ~8kB (gzipped) only ships to
+            // consumers that opt into the preview loader, keeping it out of the
+            // main bundle for everyone else.
+            const { default: DOMPurify } = await import('dompurify');
+            previewDiv.innerHTML = DOMPurify.sanitize(preview.vizContent);
             this.hostElement.appendChild(previewDiv);
             this.hostElement.style.position = 'relative';
             this.on(EmbedEvent.Data, () => {

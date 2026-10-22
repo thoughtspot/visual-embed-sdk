@@ -1958,6 +1958,30 @@ describe('Liveboard/viz embed tests', () => {
             });
         });
 
+        test('Show preview loader sanitizes vizContent before injecting it into the host page (SCAL-344913)', async () => {
+            jest.spyOn(previewService, 'getPreview').mockResolvedValue({
+                vizContent:
+                    '<div id="safe">ok</div>' +
+                    '<img src="x" onerror="window.__xss = true">' +
+                    '<script>window.__xss = true</script>',
+            });
+            const libEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId: '1234',
+                vizId: '5678',
+                showPreviewLoader: true,
+            });
+            await libEmbed.render();
+            await executeAfterWait(() => {
+                const html = getRootEl().innerHTML;
+                // Safe markup is preserved so the preview still renders...
+                expect(html).toContain('<div id="safe">ok</div>');
+                // ...but the script and the inline event handler are stripped,
+                // so no snapshot HTML can execute in the embedder's origin.
+                expect(html).not.toContain('<script>');
+                expect(html).not.toContain('onerror');
+            });
+        });
+
         test('it should navigateToLiveboard with liveboard id is not passed with EmbedListenerReady event', async () => {
             mockMessageChannel();
             const consoleSpy = jest.spyOn(console, 'error');
