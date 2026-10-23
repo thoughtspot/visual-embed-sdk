@@ -1,6 +1,6 @@
 import { Action, DisabledActionReasonMap, GENERIC_REASON } from '../types';
 import { DISABLED_ACTION_REASON_WARNING } from '../errors';
-import { getDisabledActionReasonParam } from './disabled-action-reason';
+import { getDisabledActionReasonParam } from './actions';
 import { logger } from './logger';
 
 describe('getDisabledActionReasonParam', () => {

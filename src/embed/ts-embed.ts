@@ -49,7 +49,7 @@ import {
     setParamIfDefined,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
-import { getDisabledActionReasonParam } from '../utils/disabled-action-reason';
+import { getDisabledActionReasonParam } from '../utils/actions';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
