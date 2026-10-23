@@ -1,3 +1,5 @@
+import isPlainObject from 'lodash/isPlainObject';
+import isString from 'lodash/isString';
 import { Action, DisabledActionReasonMap, GENERIC_REASON } from '../types';
 import { DISABLED_ACTION_REASON_WARNING } from '../errors';
 import { logger } from './logger';
@@ -6,16 +8,6 @@ const VALID_REASON_KEYS: ReadonlySet<string> = new Set<string>([
     ...Object.values(Action),
     GENERIC_REASON,
 ]);
-
-// Built-in type of a value, lower-cased: 'object', 'array', 'map', 'date', ...
-const getTypeName = (value: unknown): string => (
-    Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
-);
-
-// Only `{ ... }` objects; arrays, Maps, Dates and other built-ins are not.
-const isPlainObject = (value: unknown): value is Record<string, unknown> => (
-    getTypeName(value) === 'object'
-);
 
 /**
  * Builds the `disableHint` query param value from `disabledActionReason`.
@@ -35,11 +27,12 @@ export const getDisabledActionReasonParam = (
     if (!reason) {
         return undefined;
     }
-    if (typeof reason === 'string') {
+    if (isString(reason)) {
         return reason;
     }
+    // False for arrays, Maps, Dates and other built-ins.
     if (!isPlainObject(reason)) {
-        logger.warn(DISABLED_ACTION_REASON_WARNING.INVALID_TYPE(getTypeName(reason)));
+        logger.warn(DISABLED_ACTION_REASON_WARNING.INVALID_TYPE);
         return undefined;
     }
 
@@ -49,7 +42,7 @@ export const getDisabledActionReasonParam = (
             logger.warn(DISABLED_ACTION_REASON_WARNING.UNKNOWN_KEY(key));
             return;
         }
-        if (typeof value !== 'string') {
+        if (!isString(value)) {
             logger.warn(DISABLED_ACTION_REASON_WARNING.NON_STRING_REASON(key));
             return;
         }

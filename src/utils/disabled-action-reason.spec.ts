@@ -107,8 +107,8 @@ describe('getDisabledActionReasonParam', () => {
         ['boolean', true],
         ['map', new Map([[Action.Save, 'Read-only']])],
         ['date', new Date()],
-    ])('ignores a %s with a warning', (type, value) => {
+    ])('ignores a %s with a warning', (_type, value) => {
         expect(getDisabledActionReasonParam(value as any)).toBeUndefined();
-        expect(warnSpy).toHaveBeenCalledWith(DISABLED_ACTION_REASON_WARNING.INVALID_TYPE(type));
+        expect(warnSpy).toHaveBeenCalledWith(DISABLED_ACTION_REASON_WARNING.INVALID_TYPE);
     });
 });
