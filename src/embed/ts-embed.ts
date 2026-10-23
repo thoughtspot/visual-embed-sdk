@@ -49,6 +49,7 @@ import {
     setParamIfDefined,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
+import { getDisabledActionReasonParam } from '../utils/actions';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -973,9 +974,11 @@ export class TsEmbed {
         if (disabledActions?.length) {
             queryParams[Param.DisableActions] = disabledActions;
         }
-        if (disabledActionReason) {
-            queryParams[Param.DisableActionReason] = disabledActionReason;
-        }
+        setParamIfDefined(
+            queryParams,
+            Param.DisableActionReason,
+            getDisabledActionReasonParam(disabledActionReason),
+        );
         if (exposeTranslationIDs) {
             queryParams[Param.ExposeTranslationIDs] = exposeTranslationIDs;
         }
