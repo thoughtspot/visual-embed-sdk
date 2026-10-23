@@ -406,7 +406,7 @@ describe('getCustomActions function', () => {
             expect(result.errors[0]).toContain("'menuIndex' is only valid for position: MENU, but got position 'CONTEXTMENU'");
         });
 
-        test('should keep given order for actions with menuIndex and sort the rest alphabetically after them', () => {
+        test('should sort actions with menuIndex by their index and sort the rest alphabetically after them', () => {
             const actions: CustomAction[] = [
                 {
                     name: 'Zebra With Index',
@@ -438,11 +438,11 @@ describe('getCustomActions function', () => {
             const result = getCustomActions(actions);
 
             expect(result.errors).toEqual([]);
-            // menuIndex actions keep their given (not sorted) order, and come
+            // menuIndex actions are sorted by their index ascending, and come
             // before the alphabetically-sorted no-menuIndex actions.
             expect(result.actions.map((a) => a.id)).toEqual([
-                'zebra-index',
                 'alpha-index',
+                'zebra-index',
                 'alpha-no-index',
                 'zebra-no-index',
             ]);

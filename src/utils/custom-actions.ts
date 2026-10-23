@@ -224,8 +224,8 @@ export const getCustomActions = (customActions: CustomAction[]): CustomActionsVa
         logger.warn(warnings);
     }
 
-    // Actions with menuIndex keep their given order
-    // Remaining are sorted alphabetically.
+    // Actions with menuIndex are sorted by menuIndex ascending (stable, so
+    // ties keep their given order). Remaining are sorted alphabetically.
     const actionsWithMenuIndex: CustomAction[] = [];
     const actionsWithoutMenuIndex: CustomAction[] = [];
     finalValidActions.forEach((action) => {
@@ -236,7 +236,7 @@ export const getCustomActions = (customActions: CustomAction[]): CustomActionsVa
         }
     });
     const sortedActions = [
-        ...actionsWithMenuIndex,
+        ...sortBy(actionsWithMenuIndex, (a) => a.menuIndex),
         ...sortBy(actionsWithoutMenuIndex, (a) => a.name.toLocaleLowerCase()),
     ];
 
