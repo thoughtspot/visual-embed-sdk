@@ -1068,8 +1068,8 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * An action without an entry shows the {@link GENERIC_REASON} value if one
      * is set, and no tooltip otherwise. Keys that are not an {@link Action} or
      * {@link GENERIC_REASON} are ignored with a console warning.
-     * The object form requires SDK 1.53.1 and ThoughtSpot Cloud 26.12.0.cl or
-     * later.
+     * The object form requires ThoughtSpot Cloud 26.12.0.cl or later; see
+     * {@link DisabledActionReasonMap} for the SDK version.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
@@ -2829,7 +2829,8 @@ export enum EmbedEvent {
      *     }
      * })
      * ```
-     * Payload: {@link CustomActionPayload} (on() enriches it to {@link CustomActionEventPayload}).
+     * Payload: {@link CustomActionPayload} (on() enriches it to {@link
+     * CustomActionEventPayload}).
      */
     CustomAction = 'customAction',
     /**
@@ -9924,7 +9925,7 @@ export enum Action {
 /**
  * Key for the optional catch-all reason in a {@link DisabledActionReasonMap}.
  * A disabled action that has no entry of its own shows this reason.
- * @version SDK: 1.53.1 | ThoughtSpot Cloud: 26.12.0.cl
+ * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
  * @example
  * ```js
  * const embed = new LiveboardEmbed('#tsEmbed', {
@@ -9943,7 +9944,7 @@ export const GENERIC_REASON = 'GENERIC_REASON' as const;
  * Tooltip text for disabled actions, keyed by {@link Action}, with an optional
  * {@link GENERIC_REASON} fallback. Every key is optional. A disabled action with
  * no entry and no {@link GENERIC_REASON} shows no tooltip.
- * @version SDK: 1.53.1 | ThoughtSpot Cloud: 26.12.0.cl
+ * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
  */
 export type DisabledActionReasonMap = Partial<Record<Action | typeof GENERIC_REASON, string>>;
 
