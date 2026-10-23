@@ -42,5 +42,6 @@ export const CUSTOM_ACTIONS_ERROR_MESSAGE = {
     INVALID_METADATA_IDS: (targetType: string, invalidIds: string[], supportedIds: string) => `Invalid metadata IDs for ${targetType.toLowerCase()}-level custom actions: ${invalidIds.join(', ')}. Supported metadata IDs: ${supportedIds}`,
     INVALID_DATA_MODEL_IDS: (targetType: string, invalidIds: string[], supportedIds: string) => `Invalid data model IDs for ${targetType.toLowerCase()}-level custom actions: ${invalidIds.join(', ')}. Supported data model IDs: ${supportedIds}`,
     INVALID_FIELDS: (targetType: string, invalidFields: string[], supportedFields: string) => `Invalid fields for ${targetType.toLowerCase()}-level custom actions: ${invalidFields.join(', ')}. Supported fields: ${supportedFields}`,
+    INVALID_MENU_INDEX_POSITION: (id: string, position: string) => `Custom Action Validation Error for '${id}': 'menuIndex' is only valid for position: MENU, but got position '${position}'`,
     DUPLICATE_IDS: (id: string, duplicateNames: string[], keptName: string) => `Duplicate custom action ID '${id}' found. Actions with names '${duplicateNames.join("', '")}' will be ignored. Keeping '${keptName}'.`,
 };

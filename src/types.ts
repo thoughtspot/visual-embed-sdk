@@ -10019,6 +10019,14 @@ export interface CustomAction {
      * Restrict the action to specific user groups by ID.
      */
     groupIds?: string[];
+    /**
+     * 1-based slot at which this action is inserted into the "More" menu,
+     * counted after any hidden/visible action filtering has been applied.
+     * Out-of-range values are clamped to the end of the menu; actions
+     * without a `menuIndex` are appended after all positioned actions.
+     * Only valid when `position` is {@link CustomActionsPosition.MENU}.
+     */
+    menuIndex?: number;
 }
 
 /**

@@ -347,7 +347,7 @@ describe('getCustomActions function', () => {
             const result = getCustomActions([action]);
             expect(result.actions).toEqual([]);
             expect(result.errors).toHaveLength(1);
-            expect(result.errors[0]).toContain("Invalid fields for liveboard-level custom actions: invalidField. Supported fields: name, id, position, target, metadataIds, orgIds, groupIds");
+            expect(result.errors[0]).toContain("Invalid fields for liveboard-level custom actions: invalidField. Supported fields: name, id, position, target, metadataIds, orgIds, groupIds, menuIndex");
         });
 
         test('should accept valid fields for LIVEBOARD', () => {
@@ -362,6 +362,90 @@ describe('getCustomActions function', () => {
             const result = getCustomActions([action]);
             expect(result.actions).toEqual([action]);
             expect(result.errors).toEqual([]);
+        });
+    });
+
+    describe('menuIndex Validation', () => {
+        test('should accept menuIndex when position is MENU', () => {
+            const action: CustomAction = {
+                id: 'menu-index-id',
+                name: 'Menu Index Action',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.MENU,
+                menuIndex: 2,
+            };
+            const result = getCustomActions([action]);
+            expect(result.actions).toEqual([action]);
+            expect(result.errors).toEqual([]);
+        });
+
+        test('should reject menuIndex when position is PRIMARY', () => {
+            const action: CustomAction = {
+                id: 'menu-index-id',
+                name: 'Menu Index Action',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+                menuIndex: 2,
+            };
+            const result = getCustomActions([action]);
+            expect(result.actions).toEqual([]);
+            expect(result.errors).toHaveLength(1);
+            expect(result.errors[0]).toContain("'menuIndex' is only valid for position: MENU, but got position 'PRIMARY'");
+        });
+
+        test('should reject menuIndex when position is CONTEXTMENU', () => {
+            const action: CustomAction = {
+                id: 'menu-index-id',
+                name: 'Menu Index Action',
+                target: CustomActionTarget.VIZ,
+                position: CustomActionsPosition.CONTEXTMENU,
+                menuIndex: 1,
+            };
+            const result = getCustomActions([action]);
+            expect(result.actions).toEqual([]);
+            expect(result.errors[0]).toContain("'menuIndex' is only valid for position: MENU, but got position 'CONTEXTMENU'");
+        });
+
+        test('should sort actions with menuIndex by their index and sort the rest alphabetically after them', () => {
+            const actions: CustomAction[] = [
+                {
+                    name: 'Zebra With Index',
+                    id: 'zebra-index',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.MENU,
+                    menuIndex: 2,
+                },
+                {
+                    name: 'Alpha With Index',
+                    id: 'alpha-index',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.MENU,
+                    menuIndex: 1,
+                },
+                {
+                    name: 'Zebra No Index',
+                    id: 'zebra-no-index',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.MENU,
+                },
+                {
+                    name: 'Alpha No Index',
+                    id: 'alpha-no-index',
+                    target: CustomActionTarget.LIVEBOARD,
+                    position: CustomActionsPosition.MENU,
+                },
+            ];
+            const result = getCustomActions(actions);
+
+            expect(result.errors).toEqual([]);
+            // menuIndex actions are sorted by their index ascending, and come
+            // before the alphabetically-sorted no-menuIndex actions.
+            expect(result.actions.map((a) => a.id)).toEqual([
+                'alpha-index',
+                'zebra-index',
+                'alpha-no-index',
+                'zebra-no-index',
+            ]);
         });
     });
 
@@ -406,7 +490,7 @@ describe('getCustomActions function', () => {
             expect(result.errors).toHaveLength(3);
             expect(result.errors).toContain("Position 'CONTEXTMENU' is not supported for liveboard-level custom actions. Supported positions: PRIMARY, MENU");
             expect(result.errors).toContain("Invalid metadata IDs for liveboard-level custom actions: invalidId. Supported metadata IDs: liveboardIds");
-            expect(result.errors).toContain("Invalid fields for liveboard-level custom actions: invalidField. Supported fields: name, id, position, target, metadataIds, orgIds, groupIds");
+            expect(result.errors).toContain("Invalid fields for liveboard-level custom actions: invalidField. Supported fields: name, id, position, target, metadataIds, orgIds, groupIds, menuIndex");
         });
 
         test('should handle mix of valid and invalid actions', () => {
