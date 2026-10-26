@@ -40,6 +40,7 @@ import {
     LiveboardDataSourceOverride,
     LiveboardFilterQuery,
     LiveboardParameterQuery,
+    LiveboardOverrides,
 } from './embed/liveboard-override-utils';
 import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
@@ -279,6 +280,7 @@ export {
     LiveboardDataSourceOverride,
     LiveboardFilterQuery,
     LiveboardParameterQuery,
+    LiveboardOverrides,
     SpotterVizConfig,
     SpotterVizStarterPrompt,
     SpotterVizLoaderTip,

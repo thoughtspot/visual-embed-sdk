@@ -32,6 +32,7 @@ import {
     SpotterExperienceVersion,
 } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
+import { LiveboardOverrides, buildLiveboardOverridesAppInitData } from './liveboard-override-utils';
 
 /**
  * Pages within the ThoughtSpot app that can be embedded.
@@ -957,6 +958,43 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * ```
      */
     spotterExperienceVersion?: SpotterExperienceVersion;
+
+    /**
+     * Filters and Parameters to apply to Liveboards when they load, keyed by
+     * Liveboard GUID. A Liveboard with no entry loads without an override.
+     *
+     * In an embedded app, this is the only way to set these overrides.
+     * The `filter` and `parameter` URL query params are ignored.
+     * Clauses without a query token are dropped.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    liveboardOverrides: {
+     *        '<liveboard-guid-1>': {
+     *            dataSourceOverride: [{
+     *                dataSourceIdentifier: '<model-guid>',
+     *                filterQuery: [{ filterQueryToken: 'region = East' }],
+     *            }],
+     *        },
+     *        '<liveboard-guid-2>': {
+     *            dataSourceOverride: [{
+     *                dataSourceIdentifier: '<model-guid>',
+     *                filterQuery: [{
+     *                    tabName: 'Sales',
+     *                    groupName: 'Region',
+     *                    filterQueryToken: 'region = South',
+     *                }],
+     *            }],
+     *        },
+     *    },
+     * })
+     * ```
+     */
+    liveboardOverrides?: LiveboardOverrides;
 }
 
 /**
@@ -971,6 +1009,7 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
         starterPrompts?: StarterPromptsConfig;
         enableSpotterInstructionAndMoreSettings?: boolean;
         spotterUsageLimitConfig?: SpotterUsageLimitConfig;
+        liveboardOverrides?: LiveboardOverrides;
     };
 }
 
@@ -1022,7 +1061,8 @@ export class AppEmbed extends V1Embed {
         const vizInitData = buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
         const shareInitData = buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
         const starterPromptsInitData = buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
-        return buildSpotterUsageLimitAppInitData(starterPromptsInitData, this.viewConfig);
+        const usageLimitInitData = buildSpotterUsageLimitAppInitData(starterPromptsInitData, this.viewConfig);
+        return buildLiveboardOverridesAppInitData(usageLimitInitData, this.viewConfig.liveboardOverrides);
     }
 
     /**
