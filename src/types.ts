@@ -2253,7 +2253,10 @@ export interface LiveboardAppEmbedViewConfig {
      * This flag is used to enable or disable the new centralized Liveboard filter UX
      * (v2). When enabled, a unified modal is used to manage and update multiple filters
      * at once, replacing the older individual filter interactions.
-     * To enable this feature on your instance, contact ThoughtSpot Support.
+     * This feature is GA in TSE from SDK version 1.54.0 and ThoughtSpot version
+     * 26.10.0.cl. If this flag is not set, the embed follows the setting on your
+     * ThoughtSpot instance, which is enabled by default. Set it to `false` to keep
+     * the older filter experience.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: 1.46.0 | ThoughtSpot: 26.4.0.cl
