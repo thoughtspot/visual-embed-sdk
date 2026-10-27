@@ -7589,32 +7589,32 @@ export enum Action {
      * The **Sync** menu action on Answers and Liveboards.
      * Disabling it hides the parent menu that groups the data sync actions
      * (**Sync to sheets**, **Sync to other apps**, and **Manage pipelines**).
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * disabledActions: [Action.Sync]
      * ```
-     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      */
     Sync = 'sync',
     /**
      * The **Remove verification** menu action on a verified Liveboard.
      * Allows users to remove the verified status from a Liveboard.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * disabledActions: [Action.RemoveVerification]
      * ```
-     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      */
     RemoveVerification = 'removeVerification',
     /**
      * The **Schedule** parent menu on a Liveboard.
      * Disabling it hides the menu that groups the **Schedule** and
      * **Manage schedules** actions.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * disabledActions: [Action.ScheduleGroup]
      * ```
-     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      */
     ScheduleGroup = 'scheduleGroup',
     /**
