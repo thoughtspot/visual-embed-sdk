@@ -30,25 +30,25 @@ const customActionValidationConfig: Record<CustomActionTarget, {
         positions: [CustomActionsPosition.PRIMARY, CustomActionsPosition.MENU],
         allowedMetadataIds: ['liveboardIds'],
         allowedDataModelIds: [],
-        allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds'],
+        allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds', 'menuIndex'],
     },
     [CustomActionTarget.VIZ]: {
         positions: [CustomActionsPosition.MENU, CustomActionsPosition.PRIMARY, CustomActionsPosition.CONTEXTMENU],
         allowedMetadataIds: ['liveboardIds', 'vizIds', 'answerIds'],
         allowedDataModelIds: ['modelIds', 'modelColumnNames'],
-        allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds', 'dataModelIds'],
+        allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds', 'dataModelIds', 'menuIndex'],
     },
     [CustomActionTarget.ANSWER]: {
         positions: [CustomActionsPosition.MENU, CustomActionsPosition.PRIMARY, CustomActionsPosition.CONTEXTMENU],
         allowedMetadataIds: ['answerIds'],
         allowedDataModelIds: ['modelIds', 'modelColumnNames'],
-        allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds', 'dataModelIds'],
+        allowedFields: ['name', 'id', 'position', 'target', 'metadataIds', 'orgIds', 'groupIds', 'dataModelIds', 'menuIndex'],
     },
     [CustomActionTarget.SPOTTER]: {
         positions: [CustomActionsPosition.MENU, CustomActionsPosition.CONTEXTMENU],
         allowedMetadataIds: [],
         allowedDataModelIds: ['modelIds'],
-        allowedFields: ['name', 'id', 'position', 'target', 'orgIds', 'groupIds', 'dataModelIds'],
+        allowedFields: ['name', 'id', 'position', 'target', 'orgIds', 'groupIds', 'dataModelIds', 'menuIndex'],
     },
 };
 
@@ -76,6 +76,11 @@ const validateCustomAction = (action: CustomAction, primaryActionsPerTarget: Map
     if (!arrayIncludesString(config.positions, position)) {
         const supportedPositions = config.positions.join(', ');
         errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.INVALID_POSITION(position, targetType, supportedPositions));
+    }
+
+    // menuIndex only makes sense for actions shown in the "More" menu
+    if (action.menuIndex != null && position !== CustomActionsPosition.MENU) {
+        errors.push(CUSTOM_ACTIONS_ERROR_MESSAGE.INVALID_MENU_INDEX_POSITION(actionId, position));
     }
 
     // Validate metadata IDs
@@ -219,7 +224,21 @@ export const getCustomActions = (customActions: CustomAction[]): CustomActionsVa
         logger.warn(warnings);
     }
 
-    const sortedActions = sortBy(finalValidActions, (a) => a.name.toLocaleLowerCase());
+    // Actions with menuIndex are sorted by menuIndex ascending (stable, so
+    // ties keep their given order). Remaining are sorted alphabetically.
+    const actionsWithMenuIndex: CustomAction[] = [];
+    const actionsWithoutMenuIndex: CustomAction[] = [];
+    finalValidActions.forEach((action) => {
+        if (action.menuIndex != null) {
+            actionsWithMenuIndex.push(action);
+        } else {
+            actionsWithoutMenuIndex.push(action);
+        }
+    });
+    const sortedActions = [
+        ...sortBy(actionsWithMenuIndex, (a) => a.menuIndex),
+        ...sortBy(actionsWithoutMenuIndex, (a) => a.name.toLocaleLowerCase()),
+    ];
 
     return {
         actions: sortedActions,
