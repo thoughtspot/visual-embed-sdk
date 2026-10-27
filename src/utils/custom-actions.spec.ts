@@ -266,6 +266,74 @@ describe('getCustomActions function', () => {
             expect(result.actions).toHaveLength(2);
             expect(result.errors).toEqual([]);
         });
+
+        test('should accept up to 2 PRIMARY actions for the same target', () => {
+            const primaryAction1 = {
+                id: 'primary-id-1',
+                name: 'Primary Action 1',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+            };
+            const primaryAction2 = {
+                id: 'primary-id-2',
+                name: 'Primary Action 2',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+            };
+            const result = getCustomActions([primaryAction1, primaryAction2]);
+            expect(result.actions).toHaveLength(2);
+            expect(result.errors).toEqual([]);
+        });
+
+        test('should reject a 3rd PRIMARY action for the same target', () => {
+            const primaryAction1 = {
+                id: 'primary-id-1',
+                name: 'Primary Action 1',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+            };
+            const primaryAction2 = {
+                id: 'primary-id-2',
+                name: 'Primary Action 2',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+            };
+            const primaryAction3 = {
+                id: 'primary-id-3',
+                name: 'Primary Action 3',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+            };
+            const result = getCustomActions([primaryAction1, primaryAction2, primaryAction3]);
+            expect(result.actions).toHaveLength(2);
+            expect(result.actions.map((a) => a.id)).toEqual(['primary-id-1', 'primary-id-2']);
+            expect(result.errors).toHaveLength(1);
+            expect(result.errors[0]).toContain("Maximum of 2 PRIMARY actions allowed for liveboard-level custom actions");
+        });
+
+        test('should track PRIMARY action limits independently per target', () => {
+            const liveboardPrimary1 = {
+                id: 'lb-primary-1',
+                name: 'Liveboard Primary 1',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+            };
+            const liveboardPrimary2 = {
+                id: 'lb-primary-2',
+                name: 'Liveboard Primary 2',
+                target: CustomActionTarget.LIVEBOARD,
+                position: CustomActionsPosition.PRIMARY,
+            };
+            const vizPrimary1 = {
+                id: 'viz-primary-1',
+                name: 'Viz Primary 1',
+                target: CustomActionTarget.VIZ,
+                position: CustomActionsPosition.PRIMARY,
+            };
+            const result = getCustomActions([liveboardPrimary1, liveboardPrimary2, vizPrimary1]);
+            expect(result.actions).toHaveLength(3);
+            expect(result.errors).toEqual([]);
+        });
     });
 
     describe('Metadata IDs Validation', () => {
