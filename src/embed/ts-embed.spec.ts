@@ -7218,6 +7218,45 @@ describe('excludeConfigFromURL', () => {
             });
         });
 
+        test('sends a disabledActionReason map in the APP_INIT payload without excludeConfigFromURL', async () => {
+            const reason = {
+                [Action.Download]: 'Downloads require a Pro license',
+                [GENERIC_REASON]: 'Not available for your account',
+            };
+            await renderEmbed(
+                LiveboardEmbed,
+                { liveboardId, disabledActions: [Action.Download], disabledActionReason: reason },
+                false,
+            );
+            const iframeSrc = new URL(getIFrameSrc());
+            // Only the map moves; the rest of the config stays on the URL.
+            expect(iframeSrc.searchParams.has(Param.DisableActionReason)).toBe(false);
+            expect(iframeSrc.searchParams.has(Param.DisableActions)).toBe(true);
+
+            const { embedParams } = await requestAppInit();
+
+            expect(embedParams[Param.DisableActionReason]).toEqual(reason);
+            expect(embedParams[Param.DisableActions]).toBeUndefined();
+        });
+
+        test('keeps a string disabledActionReason on the URL without excludeConfigFromURL', async () => {
+            await renderEmbed(
+                LiveboardEmbed,
+                {
+                    liveboardId,
+                    disabledActions: [Action.Download],
+                    disabledActionReason: 'Action denied',
+                },
+                false,
+            );
+            expect(new URL(getIFrameSrc()).searchParams.get(Param.DisableActionReason))
+                .toBe('Action denied');
+
+            const { embedParams } = await requestAppInit();
+
+            expect(embedParams?.[Param.DisableActionReason]).toBeUndefined();
+        });
+
         test('sends a string disabledActionReason unchanged in the APP_INIT payload', async () => {
             const { embedParams } = await getAppInitFor(LiveboardEmbed, {
                 liveboardId,

@@ -25,12 +25,12 @@ describe('getDisabledActionReasonParam', () => {
         expect(warnSpy).not.toHaveBeenCalled();
     });
 
-    test('JSON-encodes a full map', () => {
+    test('returns a full map as an object', () => {
         const reason = {
             [Action.Download]: 'Downloads require a Pro license',
             [Action.Save]: 'You have read-only access',
         };
-        expect(JSON.parse(getDisabledActionReasonParam(reason))).toEqual(reason);
+        expect(getDisabledActionReasonParam(reason)).toEqual(reason);
         expect(warnSpy).not.toHaveBeenCalled();
     });
 
@@ -39,18 +39,18 @@ describe('getDisabledActionReasonParam', () => {
             [Action.Download]: 'Downloads require a Pro license',
             [GENERIC_REASON]: 'Not available for your account',
         };
-        expect(JSON.parse(getDisabledActionReasonParam(reason))).toEqual(reason);
+        expect(getDisabledActionReasonParam(reason)).toEqual(reason);
     });
 
     test('sends a partial map without GENERIC_REASON as is', () => {
         const reason = { [Action.Download]: 'Downloads require a Pro license' };
-        expect(JSON.parse(getDisabledActionReasonParam(reason))).toEqual(reason);
+        expect(getDisabledActionReasonParam(reason)).toEqual(reason);
         expect(warnSpy).not.toHaveBeenCalled();
     });
 
     test('sends a map with only GENERIC_REASON', () => {
         const reason = { [GENERIC_REASON]: 'Not available for your account' };
-        expect(JSON.parse(getDisabledActionReasonParam(reason))).toEqual(reason);
+        expect(getDisabledActionReasonParam(reason)).toEqual(reason);
     });
 
     test('treats an empty map the same as an unset reason', () => {
@@ -63,7 +63,7 @@ describe('getDisabledActionReasonParam', () => {
             [Action.Save]: 'You have read-only access',
             notAnAction: 'dropped',
         } as DisabledActionReasonMap;
-        expect(JSON.parse(getDisabledActionReasonParam(reason))).toEqual({
+        expect(getDisabledActionReasonParam(reason)).toEqual({
             [Action.Save]: 'You have read-only access',
         });
         expect(warnSpy).toHaveBeenCalledWith(
@@ -87,7 +87,7 @@ describe('getDisabledActionReasonParam', () => {
             [Action.Save]: 42,
             [Action.Download]: 'Downloads require a Pro license',
         } as unknown as DisabledActionReasonMap;
-        expect(JSON.parse(getDisabledActionReasonParam(reason))).toEqual({
+        expect(getDisabledActionReasonParam(reason)).toEqual({
             [Action.Download]: 'Downloads require a Pro license',
         });
         expect(warnSpy).toHaveBeenCalledWith(

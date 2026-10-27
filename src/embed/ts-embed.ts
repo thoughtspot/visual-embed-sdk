@@ -9,6 +9,8 @@
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
+import isPlainObject from 'lodash/isPlainObject';
+import forEach from 'lodash/forEach';
 import {
     UIPassthroughArrayResponse,
     UIPassthroughEvent,
@@ -222,6 +224,17 @@ export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
     Param.DefaultQueryMode,
     // The initial search query. Omitted with excludeSearchTokenStringFromURL.
     Param.searchTokenString,
+]);
+
+/**
+ * Params never put on the iframe `src` when they hold an object. They are sent in
+ * the APP_INIT payload instead, even without `excludeConfigFromURL`: a per-action
+ * `disabledActionReason` map can hold a reason for every action, which is too long
+ * for a URL. The string form of a param stays on the `src`.
+ * @internal
+ */
+export const APP_INIT_OBJECT_PARAMS: ReadonlySet<string> = new Set<string>([
+    Param.DisableActionReason,
 ]);
 
 /**
@@ -1086,17 +1099,15 @@ export class TsEmbed {
 
     protected getUrlQueryParamsObject(): Record<any, any> {
         const queryParams = this.getEmbedParamsObject();
-        if (!this.isConfigExcludedFromUrl()) {
-            this.initDataParams = {};
-            return queryParams;
-        }
+        const isConfigExcluded = this.isConfigExcludedFromUrl();
         const urlParams: Record<any, any> = {};
         const excludedParams: Partial<Record<Param, any>> & Record<string, any> = {};
-        Object.entries(queryParams).forEach(([key, value]) => {
-            if (BOOTSTRAP_URL_PARAMS.has(key)) {
-                urlParams[key] = value;
-            } else {
+        forEach(queryParams, (value, key) => {
+            const isAppInitObject = APP_INIT_OBJECT_PARAMS.has(key) && isPlainObject(value);
+            if (isAppInitObject || (isConfigExcluded && !BOOTSTRAP_URL_PARAMS.has(key))) {
                 excludedParams[key] = deserializeParam(value);
+            } else {
+                urlParams[key] = value;
             }
         });
         this.initDataParams = excludedParams;

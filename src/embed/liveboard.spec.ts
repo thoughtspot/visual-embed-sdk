@@ -144,7 +144,7 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
-    test('should send a per-action disabledActionReason map as JSON', async () => {
+    test('should keep a per-action disabledActionReason map off the iframe URL', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             disabledActions: [Action.Download, Action.Save, Action.Share],
             disabledActionReason: {
@@ -157,12 +157,8 @@ describe('Liveboard/viz embed tests', () => {
         } as LiveboardViewConfig);
         liveboardEmbed.render();
         await executeAfterWait(() => {
-            const disableHint = new URL(getIFrameSrc()).searchParams.get('disableHint');
-            expect(JSON.parse(disableHint)).toEqual({
-                [Action.Download]: 'Downloads require a Pro license',
-                [Action.Save]: 'You have read-only access',
-                [GENERIC_REASON]: 'Not available for your account',
-            });
+            // The map is sent in the APP_INIT payload; see ts-embed.spec.ts.
+            expect(new URL(getIFrameSrc()).searchParams.has('disableHint')).toBe(false);
         });
     });
 
