@@ -1980,16 +1980,16 @@ export class TsEmbed {
      * {
      *   stack: [
      *     {
-     *       name: 'Liveboard',
-     *       type: ContextType.Liveboard,
+     *       name: 'liveboard',
+     *       type: 'page',
      *       objectIds: {
      *         liveboardId: '123',
      *       },
      *     },
      *   ],
      *   currentContext: {
-     *     name: 'Liveboard',
-     *     type: ContextType.Liveboard,
+     *     name: 'liveboard',
+     *     type: 'page',
      *     objectIds: {
      *       liveboardId: '123',
      *     },
