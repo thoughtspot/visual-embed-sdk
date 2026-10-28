@@ -1,4 +1,4 @@
-import { Action, DisabledActionReasonMap, GENERIC_REASON } from '../types';
+import { Action, DisabledActionReasonMap } from '../types';
 import { DISABLED_ACTION_REASON_WARNING } from '../errors';
 import { getDisabledActionReasonParam } from './actions';
 import { logger } from './logger';
@@ -37,7 +37,7 @@ describe('getDisabledActionReasonParam', () => {
     test('keeps GENERIC_REASON alongside a partial map', () => {
         const reason = {
             [Action.Download]: 'Downloads require a Pro license',
-            [GENERIC_REASON]: 'Not available for your account',
+            GENERIC_REASON: 'Not available for your account',
         };
         expect(getDisabledActionReasonParam(reason)).toEqual(reason);
     });
@@ -49,7 +49,7 @@ describe('getDisabledActionReasonParam', () => {
     });
 
     test('sends a map with only GENERIC_REASON', () => {
-        const reason = { [GENERIC_REASON]: 'Not available for your account' };
+        const reason = { GENERIC_REASON: 'Not available for your account' };
         expect(getDisabledActionReasonParam(reason)).toEqual(reason);
     });
 

@@ -1065,9 +1065,9 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * {@link disabledActions}.
      *
      * Pass a {@link DisabledActionReasonMap} to give each action its own reason.
-     * An action without an entry shows the {@link GENERIC_REASON} value if one
+     * An action without an entry shows the `GENERIC_REASON` value if one
      * is set, and no tooltip otherwise. Keys that are not an {@link Action} or
-     * {@link GENERIC_REASON} are ignored with a console warning.
+     * `GENERIC_REASON` are ignored with a console warning.
      * The object form requires ThoughtSpot Cloud 26.12.0.cl or later; see
      * {@link DisabledActionReasonMap} for the SDK version.
      *
@@ -1084,7 +1084,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * ```
      * @example
      * ```js
-     * import { Action, GENERIC_REASON } from '@thoughtspot/visual-embed-sdk';
+     * import { Action } from '@thoughtspot/visual-embed-sdk';
      *
      * const embed = new <EmbedComponent>('#tsEmbed', {
      *    ... // other embed view config
@@ -1093,7 +1093,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *        [Action.Download]: 'Downloads require a Pro license',
      *        [Action.Save]: 'You have read-only access to this Liveboard',
      *        // Optional. Shown on Action.Share, which has no entry of its own.
-     *        [GENERIC_REASON]: 'This action is not available for your account',
+     *        GENERIC_REASON: 'This action is not available for your account',
      *    },
      * });
      * ```
@@ -9923,8 +9923,10 @@ export enum Action {
 }
 
 /**
- * Key for the optional catch-all reason in a {@link DisabledActionReasonMap}.
- * A disabled action that has no entry of its own shows this reason.
+ * Tooltip text for disabled actions, keyed by {@link Action}, with an optional
+ * `GENERIC_REASON` fallback. Every key is optional. A disabled action with no
+ * entry of its own shows the `GENERIC_REASON` value, or no tooltip when there is
+ * none.
  * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
  * @example
  * ```js
@@ -9933,20 +9935,12 @@ export enum Action {
  *    disabledActions: [Action.Download, Action.Share],
  *    disabledActionReason: {
  *        [Action.Download]: 'Downloads require a Pro license',
- *        [GENERIC_REASON]: 'This action is not available for your account',
+ *        GENERIC_REASON: 'This action is not available for your account',
  *    },
  * });
  * ```
  */
-export const GENERIC_REASON = 'GENERIC_REASON' as const;
-
-/**
- * Tooltip text for disabled actions, keyed by {@link Action}, with an optional
- * {@link GENERIC_REASON} fallback. Every key is optional. A disabled action with
- * no entry and no {@link GENERIC_REASON} shows no tooltip.
- * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
- */
-export type DisabledActionReasonMap = Partial<Record<Action | typeof GENERIC_REASON, string>>;
+export type DisabledActionReasonMap = Partial<Record<Action | 'GENERIC_REASON', string>>;
 
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;

@@ -6,7 +6,6 @@ import {
     AuthType,
     ContextMenuTriggerOptions,
     EmbedEvent,
-    GENERIC_REASON,
     HostEvent,
     RuntimeFilterOp,
 } from '../types';
@@ -150,7 +149,7 @@ describe('Liveboard/viz embed tests', () => {
             disabledActionReason: {
                 [Action.Download]: 'Downloads require a Pro license',
                 [Action.Save]: 'You have read-only access',
-                [GENERIC_REASON]: 'Not available for your account',
+                GENERIC_REASON: 'Not available for your account',
             },
             ...defaultViewConfig,
             liveboardId,

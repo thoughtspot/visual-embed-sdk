@@ -2,20 +2,20 @@ import isPlainObject from 'lodash/isPlainObject';
 import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
 import pickBy from 'lodash/pickBy';
-import { Action, DisabledActionReasonMap, GENERIC_REASON } from '../types';
+import { Action, DisabledActionReasonMap } from '../types';
 import { DISABLED_ACTION_REASON_WARNING } from '../errors';
 import { logger } from './logger';
 
 const VALID_REASON_KEYS: ReadonlySet<string> = new Set<string>([
     ...Object.values(Action),
-    GENERIC_REASON,
+    'GENERIC_REASON',
 ]);
 
 /**
  * Builds the `disableHint` param value from `disabledActionReason`.
  *
  * A string is returned unchanged and goes on the iframe URL. A map keeps only the
- * keys that are an {@link Action} or {@link GENERIC_REASON} and have a string
+ * keys that are an {@link Action} or `GENERIC_REASON` and have a string
  * value, and is returned as an object, which is sent in the APP_INIT payload
  * rather than the URL. Anything ignored is logged as a warning and never fails the
  * embed.

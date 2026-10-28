@@ -39,7 +39,6 @@ export {
     HostEvent,
     DataSourceVisualMode,
     Action,
-    GENERIC_REASON,
     DisabledActionReasonMap,
     EmbedConfig,
     SearchViewConfig,

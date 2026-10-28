@@ -33,7 +33,6 @@ import {
     EmbedErrorCodes,
     EmbedErrorSeverity,
     ContextObject,
-    GENERIC_REASON,
     DisabledActionReasonMap,
 } from '../types';
 import {
@@ -6081,7 +6080,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             disabledActions: [Action.Download, Action.Save],
             disabledActionReason: {
                 [Action.Download]: 'Downloads require a Pro license',
-                [GENERIC_REASON]: 'Not available for your account',
+                GENERIC_REASON: 'Not available for your account',
                 notAnAction: 'dropped',
             } as DisabledActionReasonMap,
         });
@@ -6098,7 +6097,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
                     // dropped.
                     [Param.DisableActionReason]: {
                         [Action.Download]: 'Downloads require a Pro license',
-                        [GENERIC_REASON]: 'Not available for your account',
+                        GENERIC_REASON: 'Not available for your account',
                     },
                 }),
                 undefined,
@@ -7203,7 +7202,7 @@ describe('excludeConfigFromURL', () => {
                 disabledActions: [Action.Download, Action.Share],
                 disabledActionReason: {
                     [Action.Download]: 'Downloads require a Pro license',
-                    [GENERIC_REASON]: 'Not available for your account',
+                    GENERIC_REASON: 'Not available for your account',
                     notAnAction: 'dropped',
                 } as DisabledActionReasonMap,
             });
@@ -7214,14 +7213,14 @@ describe('excludeConfigFromURL', () => {
             // Parsed back to an object, with the unknown key already dropped.
             expect(embedParams[Param.DisableActionReason]).toEqual({
                 [Action.Download]: 'Downloads require a Pro license',
-                [GENERIC_REASON]: 'Not available for your account',
+                GENERIC_REASON: 'Not available for your account',
             });
         });
 
         test('sends a disabledActionReason map in the APP_INIT payload without excludeConfigFromURL', async () => {
             const reason = {
                 [Action.Download]: 'Downloads require a Pro license',
-                [GENERIC_REASON]: 'Not available for your account',
+                GENERIC_REASON: 'Not available for your account',
             };
             await renderEmbed(
                 LiveboardEmbed,
