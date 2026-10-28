@@ -1803,6 +1803,31 @@ describe('Liveboard/viz embed tests', () => {
             expect(data.embedParams?.liveboardOverride).toBeUndefined();
         });
 
+        test('should also send liveboardOverride keyed by liveboardId', async () => {
+            const data = await getAppInitResponse({ liveboardOverride });
+            expect(data.embedParams.liveboardOverrides).toEqual({ [liveboardId]: liveboardOverride });
+        });
+
+        test('should key liveboardOverrides by pinboardId when liveboardId is not set', async () => {
+            const data = await getAppInitResponse({
+                liveboardId: undefined,
+                pinboardId: 'pinboard-guid',
+                liveboardOverride,
+            });
+            expect(data.embedParams.liveboardOverrides).toEqual({ 'pinboard-guid': liveboardOverride });
+            expect(data.embedParams.liveboardOverride).toEqual(liveboardOverride);
+        });
+
+        test('should not include liveboardOverrides when liveboardOverride is not provided', async () => {
+            const data = await getAppInitResponse({});
+            expect(data.embedParams?.liveboardOverrides).toBeUndefined();
+        });
+
+        test('should not include liveboardOverrides when dataSourceOverride is empty', async () => {
+            const data = await getAppInitResponse({ liveboardOverride: { dataSourceOverride: [] } });
+            expect(data.embedParams?.liveboardOverrides).toBeUndefined();
+        });
+
         test('should send liveboardOverride alongside spotterVizConfig', async () => {
             const spotterViz = { brandName: 'MyBrand' };
             const data = await getAppInitResponse({ liveboardOverride, spotterViz });

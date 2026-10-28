@@ -54,6 +54,14 @@ export interface LiveboardOverride {
     dataSourceOverride: LiveboardDataSourceOverride[];
 }
 
+/**
+ * Filter and Parameter overrides for multiple Liveboards, keyed by Liveboard
+ * GUID.
+ * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+ * @group Embed components
+ */
+export type LiveboardOverrides = { [liveboardId: string]: LiveboardOverride };
+
 export function buildLiveboardOverrideAppInitData<T extends DefaultAppInitData>(
     initData: T,
     viewConfig: { liveboardOverride?: LiveboardOverride },
@@ -66,6 +74,25 @@ export function buildLiveboardOverrideAppInitData<T extends DefaultAppInitData>(
         embedParams: {
             ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
             liveboardOverride,
+        },
+    };
+}
+
+export function buildLiveboardOverridesAppInitData<T extends DefaultAppInitData>(
+    initData: T,
+    liveboardOverrides?: LiveboardOverrides,
+): T & { embedParams?: { liveboardOverrides?: LiveboardOverrides } } {
+    // ThoughtSpot ignores an override with no data source entries; drop them.
+    // Never send an empty map: ThoughtSpot reads one as "no override for any
+    // Liveboard", which would also hide the single liveboardOverride.
+    const entries = Object.entries(liveboardOverrides || {})
+        .filter(([, override]) => override?.dataSourceOverride?.length);
+    if (!entries.length) return initData;
+    return {
+        ...initData,
+        embedParams: {
+            ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
+            liveboardOverrides: Object.fromEntries(entries),
         },
     };
 }

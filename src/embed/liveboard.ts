@@ -37,7 +37,12 @@ import { logger } from '../utils/logger';
 import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
 import { buildStarterPromptsAppInitData, SpotterExperienceVersion } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
-import { LiveboardOverride, buildLiveboardOverrideAppInitData } from './liveboard-override-utils';
+import {
+    LiveboardOverride,
+    LiveboardOverrides,
+    buildLiveboardOverrideAppInitData,
+    buildLiveboardOverridesAppInitData,
+} from './liveboard-override-utils';
 
 // Home unmounts the liveboard container, which is how its state gets cleared.
 // The settle window gives the container time to do it before we ask for the
@@ -54,6 +59,7 @@ export interface LiveboardEmbedAppInitData extends DefaultAppInitData {
         spotterVizConfig?: SpotterVizConfig;
         starterPrompts?: StarterPromptsConfig;
         liveboardOverride?: LiveboardOverride;
+        liveboardOverrides?: LiveboardOverrides;
     };
 }
 
@@ -556,6 +562,10 @@ export interface LiveboardViewConfig
      * The `filter` and `parameter` URL query params are ignored.
      * Clauses without a query token are dropped.
      *
+     * From ThoughtSpot Cloud 26.11.0.cl, the override applies only to the
+     * Liveboard set in `liveboardId`. In earlier versions, it also applies to
+     * any Liveboard the embed navigates to.
+     *
      * Supported embed types: `LiveboardEmbed`
      * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
@@ -644,7 +654,20 @@ export class LiveboardEmbed extends V1Embed {
         const defaultAppInitData = await super.getAppInitData();
         const vizInitData = buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
         const starterPromptsInitData = buildStarterPromptsAppInitData(vizInitData, this.viewConfig);
-        return buildLiveboardOverrideAppInitData(starterPromptsInitData, this.viewConfig);
+        const overrideInitData = buildLiveboardOverrideAppInitData(
+            starterPromptsInitData,
+            this.viewConfig,
+        );
+        // Also send the override keyed by this Liveboard. ThoughtSpot
+        // versions that read the keyed map apply it only to this
+        // Liveboard, not to one the embed navigates to. Older versions
+        // ignore the map and use the single override.
+        const { liveboardOverride } = this.viewConfig;
+        const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
+        return buildLiveboardOverridesAppInitData(
+            overrideInitData,
+            liveboardOverride && liveboardId ? { [liveboardId]: liveboardOverride } : undefined,
+        );
     }
 
     /**

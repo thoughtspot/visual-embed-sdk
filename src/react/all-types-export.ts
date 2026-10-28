@@ -48,6 +48,7 @@ export {
     LiveboardDataSourceOverride,
     LiveboardFilterQuery,
     LiveboardParameterQuery,
+    LiveboardOverrides,
     AppViewConfig,
     PrefetchFeatures,
     FrameParams,

@@ -845,6 +845,68 @@ describe('App embed tests', () => {
         });
     });
 
+    describe('liveboardOverrides in APP_INIT embedParams', () => {
+        const overrideFor = (dataSourceIdentifier: string) => ({
+            dataSourceOverride: [{
+                dataSourceIdentifier,
+                filterQuery: [{ filterQueryToken: 'color = red' }],
+            }],
+        });
+
+        const getAppInitResponse = async (viewConfig: Partial<AppViewConfig>) => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                ...viewConfig,
+            } as AppViewConfig);
+
+            mockMessageChannel();
+            appEmbed.render();
+
+            const mockPort: any = { postMessage: jest.fn() };
+            await executeAfterWait(() => {
+                postMessageToParent(
+                    getIFrameEl().contentWindow,
+                    { type: EmbedEvent.APP_INIT, data: {} },
+                    mockPort,
+                );
+            });
+            let data: any;
+            await executeAfterWait(() => {
+                data = mockPort.postMessage.mock.calls[0][0].data;
+            });
+            return data;
+        };
+
+        test('should include liveboardOverrides when provided', async () => {
+            const liveboardOverrides = { 'lb-1': overrideFor('DS1'), 'lb-2': overrideFor('DS2') };
+            const data = await getAppInitResponse({ liveboardOverrides });
+            expect(data.embedParams.liveboardOverrides).toEqual(liveboardOverrides);
+        });
+
+        test('should not include liveboardOverrides when not provided', async () => {
+            const data = await getAppInitResponse({});
+            expect(data.embedParams?.liveboardOverrides).toBeUndefined();
+        });
+
+        test('should drop Liveboards with no data source overrides', async () => {
+            const data = await getAppInitResponse({
+                liveboardOverrides: {
+                    'lb-1': overrideFor('DS1'),
+                    'lb-2': { dataSourceOverride: [] },
+                },
+            });
+            expect(data.embedParams.liveboardOverrides).toEqual({ 'lb-1': overrideFor('DS1') });
+        });
+
+        test('should send liveboardOverrides alongside spotterVizConfig', async () => {
+            const spotterViz = { brandName: 'MyBrand' };
+            const liveboardOverrides = { 'lb-1': overrideFor('DS1') };
+            const data = await getAppInitResponse({ liveboardOverrides, spotterViz });
+            expect(data.embedParams.liveboardOverrides).toEqual(liveboardOverrides);
+            expect(data.embedParams.spotterVizConfig).toEqual(spotterViz);
+        });
+    });
+
     test('should pass brandHeadline through spotterVizConfig in APP_INIT', async () => {
         const spotterViz = { brandName: 'MyBrand', brandHeadline: "Hi, there! I'm" };
         const appEmbed = new AppEmbed(getRootEl(), {
