@@ -227,14 +227,19 @@ export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
 ]);
 
 /**
- * Params never put on the iframe `src` when they hold an object. They are sent in
- * the APP_INIT payload instead, even without `excludeConfigFromURL`: a per-action
- * `disabledActionReason` map can hold a reason for every action, which is too long
- * for a URL. The string form of a param stays on the `src`.
+ * Params sent in the APP_INIT payload instead of the iframe `src`, even without
+ * `excludeConfigFromURL`. Each param maps to a check on its value: when the check
+ * passes, the value goes in APP_INIT; otherwise it stays on the `src`. Add a param
+ * here with its own check to keep it off the URL.
  * @internal
  */
-export const APP_INIT_OBJECT_PARAMS: ReadonlySet<string> = new Set<string>([
-    Param.DisableActionReason,
+export const APP_INIT_PARAMS: ReadonlyMap<string, (value: unknown) => boolean> = new Map<
+    string,
+    (value: unknown) => boolean
+>([
+    // A per-action map can hold a reason for every action, which is
+    // too long for a URL. The string form stays on the `src`.
+    [Param.DisableActionReason, isPlainObject],
 ]);
 
 /**
@@ -1103,8 +1108,8 @@ export class TsEmbed {
         const urlParams: Record<any, any> = {};
         const excludedParams: Partial<Record<Param, any>> & Record<string, any> = {};
         forEach(queryParams, (value, key) => {
-            const isAppInitObject = APP_INIT_OBJECT_PARAMS.has(key) && isPlainObject(value);
-            if (isAppInitObject || (isConfigExcluded && !BOOTSTRAP_URL_PARAMS.has(key))) {
+            const isAppInitParam = APP_INIT_PARAMS.get(key)?.(value) ?? false;
+            if (isAppInitParam || (isConfigExcluded && !BOOTSTRAP_URL_PARAMS.has(key))) {
                 excludedParams[key] = deserializeParam(value);
             } else {
                 urlParams[key] = value;
