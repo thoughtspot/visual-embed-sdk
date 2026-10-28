@@ -143,6 +143,37 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should keep a per-action disabledActionReason map off the iframe URL', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            disabledActions: [Action.Download, Action.Save, Action.Share],
+            disabledActionReason: {
+                [Action.Download]: 'Downloads require a Pro license',
+                [Action.Save]: 'You have read-only access',
+                GENERIC_REASON: 'Not available for your account',
+            },
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            // The map is sent in the APP_INIT payload; see ts-embed.spec.ts.
+            expect(new URL(getIFrameSrc()).searchParams.has('disableHint')).toBe(false);
+        });
+    });
+
+    test('should not send disableHint for an empty disabledActionReason map', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            disabledActions: [Action.Download],
+            disabledActionReason: {},
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(new URL(getIFrameSrc()).searchParams.has('disableHint')).toBe(false);
+        });
+    });
+
     test('should set hidden actions', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             hiddenActions: [Action.DownloadAsCsv, Action.DownloadAsPdf, Action.DownloadAsXlsx],

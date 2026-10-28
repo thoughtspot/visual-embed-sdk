@@ -9,6 +9,8 @@
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
+import isPlainObject from 'lodash/isPlainObject';
+import forEach from 'lodash/forEach';
 import {
     UIPassthroughArrayResponse,
     UIPassthroughEvent,
@@ -49,6 +51,7 @@ import {
     setParamIfDefined,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
+import { getDisabledActionReasonParam } from '../utils/actions';
 import {
     getThoughtSpotHost,
     URL_MAX_LENGTH,
@@ -221,6 +224,22 @@ export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
     Param.DefaultQueryMode,
     // The initial search query. Omitted with excludeSearchTokenStringFromURL.
     Param.searchTokenString,
+]);
+
+/**
+ * Params sent in the APP_INIT payload instead of the iframe `src`, even without
+ * `excludeConfigFromURL`. Each param maps to a check on its value: when the check
+ * passes, the value goes in APP_INIT; otherwise it stays on the `src`. Add a param
+ * here with its own check to keep it off the URL.
+ * @internal
+ */
+export const APP_INIT_PARAMS: ReadonlyMap<string, (value: unknown) => boolean> = new Map<
+    string,
+    (value: unknown) => boolean
+>([
+    // A per-action map can hold a reason for every action, which is
+    // too long for a URL. The string form stays on the `src`.
+    [Param.DisableActionReason, isPlainObject],
 ]);
 
 /**
@@ -973,9 +992,11 @@ export class TsEmbed {
         if (disabledActions?.length) {
             queryParams[Param.DisableActions] = disabledActions;
         }
-        if (disabledActionReason) {
-            queryParams[Param.DisableActionReason] = disabledActionReason;
-        }
+        setParamIfDefined(
+            queryParams,
+            Param.DisableActionReason,
+            getDisabledActionReasonParam(disabledActionReason),
+        );
         if (exposeTranslationIDs) {
             queryParams[Param.ExposeTranslationIDs] = exposeTranslationIDs;
         }
@@ -1083,17 +1104,15 @@ export class TsEmbed {
 
     protected getUrlQueryParamsObject(): Record<any, any> {
         const queryParams = this.getEmbedParamsObject();
-        if (!this.isConfigExcludedFromUrl()) {
-            this.initDataParams = {};
-            return queryParams;
-        }
+        const isConfigExcluded = this.isConfigExcludedFromUrl();
         const urlParams: Record<any, any> = {};
         const excludedParams: Partial<Record<Param, any>> & Record<string, any> = {};
-        Object.entries(queryParams).forEach(([key, value]) => {
-            if (BOOTSTRAP_URL_PARAMS.has(key)) {
-                urlParams[key] = value;
-            } else {
+        forEach(queryParams, (value, key) => {
+            const isAppInitParam = APP_INIT_PARAMS.get(key)?.(value) ?? false;
+            if (isAppInitParam || (isConfigExcluded && !BOOTSTRAP_URL_PARAMS.has(key))) {
                 excludedParams[key] = deserializeParam(value);
+            } else {
+                urlParams[key] = value;
             }
         });
         this.initDataParams = excludedParams;
