@@ -691,10 +691,10 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
     updatedSpotterChatPrompt?: boolean;
 
     /**
-     * showSpotterLimitations : show chat limitation text under spotter input.
+     * showSpotterLimitations : Show chat limitation text under Spotter input.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.53.2 | ThoughtSpot Cloud: 26.11.0.cl
      * @default false
      * @example
      * ```js
@@ -1162,9 +1162,7 @@ export class AppEmbed extends V1Embed {
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
-        if (!isUndefined(showSpotterLimitations)) {
-            params[Param.ShowSpotterLimitations] = !!showSpotterLimitations;
-        }
+        setParamIfDefined(params, Param.ShowSpotterLimitations, showSpotterLimitations, true);
         if (!isUndefined(showSpotterRadiance)) {
             params[Param.ShowSpotterRadiance] = !!showSpotterRadiance;
         }
