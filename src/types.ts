@@ -7012,15 +7012,15 @@ export enum HostEvent {
     /**
      * Trigger the *Spotter* action for visualizations present on the liveboard's vizzes.
      * Payload: {@link RequiredVizRequest}.
-     * @param - `vizId` refers to the Visualization ID in Spotter embed and is required.
+     * @param - `vizId` refers to the Visualization ID in Liveboard embed and is required.
      * @example
      * ```js
      * let latestSpotterVizId = '';
-     * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+     * liveboardEmbed.on(EmbedEvent.Data, (payload) => {
      *   latestSpotterVizId = payload.data.id;
      * });
      *
-     * spotterEmbed.trigger(HostEvent.AskSpotter, { vizId: latestSpotterVizId });
+     * liveboardEmbed.trigger(HostEvent.AskSpotter, { vizId: latestSpotterVizId });
      * ```
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
