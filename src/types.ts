@@ -2804,7 +2804,8 @@ export enum EmbedEvent {
      *     }
      * })
      * ```
-     * Payload: {@link CustomActionPayload} (on() enriches it to {@link CustomActionEventPayload}).
+     * Payload: {@link CustomActionPayload} (on() enriches it to {@link
+     * CustomActionEventPayload}).
      */
     CustomAction = 'customAction',
     /**
@@ -7586,9 +7587,9 @@ export enum Action {
      */
     AddFilter = 'addFilter',
     /**
-     * The **Sync** menu action on Answers and Liveboards.
-     * Disabling it hides the parent menu that groups the data sync actions
-     * (**Sync to sheets**, **Sync to other apps**, and **Manage pipelines**).
+     * The **Sync** parent menu on the Liveboard page `...` menu.
+     * It groups **Sync to Slack** and **Sync to Teams**.
+     * `hiddenActions` removes the menu, and `disabledActions` disables it.
      * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
@@ -7607,9 +7608,9 @@ export enum Action {
      */
     RemoveVerification = 'removeVerification',
     /**
-     * The **Schedule** parent menu on a Liveboard.
-     * Disabling it hides the menu that groups the **Schedule** and
-     * **Manage schedules** actions.
+     * The **Schedule** parent menu on the Liveboard page `...` menu.
+     * It groups **Create schedule** and **Manage schedules**.
+     * `hiddenActions` removes the menu, and `disabledActions` disables it.
      * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
@@ -8595,7 +8596,7 @@ export enum Action {
      * ```
      * @example
      * ```js
-     * hiddenAction: [Action.TML] // hide all TML actions
+     * hiddenActions: [Action.TML] // hide all TML actions
      * disabledActions: [Action.TML] // to disable all TML actions
      * ```
      * @version SDK: 1.28.3 | ThoughtSpot: 9.12.0.cl, 10.1.0.sw
