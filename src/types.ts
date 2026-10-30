@@ -9927,7 +9927,7 @@ export enum Action {
  * `GENERIC_REASON` fallback. Every key is optional. A disabled action with no
  * entry of its own shows the `GENERIC_REASON` value, or no tooltip when there is
  * none.
- * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+ * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.12.0.cl
  * @example
  * ```js
  * const embed = new LiveboardEmbed('#tsEmbed', {
