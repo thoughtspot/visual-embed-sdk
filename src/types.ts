@@ -7612,6 +7612,38 @@ export enum Action {
      */
     AddFilter = 'addFilter',
     /**
+     * The **Sync** parent menu on the Liveboard page `...` menu.
+     * It groups **Sync to Slack** and **Sync to Teams**.
+     * `hiddenActions` removes the menu, and `disabledActions` disables it.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.Sync]
+     * ```
+     */
+    Sync = 'sync',
+    /**
+     * The **Remove verification** menu action on a verified Liveboard.
+     * Allows users to remove the verified status from a Liveboard.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.RemoveVerification]
+     * ```
+     */
+    RemoveVerification = 'removeVerification',
+    /**
+     * The **Schedule** parent menu on the Liveboard page `...` menu.
+     * It groups **Create schedule** and **Manage schedules**.
+     * `hiddenActions` removes the menu, and `disabledActions` disables it.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.ScheduleGroup]
+     * ```
+     */
+    ScheduleGroup = 'scheduleGroup',
+    /**
      * The **Add Data Panel Objects** action on the data panel v2.
      * Allows to show action menu to add different objects (such as
      * formulas, Parameters) in data panel new experience.
@@ -8589,7 +8621,7 @@ export enum Action {
      * ```
      * @example
      * ```js
-     * hiddenAction: [Action.TML] // hide all TML actions
+     * hiddenActions: [Action.TML] // hide all TML actions
      * disabledActions: [Action.TML] // to disable all TML actions
      * ```
      * @version SDK: 1.28.3 | ThoughtSpot: 9.12.0.cl, 10.1.0.sw
