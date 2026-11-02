@@ -694,7 +694,7 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * showSpotterLimitations : Show chat limitation text under Spotter input.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.53.2 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
      * @default false
      * @example
      * ```js
