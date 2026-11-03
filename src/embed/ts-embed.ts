@@ -1601,7 +1601,7 @@ export class TsEmbed {
     };
 
     private shouldSkipEvent(eventType: EmbedEvent, data: any): boolean {
-        const code = data?.data?.code ?? data?.code ?? data?.errorType;
+        const code = data?.data?.code ?? data?.code;
         if (
             eventType === EmbedEvent.Error &&
             code === EmbedErrorCodes.HOST_EVENT_VALIDATION &&
