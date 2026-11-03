@@ -1170,6 +1170,7 @@ export class AppEmbed extends V1Embed {
                 spotterFileUploadFileTypes,
                 enableStarterPrompts,
                 openSpotterOnLiveboardByDefault,
+                hideChatHeaderAvatar,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
@@ -1182,6 +1183,9 @@ export class AppEmbed extends V1Embed {
             }
             if (openSpotterOnLiveboardByDefault !== undefined) {
                 params[Param.OpenSpotterOnLiveboardByDefault] = openSpotterOnLiveboardByDefault;
+            }
+            if (hideChatHeaderAvatar !== undefined) {
+                params[Param.HideChatHeaderAvatar] = hideChatHeaderAvatar;
             }
             if (spotterFileUploadFileTypes !== undefined) {
                 params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);

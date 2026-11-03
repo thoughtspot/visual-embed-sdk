@@ -426,6 +426,28 @@ export interface SpotterChatViewConfig {
      * ```
      */
     openSpotterOnLiveboardByDefault?: boolean;
+    /**
+     * Hides the Spotter avatar in the chat header.
+     *
+     * Note: this flag only takes effect when `spotterExperienceVersion` is set
+     * to `SpotterExperienceVersion.SPOTTER_2026_11`. It is ignored on the
+     * default Spotter experience.
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    worksheetId: 'worksheet-id',
+     *    spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+     *    spotterChatConfig: {
+     *        hideChatHeaderAvatar: true,
+     *    },
+     * })
+     * ```
+     */
+    hideChatHeaderAvatar?: boolean;
 }
 
 /**
@@ -1063,12 +1085,14 @@ export class SpotterEmbed extends TsEmbed {
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
                 enableStarterPrompts,
+                hideChatHeaderAvatar,
             } = spotterChatConfig;
 
             setParamIfDefined(queryParams, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(queryParams, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
             setParamIfDefined(queryParams, Param.SpotterFileUploadEnabled, spotterFileUploadEnabled, true);
             setParamIfDefined(queryParams, Param.IsStarterPromptsEnabled, enableStarterPrompts, true);
+            setParamIfDefined(queryParams, Param.HideChatHeaderAvatar, hideChatHeaderAvatar, true);
             if (spotterFileUploadFileTypes !== undefined) {
                 queryParams[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
             }
