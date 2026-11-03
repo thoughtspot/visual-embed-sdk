@@ -85,7 +85,7 @@ import {
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { summarizeRuntimeDataForTelemetry } from '../utils/runtimeTelemetry';
-import { reportHostEvent, reportHostEventOutcome } from '../utils/hostEventTelemetry';
+import { HostEventStatus, reportHostEvent, reportHostEventCompleted } from '../utils/hostEventTelemetry';
 import { isTriggerTimeout } from '../utils/processTrigger';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
@@ -1891,7 +1891,7 @@ export class TsEmbed {
         });
 
         if (!this.isRendered) {
-            reportHostEventOutcome(hostEventId, 'render-not-called');
+            reportHostEventCompleted(hostEventId, HostEventStatus.RenderNotCalled);
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED,
@@ -1902,7 +1902,7 @@ export class TsEmbed {
         }
 
         if (!messageType) {
-            reportHostEventOutcome(hostEventId, 'host-event-undefined');
+            reportHostEventCompleted(hostEventId, HostEventStatus.HostEventUndefined);
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: ERROR_MESSAGE.HOST_EVENT_TYPE_UNDEFINED,
@@ -1918,7 +1918,7 @@ export class TsEmbed {
             logger.debug(
                 `Cannot trigger ${messageType} - iframe not available (likely due to auth failure)`,
             );
-            reportHostEventOutcome(hostEventId, 'no-iframe');
+            reportHostEventCompleted(hostEventId, HostEventStatus.NoIframe);
             return null;
         }
 
@@ -1952,12 +1952,12 @@ export class TsEmbed {
         // application would have got without telemetry, so nothing reported
         // here can change what it sees.
         triggered.then(
-            (response) => reportHostEventOutcome(
+            (response) => reportHostEventCompleted(
                 hostEventId,
-                isTriggerTimeout(response) ? 'timed-out' : 'success',
+                isTriggerTimeout(response) ? HostEventStatus.TimedOut : HostEventStatus.Success,
             ),
-            () => reportHostEventOutcome(hostEventId, 'error'),
-        ).catch((e) => logger.debug('Could not report host event outcome', e));
+            () => reportHostEventCompleted(hostEventId, HostEventStatus.Error),
+        ).catch((e) => logger.debug('Could not report host event completion', e));
 
         return triggered;
     }

@@ -113,16 +113,17 @@ export const getHostEventTelemetryProps = ({
     };
 };
 
-export type HostEventStatus =
-    | 'success'
-    | 'error'
-    | 'timed-out'
-    | 'render-not-called'
-    | 'host-event-undefined'
-    | 'no-iframe'
-    | 'no-outcome';
+export enum HostEventStatus {
+    Success = 'success',
+    Error = 'error',
+    TimedOut = 'timed-out',
+    RenderNotCalled = 'render-not-called',
+    HostEventUndefined = 'host-event-undefined',
+    NoIframe = 'no-iframe',
+    NoResponse = 'no-response',
+}
 
-export interface HostEventOutcome {
+export interface HostEventCompletion {
     status: HostEventStatus;
     durationMs: number;
 }
@@ -145,14 +146,14 @@ const upload = (props: Record<string, unknown>) => {
     }).catch((e) => logger.debug('Could not report host event telemetry', e));
 };
 
-const flush = (id: string, outcome: HostEventOutcome) => {
+const flush = (id: string, completion: HostEventCompletion) => {
     const entry = pending.get(id);
     if (!entry) {
         return;
     }
     pending.delete(id);
     clearTimeout(entry.flushTimer);
-    upload({ ...entry.props, ...outcome });
+    upload({ ...entry.props, ...completion });
 };
 
 export const reportHostEvent = (params: HostEventTelemetryParams): string => {
@@ -165,7 +166,7 @@ export const reportHostEvent = (params: HostEventTelemetryParams): string => {
             props: { ...getHostEventTelemetryProps(params), hostEventId: id },
             startedAt,
             flushTimer: setTimeout(
-                () => flush(id, { status: 'no-outcome', durationMs: Date.now() - startedAt }),
+                () => flush(id, { status: HostEventStatus.NoResponse, durationMs: Date.now() - startedAt }),
                 PENDING_FLUSH_MS,
             ),
         });
@@ -175,7 +176,7 @@ export const reportHostEvent = (params: HostEventTelemetryParams): string => {
     return id;
 };
 
-export const reportHostEventOutcome = (id: string, status: HostEventStatus): void => {
+export const reportHostEventCompleted = (id: string, status: HostEventStatus): void => {
     try {
         const entry = pending.get(id);
         if (entry) {

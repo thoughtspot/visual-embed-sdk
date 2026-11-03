@@ -75,7 +75,7 @@ describe('Host event parameter telemetry', () => {
     test('telemetry that throws cannot reach the host application', async () => {
         const embed = await renderLiveboard();
         mockUploadMixpanelEvent.mockClear();
-        jest.spyOn(telemetryInstance, 'reportHostEventOutcome').mockImplementation(() => {
+        jest.spyOn(telemetryInstance, 'reportHostEventCompleted').mockImplementation(() => {
             throw new Error('telemetry exploded');
         });
 
@@ -128,7 +128,7 @@ describe('Host event parameter telemetry', () => {
 
             expect(triggerProps(HostEvent.DownloadAsCsv)).toEqual(
                 expect.objectContaining({
-                    status: 'no-outcome',
+                    status: 'no-response',
                     params: { vizId: 'string' },
                 }),
             );
