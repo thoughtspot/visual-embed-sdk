@@ -113,13 +113,81 @@ export const getHostEventTelemetryProps = ({
     };
 };
 
-export const reportHostEvent = (params: HostEventTelemetryParams): void => {
+export type HostEventStatus =
+    | 'success'
+    | 'error'
+    | 'timed-out'
+    | 'render-not-called'
+    | 'host-event-undefined'
+    | 'no-iframe'
+    | 'no-outcome';
+
+export interface HostEventOutcome {
+    status: HostEventStatus;
+    durationMs: number;
+}
+
+interface PendingHostEvent {
+    id: string;
+    props: Record<string, unknown>;
+    startedAt: number;
+    flushTimer: ReturnType<typeof setTimeout>;
+}
+
+export const PENDING_FLUSH_MS = 35000;
+
+const pending = new Map<string, PendingHostEvent>();
+let hostEventCounter = 0;
+
+const upload = (props: Record<string, unknown>) => {
+    Promise.resolve().then(() => {
+        uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${props.hostEvent}`, props);
+    }).catch((e) => logger.debug('Could not report host event telemetry', e));
+};
+
+const flush = (id: string, outcome: HostEventOutcome) => {
+    const entry = pending.get(id);
+    if (!entry) {
+        return;
+    }
+    pending.delete(id);
+    clearTimeout(entry.flushTimer);
+    upload({ ...entry.props, ...outcome });
+};
+
+export const reportHostEvent = (params: HostEventTelemetryParams): string => {
+    hostEventCounter += 1;
+    const id = `he-${hostEventCounter}`;
     try {
-        uploadMixpanelEvent(
-            `${MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${params.hostEvent}`,
-            getHostEventTelemetryProps(params),
-        );
+        const startedAt = Date.now();
+        pending.set(id, {
+            id,
+            props: { ...getHostEventTelemetryProps(params), hostEventId: id },
+            startedAt,
+            flushTimer: setTimeout(
+                () => flush(id, { status: 'no-outcome', durationMs: Date.now() - startedAt }),
+                PENDING_FLUSH_MS,
+            ),
+        });
+    } catch (e) {
+        logger.debug('Could not start host event telemetry', e);
+    }
+    return id;
+};
+
+export const reportHostEventOutcome = (id: string, status: HostEventStatus): void => {
+    try {
+        const entry = pending.get(id);
+        if (entry) {
+            flush(id, { status, durationMs: Date.now() - entry.startedAt });
+        }
     } catch (e) {
         logger.debug('Could not report host event telemetry', e);
     }
+};
+
+export const testResetHostEventTelemetry = (): void => {
+    pending.forEach((entry) => clearTimeout(entry.flushTimer));
+    pending.clear();
+    hostEventCounter = 0;
 };
