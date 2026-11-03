@@ -95,7 +95,7 @@ import {
 import { AuthFailureType } from '../auth';
 import { getEmbedConfig } from './embedConfig';
 import { ERROR_MESSAGE } from '../errors';
-import { PreRenderController } from '../pre-render';
+import { PreRenderController, resolvePreRenderConfig } from '../pre-render';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
 import {
@@ -341,6 +341,18 @@ export class TsEmbed {
         getPlaceholder: () => this.getPreRenderPlaceHolderElement(),
         getOwner: () => this.getPreRenderObj<TsEmbed>()?.preRenderController,
         syncStyle: () => this.syncPreRenderStyle(),
+        getEmbed: () => this,
+        getEmbedNodeKey: () => this.embedNodeKey,
+        getContainerLoadedKey: () => this.embedContainerLoadedKey,
+        getIframe: () => this.iFrame,
+        setIframeElement: (iFrame) => this.setIframeElement(iFrame),
+        markRendered: () => {
+            this.isRendered = true;
+        },
+        showPreRender: () => {
+            this.showPreRender();
+        },
+        hidePreRender: () => this.hidePreRender(),
     });
 
     protected hostEventClient: HostEventClient;
@@ -438,13 +450,8 @@ export class TsEmbed {
      * Extracts the type field from the event payload
      * @param event The window message event
      */
-    /**
-     * The element the embed is visibly rendered in: the pre-render wrapper
-     * once pre-rendered, otherwise the host element.
-     */
     private getEmbedRootElement(): HTMLElement {
-        const { isPreRendered, wrapper } = this.preRenderController;
-        return isPreRendered ? wrapper : this.hostElement;
+        return this.preRenderController.getRootElement(this.hostElement);
     }
 
     private getEventType(event: MessageEvent) {
@@ -1163,41 +1170,26 @@ export class TsEmbed {
         return iFrame;
     }
 
-    /**
-     * Returns a merged {@link PreRenderConfig} object where each key prefers the
-     * value from `preRenderConfig` over its deprecated top-level `viewConfig`
-     * counterpart (`id`/`preRenderId`, `containerSelector`/`preRenderContainer`,
-     * `doNotTrackSize`/`doNotTrackPreRenderSize`) for backward compatibility.
-     */
     protected getPreRenderConfig(): PreRenderConfig {
-        const viewCfg = this.viewConfig as BaseViewConfig;
-        const preRenderCfg = viewCfg.preRenderConfig ?? {};
-        return {
-            ...preRenderCfg,
-            id: preRenderCfg.id ?? viewCfg.preRenderId,
-            containerSelector: preRenderCfg.containerSelector ?? viewCfg.preRenderContainer,
-            doNotTrackSize: preRenderCfg.doNotTrackSize ?? viewCfg.doNotTrackPreRenderSize,
-        };
+        return resolvePreRenderConfig(this.viewConfig as BaseViewConfig);
     }
 
     /**
      * Returns true if this embed instance is configured for pre-rendering.
      */
     protected isPreRenderEmbed() {
-        return !!this.getPreRenderConfig().id;
+        return this.preRenderController.isEnabled();
     }
     protected handleInsertionIntoDOM(child: string | Node): void {
         if (this.isPreRenderEmbed()) {
-            this.insertIntoDOMForPreRender(child);
+            this.preRenderController.insertIntoDOM(child);
         } else {
             this.insertIntoDOM(child);
         }
         if (this.insertedDomEl instanceof Node) {
             (this.insertedDomEl as any)[this.embedNodeKey] = this;
         }
-        if (this.preRenderController.wrapper) {
-            (this.preRenderController.wrapper as any)[this.embedNodeKey] = this;
-        }
+        this.preRenderController.takeOver();
     }
 
     /**
@@ -1297,54 +1289,6 @@ export class TsEmbed {
         });
     }
 
-    /**
-     * Checks for an existing pre-rendered component and connects to it.
-     *
-     * If a matching pre-rendered component is found in the DOM, this method
-     * sets the internal properties of the embed object to reference it.
-     *
-     * @returns True if a connection was successfully established, false otherwise.
-     */
-    protected connectPreRendered(): boolean {
-        const isConnected = this.preRenderController.connect();
-        if (isConnected) {
-            const { child } = this.preRenderController;
-            if (child instanceof HTMLIFrameElement) {
-                this.setIframeElement(child);
-            }
-            this.isRendered = true;
-        }
-        return isConnected;
-    }
-
-    protected insertIntoDOMForPreRender(child: string | Node): void {
-        const preRenderChild = this.preRenderController.createChild(child);
-        const preRenderWrapper = this.preRenderController.createWrapper();
-        preRenderWrapper.appendChild(preRenderChild);
-
-        this.preRenderController.child = preRenderChild;
-        this.preRenderController.wrapper = preRenderWrapper;
-
-        if (preRenderChild instanceof HTMLIFrameElement) {
-            this.setIframeElement(preRenderChild);
-        }
-
-        if (this.iFrame) {
-            this.iFrame.style.height = '100%';
-            this.iFrame.style.width = '100%';
-        }
-
-        // Runs before the wrapper is attached, as it always has: a show here
-        // lets syncPreRenderStyle() attach the wrapper to its container.
-        if (this.preRenderController.showByDefault) {
-            this.showPreRender();
-        } else {
-            this.hidePreRender();
-        }
-
-        this.preRenderController.attachToContainer();
-    }
-
     protected insertIntoDOM(child: string | Node): void {
         if (this.viewConfig.insertAsSibling) {
             if (typeof child === 'string') {
@@ -1374,17 +1318,12 @@ export class TsEmbed {
      * @param height The height in pixels
      */
     protected setIFrameHeight(height: number | string): void {
-        if (this.preRenderController.isPreRendered) {
-            const next = getCssDimension(height);
-            if (this.insertedDomEl) {
-                (this.insertedDomEl as HTMLElement).style.height = next;
-            } else if (this.preRenderController.wrapper) {
-                this.preRenderController.wrapper.style.height = next;
-            }
-        } else {
-            // normal (non-preRender) mode: size the iframe directly
-            this.iFrame.style.height = getCssDimension(height);
+        const next = getCssDimension(height);
+        if (this.preRenderController.applyHeight(next)) {
+            return;
         }
+        // normal (non-preRender) mode: size the iframe directly
+        this.iFrame.style.height = next;
     }
 
     /**
@@ -1578,32 +1517,18 @@ export class TsEmbed {
     private embedContainerReadyCallbacks: Array<() => void> = [];
 
     protected getPreRenderObj<T extends TsEmbed>(): T {
-        const embedObj = (this.preRenderController.wrapper as any)?.[this.embedNodeKey] as T;
-        if (embedObj === (this as any)) {
-            logger.debug('embedObj is same as this');
-        }
-        return embedObj;
+        return this.preRenderController.getOwnerEmbed<T>();
     }
 
-    protected takeOverPreRender(): void {
-        if (!this.preRenderController.wrapper) return;
-        (this.preRenderController.wrapper as any)[this.embedNodeKey] = this;
-    }
-
-    // The flag lives on the wrapper because it describes the iframe: an
-    // instance hidden when the container announced itself would otherwise
-    // report false forever.
     private markEmbedContainerLoaded() {
         this.isEmbedContainerLoaded = true;
-        if (this.preRenderController.wrapper) {
-            (this.preRenderController.wrapper as any)[this.embedContainerLoadedKey] = true;
-        }
+        this.preRenderController.markContainerLoaded();
     }
 
     private checkEmbedContainerLoaded() {
         if (this.isEmbedContainerLoaded) return true;
 
-        if ((this.preRenderController.wrapper as any)?.[this.embedContainerLoadedKey]) {
+        if (this.preRenderController.isContainerLoaded()) {
             this.isEmbedContainerLoaded = true;
             return true;
         }
@@ -1869,10 +1794,9 @@ export class TsEmbed {
             logger.error(ERROR_MESSAGE.PRERENDER_ID_MISSING);
             return this;
         }
-        this.preRenderController.isPreRendered = true;
-        this.preRenderController.showByDefault = showPreRenderByDefault;
+        this.preRenderController.markPreRendering(showPreRenderByDefault);
 
-        const isAlreadyRendered = this.connectPreRendered();
+        const isAlreadyRendered = this.preRenderController.connect();
         if (isAlreadyRendered && !replaceExistingPreRender) {
             if (showPreRenderByDefault) {
                 this.showPreRender();
@@ -2060,7 +1984,7 @@ export class TsEmbed {
 
         // Last, so everything above still sees the instance being taken over
         // from.
-        this.takeOverPreRender();
+        this.preRenderController.takeOver();
 
         return this;
     }

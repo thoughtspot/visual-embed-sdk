@@ -5,7 +5,7 @@
  * @summary Pre-render
  */
 
-import { FrameParams, PreRenderConfig } from './types';
+import { BaseViewConfig, FrameParams, PreRenderConfig } from './types';
 import {
     getCssDimension,
     getScrollableAncestors,
@@ -32,6 +32,22 @@ const PRERENDER_PARKED_TRANSFORM = 'translateY(-100%)';
 /** The height createWrapper() seeds before anything is measured. */
 const UNMEASURED_WRAPPER_HEIGHT = '100vh';
 
+/**
+ * Returns a merged {@link PreRenderConfig} object where each key prefers the
+ * value from `preRenderConfig` over its deprecated top-level `viewConfig`
+ * counterpart (`id`/`preRenderId`, `containerSelector`/`preRenderContainer`,
+ * `doNotTrackSize`/`doNotTrackPreRenderSize`) for backward compatibility.
+ */
+export function resolvePreRenderConfig(viewConfig: BaseViewConfig): PreRenderConfig {
+    const preRenderCfg = viewConfig.preRenderConfig ?? {};
+    return {
+        ...preRenderCfg,
+        id: preRenderCfg.id ?? viewConfig.preRenderId,
+        containerSelector: preRenderCfg.containerSelector ?? viewConfig.preRenderContainer,
+        doNotTrackSize: preRenderCfg.doNotTrackSize ?? viewConfig.doNotTrackPreRenderSize,
+    };
+}
+
 export interface PreRenderIds {
     wrapper: string;
     child: string;
@@ -46,6 +62,14 @@ export interface PreRenderEmbedHost {
     getPlaceholder: () => HTMLElement | undefined;
     getOwner: () => PreRenderController | undefined;
     syncStyle: () => void;
+    getEmbed: () => unknown;
+    getEmbedNodeKey: () => string;
+    getContainerLoadedKey: () => string;
+    getIframe: () => HTMLIFrameElement | undefined;
+    setIframeElement: (iFrame: HTMLIFrameElement) => void;
+    markRendered: () => void;
+    showPreRender: () => void;
+    hidePreRender: () => void;
 }
 
 export class PreRenderController {
@@ -92,10 +116,35 @@ export class PreRenderController {
         };
     }
 
+    public isEnabled(): boolean {
+        return !!this.host.getConfig().id;
+    }
+
+    public markPreRendering(showByDefault: boolean): void {
+        this.isPreRendered = true;
+        this.showByDefault = showByDefault;
+    }
+
+    /**
+     * The element the embed is visibly rendered in: the wrapper once
+     * pre-rendered, otherwise the fallback the embed renders into.
+     */
+    public getRootElement(fallback: HTMLElement): HTMLElement | undefined {
+        return this.isPreRendered ? this.wrapper : fallback;
+    }
+
     public isConnected(): boolean {
         return Boolean(this.wrapper && this.child);
     }
 
+    /**
+     * Checks for an existing pre-rendered component and connects to it.
+     *
+     * If a matching pre-rendered component is found in the DOM, this method
+     * sets the internal properties of the embed object to reference it.
+     *
+     * @returns True if a connection was successfully established, false otherwise.
+     */
     public connect(): boolean {
         const ids = this.getIds();
         this.wrapper = this.wrapper || document.getElementById(ids.wrapper);
@@ -104,8 +153,70 @@ export class PreRenderController {
         if (this.isConnected()) {
             this.isPreRendered = true;
             this.inheritContainer();
+            if (this.child instanceof HTMLIFrameElement) {
+                this.host.setIframeElement(this.child);
+            }
+            this.host.markRendered();
         }
         return this.isConnected();
+    }
+
+    public insertIntoDOM(child: string | Node): void {
+        const preRenderChild = this.createChild(child);
+        const preRenderWrapper = this.createWrapper();
+        preRenderWrapper.appendChild(preRenderChild);
+
+        this.child = preRenderChild;
+        this.wrapper = preRenderWrapper;
+
+        if (preRenderChild instanceof HTMLIFrameElement) {
+            this.host.setIframeElement(preRenderChild);
+        }
+
+        const iFrame = this.host.getIframe();
+        if (iFrame) {
+            iFrame.style.height = '100%';
+            iFrame.style.width = '100%';
+        }
+
+        // Runs before the wrapper is attached, as it always has: a show here
+        // lets syncStyle() attach the wrapper to its container.
+        if (this.showByDefault) {
+            this.host.showPreRender();
+        } else {
+            this.host.hidePreRender();
+        }
+
+        this.attachToContainer();
+    }
+
+    public getOwnerEmbed<T>(): T {
+        const embedObj = (this.wrapper as any)?.[this.host.getEmbedNodeKey()] as T;
+        if (embedObj === (this.host.getEmbed() as any)) {
+            logger.debug('embedObj is same as this');
+        }
+        return embedObj;
+    }
+
+    public takeOver(): void {
+        if (!this.wrapper) {
+            return;
+        }
+        (this.wrapper as any)[this.host.getEmbedNodeKey()] = this.host.getEmbed();
+    }
+
+    // The flag lives on the wrapper because it describes the iframe: an
+    // instance hidden when the container announced itself would otherwise
+    // report false forever.
+    public markContainerLoaded(): void {
+        if (!this.wrapper) {
+            return;
+        }
+        (this.wrapper as any)[this.host.getContainerLoadedKey()] = true;
+    }
+
+    public isContainerLoaded(): boolean {
+        return !!(this.wrapper as any)?.[this.host.getContainerLoadedKey()];
     }
 
     public attachToContainer(): void {
@@ -209,6 +320,17 @@ export class PreRenderController {
             height: `${elBoundingClient.height}px`,
             position: 'absolute',
         });
+    }
+
+    public applyHeight(height: string): boolean {
+        if (!this.isPreRendered) {
+            return false;
+        }
+        const target = this.host.getPlaceholder() || this.wrapper;
+        if (target) {
+            target.style.height = height;
+        }
+        return true;
     }
 
     public destroy(): void {

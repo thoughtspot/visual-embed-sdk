@@ -2,6 +2,7 @@ import {
     PRERENDER_CONTAINER_ORIGINAL_POSITION_KEY,
     PreRenderController,
     PreRenderEmbedHost,
+    resolvePreRenderConfig,
 } from './pre-render';
 import { AuthType, PreRenderConfig } from './types';
 import { ERROR_MESSAGE } from './errors';
@@ -25,6 +26,8 @@ describe('PreRenderController', () => {
     let isFullHeight: boolean;
     let host: PreRenderEmbedHost;
     let observers: ObserverMock[];
+    let embed: unknown;
+    let iFrame: HTMLIFrameElement | undefined;
 
     const originalResizeObserver = (window as any).ResizeObserver;
 
@@ -37,6 +40,16 @@ describe('PreRenderController', () => {
             getPlaceholder: () => placeholder,
             getOwner: () => owner,
             syncStyle: jest.fn(),
+            getEmbed: () => embed,
+            getEmbedNodeKey: () => '__tsEmbed',
+            getContainerLoadedKey: () => '__tsEmbedContainerLoaded',
+            getIframe: () => iFrame,
+            setIframeElement: jest.fn((frame: HTMLIFrameElement) => {
+                iFrame = frame;
+            }),
+            markRendered: jest.fn(),
+            showPreRender: jest.fn(),
+            hidePreRender: jest.fn(),
         };
         return new PreRenderController(host);
     };
@@ -79,6 +92,8 @@ describe('PreRenderController', () => {
         owner = undefined;
         isFullHeight = false;
         observers = [];
+        embed = { name: 'embed' };
+        iFrame = undefined;
         (window as any).ResizeObserver = jest.fn().mockImplementation((callback) => {
             const observer = {
                 observe: jest.fn(), disconnect: jest.fn(), unobserve: jest.fn(), callback,
@@ -176,6 +191,212 @@ describe('PreRenderController', () => {
             const controller = createController();
             controller.connect();
             expect(controller.container).toBe(document.body);
+        });
+
+        it('points the embed at the adopted iframe and marks it rendered', () => {
+            mount(createController());
+            const controller = createController();
+
+            controller.connect();
+
+            expect(host.setIframeElement).toHaveBeenCalledWith(controller.child);
+            expect(host.markRendered).toHaveBeenCalledTimes(1);
+        });
+
+        it('leaves the embed alone when there is nothing to connect to', () => {
+            createController().connect();
+
+            expect(host.setIframeElement).not.toHaveBeenCalled();
+            expect(host.markRendered).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('insertIntoDOM', () => {
+        it('mounts wrapper and child and sizes the iframe to fill the wrapper', () => {
+            const controller = createController();
+            const frame = document.createElement('iframe');
+
+            controller.insertIntoDOM(frame);
+
+            expect(controller.child).toBe(frame);
+            expect(controller.wrapper.contains(frame)).toBe(true);
+            expect(controller.wrapper.parentElement).toBe(document.body);
+            expect(host.setIframeElement).toHaveBeenCalledWith(frame);
+            expect(frame.style.height).toBe('100%');
+            expect(frame.style.width).toBe('100%');
+        });
+
+        it('hides the fresh shell by default', () => {
+            const controller = createController();
+
+            controller.insertIntoDOM(document.createElement('iframe'));
+
+            expect(host.hidePreRender).toHaveBeenCalledTimes(1);
+            expect(host.showPreRender).not.toHaveBeenCalled();
+        });
+
+        it('shows it before attaching when showByDefault is set', () => {
+            const controller = createController();
+            controller.showByDefault = true;
+            (host.showPreRender as jest.Mock).mockImplementation(() => {
+                expect(controller.wrapper.parentElement).toBe(null);
+            });
+
+            controller.insertIntoDOM(document.createElement('iframe'));
+
+            expect(host.showPreRender).toHaveBeenCalledTimes(1);
+            expect(host.hidePreRender).not.toHaveBeenCalled();
+            expect(controller.wrapper.parentElement).toBe(document.body);
+        });
+    });
+
+    describe('applyHeight', () => {
+        it('leaves the height to the caller when not pre-rendered', () => {
+            const controller = createController();
+            mount(controller);
+
+            expect(controller.applyHeight('500px')).toBe(false);
+            expect(controller.wrapper.style.height).toBe('100vh');
+        });
+
+        it('sizes the wrapper while no element has been inserted', () => {
+            const controller = createController();
+            mount(controller);
+            controller.isPreRendered = true;
+
+            expect(controller.applyHeight('500px')).toBe(true);
+            expect(controller.wrapper.style.height).toBe('500px');
+        });
+
+        it('sizes the inserted placeholder once one exists', () => {
+            const controller = createController();
+            mount(controller);
+            controller.isPreRendered = true;
+            placeholder = document.createElement('div');
+
+            expect(controller.applyHeight('500px')).toBe(true);
+            expect(placeholder.style.height).toBe('500px');
+            expect(controller.wrapper.style.height).toBe('100vh');
+        });
+    });
+
+    describe('takeOver', () => {
+        it('points the wrapper at the host embed', () => {
+            const controller = createController();
+            mount(controller);
+
+            controller.takeOver();
+
+            expect((controller.wrapper as any).__tsEmbed).toBe(embed);
+            expect(controller.getOwnerEmbed()).toBe(embed);
+        });
+
+        it('does nothing without a wrapper', () => {
+            expect(() => createController().takeOver()).not.toThrow();
+        });
+
+        it('carries the container-loaded flag on the wrapper, not the instance', () => {
+            const first = createController();
+            mount(first);
+            expect(first.isContainerLoaded()).toBe(false);
+
+            first.markContainerLoaded();
+
+            const second = createController();
+            second.connect();
+            expect(second.isContainerLoaded()).toBe(true);
+        });
+
+        it('has no flag to mark or read before a wrapper exists', () => {
+            const controller = createController();
+            expect(() => controller.markContainerLoaded()).not.toThrow();
+            expect(controller.isContainerLoaded()).toBe(false);
+        });
+
+        it('returns the embed that took the pre-render over last', () => {
+            const first = createController();
+            mount(first);
+            first.takeOver();
+            const firstEmbed = embed;
+
+            embed = { name: 'second' };
+            const second = createController();
+            second.connect();
+            second.takeOver();
+
+            expect(second.getOwnerEmbed()).toBe(embed);
+            expect(first.getOwnerEmbed()).toBe(embed);
+            expect(first.getOwnerEmbed()).not.toBe(firstEmbed);
+        });
+    });
+
+    describe('resolvePreRenderConfig', () => {
+        it('prefers preRenderConfig over its deprecated top-level counterparts', () => {
+            expect(
+                resolvePreRenderConfig({
+                    preRenderId: 'old',
+                    preRenderContainer: '#old',
+                    doNotTrackPreRenderSize: true,
+                    preRenderConfig: {
+                        id: 'new',
+                        containerSelector: '#new',
+                        doNotTrackSize: false,
+                    },
+                } as any),
+            ).toEqual({ id: 'new', containerSelector: '#new', doNotTrackSize: false });
+        });
+
+        it('falls back to the deprecated top-level options', () => {
+            expect(
+                resolvePreRenderConfig({
+                    preRenderId: 'old',
+                    preRenderContainer: '#old',
+                    doNotTrackPreRenderSize: true,
+                } as any),
+            ).toEqual({ id: 'old', containerSelector: '#old', doNotTrackSize: true });
+        });
+    });
+
+    describe('isEnabled', () => {
+        it('is driven by the pre-render id in the view configuration', () => {
+            const controller = createController();
+            expect(controller.isEnabled()).toBe(true);
+
+            config = {};
+            expect(controller.isEnabled()).toBe(false);
+        });
+    });
+
+    describe('markPreRendering and getRootElement', () => {
+        it('records the requested visibility', () => {
+            const controller = createController();
+
+            controller.markPreRendering(true);
+
+            expect(controller.isPreRendered).toBe(true);
+            expect(controller.showByDefault).toBe(true);
+        });
+
+        it('roots the embed in the host element until it pre-renders', () => {
+            const controller = createController();
+            mount(controller);
+
+            expect(controller.getRootElement(hostElement)).toBe(hostElement);
+        });
+
+        it('roots it in the wrapper once pre-rendered', () => {
+            const controller = createController();
+            mount(controller);
+            controller.markPreRendering(false);
+
+            expect(controller.getRootElement(hostElement)).toBe(controller.wrapper);
+        });
+
+        it('has no root element while pre-rendering without a wrapper', () => {
+            const controller = createController();
+            controller.markPreRendering(false);
+
+            expect(controller.getRootElement(hostElement)).toBeUndefined();
         });
     });
 
