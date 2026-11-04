@@ -3,6 +3,16 @@ import { AuthType, EmbedEvent, init, LiveboardEmbed } from '../dist/tsembed.es.j
 init({
     thoughtSpotHost: 'https://embed-1-do-not-delete.thoughtspotstaging.cloud',
     authType: AuthType.None,
+    enableDebugAgent: true,
+});
+
+// The SDK only signals the flag via this event — the host page decides what
+// to mount. Here, embed-ai's local test widget (see agent-widget.ts).
+// NOTE: this only fires once dist/tsembed.es.js is rebuilt with the
+// enableDebugAgent change (src/embed/base.ts) — `npm run build` currently
+// fails in this repo for unrelated reasons (see prior conversation).
+window.addEventListener('ts-debug-agent-enabled', () => {
+    import('./agent-widget').then(({ mountAgentWidget }) => mountAgentWidget());
 });
 
 const vizs = [{

@@ -284,6 +284,14 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter | null => {
         prefetch(getEmbedConfig().thoughtSpotHost);
     }
 
+    if (getEmbedConfig().enableDebugAgent && !isWindowUndefined()) {
+        // The SDK itself does not ship a debug-agent UI — it only signals
+        // that one was requested. A host page (or dev harness) listens for
+        // this event and mounts whatever debug-agent widget it has
+        // available, e.g. embed-ai's local/agent-widget.ts.
+        window.dispatchEvent(new CustomEvent('ts-debug-agent-enabled', { detail: embedConfig }));
+    }
+
     // Resolves the promise created in the initPromiseKey
     getValueFromWindow<InitFlagStore>(initFlagKey).initPromiseResolve(authEE);
     getValueFromWindow<InitFlagStore>(initFlagKey).isInitCalled = true;
