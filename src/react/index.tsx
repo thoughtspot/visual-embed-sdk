@@ -8,6 +8,7 @@ import { SearchBarEmbed as _SearchBarEmbed, SearchBarViewConfig } from '../embed
 import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
+import { DataAppEmbed as _DataAppEmbed, DataAppEmbedViewConfig } from '../embed/data-app';
 import { TsEmbed } from '../embed/ts-embed';
 import { SpotterAgentEmbed as _SpotterAgentEmbed, SpotterAgentEmbedViewConfig, ConversationMessage as _ConversationMessage, SpotterAgentMessageViewConfig } from '../embed/bodyless-conversation';
 
@@ -337,6 +338,28 @@ export const PreRenderedSearchBarEmbed = componentFactory<
     SearchBarEmbedProps & PreRenderProps,
     SearchBarViewConfig
 >(_SearchBarEmbed, true);
+
+interface DataAppEmbedProps extends EmbedProps, DataAppEmbedViewConfig { }
+
+/**
+ * React component for embedding a single ThoughtSpot App.
+ * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+ * @example
+ * ```tsx
+ * function App() {
+ *  return <DataAppEmbed
+ *      dataAppId="<app-id>"
+ *      frameParams={{ height: '800px' }}
+ *      ... other view config props or event listeners.
+ *  />
+ * }
+ * ```
+ */
+export const DataAppEmbed = componentFactory<
+    typeof _DataAppEmbed,
+    DataAppEmbedProps,
+    DataAppEmbedViewConfig
+>(_DataAppEmbed);
 
 interface SpotterEmbedProps extends EmbedProps, SpotterEmbedViewConfig { }
 interface ConversationEmbedProps extends EmbedProps, ConversationViewConfig { }
