@@ -638,6 +638,20 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set enableDataApps in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableDataApps: true,
+            path: 'insights/home/apps',
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                enableDataApps: 'true',
+            });
+        });
+    });
+
     test('should set showSpotterLimitations to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

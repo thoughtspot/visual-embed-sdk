@@ -7442,6 +7442,7 @@ export enum Param {
     IsDarkMode = 'isDarkMode',
     RadiantThemeEnabled = 'radiantThemeEnabled',
     SpotterExperienceVersion = 'spotterExperienceVersion',
+    EnableDataApps = 'enableDataApps',
 }
 
 /**

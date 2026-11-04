@@ -225,6 +225,8 @@ export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
     Param.DefaultQueryMode,
     // The initial search query. Omitted with excludeSearchTokenStringFromURL.
     Param.searchTokenString,
+    // Turns Apps on in the embed. The app reads it at boot, for its routes.
+    Param.EnableDataApps,
 ]);
 
 /**
