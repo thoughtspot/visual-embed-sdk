@@ -272,14 +272,17 @@ export function startCollector(options: CollectorOptions): () => void {
                     error: error ? redactText(error) : undefined,
                 });
             };
-            return original.call(this, input as RequestInfo, init).then(
+            // Observe on a side branch and return the original promise, so
+            // the page's own continuations stay attached to the native fetch
+            // promise (and Long Animation Frames attribute them to the page).
+            const result = original.call(this, input as RequestInfo, init);
+            result.then(
                 (response: Response) => {
                     try {
                         record(response.status);
                     } catch (e) {
                         // ignore
                     }
-                    return response;
                 },
                 (err: Error) => {
                     try {
@@ -287,9 +290,9 @@ export function startCollector(options: CollectorOptions): () => void {
                     } catch (e) {
                         // ignore
                     }
-                    throw err;
                 },
             );
+            return result;
         };
         window.fetch = wrapped as typeof fetch;
         return () => {
@@ -392,13 +395,18 @@ export function startCollector(options: CollectorOptions): () => void {
             const res = new PerformanceObserver((list) => {
                 list.getEntries().forEach((entry: any) => {
                     const toCluster = isClusterUrl(entry.name);
-                    const failed = typeof entry.responseStatus === 'number' && (entry.responseStatus === 0 || entry.responseStatus >= 400);
+                    // responseStatus is 0 for cross-origin responses without
+                    // CORS, so 0 means "unknown" here, not "failed".
+                    const status = typeof entry.responseStatus === 'number' && entry.responseStatus > 0
+                        ? entry.responseStatus
+                        : undefined;
+                    const failed = status !== undefined && status >= 400;
                     if (!toCluster && !failed && entry.duration < 2000) return;
                     emit('browser', 'resource', failed ? 'warn' : 'debug', {
                         url: redactUrl(entry.name),
                         initiator: entry.initiatorType,
                         durationMs: Math.round(entry.duration),
-                        status: entry.responseStatus,
+                        status,
                         transferSize: entry.transferSize,
                         toCluster,
                     });

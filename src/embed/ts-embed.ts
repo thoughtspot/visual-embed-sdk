@@ -254,7 +254,11 @@ export class TsEmbed {
             excludeRuntimeParametersfromURL: true,
             ...viewConfig,
         };
+        // Handlers the SDK registers for itself are not part of the
+        // customer's integration, so diagnostics skip them.
+        this.isRegisteringInternalHandlers = true;
         this.registerAppInit();
+        this.isRegisteringInternalHandlers = false;
         uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE, {
             ...viewConfig,
         });
@@ -1543,7 +1547,7 @@ export class TsEmbed {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_ON}-${messageType}`, {
             isRegisteredBySDK,
         });
-        if (!isRegisteredBySDK) {
+        if (!isRegisteredBySDK && !this.isRegisteringInternalHandlers) {
             recordSdkCall('embed.on', {
                 embedId: embedIdOf(this),
                 event: messageType,
@@ -1865,6 +1869,8 @@ export class TsEmbed {
     }
 
     private debugRenderCount = 0;
+
+    private isRegisteringInternalHandlers = false;
 
     protected handleRenderForPrerender() {
         return this.render();
