@@ -7438,6 +7438,7 @@ export enum Param {
     UpdatedSpotterExperience = 'updatedSpotterExperience',
     SpotterDataSources = 'spotterDataSources',
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
+    HideChatHeaderAvatar = 'hideChatHeaderAvatar',
     ShowAnswerEditPanel = 'showAnswerEditPanel',
     IsDarkMode = 'isDarkMode',
     RadiantThemeEnabled = 'radiantThemeEnabled',

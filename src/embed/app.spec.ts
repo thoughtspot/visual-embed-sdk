@@ -1143,6 +1143,43 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set hideChatHeaderAvatar to true in url via spotterChatConfig', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { hideChatHeaderAvatar: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideChatHeaderAvatar: 'true',
+            });
+        });
+    });
+
+    test('should set hideChatHeaderAvatar to false when explicitly disabled', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { hideChatHeaderAvatar: false },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideChatHeaderAvatar: 'false',
+            });
+        });
+    });
+
+    test('should not set hideChatHeaderAvatar when it is not configured', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { enableStarterPrompts: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('hideChatHeaderAvatar');
+        });
+    });
+
     test('should set spotterFileUploadFileTypes in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
