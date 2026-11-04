@@ -345,8 +345,11 @@ export interface LiveboardViewConfig
      * This flag is used to enable/disable the png embedding of liveboard in scheduled
      * mails
      *
+     * Enabled by default. When not set, the cluster setting applies.
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
+     * @default true
      * @version SDK: 1.42.0 | ThoughtSpot: 10.14.0.cl
      * @example
      * ```js
@@ -691,7 +694,7 @@ export class LiveboardEmbed extends V1Embed {
             coverAndFilterOptionInPDF,
             isLiveboardStylingAndGroupingEnabled,
             liveboardGutter,
-            isPNGInScheduledEmailsEnabled = false,
+            isPNGInScheduledEmailsEnabled,
             isLiveboardXLSXCSVDownloadEnabled,
             isGranularXLSXCSVSchedulesEnabled,
             showSpotterLimitations,
