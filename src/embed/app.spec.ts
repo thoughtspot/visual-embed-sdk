@@ -638,6 +638,34 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set showSpotterLimitations to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showSpotterLimitations: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&showSpotterLimitations=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set showSpotterLimitations to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showSpotterLimitations: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&showSpotterLimitations=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set showSpotterRadiance to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

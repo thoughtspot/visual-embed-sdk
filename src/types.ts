@@ -1061,6 +1061,16 @@ export interface BaseViewConfig extends ApiInterceptFlags {
     /**
      * The tooltip to display for disabled actions.
      *
+     * Pass a string to show the same reason on every action in
+     * {@link disabledActions}.
+     *
+     * Pass a {@link DisabledActionReasonMap} to give each action its own reason.
+     * An action without an entry shows the `GENERIC_REASON` value if one
+     * is set, and no tooltip otherwise. Keys that are not an {@link Action} or
+     * `GENERIC_REASON` are ignored with a console warning.
+     * The object form requires ThoughtSpot Cloud 26.12.0.cl or later; see
+     * {@link DisabledActionReasonMap} for the SDK version.
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
      * @version SDK: 1.6.0 | ThoughtSpot: ts8.nov.cl, 8.4.1.sw
      * @example
@@ -1072,8 +1082,23 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      *    disabledActionReason: "Reason for disabling",
      * });
      * ```
+     * @example
+     * ```js
+     * import { Action } from '@thoughtspot/visual-embed-sdk';
+     *
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    disabledActions: [Action.Download, Action.Save, Action.Share],
+     *    disabledActionReason: {
+     *        [Action.Download]: 'Downloads require a Pro license',
+     *        [Action.Save]: 'You have read-only access to this Liveboard',
+     *        // Optional. Shown on Action.Share, which has no entry of its own.
+     *        GENERIC_REASON: 'This action is not available for your account',
+     *    },
+     * });
+     * ```
      */
-    disabledActionReason?: string;
+    disabledActionReason?: string | DisabledActionReasonMap;
     /**
      * The list of actions to completely remove from the embedded view.
      * Hidden actions are not visible to the user at all (fully removed from the UI).
@@ -2804,7 +2829,8 @@ export enum EmbedEvent {
      *     }
      * })
      * ```
-     * Payload: {@link CustomActionPayload} (on() enriches it to {@link CustomActionEventPayload}).
+     * Payload: {@link CustomActionPayload} (on() enriches it to {@link
+     * CustomActionEventPayload}).
      */
     CustomAction = 'customAction',
     /**
@@ -6986,15 +7012,15 @@ export enum HostEvent {
     /**
      * Trigger the *Spotter* action for visualizations present on the liveboard's vizzes.
      * Payload: {@link RequiredVizRequest}.
-     * @param - `vizId` refers to the Visualization ID in Spotter embed and is required.
+     * @param - `vizId` refers to the Visualization ID in Liveboard embed and is required.
      * @example
      * ```js
      * let latestSpotterVizId = '';
-     * spotterEmbed.on(EmbedEvent.Data, (payload) => {
+     * liveboardEmbed.on(EmbedEvent.Data, (payload) => {
      *   latestSpotterVizId = payload.data.id;
      * });
      *
-     * spotterEmbed.trigger(HostEvent.AskSpotter, { vizId: latestSpotterVizId });
+     * liveboardEmbed.trigger(HostEvent.AskSpotter, { vizId: latestSpotterVizId });
      * ```
      * @version SDK: 1.41.0 | ThoughtSpot: 10.12.0.cl
      */
@@ -9895,6 +9921,27 @@ export enum Action {
      */
     Monitor = 'monitor',
 }
+
+/**
+ * Tooltip text for disabled actions, keyed by {@link Action}, with an optional
+ * `GENERIC_REASON` fallback. Every key is optional. A disabled action with no
+ * entry of its own shows the `GENERIC_REASON` value, or no tooltip when there is
+ * none.
+ * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.12.0.cl
+ * @example
+ * ```js
+ * const embed = new LiveboardEmbed('#tsEmbed', {
+ *    ... // other embed view config
+ *    disabledActions: [Action.Download, Action.Share],
+ *    disabledActionReason: {
+ *        [Action.Download]: 'Downloads require a Pro license',
+ *        GENERIC_REASON: 'This action is not available for your account',
+ *    },
+ * });
+ * ```
+ */
+export type DisabledActionReasonMap = Partial<Record<Action | 'GENERIC_REASON', string>>;
+
 export interface AnswerServiceType {
     getAnswer?: (offset: number, batchSize: number) => any;
 }
@@ -10022,6 +10069,14 @@ export interface CustomAction {
      * Restrict the action to specific user groups by ID.
      */
     groupIds?: string[];
+    /**
+     * 1-based slot at which this action is inserted into the "More" menu,
+     * counted after any hidden/visible action filtering has been applied.
+     * Out-of-range values are clamped to the end of the menu; actions
+     * without a `menuIndex` are appended after all positioned actions.
+     * Only valid when `position` is {@link CustomActionsPosition.MENU}.
+     */
+    menuIndex?: number;
 }
 
 /**

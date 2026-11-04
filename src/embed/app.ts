@@ -690,6 +690,24 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * ```
      */
     updatedSpotterChatPrompt?: boolean;
+
+    /**
+     * showSpotterLimitations : Show chat limitation text under Spotter input.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    showSpotterLimitations: true,
+     * })
+     * ```
+     */
+
+    showSpotterLimitations?: boolean;
+    
     /**
      * showSpotterRadiance : Controls the radiance on the Spotter page.
      *
@@ -1126,6 +1144,7 @@ export class AppEmbed extends V1Embed {
             isScopedLiveboardFilteringEnabled,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            showSpotterLimitations,
             showSpotterRadiance,
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
@@ -1183,6 +1202,7 @@ export class AppEmbed extends V1Embed {
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
+        setParamIfDefined(params, Param.ShowSpotterLimitations, showSpotterLimitations, true);
         if (!isUndefined(showSpotterRadiance)) {
             params[Param.ShowSpotterRadiance] = !!showSpotterRadiance;
         }

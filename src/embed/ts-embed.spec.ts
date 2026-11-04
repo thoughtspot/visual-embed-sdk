@@ -33,6 +33,7 @@ import {
     EmbedErrorCodes,
     EmbedErrorSeverity,
     ContextObject,
+    DisabledActionReasonMap,
 } from '../types';
 import {
     executeAfterWait,
@@ -6069,6 +6070,41 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         });
     });
 
+    test('should carry a disabledActionReason map in UpdateEmbedParams', async () => {
+        await setupPreRenderTest('params-disabled-reason', { liveboardId: 'original-lb' });
+        jest.spyOn(logger, 'warn').mockImplementation(() => {});
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'params-disabled-reason',
+            liveboardId: 'original-lb',
+            disabledActions: [Action.Download, Action.Save],
+            disabledActionReason: {
+                [Action.Download]: 'Downloads require a Pro license',
+                GENERIC_REASON: 'Not available for your account',
+                notAnAction: 'dropped',
+            } as DisabledActionReasonMap,
+        });
+
+        embed2.showPreRender();
+
+        await executeAfterWait(() => {
+            expect(mockProcessTrigger).toHaveBeenCalledWith(
+                expect.any(Object),
+                HostEvent.UpdateEmbedParams,
+                expect.any(String),
+                expect.objectContaining({
+                    // Parsed back from JSON, with the unknown key already
+                    // dropped.
+                    [Param.DisableActionReason]: {
+                        [Action.Download]: 'Downloads require a Pro license',
+                        GENERIC_REASON: 'Not available for your account',
+                    },
+                }),
+                undefined,
+            );
+        });
+    });
+
     test('should carry the new config filters in UpdateEmbedParams', async () => {
         await setupPreRenderTest('params-new-filters', { liveboardId: 'original-lb' });
 
@@ -7157,6 +7193,77 @@ describe('excludeConfigFromURL', () => {
                     [Param.HomepageVersion]: expect.any(String),
                 }),
             );
+        });
+
+        test('sends a disabledActionReason map in the APP_INIT payload, not the URL', async () => {
+            jest.spyOn(logger, 'warn').mockImplementation(() => {});
+            await renderEmbed(LiveboardEmbed, {
+                liveboardId,
+                disabledActions: [Action.Download, Action.Share],
+                disabledActionReason: {
+                    [Action.Download]: 'Downloads require a Pro license',
+                    GENERIC_REASON: 'Not available for your account',
+                    notAnAction: 'dropped',
+                } as DisabledActionReasonMap,
+            });
+            expect(getIFrameSrc()).not.toContain(`${Param.DisableActionReason}=`);
+
+            const { embedParams } = await requestAppInit();
+
+            // Parsed back to an object, with the unknown key already dropped.
+            expect(embedParams[Param.DisableActionReason]).toEqual({
+                [Action.Download]: 'Downloads require a Pro license',
+                GENERIC_REASON: 'Not available for your account',
+            });
+        });
+
+        test('sends a disabledActionReason map in the APP_INIT payload without excludeConfigFromURL', async () => {
+            const reason = {
+                [Action.Download]: 'Downloads require a Pro license',
+                GENERIC_REASON: 'Not available for your account',
+            };
+            await renderEmbed(
+                LiveboardEmbed,
+                { liveboardId, disabledActions: [Action.Download], disabledActionReason: reason },
+                false,
+            );
+            const iframeSrc = new URL(getIFrameSrc());
+            // Only the map moves; the rest of the config stays on the URL.
+            expect(iframeSrc.searchParams.has(Param.DisableActionReason)).toBe(false);
+            expect(iframeSrc.searchParams.has(Param.DisableActions)).toBe(true);
+
+            const { embedParams } = await requestAppInit();
+
+            expect(embedParams[Param.DisableActionReason]).toEqual(reason);
+            expect(embedParams[Param.DisableActions]).toBeUndefined();
+        });
+
+        test('keeps a string disabledActionReason on the URL without excludeConfigFromURL', async () => {
+            await renderEmbed(
+                LiveboardEmbed,
+                {
+                    liveboardId,
+                    disabledActions: [Action.Download],
+                    disabledActionReason: 'Action denied',
+                },
+                false,
+            );
+            expect(new URL(getIFrameSrc()).searchParams.get(Param.DisableActionReason))
+                .toBe('Action denied');
+
+            const { embedParams } = await requestAppInit();
+
+            expect(embedParams?.[Param.DisableActionReason]).toBeUndefined();
+        });
+
+        test('sends a string disabledActionReason unchanged in the APP_INIT payload', async () => {
+            const { embedParams } = await getAppInitFor(LiveboardEmbed, {
+                liveboardId,
+                disabledActions: [Action.Download],
+                disabledActionReason: 'Action denied',
+            });
+
+            expect(embedParams[Param.DisableActionReason]).toBe('Action denied');
         });
 
         test('sends the Liveboard layout flags', async () => {
