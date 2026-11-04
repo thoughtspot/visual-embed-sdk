@@ -26,6 +26,8 @@ SDK to embed ThoughtSpot into your web apps. You need a ThoughtSpot account to u
 
 Install the Visual Embed SDK from [NPM](https://www.npmjs.com/package/@thoughtspot/visual-embed-sdk):
 
+
+
 ```
 npm i @thoughtspot/visual-embed-sdk
 ```
