@@ -41,6 +41,7 @@ export {
     DataSourceVisualMode,
     Action,
     EmbedConfig,
+    FullPageDiagnosticsConfig,
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
@@ -57,6 +58,9 @@ export {
     CustomCssVariables,
     RuntimeParameter,
     resetCachedAuthToken,
+    requestFullPageDiagnostics,
+    endFullPageDiagnostics,
+    getFullPageDiagnosticsSessionId,
     UIPassthroughEvent,
     // Host event payload / response contracts — kept in sync with src/index.ts
     // (enforced by all-types-export.parity.spec.ts).

@@ -34,6 +34,11 @@ import { getEmbedConfig, setEmbedConfig } from './embedConfig';
 import { getQueryParamString, getValueFromWindow, isWindowUndefined, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
 import { reload } from '../utils/processTrigger';
+import { recordSdkCall } from '../debug/bus';
+import { redactValue } from '../debug/redact';
+import { setupFullPageDiagnostics } from '../debug';
+
+let debugInitCount = 0;
 
 const CONFIG_DEFAULTS: Partial<EmbedConfig> = {
     loginFailedMessage: 'Not logged in',
@@ -290,6 +295,12 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter | null => {
 
     if (embedConfig.enableDebugAgent) {
         mountDebugAgent();
+    }
+
+    debugInitCount += 1;
+    recordSdkCall('init', { config: redactValue(embedConfig), initCount: debugInitCount });
+    if (embedConfig.fullPageDiagnostics?.enabled) {
+        setupFullPageDiagnostics(embedConfig.fullPageDiagnostics, getThoughtSpotHost(embedConfig));
     }
 
     return authEE as AuthEventEmitter;
