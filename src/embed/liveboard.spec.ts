@@ -998,6 +998,32 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test.each([true, false])('should add isPersonalizedViewsSharingEnabled flag set to %s to the iframe src', async (isEnabled) => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isPersonalizedViewsSharingEnabled: isEnabled,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isPersonalizedViewsSharingEnabled=${isEnabled}${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should not add isPersonalizedViewsSharingEnabled flag to the iframe src when undefined', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isPersonalizedViewsSharingEnabled');
+        });
+    });
+
     test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is true', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

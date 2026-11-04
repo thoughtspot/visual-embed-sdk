@@ -2314,6 +2314,26 @@ export interface LiveboardAppEmbedViewConfig {
      */
     isScopedLiveboardFilteringEnabled?: boolean;
     /**
+     * This flag is used to enable or disable sharing Personalized Views of a
+     * Liveboard with specific users and groups. When enabled, the
+     * **Manage views** dialog shows a **Share** option on the views a user can
+     * manage and a **Shared with you** tab, and a view can be shared when it
+     * is saved. If this flag is not set, the embed follows the setting on
+     * your ThoughtSpot instance, which is off by default.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isPersonalizedViewsSharingEnabled: true,
+     * })
+     * ```
+     */
+    isPersonalizedViewsSharingEnabled?: boolean;
+    /**
      * This flag is used to enable or disable the link parameters in liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -3785,6 +3805,23 @@ export enum EmbedEvent {
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     ChangePersonalizedView = 'changePersonalisedView',
+    /**
+     * Emitted when a user shares a Personalized View with users or groups,
+     * from the **Manage views** dialog or while saving the view. It is emitted
+     * only when the share gives at least one user or group access, not when it
+     * only removes people.
+     * Payload: {@link SharePersonalizedViewPayload}.
+     * @example
+     * ```js
+     * liveboardEmbed.on(EmbedEvent.SharePersonalizedView, (payload) => {
+     *   console.log(payload.data.viewId);          // '2a021a12-...'
+     *   console.log(payload.data.recipientsAdded); // GUIDs given access
+     *   console.log(payload.data.previous);        // undefined for a new view
+     * })
+     * ```
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     */
+    SharePersonalizedView = 'sharePersonalizedView',
     /**
      * Emitted when a user creates a Worksheet.
      * @version SDK: 1.27.0 | ThoughtSpot: 9.8.0.cl, 9.8.0.sw
@@ -6715,6 +6752,87 @@ export enum HostEvent {
      */
     SelectPersonalizedView = 'SelectPersonalisedView',
     /**
+     * Opens the share dialog for a Personalized View, as **Share** in the
+     * **Manage views** dialog does, whether or not the embed shows that
+     * option. Only the view's author or an admin can share it. Requires
+     * Personalized View sharing (`isPersonalizedViewsSharingEnabled`).
+     *
+     * The promise returned by `trigger` resolves with `{ success: true }` once
+     * the dialog opens, and rejects with the reason when it can't open, for
+     * example when sharing is off. When the view isn't found or the user can't
+     * share it, {@link EmbedEvent.Error} is also emitted, with the `errorType`
+     * `PERSONALISED_VIEW_NOT_FOUND` or `PERSONALIZED_VIEW_SHARE_NOT_ALLOWED`.
+     * @param - Object parameter. Includes the following keys:
+     * - `viewId`: **Required.** GUID of the view to share.
+     * Payload: {@link SharePersonalizedViewRequest}.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.SharePersonalizedView, {
+     *     viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
+     * })
+     * ```
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     */
+    SharePersonalizedView = 'SharePersonalizedView',
+    /**
+     * Deletes a Personalized View and saves the change at once, as **Delete**
+     * and then **Save** in the **Manage views** dialog do, whether or not the
+     * embed shows the **Delete** button. Only the view's author or an admin can
+     * delete it. The embed then emits {@link EmbedEvent.DeletePersonalizedView},
+     * and if the deleted view was on screen, the Liveboard returns to its
+     * original view. Requires Personalized View sharing
+     * (`isPersonalizedViewsSharingEnabled`).
+     *
+     * The promise returned by `trigger` resolves with `{ success: true }` once
+     * the view is deleted, and rejects with the reason when it isn't. When the
+     * view isn't found or the user can't delete it, {@link EmbedEvent.Error} is
+     * also emitted, with the `errorType` `PERSONALISED_VIEW_NOT_FOUND` or
+     * `PERSONALIZED_VIEW_DELETE_NOT_ALLOWED`.
+     * @param - Object parameter. Includes the following keys:
+     * - `viewId`: **Required.** GUID of the view to delete.
+     * Payload: {@link DeletePersonalizedViewRequest}.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.DeletePersonalizedView, {
+     *     viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
+     * })
+     * ```
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     */
+    DeletePersonalizedView = 'DeletePersonalizedView',
+    /**
+     * Makes a Personalized View public, so everyone who can open the Liveboard
+     * can use it, or private, and saves the change at once, as the
+     * **Share with everyone** toggle in the **Manage views** dialog does,
+     * whether or not the embed shows the toggle. The embed then emits
+     * {@link EmbedEvent.UpdatePersonalizedView}.
+     *
+     * Only the view's author or an admin can change this, and they need edit
+     * access to the Liveboard and the privilege to create Liveboards. Requires
+     * Personalized View sharing (`isPersonalizedViewsSharingEnabled`), and
+     * public Personalized Views allowed on your ThoughtSpot instance.
+     *
+     * The promise returned by `trigger` resolves with `{ success: true }` once
+     * the change is saved, and rejects with the reason when it isn't. When the
+     * view isn't found or the user can't change it, {@link EmbedEvent.Error} is
+     * also emitted, with the `errorType` `PERSONALISED_VIEW_NOT_FOUND` or
+     * `PERSONALIZED_VIEW_SET_PUBLIC_NOT_ALLOWED`.
+     * @param - Object parameter. Includes the following keys:
+     * - `viewId`: **Required.** GUID of the view.
+     * - `isPublic`: **Required.** `true` to make the view public, `false` to
+     *   make it private.
+     * Payload: {@link SetPersonalizedViewPublicRequest}.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.SetPersonalizedViewPublic, {
+     *     viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
+     *     isPublic: true,
+     * })
+     * ```
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     */
+    SetPersonalizedViewPublic = 'SetPersonalizedViewPublic',
+    /**
      * @hidden
      * Notify when info call is completed successfully
      * ```js
@@ -7411,6 +7529,7 @@ export enum Param {
     isSendNowLiveboardSchedulingEnabled = 'isSendNowLiveboardSchedulingEnabled',
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isScopedLiveboardFilteringEnabled = 'isScopedLiveboardFilteringEnabled',
+    IsPersonalizedViewsSharingEnabled = 'isPersonalizedViewsSharingEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
@@ -9920,6 +10039,71 @@ export enum Action {
      * ```
      */
     Monitor = 'monitor',
+    /**
+     * Controls the visibility and disabled state of the options that share a
+     * Personalized View with specific users or groups: **Share** in the
+     * **Manage views** dialog, and **Specific users or groups** when saving a
+     * view. Available when Personalized View sharing is on
+     * (`isPersonalizedViewsSharingEnabled`).
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.SharePersonalizedView],
+     *     disabledActions: [Action.SharePersonalizedView],
+     * }
+     * ```
+     */
+    SharePersonalizedView = 'sharePersonalizedView',
+    /**
+     * Controls the visibility and disabled state of the **Shared with you**
+     * tab in the **Manage views** dialog, which lists the Personalized Views
+     * others have shared with the user. Available when Personalized View
+     * sharing is on (`isPersonalizedViewsSharingEnabled`).
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.PersonalizedViewsSharedWithYouTab],
+     *     disabledActions: [Action.PersonalizedViewsSharedWithYouTab],
+     * }
+     * ```
+     */
+    PersonalizedViewsSharedWithYouTab = 'personalizedViewsSharedWithYouTab',
+    /**
+     * Controls the visibility and disabled state of the options that make a
+     * Personalized View public: the **Share with everyone** toggle in the
+     * **Manage views** dialog, and **Everyone with Liveboard access** when
+     * saving or sharing a view.
+     *
+     * These options predate this action, so only `hiddenActions` hides them. A
+     * `visibleActions` list that doesn't include this action keeps them.
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.MakePersonalizedViewPublic],
+     *     disabledActions: [Action.MakePersonalizedViewPublic],
+     * }
+     * ```
+     */
+    MakePersonalizedViewPublic = 'makePersonalizedViewPublic',
+    /**
+     * Controls the visibility and disabled state of the **Delete** option for
+     * a Personalized View in the **Manage views** dialog.
+     *
+     * This option predates this action, so only `hiddenActions` hides it. A
+     * `visibleActions` list that doesn't include this action keeps it.
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.DeletePersonalizedView],
+     *     disabledActions: [Action.DeletePersonalizedView],
+     * }
+     * ```
+     */
+    DeletePersonalizedView = 'deletePersonalizedView',
 }
 
 /**
