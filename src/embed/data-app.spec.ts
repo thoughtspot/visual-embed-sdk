@@ -43,6 +43,26 @@ describe('DataAppEmbed', () => {
         );
     });
 
+    it.each([true, false])('sends enableDataApps=%s on the URL', async (enableDataApps) => {
+        const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1', enableDataApps });
+        await embed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&enableDataApps=${enableDataApps}#/embed/insights/apps/app-1`,
+        );
+    });
+
+    // The app's route guards read it at boot, before APP_INIT arrives.
+    it('keeps enableDataApps on the URL when the config is excluded from it', async () => {
+        const embed = new DataAppEmbed(getRootEl(), {
+            dataAppId: 'app-1',
+            enableDataApps: true,
+            additionalFlags: { excludeConfigFromURL: true },
+        });
+        await embed.render();
+        expect(getIFrameSrc()).toContain('enableDataApps=true');
+    });
+
     it('URL-encodes the App id in the path', async () => {
         const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'a/../b' });
         await embed.render();

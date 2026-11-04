@@ -3,8 +3,10 @@ import {
     EmbedErrorCodes,
     EmbedErrorSeverity,
     ErrorDetailsTypes,
+    Param,
 } from '../types';
 import { ERROR_MESSAGE } from '../errors';
+import { setParamIfDefined } from '../utils';
 import { logger } from '../utils/logger';
 import { TsEmbed } from './ts-embed';
 
@@ -28,6 +30,24 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * ```
      */
     dataAppId: string;
+    /**
+     * Turns Apps on in the embed. Until it is `true`, the frame shows a
+     * not-available message instead of the App. Apps must also be turned on
+     * for the ThoughtSpot instance; this flag cannot turn them on by itself.
+     *
+     * Supported embed types: `AppEmbed`, `DataAppEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataAppId: '<app-id>',
+     *    enableDataApps: true,
+     * });
+     * ```
+     */
+    enableDataApps?: boolean;
 }
 
 /**
@@ -40,6 +60,7 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
  * ```js
  * const embed = new DataAppEmbed('#tsEmbed', {
  *   dataAppId: '<app-id>',
+ *   enableDataApps: true,
  *   frameParams: { height: '800px' },
  * });
  * embed.render();
@@ -57,6 +78,12 @@ export class DataAppEmbed extends TsEmbed {
             viewConfig = { ...viewConfig, fullHeight: false } as DataAppEmbedViewConfig;
         }
         super(container, viewConfig);
+    }
+
+    protected getEmbedParamsObject() {
+        const params = this.getBaseQueryParams();
+        setParamIfDefined(params, Param.EnableDataApps, this.viewConfig.enableDataApps, true);
+        return params;
     }
 
     /**
