@@ -349,6 +349,7 @@ interface DataAppEmbedProps extends EmbedProps, DataAppEmbedViewConfig { }
  * function App() {
  *  return <DataAppEmbed
  *      dataAppId="<app-id>"
+ *      enableDataApps={true}
  *      frameParams={{ height: '800px' }}
  *      ... other view config props or event listeners.
  *  />
