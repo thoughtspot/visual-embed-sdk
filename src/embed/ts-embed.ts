@@ -7,6 +7,7 @@
  */
 
 import isEqual from 'lodash/isEqual';
+import isEqualWith from 'lodash/isEqualWith';
 import isEmpty from 'lodash/isEmpty';
 import isObject from 'lodash/isObject';
 import isPlainObject from 'lodash/isPlainObject';
@@ -82,6 +83,8 @@ import {
     ContextObject,
     PreRenderConfig,
     BaseViewConfig,
+    RuntimeFilter,
+    RuntimeParameter,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { summarizeRuntimeDataForTelemetry } from '../utils/runtimeTelemetry';
@@ -134,6 +137,14 @@ const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 // truthy, so null or '' leaves the previous embed's values in place. '&' is
 // truthy and parses to {}.
 const NO_RUNTIME_PARAMS = '&';
+
+/**
+ * A shallow copy without the keys whose value is `undefined`, so a key that was
+ * assigned `undefined` compares equal to one that was never set.
+ */
+const definedEntries = (config: Record<string, any> = {}): Record<string, any> => Object.fromEntries(
+    Object.entries(config).filter(([, value]) => value !== undefined),
+);
 
 /**
  * Params kept on the iframe `src` when `excludeConfigFromURL` is set. The rest
@@ -276,6 +287,13 @@ export class TsEmbed {
     protected embedNodeKey = '__tsEmbed';
 
     protected embedContainerLoadedKey = '__tsEmbedContainerLoaded';
+
+    // Filters and parameters the host pushed with UpdateRuntimeFilters /
+    // UpdateParameters exist only inside the container; the wrapper keeps a
+    // copy so a same-config reveal can restate them (SCAL-349571).
+    protected hostRuntimeFiltersKey = '__tsEmbedHostRuntimeFilters';
+
+    protected hostRuntimeParametersKey = '__tsEmbedHostRuntimeParameters';
 
     protected isAppInitialized = false;
 
@@ -870,18 +888,21 @@ export class TsEmbed {
             queryParams[key] = deserializeParam(queryParams[key]);
         });
         const appInitData = await this.getAppInitData();
+        const hostState = this.getHostRuntimeState();
         return {
             ...this.viewConfig,
             ...queryParams,
             ...appInitData,
             // A show cycle has no URL to carry these, so the payload always
             // states them — including "none", which is the case that leaks the
-            // previous filters.
+            // previous filters. What the host last pushed wins over the config.
             runtimeFilterParams:
-                getFilterQuery(this.viewConfig.runtimeFilters ?? []) || NO_RUNTIME_PARAMS,
-            runtimeParameterParams:
-                getRuntimeParameters(this.viewConfig.runtimeParameters ?? [])
+                getFilterQuery(hostState.runtimeFilters ?? this.viewConfig.runtimeFilters ?? [])
                 || NO_RUNTIME_PARAMS,
+            runtimeParameterParams:
+                getRuntimeParameters(
+                    hostState.runtimeParameters ?? this.viewConfig.runtimeParameters ?? [],
+                ) || NO_RUNTIME_PARAMS,
         };
     }
 
@@ -1780,6 +1801,47 @@ export class TsEmbed {
         (this.preRenderWrapper as any)[this.embedNodeKey] = this;
     }
 
+    // definedEntries drops undefined-valued keys: a shown instance carries
+    // vizId/activeTabId/etc as undefined, so a raw isEqual never matches again.
+    // Functions compare equal, since React passes a fresh closure per render.
+    protected isSameEmbedConfig(previous?: TsEmbed): boolean {
+        if (!previous) return false;
+        if (previous === this) return true;
+        return isEqualWith(
+            definedEntries(previous.viewConfig),
+            definedEntries(this.viewConfig),
+            (a, b) => (typeof a === 'function' && typeof b === 'function' ? true : undefined),
+        );
+    }
+
+    private recordHostRuntimeState(messageType: HostEvent, data: unknown): void {
+        const wrapper = this.preRenderWrapper as any;
+        if (!wrapper) return;
+        if (messageType === HostEvent.UpdateRuntimeFilters) {
+            wrapper[this.hostRuntimeFiltersKey] = data;
+        } else if (messageType === HostEvent.UpdateParameters) {
+            wrapper[this.hostRuntimeParametersKey] = data;
+        }
+    }
+
+    private getHostRuntimeState(): {
+        runtimeFilters?: RuntimeFilter[];
+        runtimeParameters?: RuntimeParameter[];
+    } {
+        const wrapper = this.preRenderWrapper as any;
+        return {
+            runtimeFilters: wrapper?.[this.hostRuntimeFiltersKey],
+            runtimeParameters: wrapper?.[this.hostRuntimeParametersKey],
+        };
+    }
+
+    private clearHostRuntimeState(): void {
+        const wrapper = this.preRenderWrapper as any;
+        if (!wrapper) return;
+        delete wrapper[this.hostRuntimeFiltersKey];
+        delete wrapper[this.hostRuntimeParametersKey];
+    }
+
     // The flag lives on the wrapper because it describes the iframe: an
     // instance hidden when the container announced itself would otherwise
     // report false forever.
@@ -1917,6 +1979,8 @@ export class TsEmbed {
             );
             return null;
         }
+
+        this.recordHostRuntimeState(messageType, data);
 
         // send an empty object, this is needed for liveboard default handlers
         return this.hostEventClient.triggerHostEvent(messageType, data, context).catch(
@@ -2257,6 +2321,12 @@ export class TsEmbed {
     }
 
     protected beforePrerenderVisible(): void {
+        // Read before showPreRender() hands the wrapper over to this instance.
+        // A different config is a hand-over: the home hop resets the container,
+        // so what the host pushed into the previous one goes with it.
+        if (!this.isSameEmbedConfig(this.getPreRenderObj<TsEmbed>())) {
+            this.clearHostRuntimeState();
+        }
         // We can ignore this as its a bit expensive and the newer customers
         // have moved on to UpdateEmbedParams supported clusters
         // this.validatePreRenderViewConfig(this.viewConfig); removed in #517

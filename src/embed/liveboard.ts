@@ -8,7 +8,6 @@
  * @author Ayon Ghosh <ayon.ghosh@thoughtspot.com>
  */
 
-import isEqualWith from 'lodash/isEqualWith';
 import { getPreview } from '../utils/graphql/preview-service';
 import { ERROR_MESSAGE } from '../errors';
 import {
@@ -606,14 +605,6 @@ export interface LiveboardViewConfig
  * })
  * ```
  */
-/**
- * A shallow copy without the keys whose value is `undefined`, so a key that was
- * assigned `undefined` compares equal to one that was never set.
- */
-const definedEntries = (config: Record<string, any> = {}): Record<string, any> => Object.fromEntries(
-    Object.entries(config).filter(([, value]) => value !== undefined),
-);
-
 export class LiveboardEmbed extends V1Embed {
     protected viewConfig: LiveboardViewConfig;
 
@@ -1060,19 +1051,6 @@ export class LiveboardEmbed extends V1Embed {
                 personalizedViewId: this.viewConfig.personalizedViewId,
             };
         });
-    }
-
-    // definedEntries drops undefined-valued keys: a shown instance carries
-    // vizId/activeTabId/etc as undefined, so a raw isEqual never matches again.
-    // Functions compare equal, since React passes a fresh closure per render.
-    private isSameEmbedConfig(previous?: LiveboardEmbed): boolean {
-        if (!previous) return false;
-        if (previous === this) return true;
-        return isEqualWith(
-            definedEntries(previous.viewConfig),
-            definedEntries(this.viewConfig),
-            (a, b) => (typeof a === 'function' && typeof b === 'function' ? true : undefined),
-        );
     }
 
     // The whole route, not just the liveboard id: the path is built from the

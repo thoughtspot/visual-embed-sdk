@@ -6145,6 +6145,116 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         });
     });
 
+    describe('host-applied runtime state across reveals (SCAL-349571)', () => {
+        const hostFilters = [
+            {
+                columnName: 'Color',
+                operator: RuntimeFilterOp.IN,
+                values: ['red'],
+            },
+        ];
+
+        const showAndPush = async (preRenderId: string, hostEvent: HostEvent, data: any) => {
+            const embed1 = await setupPreRenderTest(preRenderId, { liveboardId: 'original-lb' });
+            await embed1.showPreRender();
+            await embed1.trigger(hostEvent, data);
+            embed1.hidePreRender();
+            mockProcessTrigger.mockClear();
+            return embed1;
+        };
+
+        const lastUpdateEmbedParams = () => mockProcessTrigger.mock.calls
+            .filter((call: any[]) => call[1] === HostEvent.UpdateEmbedParams)
+            .pop()?.[3];
+
+        test('should restate host-applied filters on a same-config reveal', async () => {
+            await showAndPush('params-host-filters', HostEvent.UpdateRuntimeFilters, hostFilters);
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'params-host-filters',
+                liveboardId: 'original-lb',
+            });
+            embed2.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateEmbedParams()).toEqual(
+                    expect.objectContaining({ runtimeFilterParams: 'col1=Color&op1=IN&val1=red' }),
+                );
+            });
+        });
+
+        test('should prefer host-applied filters over the config filters on a same-config reveal', async () => {
+            const embed1 = await setupPreRenderTest('params-host-over-config', {
+                liveboardId: 'original-lb',
+                runtimeFilters: [
+                    { columnName: 'Color', operator: RuntimeFilterOp.IN, values: ['blue'] },
+                ],
+            });
+            await embed1.showPreRender();
+            await embed1.trigger(HostEvent.UpdateRuntimeFilters, hostFilters);
+            embed1.hidePreRender();
+            mockProcessTrigger.mockClear();
+
+            await embed1.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateEmbedParams()).toEqual(
+                    expect.objectContaining({ runtimeFilterParams: 'col1=Color&op1=IN&val1=red' }),
+                );
+            });
+        });
+
+        test('should restate a host clear as no filters on a same-config reveal', async () => {
+            const embed1 = await showAndPush('params-host-clear', HostEvent.UpdateRuntimeFilters, hostFilters);
+            await embed1.showPreRender();
+            await embed1.trigger(HostEvent.UpdateRuntimeFilters, []);
+            embed1.hidePreRender();
+            mockProcessTrigger.mockClear();
+
+            await embed1.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateEmbedParams()).toEqual(
+                    expect.objectContaining({ runtimeFilterParams: '&' }),
+                );
+            });
+        });
+
+        test('should drop host-applied filters on a different-config reveal', async () => {
+            await showAndPush('params-host-handover', HostEvent.UpdateRuntimeFilters, hostFilters);
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'params-host-handover',
+                liveboardId: 'other-lb',
+            });
+            embed2.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateEmbedParams()).toEqual(
+                    expect.objectContaining({ liveboardId: 'other-lb', runtimeFilterParams: '&' }),
+                );
+            });
+        });
+
+        test('should restate host-applied parameters on a same-config reveal', async () => {
+            await showAndPush('params-host-parameters', HostEvent.UpdateParameters, [
+                { name: 'Region', value: 'West' },
+            ]);
+
+            const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+                preRenderId: 'params-host-parameters',
+                liveboardId: 'original-lb',
+            });
+            embed2.showPreRender();
+
+            await executeAfterWait(() => {
+                expect(lastUpdateEmbedParams()).toEqual(
+                    expect.objectContaining({ runtimeParameterParams: 'param1=Region&paramVal1=West' }),
+                );
+            });
+        });
+    });
+
     test('should serialize the filters when they are not excluded from the URL', async () => {
         await setupPreRenderTest('params-url-filters', { liveboardId: 'original-lb' });
 
