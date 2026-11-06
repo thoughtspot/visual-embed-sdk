@@ -986,7 +986,7 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * Clauses without a query token are dropped.
      *
      * Supported embed types: `AppEmbed`
-     * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * const embed = new AppEmbed('#tsEmbed', {

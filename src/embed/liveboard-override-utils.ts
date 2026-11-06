@@ -57,7 +57,7 @@ export interface LiveboardOverride {
 /**
  * Filter and Parameter overrides for multiple Liveboards, keyed by Liveboard
  * GUID.
- * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
+ * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.11.0.cl
  * @group Embed components
  */
 export type LiveboardOverrides = { [liveboardId: string]: LiveboardOverride };
