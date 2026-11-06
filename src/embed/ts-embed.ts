@@ -49,6 +49,7 @@ import {
     deserializeParam,
     getScrollableAncestors,
     setParamIfDefined,
+    buildErrorEventPayload,
 } from '../utils';
 import { getCustomActions } from '../utils/custom-actions';
 import { getDisabledActionReasonParam } from '../utils/actions';
@@ -434,10 +435,7 @@ export class TsEmbed {
      */
     protected handleError(errorDetails: EmbedErrorDetailsEvent) {
         this.isError = true;
-        this.executeCallbacks(EmbedEvent.Error, {
-            severity: EmbedErrorSeverity.SEV3,
-            ...errorDetails,
-        });
+        this.executeCallbacks(EmbedEvent.Error, buildErrorEventPayload(errorDetails));
         // Log error
         logger.error(errorDetails);
     }
@@ -538,7 +536,7 @@ export class TsEmbed {
                 severity: EmbedErrorSeverity.SEV2,
                 offlineWarning: ERROR_MESSAGE.OFFLINE_WARNING,
             };
-            this.executeCallbacks(EmbedEvent.Error, errorDetails);
+            this.executeCallbacks(EmbedEvent.Error, buildErrorEventPayload(errorDetails));
             logger.warn(errorDetails);
         };
         window.addEventListener('offline', offlineEventListener);
@@ -1604,10 +1602,10 @@ export class TsEmbed {
     };
 
     private shouldSkipEvent(eventType: EmbedEvent, data: any): boolean {
-        const errorType = data?.errorType ?? data?.data?.code;
+        const code = data?.data?.code ?? data?.code;
         if (
             eventType === EmbedEvent.Error &&
-            errorType === EmbedErrorCodes.HOST_EVENT_VALIDATION &&
+            code === EmbedErrorCodes.HOST_EVENT_VALIDATION &&
             (!getHostEventsConfig(this.viewConfig).useHostEventsV2 ||
                 getHostEventsConfig(this.viewConfig).shouldBypassPayloadValidation)
         ) {

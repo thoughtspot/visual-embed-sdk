@@ -361,6 +361,10 @@ describe('api-intercept', () => {
           message: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
           code: EmbedErrorCodes.PARSING_API_INTERCEPT_BODY_ERROR,
           error: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
+          data: expect.objectContaining({
+            code: EmbedErrorCodes.PARSING_API_INTERCEPT_BODY_ERROR,
+            severity: 3,
+          }),
         })
       );
       expect(mockLogger.error).toHaveBeenCalled();

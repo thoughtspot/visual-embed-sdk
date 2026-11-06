@@ -36,8 +36,10 @@ import {
     getOffsetTop,
     getDOMNode,
     getOperationNameFromQuery,
+    buildErrorEventPayload,
+    embedEventStatus,
 } from './utils';
-import { RuntimeFilterOp } from './types';
+import { EmbedEvent, EmbedErrorSeverity, RuntimeFilterOp } from './types';
 import { logger } from './utils/logger';
 import { DEFAULT_LAZY_LOADING_MARGIN } from './config';
 import { ERROR_MESSAGE } from './errors';
@@ -1453,5 +1455,34 @@ describe('getOperationNameFromQuery', () => {
             }
         `;
         expect(getOperationNameFromQuery(query)).toBe('FetchData');
+    });
+});
+
+describe('buildErrorEventPayload', () => {
+    const details = { errorType: 'API', message: 'boom', code: 'X' } as any;
+
+    it('wraps the details like an error posted by the embedded app', () => {
+        const payload = buildErrorEventPayload(details);
+        expect(payload.type).toBe(EmbedEvent.Error);
+        expect(payload.status).toBe(embedEventStatus.END);
+        expect(payload.data).toEqual({ ...details, severity: EmbedErrorSeverity.SEV3 });
+    });
+
+    it('does not nest an already enveloped payload again', () => {
+        const payload = buildErrorEventPayload({
+            type: EmbedEvent.Error,
+            data: { ...details, severity: EmbedErrorSeverity.SEV2 },
+            status: embedEventStatus.START,
+        } as any);
+        expect(payload.data).toEqual({ ...details, severity: EmbedErrorSeverity.SEV2 });
+        expect(payload.data.data).toBeUndefined();
+        expect(payload.status).toBe(embedEventStatus.START);
+        expect(payload.code).toBe('X');
+    });
+
+    it('keeps the details at the top level and respects a given severity', () => {
+        const payload = buildErrorEventPayload({ ...details, severity: EmbedErrorSeverity.SEV1 });
+        expect(payload).toEqual(expect.objectContaining({ ...details, severity: EmbedErrorSeverity.SEV1 }));
+        expect(payload.data.severity).toBe(EmbedErrorSeverity.SEV1);
     });
 });
