@@ -913,6 +913,24 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      */
     enableHomepageAnnouncement?: boolean;
     /**
+     * Shows Apps (the Apps list, the Apps left-nav item and the App pages) in
+     * the embedded app. Apps must also be turned on for the ThoughtSpot
+     * instance; this flag cannot turn them on by itself.
+     *
+     * Supported embed types: `AppEmbed`, `DataAppEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    enableDataApps: true,
+     *    path: 'insights/home/apps',
+     * })
+     * ```
+     */
+    enableDataApps?: boolean;
+    /**
      * If set to true, enables visualization data caching on the Liveboard.
      * @type {boolean}
      * @version SDK: 1.49.0 | ThoughtSpot: 26.6.0.cl
@@ -1152,6 +1170,7 @@ export class AppEmbed extends V1Embed {
             spotterDataSources,
             isThisPeriodInDateFiltersEnabled,
             enableHomepageAnnouncement = false,
+            enableDataApps,
             isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
             hideAnswerEditPanel,
@@ -1356,6 +1375,8 @@ export class AppEmbed extends V1Embed {
         if (enableHomepageAnnouncement !== undefined) {
             params[Param.EnableHomepageAnnouncement] = enableHomepageAnnouncement;
         }
+
+        setParamIfDefined(params, Param.EnableDataApps, enableDataApps, true);
 
         if (isContinuousLiveboardPDFEnabled !== undefined) {
             params[Param.IsWYSIWYGLiveboardPDFEnabled] = isContinuousLiveboardPDFEnabled;
