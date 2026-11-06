@@ -435,6 +435,17 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should not add isPNGInScheduledEmailsEnabled to the iframe src when undefined', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isPNGInScheduledEmailsEnabled');
+        });
+    });
+
     test('should set isPNGInScheduledEmailsEnabled to true in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             isPNGInScheduledEmailsEnabled: true,
