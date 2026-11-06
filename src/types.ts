@@ -6252,6 +6252,11 @@ export enum HostEvent {
      *  For information about the supported filter operators,
      *  see link:https://developers.thoughtspot.com/docs/runtime-filters#rtOperator[Developer Documentation].
      *
+     *  Attribute columns filter by a list of values, so the range operators
+     *  do not apply to them. On an attribute column, `LT`, `LE`, `GT`, `GE`
+     *  and `BW_INC` each resolve to `IN` over the values you pass, and no
+     *  error is raised. To filter by range, use a measure or date column.
+     *
      * `values` - An array of one or several values. The value definition on the
      *  data type you choose to filter on. For a complete list of supported data types,
      *  see
@@ -7438,6 +7443,7 @@ export enum Param {
     UpdatedSpotterExperience = 'updatedSpotterExperience',
     SpotterDataSources = 'spotterDataSources',
     OpenSpotterOnLiveboardByDefault = 'openSpotterOnLiveboardByDefault',
+    HideChatHeaderAvatar = 'hideChatHeaderAvatar',
     ShowAnswerEditPanel = 'showAnswerEditPanel',
     IsDarkMode = 'isDarkMode',
     RadiantThemeEnabled = 'radiantThemeEnabled',

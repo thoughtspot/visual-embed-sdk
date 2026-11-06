@@ -1616,6 +1616,46 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set hideChatHeaderAvatar parameter in url params', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: { hideChatHeaderAvatar: true },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideChatHeaderAvatar: 'true',
+            });
+        });
+    });
+
+    test('should set hideChatHeaderAvatar to false when explicitly disabled', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: { hideChatHeaderAvatar: false },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideChatHeaderAvatar: 'false',
+            });
+        });
+    });
+
+    test('should not set hideChatHeaderAvatar when it is not configured', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            spotterChatConfig: { enableStarterPrompts: true },
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('hideChatHeaderAvatar');
+        });
+    });
+
     test('should set spotterFileUploadFileTypes parameter in url params', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,
