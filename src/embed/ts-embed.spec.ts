@@ -137,7 +137,7 @@ const getMockAppInitPayload = (data: any) => {
         interceptTimeout: undefined,
         interceptUrls: [],
         shouldBypassPayloadValidation: undefined,
-        useHostEventsV2: undefined,
+        useHostEventsV2: true,
         embedExpiryInAuthToken: true,
     };
     return {
@@ -6630,6 +6630,30 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             });
             return embed;
         };
+
+        test('logs host events v1 deprecation warning only when useHostEventsV2 is explicitly false', () => {
+            const warnSpy = jest.spyOn(logger, 'warn').mockImplementation(() => {});
+
+            makeEmbed({ useHostEventsV2: false });
+            expect(warnSpy).toHaveBeenCalledWith(ERROR_MESSAGE.HOST_EVENTS_V1_DEPRECATED);
+
+            warnSpy.mockClear();
+            makeEmbed({ useHostEventsV2: true });
+            makeEmbed({ useHostEventsV2: undefined });
+            expect(warnSpy).not.toHaveBeenCalledWith(ERROR_MESSAGE.HOST_EVENTS_V1_DEPRECATED);
+
+            warnSpy.mockRestore();
+        });
+
+        test('delivers Error event to handler when useHostEventsV2 is not set (defaults to v2)', () => {
+            const errorHandler = jest.fn();
+            const embed = makeEmbed({ useHostEventsV2: undefined });
+            embed.on(EmbedEvent.Error, errorHandler);
+
+            (embed as any).executeCallbacks(EmbedEvent.Error, makeNestedValidationData());
+
+            expect(errorHandler).toHaveBeenCalled();
+        });
 
         test('skips Error event and logs warning when useHostEventsV2 is true and shouldBypassPayloadValidation is true', () => {
             jest.spyOn(logger, 'warn');

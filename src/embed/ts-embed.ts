@@ -369,6 +369,9 @@ export class TsEmbed {
             excludeRuntimeParametersfromURL: true,
             ...viewConfig,
         };
+        if (viewConfig?.useHostEventsV2 === false) {
+            logger.warn(ERROR_MESSAGE.HOST_EVENTS_V1_DEPRECATED);
+        }
         this.registerAppInit();
         uploadMixpanelEvent(
             MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE,
