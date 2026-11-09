@@ -1215,8 +1215,14 @@ describe('Unit test case for ts embed', () => {
         afterEach(() => {
             // clearAllMocks leaves these spies installed, so the next
             // test's init() call to handleAuth would be recorded on them.
-            jest.mocked(baseInstance.handleAuth).mockRestore();
-            jest.mocked(baseInstance.notifyAuthFailure).mockRestore();
+            // Guarded: a test that fails before spying would otherwise
+            // throw here and hide the real failure.
+            if (jest.isMockFunction(baseInstance.handleAuth)) {
+                jest.mocked(baseInstance.handleAuth).mockRestore();
+            }
+            if (jest.isMockFunction(baseInstance.notifyAuthFailure)) {
+                jest.mocked(baseInstance.notifyAuthFailure).mockRestore();
+            }
         });
 
         test('AutoLogin true scenario', async () => {
