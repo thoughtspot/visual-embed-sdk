@@ -638,6 +638,34 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set showSpotterLimitations to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showSpotterLimitations: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&showSpotterLimitations=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set showSpotterLimitations to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            showSpotterLimitations: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&showSpotterLimitations=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
     test('should set showSpotterRadiance to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -842,6 +870,68 @@ describe('App embed tests', () => {
         await executeAfterWait(() => {
             expect(mockPort.postMessage.mock.calls[0][0].data.embedParams.spotterUsageLimitConfig)
                 .toEqual({ isEnabled: true });
+        });
+    });
+
+    describe('liveboardOverrides in APP_INIT embedParams', () => {
+        const overrideFor = (dataSourceIdentifier: string) => ({
+            dataSourceOverride: [{
+                dataSourceIdentifier,
+                filterQuery: [{ filterQueryToken: 'color = red' }],
+            }],
+        });
+
+        const getAppInitResponse = async (viewConfig: Partial<AppViewConfig>) => {
+            const appEmbed = new AppEmbed(getRootEl(), {
+                ...defaultViewConfig,
+                ...viewConfig,
+            } as AppViewConfig);
+
+            mockMessageChannel();
+            appEmbed.render();
+
+            const mockPort: any = { postMessage: jest.fn() };
+            await executeAfterWait(() => {
+                postMessageToParent(
+                    getIFrameEl().contentWindow,
+                    { type: EmbedEvent.APP_INIT, data: {} },
+                    mockPort,
+                );
+            });
+            let data: any;
+            await executeAfterWait(() => {
+                data = mockPort.postMessage.mock.calls[0][0].data;
+            });
+            return data;
+        };
+
+        test('should include liveboardOverrides when provided', async () => {
+            const liveboardOverrides = { 'lb-1': overrideFor('DS1'), 'lb-2': overrideFor('DS2') };
+            const data = await getAppInitResponse({ liveboardOverrides });
+            expect(data.embedParams.liveboardOverrides).toEqual(liveboardOverrides);
+        });
+
+        test('should not include liveboardOverrides when not provided', async () => {
+            const data = await getAppInitResponse({});
+            expect(data.embedParams?.liveboardOverrides).toBeUndefined();
+        });
+
+        test('should drop Liveboards with no data source overrides', async () => {
+            const data = await getAppInitResponse({
+                liveboardOverrides: {
+                    'lb-1': overrideFor('DS1'),
+                    'lb-2': { dataSourceOverride: [] },
+                },
+            });
+            expect(data.embedParams.liveboardOverrides).toEqual({ 'lb-1': overrideFor('DS1') });
+        });
+
+        test('should send liveboardOverrides alongside spotterVizConfig', async () => {
+            const spotterViz = { brandName: 'MyBrand' };
+            const liveboardOverrides = { 'lb-1': overrideFor('DS1') };
+            const data = await getAppInitResponse({ liveboardOverrides, spotterViz });
+            expect(data.embedParams.liveboardOverrides).toEqual(liveboardOverrides);
+            expect(data.embedParams.spotterVizConfig).toEqual(spotterViz);
         });
     });
 
@@ -1112,6 +1202,43 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).not.toContain('openSpotterOnLiveboardByDefault');
+        });
+    });
+
+    test('should set hideChatHeaderAvatar to true in url via spotterChatConfig', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { hideChatHeaderAvatar: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideChatHeaderAvatar: 'true',
+            });
+        });
+    });
+
+    test('should set hideChatHeaderAvatar to false when explicitly disabled', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { hideChatHeaderAvatar: false },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideChatHeaderAvatar: 'false',
+            });
+        });
+    });
+
+    test('should not set hideChatHeaderAvatar when it is not configured', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterChatConfig: { enableStarterPrompts: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('hideChatHeaderAvatar');
         });
     });
 
