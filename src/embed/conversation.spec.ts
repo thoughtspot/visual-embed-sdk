@@ -476,6 +476,39 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should render the conversation embed with the chat header avatar hidden', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            searchOptions: {
+                searchQuery: 'searchQuery',
+            },
+            spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+            spotterChatConfig: {
+                hideChatHeaderAvatar: true,
+            },
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expectUrlMatchesWithParams(
+            getIFrameSrc(),
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&isSpotterExperienceEnabled=true&hideChatHeaderAvatar=true&spotterExperienceVersion=spotter_2026_11#/embed/insights/spotter?worksheet=worksheetId&query=searchQuery`,
+        );
+    });
+
+    it('should not set hideChatHeaderAvatar in the url when it is not configured', async () => {
+        const viewConfig: SpotterEmbedViewConfig = {
+            worksheetId: 'worksheetId',
+            spotterChatConfig: {
+                hideToolResponseCardBranding: true,
+            },
+        };
+
+        const conversationEmbed = new SpotterEmbed(getRootEl(), viewConfig);
+        await conversationEmbed.render();
+        expect(getIFrameSrc()).not.toContain('hideChatHeaderAvatar');
+    });
+
     it('should render the conversation embed with custom tool response card branding label', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',
