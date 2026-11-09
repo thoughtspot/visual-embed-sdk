@@ -1211,7 +1211,14 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
-    xdescribe('AuthExpire embedEvent in TrustedAuthToken authType', () => {
+    describe('AuthExpire embedEvent in TrustedAuthToken authType', () => {
+        afterEach(() => {
+            // clearAllMocks leaves these spies installed, so the next
+            // test's init() call to handleAuth would be recorded on them.
+            jest.mocked(baseInstance.handleAuth).mockRestore();
+            jest.mocked(baseInstance.notifyAuthFailure).mockRestore();
+        });
+
         test('AutoLogin true scenario', async () => {
             init({
                 thoughtSpotHost: 'tshost',
@@ -2348,7 +2355,7 @@ describe('Unit test case for ts embed', () => {
                 `http://${thoughtSpotHost}/?embedApp=true&primaryNavHidden=true&profileAndHelpInNavBarHidden=false&additionalPendoKey=1234${defaultParamsPost}#/home`,
             );
         });
-        xit('Sets the forceSAMLAutoRedirect param', async () => {
+        it('Sets the forceSAMLAutoRedirect param', async () => {
             jest.spyOn(baseInstance, 'getAuthPromise').mockResolvedValue(true);
             init({
                 thoughtSpotHost: 'tshost',
@@ -2361,7 +2368,7 @@ describe('Unit test case for ts embed', () => {
                     height: '100%',
                 },
             });
-            appEmbed.render();
+            await appEmbed.render();
             expect(getIFrameSrc()).toContain('authType=EmbeddedSSO');
             expect(getIFrameSrc()).toContain('forceSAMLAutoRedirect=true');
         });
