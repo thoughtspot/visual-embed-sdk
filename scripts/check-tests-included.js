@@ -18,8 +18,12 @@ function check(files) {
     return { ok: true, reason: `Tests found: ${tests.join(', ')}` };
 }
 
+// --diff-filter=d drops deleted files: removing a source file needs no new test,
+// and removing a spec must not count as "tests changed".
 function getChangedFiles(baseRef) {
-    const out = execSync(`git diff --name-only origin/${baseRef}...HEAD`, { encoding: 'utf8' });
+    const out = execSync(`git diff --name-only --diff-filter=d origin/${baseRef}...HEAD`, {
+        encoding: 'utf8',
+    });
     return out.split('\n').map((s) => s.trim()).filter(Boolean);
 }
 

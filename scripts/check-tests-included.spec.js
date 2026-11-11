@@ -25,7 +25,7 @@ describe('check-tests-included', () => {
         execSync.mockReturnValue('src/a.ts\nsrc/a.spec.ts\n');
         expect(getChangedFiles('release')).toEqual(['src/a.ts', 'src/a.spec.ts']);
         expect(execSync).toHaveBeenCalledWith(
-            'git diff --name-only origin/release...HEAD',
+            'git diff --name-only --diff-filter=d origin/release...HEAD',
             { encoding: 'utf8' },
         );
     });
