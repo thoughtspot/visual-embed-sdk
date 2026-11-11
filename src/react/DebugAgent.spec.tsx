@@ -776,12 +776,14 @@ describe('DebugAgent', () => {
         describe('when the host page declares a color-scheme', () => {
             let style: HTMLStyleElement;
             beforeEach(() => {
-                // Mirrors a host with its own toggle: data-theme drives color-scheme.
+                // A host with its own toggle: data-theme sets color-scheme.
                 style = document.createElement('style');
                 style.textContent = ':root { color-scheme: light; } :root[data-theme="dark"] { color-scheme: dark; }';
                 document.head.appendChild(style);
             });
             afterEach(() => {
+                // Unmount first: resetting the page is not a theme change.
+                cleanup();
                 style.remove();
                 delete document.documentElement.dataset.theme;
             });

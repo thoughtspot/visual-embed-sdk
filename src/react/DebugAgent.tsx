@@ -2369,9 +2369,17 @@ function hostIsDark(): boolean {
  */
 function useHostDark(): boolean {
     const [dark, setDark] = useState(hostIsDark);
+    const darkRef = useRef(dark);
 
     useEffect(() => {
-        const update = () => setDark(hostIsDark());
+        // Most attribute changes (the pane's own body styles, say) leave the
+        // theme alone, so only a real flip touches React state.
+        const update = () => {
+            const next = hostIsDark();
+            if (next === darkRef.current) return;
+            darkRef.current = next;
+            setDark(next);
+        };
         const cleanups: Array<() => void> = [];
 
         try {
