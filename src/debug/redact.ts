@@ -91,8 +91,20 @@ export function redactUrl(url: string): string {
 }
 
 /**
+ * Stands in for a member that could not be read, so one hostile property
+ * still leaves the rest of the shape describable.
+ */
+const UNREADABLE = 'unavailable';
+
+/**
  * Describes a value's shape without its contents: `{ a: 'string', b: [ 'number' ] }`.
  * Used for event payloads, which can carry customer data.
+ *
+ * Reading a member can throw: a payload may expose a getter that does, and a
+ * Proxy can trap `ownKeys`. Callers pass `shapeOf(...)` inline as an argument,
+ * so the call is evaluated before the diagnostics bus is entered and its own
+ * guard cannot catch it. Describing a payload must never break the SDK call
+ * being described, so every read is guarded here instead.
  * @param value
  * @param depth
  */
@@ -100,13 +112,30 @@ export function shapeOf(value: unknown, depth = 0): unknown {
     if (value === null) return 'null';
     if (Array.isArray(value)) {
         if (depth > 3) return `array(${value.length})`;
-        return value.length ? [shapeOf(value[0], depth + 1), `…${value.length}`] : [];
+        if (!value.length) return [];
+        let first: unknown;
+        try {
+            first = value[0];
+        } catch (e) {
+            return [UNREADABLE, `…${value.length}`];
+        }
+        return [shapeOf(first, depth + 1), `…${value.length}`];
     }
     if (typeof value === 'object') {
         if (depth > 3) return 'object';
+        let keys: string[];
+        try {
+            keys = Object.keys(value as object).slice(0, 40);
+        } catch (e) {
+            return 'object';
+        }
         const out: Record<string, unknown> = {};
-        Object.keys(value as object).slice(0, 40).forEach((key) => {
-            out[key] = shapeOf((value as Record<string, unknown>)[key], depth + 1);
+        keys.forEach((key) => {
+            try {
+                out[key] = shapeOf((value as Record<string, unknown>)[key], depth + 1);
+            } catch (e) {
+                out[key] = UNREADABLE;
+            }
         });
         return out;
     }

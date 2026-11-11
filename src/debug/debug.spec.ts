@@ -37,6 +37,34 @@ describe('redact', () => {
     test('shapeOf keeps structure only', () => {
         expect(shapeOf({ a: 'x', b: [1, 2], c: null })).toEqual({ a: 'string', b: ['number', '…2'], c: 'null' });
     });
+    test('shapeOf survives a throwing getter and keeps the readable keys', () => {
+        const hostile = {
+            ok: 'x',
+            get bad(): string {
+                throw new Error('no telemetry for you');
+            },
+        };
+        expect(() => shapeOf(hostile)).not.toThrow();
+        expect(shapeOf(hostile)).toEqual({ ok: 'string', bad: 'unavailable' });
+    });
+    test('shapeOf survives a throwing getter nested in the payload', () => {
+        const hostile = {
+            outer: {
+                get bad(): string {
+                    throw new Error('no telemetry for you');
+                },
+            },
+        };
+        expect(shapeOf(hostile)).toEqual({ outer: { bad: 'unavailable' } });
+    });
+    test('shapeOf survives a Proxy that traps ownKeys', () => {
+        const hostile = new Proxy({}, {
+            ownKeys(): string[] {
+                throw new Error('no telemetry for you');
+            },
+        });
+        expect(shapeOf(hostile)).toBe('object');
+    });
     test('redactValue strips secrets and functions', () => {
         const out = redactValue({ password: 'p', getAuthToken: () => 'x', host: 'h' }) as any;
         expect(out).toEqual({ password: REDACTED, getAuthToken: 'ƒ', host: 'h' });
