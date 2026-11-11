@@ -475,35 +475,48 @@ describe('Unit test for auth', () => {
             expect(tokenAuthService.isActiveService).toHaveBeenCalledTimes(1);
         });
 
-        it('should store decoded accessToken in window when SAMLComplete event includes accessToken', async () => {
-            Object.defineProperty(window, 'location', { value: { href: '', hash: '' } });
-            global.window.open = jest.fn().mockReturnValue({ closed: false, focus: jest.fn(), close: jest.fn() });
-
+        const startSamlPopupFlow = async () => {
+            Object.defineProperty(window, 'location', {
+                value: { href: '', hash: '', origin: 'https://host.app.com' },
+            });
+            // samlAuthWindow is module state: retire a popup left open by an
+            // earlier test so this flow opens (and trusts) a fresh one.
+            if (authInstance.samlAuthWindow) {
+                (authInstance.samlAuthWindow as any).closed = true;
+            }
+            const popup = { closed: false, focus: jest.fn(), close: jest.fn() };
+            global.window.open = jest.fn().mockReturnValue(popup);
             (authInstance as any).samlCompletionPromise = null;
 
-            let capturedMessageHandler: ((e: any) => void) | null = null;
+            let messageHandler: ((e: any) => void) | null = null;
             jest.spyOn(window, 'addEventListener').mockImplementation((type: any, handler: any) => {
                 if (type === 'message') {
-                    capturedMessageHandler = handler;
+                    messageHandler = handler;
                 }
             });
-
             jest.spyOn(tokenAuthService, 'isActiveService')
                 .mockReturnValueOnce(Promise.resolve(false));
 
             const authPromise = authInstance.doSamlAuth({ ...embedConfig.doSamlAuthNoRedirect });
-
             await new Promise<void>((resolve) => setTimeout(resolve, 0));
+            document.getElementById('ts-auth-btn').click();
+            return { popup, authPromise, messageHandler };
+        };
 
-            expect(capturedMessageHandler).not.toBeNull();
+        it('should store decoded accessToken in window when SAMLComplete event includes accessToken', async () => {
+            const { popup, authPromise, messageHandler } = await startSamlPopupFlow();
+
+            expect(decodeURIComponent((window.open as jest.Mock).mock.calls[0][0]))
+                .toContain('/v2/#/embed/saml-complete?hostAppOrigin=https%3A%2F%2Fhost.app.com');
 
             const accessToken = 'my-access-token';
-            capturedMessageHandler!({
+            messageHandler!({
+                origin: new URL(thoughtSpotHost).origin,
+                source: popup,
                 data: {
                     type: EmbedEvent.SAMLComplete,
                     accessToken: encodeURIComponent(accessToken),
                 },
-                source: { close: jest.fn() },
             });
 
             await authPromise;
@@ -512,6 +525,29 @@ describe('Unit test for auth', () => {
                 checkReleaseVersionInBetaInstance.getValueFromWindow('cachedAuthToken'),
             ).toBe(accessToken);
             expect(authInstance.loggedInStatus).toBe(true);
+            expect(popup.close).toHaveBeenCalled();
+        });
+
+        it('should ignore SAMLComplete from any origin or window other than the SSO popup', async () => {
+            const { popup, authPromise, messageHandler } = await startSamlPopupFlow();
+            const data = { type: EmbedEvent.SAMLComplete, accessToken: 'attacker-token' };
+            const tsOrigin = new URL(thoughtSpotHost).origin;
+
+            [
+                { origin: 'https://evil.com', source: popup, data },
+                { origin: tsOrigin, source: { close: jest.fn() }, data },
+                { origin: tsOrigin, source: null, data },
+            ].forEach((event) => messageHandler!(event));
+
+            expect(
+                checkReleaseVersionInBetaInstance.getValueFromWindow('cachedAuthToken'),
+            ).toBeFalsy();
+            expect(popup.close).not.toHaveBeenCalled();
+
+            // The genuine completion still goes through afterwards.
+            messageHandler!({ origin: tsOrigin, source: popup, data: { type: EmbedEvent.SAMLComplete } });
+            await authPromise;
+            expect(popup.close).toHaveBeenCalled();
         });
 
     });

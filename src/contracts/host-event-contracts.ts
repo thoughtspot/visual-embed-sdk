@@ -53,6 +53,21 @@ export interface ConversationScopedRequest {
 }
 
 /**
+ * Request payload for {@link HostEvent.SpotterRefreshUsageLimit}. Both fields
+ * apply only to the current session.
+ */
+export interface SpotterRefreshUsageLimitRequest {
+    /**
+     * When `true`, hides usage tracking entirely.
+     */
+    isUnlimited?: boolean;
+    /**
+     * When `false`, hides the upgrade button.
+     */
+    isUpgradeButtonVisible?: boolean;
+}
+
+/**
  * Request payload for {@link HostEvent.OpenFilter}. Field requirements
  * vary by context (Search requires columnId/type/dataType/name); the
  * contract is the cross-context superset — the app validates per context
@@ -289,6 +304,16 @@ export interface SetActiveTabRequest {
 }
 
 /**
+ * Request payload for {@link HostEvent.UpdateTheme}.
+ */
+export interface UpdateThemeRequest {
+    /**
+     * `true` for dark appearance, `false` for the default appearance.
+     */
+    isDarkMode: boolean;
+}
+
+/**
  * Typed request payloads for host events that do not go through the UI
  * passthrough pipeline (`HostEvent` member → request type; `void` = no payload).
  *
@@ -371,6 +396,7 @@ export interface HostEventRequestMap {
     [HostEvent.AIHighlights]: void;
     [HostEvent.SendTestScheduleEmail]: ScheduleEmailRequest;
     [HostEvent.RefreshLiveboardBrowserCache]: ScheduleEmailRequest;
+    [HostEvent.OpenAddTabModal]: void;
 
     // ==================== SPOTTER ====================
     [HostEvent.SpotterSearch]: SpotterSearchRequest;
@@ -378,6 +404,7 @@ export interface HostEventRequestMap {
     [HostEvent.ShareSpotterConversation]: ConversationScopedRequest;
     [HostEvent.CloseSpotterShareConversation]: void;
     [HostEvent.ExitSpotterSharedConversation]: void;
+    [HostEvent.SpotterRefreshUsageLimit]: SpotterRefreshUsageLimitRequest;
     [HostEvent.PinSpotterConversation]: ConversationScopedRequest;
     [HostEvent.UnpinSpotterConversation]: ConversationScopedRequest;
     [HostEvent.EditLastPrompt]: string;
@@ -387,6 +414,9 @@ export interface HostEventRequestMap {
     [HostEvent.InitSpotterVizConversation]: void;
     [HostEvent.OpenSpotterVizPanel]: void;
     [HostEvent.CloseSpotterVizPanel]: void;
+
+    // ==================== APPEARANCE ====================
+    [HostEvent.UpdateTheme]: UpdateThemeRequest;
 }
 
 /**

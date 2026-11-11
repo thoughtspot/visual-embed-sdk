@@ -36,6 +36,24 @@ jobs:
             exit 1
           fi
 
+  validate-version-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.19.4'
+
+      # `@version SDK: <TBD>` is expected on a feature branch — the release bump
+      # fills it in. The ThoughtSpot release is NOT derivable by any automation,
+      # so it has to be written by the author and is checked here, at the last
+      # point where the author is still around to fix it.
+      - name: Require a real ThoughtSpot release in every @version tag
+        run: npm run lint-versions
+
   guard-version-bump:
     runs-on: ubuntu-latest
     steps:

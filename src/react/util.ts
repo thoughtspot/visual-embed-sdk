@@ -1,8 +1,20 @@
 import { EmbedEvent, MessageCallback, AllEmbedViewConfig } from '../types';
+import { EmbedEventPayload } from '../contracts/embed-event-payloads';
 
 interface EmbedViewConfig extends AllEmbedViewConfig, EmbedEventHandlers {}
 
-export type EmbedEventHandlers = { [key in keyof typeof EmbedEvent as `on${Capitalize<key>}`]?: MessageCallback };
+/**
+ * `on{Event}` handler props for the React components. Each handler receives the
+ * payload typed for its event (the same {@link EmbedEventPayload} the imperative
+ * `embed.on()` delivers), so `onData`, `onVizPointClick`, etc. are per-event
+ * typed rather than the loose {@link MessageCallback}.
+ */
+export type EmbedEventHandlers = {
+    [K in keyof typeof EmbedEvent as `on${Capitalize<K>}`]?: (
+        payload: EmbedEventPayload<(typeof EmbedEvent)[K]>,
+        responder?: (data: any) => void,
+    ) => void;
+};
 
 export interface EmbedProps extends EmbedViewConfig {
     className?: string;

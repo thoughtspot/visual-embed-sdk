@@ -3,9 +3,12 @@ import {
     buildSpotterSidebarAppInitData,
     buildSpotterShareConversationAppInitData,
     buildStarterPromptsAppInitData,
+    buildSpotterAnalystAppInitData,
+    buildSpotterUsageLimitAppInitData,
 } from './spotter-utils';
 import { ErrorDetailsTypes, EmbedErrorCodes } from '../types';
 import { ERROR_MESSAGE } from '../errors';
+import { SpotterUsageCounterDisplayMode } from './conversation';
 
 describe('resolveEnablePastConversationsSidebar', () => {
     it('prefers spotterSidebarConfig value over standalone', () => {
@@ -55,6 +58,26 @@ describe('buildSpotterSidebarAppInitData', () => {
         }, noopError);
         expect(result.embedParams?.spotterSidebarConfig?.spotterChatPinConfig)
             .toEqual(spotterChatPinConfig);
+    });
+
+    it('lifts enableSpotterInstructionAndMoreSettings to the top level of embedParams', () => {
+        const result = buildSpotterSidebarAppInitData(base, {
+            spotterSidebarConfig: {
+                enablePastConversationsSidebar: true,
+                enableSpotterInstructionAndMoreSettings: false,
+            },
+        }, noopError);
+        expect(result.embedParams?.enableSpotterInstructionAndMoreSettings).toBe(false);
+        expect(result.embedParams?.spotterSidebarConfig).toEqual({
+            enablePastConversationsSidebar: true,
+        });
+    });
+
+    it('omits enableSpotterInstructionAndMoreSettings when it is not set', () => {
+        const result = buildSpotterSidebarAppInitData(base, {
+            spotterSidebarConfig: { enablePastConversationsSidebar: true },
+        }, noopError);
+        expect(result.embedParams).not.toHaveProperty('enableSpotterInstructionAndMoreSettings');
     });
 
     it('promotes standalone flag into spotterSidebarConfig.enablePastConversationsSidebar', () => {
@@ -243,5 +266,67 @@ describe('buildStarterPromptsAppInitData', () => {
             spotterChatConfig: { starterPrompts: { enable: true, liveboard } },
         });
         expect(result.embedParams?.starterPrompts).toEqual({ enable: true, liveboard });
+    });
+});
+
+describe('buildSpotterAnalystAppInitData', () => {
+    const base = { type: 'APP_INIT' } as any;
+
+    it('returns the payload unchanged when analystId is absent', () => {
+        expect(buildSpotterAnalystAppInitData(base, {})).toBe(base);
+        expect(buildSpotterAnalystAppInitData(base, { spotterAnalystConfig: {} })).toBe(base);
+    });
+
+    it('nests spotterAnalystConfig under embedParams', () => {
+        const result = buildSpotterAnalystAppInitData(base, {
+            spotterAnalystConfig: { analystId: 'analyst-id-1234' },
+        });
+        expect(result.embedParams?.spotterAnalystConfig).toEqual({ analystId: 'analyst-id-1234' });
+    });
+
+    it('preserves existing embedParams keys', () => {
+        const withExisting = {
+            ...base,
+            embedParams: { spotterSidebarConfig: { enablePastConversationsSidebar: true } },
+        } as any;
+        const result = buildSpotterAnalystAppInitData(withExisting, {
+            spotterAnalystConfig: { analystId: 'analyst-id-1234' },
+        });
+        expect(result.embedParams?.spotterSidebarConfig).toEqual({ enablePastConversationsSidebar: true });
+        expect(result.embedParams?.spotterAnalystConfig).toEqual({ analystId: 'analyst-id-1234' });
+    });
+});
+
+describe('buildSpotterUsageLimitAppInitData', () => {
+    const base = { type: 'APP_INIT' } as any;
+
+    it('returns the payload unchanged when the config is absent or empty', () => {
+        expect(buildSpotterUsageLimitAppInitData(base, {})).toBe(base);
+        expect(buildSpotterUsageLimitAppInitData(base, { spotterUsageLimitConfig: {} })).toBe(base);
+    });
+
+    it('passes the config through as a nested embedParams object', () => {
+        const spotterUsageLimitConfig = {
+            isEnabled: true,
+            isHostManaged: false,
+            isUpgradeButtonVisible: false,
+            isWarningBannerEnabled: false,
+            isLimitBannerEnabled: true,
+            usageCounterDisplayMode: SpotterUsageCounterDisplayMode.VisibleAfterWarning,
+        };
+        const result = buildSpotterUsageLimitAppInitData(base, { spotterUsageLimitConfig });
+        expect(result.embedParams).toEqual({ spotterUsageLimitConfig });
+    });
+
+    it('preserves existing embedParams keys', () => {
+        const withExisting = {
+            ...base,
+            embedParams: { spotterAnalystConfig: { analystId: 'analyst-id-1234' } },
+        } as any;
+        const result = buildSpotterUsageLimitAppInitData(withExisting, {
+            spotterUsageLimitConfig: { isEnabled: true },
+        });
+        expect(result.embedParams?.spotterAnalystConfig).toEqual({ analystId: 'analyst-id-1234' });
+        expect(result.embedParams?.spotterUsageLimitConfig).toEqual({ isEnabled: true });
     });
 });

@@ -229,6 +229,30 @@ describe('HostEvent.OpenAddParameterModal', () => {
 });
 
 // ---------------------------------------------------------------------------
+// 10e – OpenAddTabModal
+// ---------------------------------------------------------------------------
+describe('HostEvent.OpenAddTabModal', () => {
+    test('postMessage type is openAddTabModal (camelCase, no payload)', async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard();
+        await executeAfterWait(() => {
+            lb.trigger(HostEvent.OpenAddTabModal);
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({ type: 'openAddTabModal' }),
+                thoughtSpotHost,
+                expect.anything(),
+            );
+        });
+    });
+
+    test('returns null when !isRendered', async () => {
+        const lb = unrenderedLiveboard();
+        const result = await lb.trigger(HostEvent.OpenAddTabModal);
+        expect(result).toBeNull();
+    });
+});
+
+// ---------------------------------------------------------------------------
 // 11 – AddColumns
 // ---------------------------------------------------------------------------
 describe('HostEvent.AddColumns', () => {
@@ -632,6 +656,50 @@ describe('HostEvent.Edit', () => {
     test('returns null when !isRendered', async () => {
         const lb = unrenderedLiveboard();
         const result = await lb.trigger(HostEvent.Edit);
+        expect(result).toBeNull();
+    });
+});
+
+// ---------------------------------------------------------------------------
+// ExitEditMode
+// ---------------------------------------------------------------------------
+describe('HostEvent.ExitEditMode', () => {
+    test("enum value is 'exitEditMode' (wire contract with the host app)", () => {
+        expect(HostEvent.ExitEditMode).toBe('exitEditMode');
+    });
+
+    test("postMessage type is 'exitEditMode' (camelCase)", async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard();
+        await executeAfterWait(() => {
+            lb.trigger(HostEvent.ExitEditMode);
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({ type: 'exitEditMode' }),
+                thoughtSpotHost,
+                expect.anything(),
+            );
+        });
+    });
+
+    test('viewConfig.vizId is injected into the payload as data.vizId', async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard({ vizId });
+        await executeAfterWait(() => {
+            lb.trigger(HostEvent.ExitEditMode, {} as any);
+            expect(iframe.contentWindow.postMessage).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    type: 'exitEditMode',
+                    data: expect.objectContaining({ vizId }),
+                }),
+                thoughtSpotHost,
+                expect.anything(),
+            );
+        });
+    });
+
+    test('returns null when !isRendered', async () => {
+        const lb = unrenderedLiveboard();
+        const result = await lb.trigger(HostEvent.ExitEditMode);
         expect(result).toBeNull();
     });
 });

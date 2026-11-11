@@ -163,7 +163,7 @@ export class SearchBarEmbed extends TsEmbed {
      * @param dataSources A list of data source GUIDs
      */
     private getIFrameSrc() {
-        const queryParams = this.getEmbedParamsObject();
+        const queryParams = this.getUrlQueryParamsObject();
         const path = 'search-bar-embed';
        
         let query = '';

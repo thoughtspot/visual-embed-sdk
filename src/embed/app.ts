@@ -23,9 +23,16 @@ import {
 } from '../types';
 import { FullHeightController } from '../full-height';
 import { V1Embed } from './ts-embed';
-import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig } from './conversation';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
+import { SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, SpotterUsageLimitConfig } from './conversation';
+import {
+    buildSpotterSidebarAppInitData,
+    buildSpotterShareConversationAppInitData,
+    buildStarterPromptsAppInitData,
+    buildSpotterUsageLimitAppInitData,
+    SpotterExperienceVersion,
+} from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
+import { LiveboardOverrides, buildLiveboardOverridesAppInitData } from './liveboard-override-utils';
 
 /**
  * Pages within the ThoughtSpot app that can be embedded.
@@ -608,9 +615,10 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
     isPNGInScheduledEmailsEnabled?: boolean;
 
     /**
-     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is rendered on a single page
-     * following the exact UI layout, instead of splitting visualizations across multiple A4 pages.
-     * This feature is GA from SDK version 1.51.0 and ThoughtSpot version 26.8.0.cl.
+     * Enables the 'what you see is what you get' PDF export for Liveboards. Each tab is
+     * rendered on a single page following the exact UI layout, instead of splitting
+     * visualizations across multiple A4 pages. This feature is GA from SDK version
+     * 1.51.0 and ThoughtSpot version 26.8.0.cl.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @type {boolean}
@@ -682,6 +690,24 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * ```
      */
     updatedSpotterChatPrompt?: boolean;
+
+    /**
+     * showSpotterLimitations : Show chat limitation text under Spotter input.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    showSpotterLimitations: true,
+     * })
+     * ```
+     */
+
+    showSpotterLimitations?: boolean;
+    
     /**
      * showSpotterRadiance : Controls the radiance on the Spotter page.
      *
@@ -784,6 +810,22 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * ```
      */
     spotterShareConversationConfig?: SpotterShareConversationConfig;
+    /**
+     * Configuration for Spotter usage limits.
+     *
+     * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterUsageLimitConfig: {
+     *        enabled: true,
+     *    },
+     * })
+     * ```
+     */
+    spotterUsageLimitConfig?: SpotterUsageLimitConfig;
     /**
      * Sets the default data sources (Models) for the Spotter experience shown on
      * the home page of the full app embed. Accepts a list of Model GUIDs to
@@ -920,6 +962,57 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * ```
      */
     hideAnswerEditPanel?: boolean;
+
+    /**
+     * The Spotter experience version to load for the Spotter surface shown within
+     * this embed.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+     * });
+     * ```
+     */
+    spotterExperienceVersion?: SpotterExperienceVersion;
+
+    /**
+     * Filters and Parameters to apply to Liveboards when they load, keyed by
+     * Liveboard GUID. A Liveboard with no entry loads without an override.
+     *
+     * In an embedded app, this is the only way to set these overrides.
+     * The `filter` and `parameter` URL query params are ignored.
+     * Clauses without a query token are dropped.
+     *
+     * Supported embed types: `AppEmbed`
+     * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new AppEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *    liveboardOverrides: {
+     *        '<liveboard-guid-1>': {
+     *            dataSourceOverride: [{
+     *                dataSourceIdentifier: '<model-guid>',
+     *                filterQuery: [{ filterQueryToken: 'region = East' }],
+     *            }],
+     *        },
+     *        '<liveboard-guid-2>': {
+     *            dataSourceOverride: [{
+     *                dataSourceIdentifier: '<model-guid>',
+     *                filterQuery: [{
+     *                    tabName: 'Sales',
+     *                    groupName: 'Region',
+     *                    filterQueryToken: 'region = South',
+     *                }],
+     *            }],
+     *        },
+     *    },
+     * })
+     * ```
+     */
+    liveboardOverrides?: LiveboardOverrides;
 }
 
 /**
@@ -932,6 +1025,9 @@ export interface AppEmbedAppInitData extends DefaultAppInitData {
         spotterVizConfig?: SpotterVizConfig;
         spotterShareConversationConfig?: SpotterShareConversationConfig;
         starterPrompts?: StarterPromptsConfig;
+        enableSpotterInstructionAndMoreSettings?: boolean;
+        spotterUsageLimitConfig?: SpotterUsageLimitConfig;
+        liveboardOverrides?: LiveboardOverrides;
     };
 }
 
@@ -982,7 +1078,9 @@ export class AppEmbed extends V1Embed {
         );
         const vizInitData = buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
         const shareInitData = buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
-        return buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
+        const starterPromptsInitData = buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
+        const usageLimitInitData = buildSpotterUsageLimitAppInitData(starterPromptsInitData, this.viewConfig);
+        return buildLiveboardOverridesAppInitData(usageLimitInitData, this.viewConfig.liveboardOverrides);
     }
 
     /**
@@ -990,7 +1088,7 @@ export class AppEmbed extends V1Embed {
      * embedded Liveboard or visualization.
      */
     protected getEmbedParams() {
-        const params = this.getEmbedParamsObject();
+        const params = this.getUrlQueryParamsObject();
         return getQueryParamString(params, true);
     }
 
@@ -1042,10 +1140,11 @@ export class AppEmbed extends V1Embed {
             isPNGInScheduledEmailsEnabled = false,
             isLiveboardXLSXCSVDownloadEnabled,
             isGranularXLSXCSVSchedulesEnabled,
-            isCentralizedLiveboardFilterUXEnabled = false,
+            isCentralizedLiveboardFilterUXEnabled,
             isScopedLiveboardFilteringEnabled,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
+            showSpotterLimitations,
             showSpotterRadiance,
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
@@ -1056,6 +1155,7 @@ export class AppEmbed extends V1Embed {
             isContinuousLiveboardPDFEnabled,
             enableLiveboardDataCache,
             hideAnswerEditPanel,
+            spotterExperienceVersion,
         } = this.viewConfig;
 
         let params: any = {};
@@ -1102,6 +1202,7 @@ export class AppEmbed extends V1Embed {
         if (!isUndefined(updatedSpotterChatPrompt)) {
             params[Param.UpdatedSpotterChatPrompt] = !!updatedSpotterChatPrompt;
         }
+        setParamIfDefined(params, Param.ShowSpotterLimitations, showSpotterLimitations, true);
         if (!isUndefined(showSpotterRadiance)) {
             params[Param.ShowSpotterRadiance] = !!showSpotterRadiance;
         }
@@ -1116,6 +1217,10 @@ export class AppEmbed extends V1Embed {
             params[Param.SpotterDataSources] = JSON.stringify(spotterDataSources);
         }
 
+        if (spotterExperienceVersion !== undefined) {
+            params[Param.SpotterExperienceVersion] = spotterExperienceVersion;
+        }
+
         // Handle spotterChatConfig params
         if (spotterChatConfig) {
             const {
@@ -1125,6 +1230,7 @@ export class AppEmbed extends V1Embed {
                 spotterFileUploadFileTypes,
                 enableStarterPrompts,
                 openSpotterOnLiveboardByDefault,
+                hideChatHeaderAvatar,
             } = spotterChatConfig;
 
             setParamIfDefined(params, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
@@ -1137,6 +1243,9 @@ export class AppEmbed extends V1Embed {
             }
             if (openSpotterOnLiveboardByDefault !== undefined) {
                 params[Param.OpenSpotterOnLiveboardByDefault] = openSpotterOnLiveboardByDefault;
+            }
+            if (hideChatHeaderAvatar !== undefined) {
+                params[Param.HideChatHeaderAvatar] = hideChatHeaderAvatar;
             }
             if (spotterFileUploadFileTypes !== undefined) {
                 params[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
@@ -1280,7 +1389,7 @@ export class AppEmbed extends V1Embed {
 
         // Navigation V1/V2 and home page V1/V2 are deprecated. V3 is now the
         // default experience, Need to send navigationVersion=v3 and
-        // homepageVersion=v3 even when the no discoveryExperience / 
+        // homepageVersion=v3 even when the no discoveryExperience /
         // modularHomeExperience config is set. Without these
         // params, older TSA versions (< 26.7) fall back to V2 for nav and
         // home page, so the defaults must be sent explicitly from the SDK.
@@ -1292,7 +1401,7 @@ export class AppEmbed extends V1Embed {
             if (discoveryExperience.listPageVersion !== undefined) {
                 params[Param.ListPageVersion] = discoveryExperience.listPageVersion;
             }
-            
+
             if (discoveryExperience.homePage === HomePage.Focused) {
                 params[Param.HomepageVersion] = HomePage.Focused;
                 // The Focused (V4) homepage experience requires the updated

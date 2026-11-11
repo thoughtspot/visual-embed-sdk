@@ -1,6 +1,13 @@
 import { Param, BaseViewConfig, RuntimeFilter, RuntimeParameter, ErrorDetailsTypes, EmbedErrorCodes, DefaultAppInitData, VisualizationOverrides, SpotterFileUploadFileTypes } from '../types';
 import { TsEmbed } from './ts-embed';
-import { buildSpotterSidebarAppInitData, buildSpotterShareConversationAppInitData, buildStarterPromptsAppInitData } from './spotter-utils';
+import {
+    buildSpotterSidebarAppInitData,
+    buildSpotterShareConversationAppInitData,
+    buildStarterPromptsAppInitData,
+    buildSpotterAnalystAppInitData,
+    buildSpotterUsageLimitAppInitData,
+    SpotterExperienceVersion,
+} from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
 /**
@@ -146,6 +153,19 @@ export interface SpotterSidebarViewConfig {
      * @default Analysts
      */
     spotterAnalystsLabel?: string;
+    /**
+     * Shows the connector marketplace option in the settings menu of the
+     * Spotter sidebar footer. When not set, the cluster setting applies.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     */
+    enableConnectorMarketplace?: boolean;
+    /**
+     * Shows the Spotter instructions and more settings options in the
+     * settings menu of the Spotter sidebar footer.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.10.0.cl
+     * @default false
+     */
+    enableSpotterInstructionAndMoreSettings?: boolean;
 }
 
 /**
@@ -406,6 +426,28 @@ export interface SpotterChatViewConfig {
      * ```
      */
     openSpotterOnLiveboardByDefault?: boolean;
+    /**
+     * Hides the Spotter avatar in the chat header.
+     *
+     * Note: this flag only takes effect when `spotterExperienceVersion` is set
+     * to `SpotterExperienceVersion.SPOTTER_2026_11`. It is ignored on the
+     * default Spotter experience.
+     *
+     * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    worksheetId: 'worksheet-id',
+     *    spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+     *    spotterChatConfig: {
+     *        hideChatHeaderAvatar: true,
+     *    },
+     * })
+     * ```
+     */
+    hideChatHeaderAvatar?: boolean;
 }
 
 /**
@@ -433,10 +475,137 @@ export interface SpotterAnalystConfig {
 }
 
 /**
+ * Configuration for Spotter usage limits, which cap how many questions an
+ * end user can ask and show a live usage counter in the embed.
+ *
+ * Limits and usage are stored by ThoughtSpot per user. When the user has no
+ * limit configured, or the usage data cannot be read, Spotter behaves as if
+ * the feature is disabled and does not block questions.
+ *
+ * Use {@link HostEvent.SpotterRefreshUsageLimit} to make Spotter re-read the
+ * usage data after it changes out of band, and listen to
+ * {@link EmbedEvent.SpotterUsageLimitUpgrade} to handle the upgrade button.
+ * @group Embed components
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+ * @example
+ * ```js
+ * const embed = new SpotterEmbed('#tsEmbed', {
+ *    ... //other embed view config
+ *    spotterUsageLimitConfig: {
+ *        isEnabled: true,
+ *        usageCounterDisplayMode: SpotterUsageCounterDisplayMode.VisibleAfterWarning,
+ *    },
+ * })
+ * ```
+ */
+export interface SpotterUsageLimitConfig {
+    /**
+     * Enables usage limits and the usage counter in Spotter.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @default false
+     */
+    isEnabled?: boolean;
+    /**
+     * When `true`, the host app tracks usage itself instead of ThoughtSpot,
+     * so Spotter does not read or record usage.
+     * @hidden
+     */
+    isHostManaged?: boolean;
+    /**
+     * Whether the upgrade button is shown when Spotter loads. Use
+     * {@link HostEvent.SpotterRefreshUsageLimit} with `isUpgradeButtonVisible`
+     * to change it during the session.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @default true
+     */
+    isUpgradeButtonVisible?: boolean;
+    /**
+     * Whether to show the banner warning the user that they are close to
+     * their usage limit.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @default true
+     */
+    isWarningBannerEnabled?: boolean;
+    /**
+     * Whether to show the banner telling the user they have reached their
+     * usage limit. Questions are still blocked at the limit when this is off.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @default true
+     */
+    isLimitBannerEnabled?: boolean;
+    /**
+     * When the usage counter is shown in the prompt bar.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @default SpotterUsageCounterDisplayMode.AlwaysVisible
+     */
+    usageCounterDisplayMode?: SpotterUsageCounterDisplayMode;
+}
+
+/**
+ * When the Spotter usage counter is shown, set through
+ * {@link SpotterUsageLimitConfig.usageCounterDisplayMode}.
+ * @group Embed components
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+ */
+export enum SpotterUsageCounterDisplayMode {
+    /**
+     * Always show the usage counter.
+     */
+    AlwaysVisible = 'alwaysVisible',
+    /**
+     * Never show the usage counter.
+     */
+    AlwaysHidden = 'alwaysHidden',
+    /**
+     * Show the usage counter once usage reaches the warning threshold.
+     */
+    VisibleAfterWarning = 'visibleAfterWarning',
+    /**
+     * Show the usage counter once usage reaches the limit.
+     */
+    VisibleAfterLimit = 'visibleAfterLimit',
+}
+
+/**
+ * Usage-limit status reported in the {@link EmbedEvent.SpotterUsageLimitUpgrade}
+ * payload.
+ * @group Embed components
+ * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+ */
+export enum SpotterUsageLimitStatus {
+    /**
+     * Usage is below the warning threshold.
+     */
+    WithinLimit = 'withinLimit',
+    /**
+     * Usage has reached the warning threshold but not the limit.
+     */
+    AlmostReached = 'almostReached',
+    /**
+     * Usage has reached the limit, so new questions are blocked.
+     */
+    LimitReached = 'limitReached',
+}
+
+/**
  * The configuration for the embedded spotterEmbed options.
  * @group Embed components
  */
 export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction'> {
+    /**
+     * The Spotter experience version to load. When set to
+     * `SpotterExperienceVersion.SPOTTER_2026_11`, the embed loads the updated Spotter
+     * surface instead of the default conversation surface.
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... // other options
+     *    spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+     * });
+     * ```
+     */
+    spotterExperienceVersion?: SpotterExperienceVersion;
     /**
      * The ID of the data source object. For example, Model, View, or Table. Spotter uses
      * this object to query data and generate Answers.
@@ -477,6 +646,22 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * ```
      */
     spotterAnalystConfig?: SpotterAnalystConfig;
+    /**
+     * Configuration for Spotter usage limits.
+     *
+     * Supported embed types: `SpotterEmbed`, `AppEmbed`
+     * @version SDK: 1.53.0 | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    spotterUsageLimitConfig: {
+     *        enabled: true,
+     *    },
+     * })
+     * ```
+     */
+    spotterUsageLimitConfig?: SpotterUsageLimitConfig;
     /**
      * Ability to pass a starting search query to the conversation.
      */
@@ -801,6 +986,9 @@ export interface SpotterAppInitData extends DefaultAppInitData {
         spotterShareConversationConfig?: SpotterShareConversationConfig;
         visualOverridesParams?: VisualizationOverrides | null;
         starterPrompts?: StarterPromptsConfig;
+        spotterAnalystConfig?: SpotterAnalystConfig;
+        enableSpotterInstructionAndMoreSettings?: boolean;
+        spotterUsageLimitConfig?: SpotterUsageLimitConfig;
     };
 }
 
@@ -850,7 +1038,9 @@ export class SpotterEmbed extends TsEmbed {
             this.handleError.bind(this),
         );
         const shareInitData = buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
-        return buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
+        const starterPromptsInitData = buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
+        const analystInitData = buildSpotterAnalystAppInitData(starterPromptsInitData, this.viewConfig);
+        return buildSpotterUsageLimitAppInitData(analystInitData, this.viewConfig);
     }
 
     protected getEmbedParamsObject() {
@@ -871,7 +1061,6 @@ export class SpotterEmbed extends TsEmbed {
             defaultQueryMode,
             enableStopAnswerGenerationEmbed,
             spotterChatConfig,
-            spotterAnalystConfig,
         } = this.viewConfig;
 
         const queryParams = this.getBaseQueryParams();
@@ -887,7 +1076,6 @@ export class SpotterEmbed extends TsEmbed {
         setParamIfDefined(queryParams, Param.ShowSpotterRadiance, showSpotterRadiance, true);
         setParamIfDefined(queryParams, Param.DefaultQueryMode, defaultQueryMode);
         setParamIfDefined(queryParams, Param.EnableStopAnswerGenerationEmbed, enableStopAnswerGenerationEmbed, true);
-        setParamIfDefined(queryParams, Param.AnalystId, spotterAnalystConfig?.analystId);
 
         // Handle spotterChatConfig params
         if (spotterChatConfig) {
@@ -897,18 +1085,21 @@ export class SpotterEmbed extends TsEmbed {
                 spotterFileUploadEnabled,
                 spotterFileUploadFileTypes,
                 enableStarterPrompts,
+                hideChatHeaderAvatar,
             } = spotterChatConfig;
 
             setParamIfDefined(queryParams, Param.HideToolResponseCardBranding, hideToolResponseCardBranding, true);
             setParamIfDefined(queryParams, Param.ToolResponseCardBrandingLabel, toolResponseCardBrandingLabel);
             setParamIfDefined(queryParams, Param.SpotterFileUploadEnabled, spotterFileUploadEnabled, true);
             setParamIfDefined(queryParams, Param.IsStarterPromptsEnabled, enableStarterPrompts, true);
+            setParamIfDefined(queryParams, Param.HideChatHeaderAvatar, hideChatHeaderAvatar, true);
             if (spotterFileUploadFileTypes !== undefined) {
                 queryParams[Param.SpotterFileUploadFileTypes] = JSON.stringify(spotterFileUploadFileTypes);
             }
         }
 
         setParamIfDefined(queryParams, Param.UpdatedSpotterExperience, updatedSpotterExperience, true);
+        setParamIfDefined(queryParams, Param.SpotterExperienceVersion, this.viewConfig.spotterExperienceVersion);
 
         return queryParams;
     }
@@ -923,15 +1114,19 @@ export class SpotterEmbed extends TsEmbed {
             excludeRuntimeParametersfromURL,
             sharedConversationId,
             dataSources,
+            spotterExperienceVersion,
         } = this.viewConfig;
         // Deep-link into the read-only shared-conversation reader view when a
         // shared conversation id is supplied (e.g. a recipient landing from a
         // host-configured CONVERSATION_URL share link); otherwise the normal
         // Spotter conversation surface.
-        const path = sharedConversationId
+        let path = sharedConversationId
             ? `insights/conv-assist/s/${encodeURIComponent(sharedConversationId)}`
             : 'insights/conv-assist';
-        const queryParams = this.getEmbedParamsObject();
+        if (spotterExperienceVersion === SpotterExperienceVersion.SPOTTER_2026_11) {
+            path = path.replace('insights/conv-assist', 'insights/spotter');
+        }
+        const queryParams = this.getUrlQueryParamsObject();
 
         let query = '';
         const queryParamsString = getQueryParamString(queryParams, true);
