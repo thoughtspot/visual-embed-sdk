@@ -7412,6 +7412,7 @@ export enum Param {
     isPNGInScheduledEmailsEnabled = 'isPNGInScheduledEmailsEnabled',
     IsWYSIWYGLiveboardPDFEnabled = 'isWYSIWYGLiveboardPDFEnabled',
     isLiveboardXLSXCSVDownloadEnabled = 'isLiveboardXLSXCSVDownloadEnabled',
+    isLiveboardAuthorMenuEnabled = 'isLiveboardAuthorMenuEnabled',
     isGranularXLSXCSVSchedulesEnabled = 'isGranularXLSXCSVSchedulesEnabled',
     isSendNowLiveboardSchedulingEnabled = 'isSendNowLiveboardSchedulingEnabled',
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
@@ -7649,6 +7650,33 @@ export enum Action {
      * ```
      */
     ScheduleGroup = 'scheduleGroup',
+    /**
+     * The **Author** parent menu on the Liveboard page `...` menu.
+     * It groups the Liveboard author actions - **Request verification**,
+     * **Withdraw verification**, **Mark as verified**, **Remove verification**,
+     * **Publish** and **Translate Liveboard**.
+     * `hiddenActions` removes the menu, and `disabledActions` disables it.
+     *
+     * Hiding a child on its own still leaves the **Author** menu in place. To
+     * remove the whole group, hide `Action.Author`.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.Author]
+     * ```
+     */
+    Author = 'author',
+    /**
+     * The **Translate Liveboard** toggle in the **Author** menu on the
+     * Liveboard page `...` menu. Turns the per-Liveboard translation on or
+     * off for a Liveboard the current user authored.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * disabledActions: [Action.TranslateLiveboard]
+     * ```
+     */
+    TranslateLiveboard = 'translateLiveboard',
     /**
      * The **Add Data Panel Objects** action on the data panel v2.
      * Allows to show action menu to add different objects (such as
