@@ -1373,6 +1373,30 @@ describe('App embed tests', () => {
         });
     });
 
+    test.each([true, false])('should set isPersonalizedViewsSharingEnabled to %s in url', async (isEnabled) => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isPersonalizedViewsSharingEnabled: isEnabled,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isPersonalizedViewsSharingEnabled=${isEnabled}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set isPersonalizedViewsSharingEnabled in url when undefined', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isPersonalizedViewsSharingEnabled');
+        });
+    });
+
     test('Should add the tag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

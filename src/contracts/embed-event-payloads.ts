@@ -259,6 +259,30 @@ export interface PersonalisedViewPayload extends LiveboardScope {
     isPublic?: boolean;
 }
 
+/** Who a Personalized View is open to. */
+export interface PersonalizedViewAccess {
+    /** Public: everyone who can open the Liveboard can use the view. */
+    isPublic?: boolean;
+    /** Shared with at least one user or group. */
+    isShared?: boolean;
+}
+
+/** Sent when a share gives users or groups access to a Personalized View. */
+export interface SharePersonalizedViewPayload extends PersonalisedViewPayload {
+    /** The view's author. */
+    author?: { id?: string; displayName?: string };
+    /** `true` when the view was saved and shared in one step. */
+    isNewView?: boolean;
+    /** Shared with at least one user or group after this share. */
+    isShared?: boolean;
+    /** The view's access before this share; absent for a new view. */
+    previous?: PersonalizedViewAccess;
+    /** GUIDs of the users and groups this share gave access. */
+    recipientsAdded?: string[];
+    /** GUIDs of the users and groups this share removed. */
+    recipientsRemoved?: string[];
+}
+
 export interface ExitPresentModePayload extends EmbedEventPayloadBase {
     type?: string;
     data?: any;
@@ -441,6 +465,7 @@ export interface EmbedEventDataExtension {
     // --- Personalised views ---
     [EmbedEvent.SavePersonalisedView]: PersonalisedViewPayload;
     [EmbedEvent.UpdatePersonalisedView]: PersonalisedViewPayload;
+    [EmbedEvent.SharePersonalizedView]: SharePersonalizedViewPayload;
 
     // --- Columns and sources ---
     [EmbedEvent.AddRemoveColumns]: string[];

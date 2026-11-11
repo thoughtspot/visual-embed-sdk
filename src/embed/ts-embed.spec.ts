@@ -2865,7 +2865,7 @@ describe('Unit test case for ts embed', () => {
             await newEmbed.showPreRender();
 
             // Verify newEmbed successfully connected to the existing preRender
-            expect((newEmbed as any).isPreRenderConnected()).toBe(true);
+            expect((newEmbed as any).preRenderController.isConnected()).toBe(true);
         });
         it('showPreRender should not preRender if not available', async () => {
             createRootEleForEmbed();
@@ -3015,7 +3015,7 @@ describe('Unit test case for ts embed', () => {
 
                 // Size is the only thing the browser will not handle for us, so
                 // the observer is the one live resource a hide has to release.
-                const observer = (libEmbed as any).resizeObserver;
+                const observer = (libEmbed as any).preRenderController.resizeObserver;
                 expect(observer).toBeDefined();
                 const disconnectSpy = jest.spyOn(observer, 'disconnect');
 
@@ -3043,7 +3043,7 @@ describe('Unit test case for ts embed', () => {
                 const wrapper = document.getElementById(libEmbed.getPreRenderIds().wrapper);
                 // In the scroller, so the browser moves it — no repositioning.
                 expect(wrapper.parentElement).toBe(scroller);
-                expect((libEmbed as any).preRenderContainerEl).toBe(scroller);
+                expect((libEmbed as any).preRenderController.container).toBe(scroller);
 
                 libEmbed.destroy();
                 scroller.remove();
@@ -3133,7 +3133,7 @@ describe('Unit test case for ts embed', () => {
                 await waitFor(() => !!getIFrameEl());
 
                 const wrapper = document.getElementById(libEmbed.getPreRenderIds().wrapper);
-                // createPreRenderWrapper() seeds 100vh, not a measurement.
+                // createWrapper() seeds 100vh, not a measurement.
                 expect(wrapper.style.height).toBe('100vh');
 
                 await libEmbed.showPreRender();
@@ -3298,7 +3298,7 @@ describe('Unit test case for ts embed', () => {
                 // The custom container reference is dropped (back to the
                 // default body) so a destroyed embed does not pin the (possibly
                 // detached) element in memory.
-                expect((libEmbed as any).preRenderContainerEl).toBe(document.body);
+                expect((libEmbed as any).preRenderController.container).toBe(document.body);
 
                 customContainer.remove();
             });
@@ -3333,7 +3333,7 @@ describe('Unit test case for ts embed', () => {
 
                 // document.body is the "no custom container" sentinel, so the
                 // field is never null and needs no null-guarding downstream.
-                expect((libEmbed as any).preRenderContainerEl).toBe(document.body);
+                expect((libEmbed as any).preRenderController.container).toBe(document.body);
             });
 
             it('should leave document.body untouched on destroy when no custom container is set', async () => {
@@ -3346,7 +3346,7 @@ describe('Unit test case for ts embed', () => {
                 });
                 await libEmbed.preRender();
 
-                expect((libEmbed as any).preRenderContainerEl).toBe(document.body);
+                expect((libEmbed as any).preRenderController.container).toBe(document.body);
 
                 libEmbed.destroy();
 
@@ -3486,7 +3486,7 @@ describe('Unit test case for ts embed', () => {
                 // argument, so reconcile has to assign the field before calling
                 // it — otherwise the override lands on the detached node and
                 // the fresh one stays static.
-                expect((libEmbed as any).preRenderContainerEl).toBe(newContainer);
+                expect((libEmbed as any).preRenderController.container).toBe(newContainer);
                 expect(newContainer.style.position).toBe('relative');
                 expect(newContainer.dataset.tsEmbedOriginalPosition).toBe('static');
 
@@ -3523,7 +3523,7 @@ describe('Unit test case for ts embed', () => {
                 libEmbed.destroy();
             });
 
-            describe('connectPreRendered container init', () => {
+            describe('connect container init', () => {
                 beforeEach(() => {
                     (window as any).ResizeObserver = jest.fn().mockImplementation(() => ({
                         disconnect: jest.fn(),
@@ -3548,7 +3548,7 @@ describe('Unit test case for ts embed', () => {
                     });
                     await connectingEmbed.showPreRender();
 
-                    expect((connectingEmbed as any).preRenderContainerEl).not.toBeNull();
+                    expect((connectingEmbed as any).preRenderController.container).not.toBeNull();
 
                     firstEmbed.destroy();
                 });
@@ -3569,7 +3569,7 @@ describe('Unit test case for ts embed', () => {
                     });
                     await connectingEmbed.showPreRender();
 
-                    expect((connectingEmbed as any).preRenderContainerEl).toBe(document.body);
+                    expect((connectingEmbed as any).preRenderController.container).toBe(document.body);
 
                     firstEmbed.destroy();
                 });
@@ -3595,7 +3595,7 @@ describe('Unit test case for ts embed', () => {
                     });
                     await connectingEmbed.showPreRender();
 
-                    expect((connectingEmbed as any).preRenderContainerEl).toBe(customContainer);
+                    expect((connectingEmbed as any).preRenderController.container).toBe(customContainer);
 
                     firstEmbed.destroy();
                     customContainer.remove();
@@ -3657,13 +3657,13 @@ describe('Unit test case for ts embed', () => {
                     });
 
                     const resolveSpy = jest.spyOn(
-                        connectingEmbed as any,
-                        'resolvePreRenderContainerTarget',
+                        (connectingEmbed as any).preRenderController,
+                        'resolveContainerTarget',
                     );
 
-                    (connectingEmbed as any).connectPreRendered();
+                    (connectingEmbed as any).preRenderController.connect();
 
-                    expect((connectingEmbed as any).preRenderContainerEl).toBe(customContainer);
+                    expect((connectingEmbed as any).preRenderController.container).toBe(customContainer);
                     expect(resolveSpy).not.toHaveBeenCalled();
 
                     firstEmbed.destroy();
@@ -3693,9 +3693,9 @@ describe('Unit test case for ts embed', () => {
                         liveboardId: 'myLiveboardId',
                         preRenderContainer: otherContainer,
                     });
-                    (connectingEmbed as any).connectPreRendered();
+                    (connectingEmbed as any).preRenderController.connect();
 
-                    expect((connectingEmbed as any).preRenderContainerEl).toBe(ownerContainer);
+                    expect((connectingEmbed as any).preRenderController.container).toBe(ownerContainer);
                     expect(warnSpy).toHaveBeenCalledWith(
                         expect.stringContaining('preRenderContainer is applied only by'),
                     );
@@ -3728,9 +3728,9 @@ describe('Unit test case for ts embed', () => {
                         liveboardId: 'myLiveboardId',
                         preRenderContainer: customContainer,
                     });
-                    (connectingEmbed as any).connectPreRendered();
+                    (connectingEmbed as any).preRenderController.connect();
 
-                    expect((connectingEmbed as any).preRenderContainerEl).toBe(customContainer);
+                    expect((connectingEmbed as any).preRenderController.container).toBe(customContainer);
                     expect(warnSpy).not.toHaveBeenCalledWith(
                         expect.stringContaining('preRenderContainer is applied only by'),
                     );
@@ -3763,9 +3763,9 @@ describe('Unit test case for ts embed', () => {
                         liveboardId: 'myLiveboardId',
                         preRenderContainer: '#connect-same-selector-container',
                     });
-                    (connectingEmbed as any).connectPreRendered();
+                    (connectingEmbed as any).preRenderController.connect();
 
-                    expect((connectingEmbed as any).preRenderContainerEl).toBe(customContainer);
+                    expect((connectingEmbed as any).preRenderController.container).toBe(customContainer);
                     expect(warnSpy).not.toHaveBeenCalledWith(
                         expect.stringContaining('preRenderContainer is applied only by'),
                     );
@@ -3793,9 +3793,9 @@ describe('Unit test case for ts embed', () => {
                     // preRender() then render() on one instance: it owns the
                     // wrapper, so there is nothing to inherit and its own
                     // preRenderContainer is entirely legitimate.
-                    (libEmbed as any).connectPreRendered();
+                    (libEmbed as any).preRenderController.connect();
 
-                    expect((libEmbed as any).preRenderContainerEl).toBe(customContainer);
+                    expect((libEmbed as any).preRenderController.container).toBe(customContainer);
                     expect(warnSpy).not.toHaveBeenCalledWith(
                         expect.stringContaining('preRenderContainer is applied only by'),
                     );
@@ -3832,11 +3832,11 @@ describe('Unit test case for ts embed', () => {
                         preRenderId: 'connect-unstamped',
                         liveboardId: 'myLiveboardId',
                     });
-                    (connectingEmbed as any).connectPreRendered();
+                    (connectingEmbed as any).preRenderController.connect();
 
                     // Falls back to the sentinel rather than crashing on the
                     // missing owner, and warns about nothing.
-                    expect((connectingEmbed as any).preRenderContainerEl).toBe(document.body);
+                    expect((connectingEmbed as any).preRenderController.container).toBe(document.body);
                     expect(warnSpy).not.toHaveBeenCalledWith(
                         expect.stringContaining('preRenderContainer is applied only by'),
                     );
@@ -4075,6 +4075,33 @@ describe('Unit test case for ts embed', () => {
 
                 libEmbed.destroy();
             });
+        });
+
+        // Customers subclass the embeds, so the public pre-render hooks that
+        // remain on the embed must keep working after the move into
+        // PreRenderController.
+        it('should keep syncPreRenderStyle overridable by subclasses', async () => {
+            createRootEleForEmbed();
+            const syncSpy = jest.fn();
+
+            class CustomEmbed extends LiveboardEmbed {
+                public syncPreRenderStyle(): void {
+                    syncSpy();
+                    super.syncPreRenderStyle();
+                }
+            }
+
+            const libEmbed = new CustomEmbed('#tsEmbedDiv', {
+                preRenderId: 'subclassed-pre-render',
+                liveboardId: 'myLiveboardId',
+            });
+            await libEmbed.preRender();
+            await waitFor(() => !!getIFrameEl());
+
+            libEmbed.showPreRender();
+            expect(syncSpy).toHaveBeenCalled();
+
+            libEmbed.destroy();
         });
     });
 
@@ -4713,8 +4740,8 @@ describe('Unit test case for ts embed', () => {
             // this is now the common case rather than a rare diagnostic.
             const loggerSpy = jest.spyOn(logger, 'debug');
 
-            // getPreRenderObj reads the embed reference from preRenderWrapper
-            (searchEmbed as any).preRenderWrapper = {
+            // getPreRenderObj reads the embed reference from the wrapper
+            (searchEmbed as any).preRenderController.wrapper = {
                 [searchEmbed['embedNodeKey']]: searchEmbed,
             };
 
@@ -6912,7 +6939,7 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
         });
     });
 
-    describe('isPreRenderConnected logic (SCAL-315058)', () => {
+    describe('pre-render connection logic (SCAL-315058)', () => {
         beforeAll(() => {
             init({
                 thoughtSpotHost: 'tshost',
@@ -6920,24 +6947,24 @@ describe('ShowPreRender with UpdateEmbedParams', () => {
             });
         });
 
-        it('returns false when preRenderWrapper is absent', () => {
+        it('returns false when the wrapper is absent', () => {
             createRootEleForEmbed();
             const embed = new LiveboardEmbed('#tsEmbedDiv', {
                 preRenderId: 'conn-test',
                 liveboardId: 'lb-id',
             });
-            expect((embed as any).isPreRenderConnected()).toBe(false);
+            expect((embed as any).preRenderController.isConnected()).toBe(false);
         });
 
-        it('returns true once preRenderWrapper and preRenderChild are set', () => {
+        it('returns true once the wrapper and child are set', () => {
             createRootEleForEmbed();
             const embed = new LiveboardEmbed('#tsEmbedDiv', {
                 preRenderId: 'conn-test-2',
                 liveboardId: 'lb-id',
             });
-            (embed as any).preRenderWrapper = document.createElement('div');
-            (embed as any).preRenderChild = document.createElement('div');
-            expect((embed as any).isPreRenderConnected()).toBe(true);
+            (embed as any).preRenderController.wrapper = document.createElement('div');
+            (embed as any).preRenderController.child = document.createElement('div');
+            expect((embed as any).preRenderController.isConnected()).toBe(true);
         });
     });
 
