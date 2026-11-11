@@ -2322,7 +2322,7 @@ export interface LiveboardAppEmbedViewConfig {
      * your ThoughtSpot instance, which is off by default.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -3819,7 +3819,7 @@ export enum EmbedEvent {
      *   console.log(payload.data.previous);        // undefined for a new view
      * })
      * ```
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      */
     SharePersonalizedView = 'sharePersonalizedView',
     /**
@@ -6776,7 +6776,7 @@ export enum HostEvent {
      *     viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
      * })
      * ```
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      */
     SharePersonalizedView = 'SharePersonalizedView',
     /**
@@ -6802,7 +6802,7 @@ export enum HostEvent {
      *     viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
      * })
      * ```
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      */
     DeletePersonalizedView = 'DeletePersonalizedView',
     /**
@@ -6834,7 +6834,7 @@ export enum HostEvent {
      *     isPublic: true,
      * })
      * ```
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      */
     SetPersonalizedViewPublic = 'SetPersonalizedViewPublic',
     /**
@@ -10111,7 +10111,7 @@ export enum Action {
      * **Manage views** dialog, and **Specific users or groups** when saving a
      * view. Available when Personalized View sharing is on
      * (`isPersonalizedViewsSharingEnabled`).
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * {
@@ -10126,7 +10126,7 @@ export enum Action {
      * tab in the **Manage views** dialog, which lists the Personalized Views
      * others have shared with the user. Available when Personalized View
      * sharing is on (`isPersonalizedViewsSharingEnabled`).
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * {
@@ -10144,7 +10144,7 @@ export enum Action {
      *
      * These options predate this action, so only `hiddenActions` hides them. A
      * `visibleActions` list that doesn't include this action keeps them.
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * {
@@ -10160,7 +10160,7 @@ export enum Action {
      *
      * This option predates this action, so only `hiddenActions` hides it. A
      * `visibleActions` list that doesn't include this action keeps it.
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * {
