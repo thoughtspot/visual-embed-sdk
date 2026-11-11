@@ -509,6 +509,47 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should set isLiveboardAuthorMenuEnabled to true in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isLiveboardAuthorMenuEnabled: true,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardAuthorMenuEnabled=true${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should set isLiveboardAuthorMenuEnabled to false in url', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            isLiveboardAuthorMenuEnabled: false,
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardAuthorMenuEnabled=false${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should not set isLiveboardAuthorMenuEnabled in url when unset', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isLiveboardAuthorMenuEnabled');
+        });
+    });
+
     test('should set isGranularXLSXCSVSchedulesEnabled to true in url', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             isGranularXLSXCSVSchedulesEnabled: true,
