@@ -28,12 +28,14 @@ import type {
     OpenFilterRequest,
     OpenFilterSpotterRequest,
     OpenFilterSearchRequest,
+    SetPersonalizedViewPublicRequest,
 } from './host-event-contracts';
 import type { CustomActionPayload, RuntimeFilter } from '../types';
 import type {
     CustomActionEventPayload,
     EmbedEventData,
     EmbedEventPayload,
+    SharePersonalizedViewPayload,
 } from './embed-event-payloads';
 import * as contractsBarrel from './index';
 
@@ -90,6 +92,9 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
     HostEvent.UpdatePersonalisedView,
     HostEvent.SelectPersonalizedView,
     HostEvent.ResetLiveboardPersonalisedView,
+    HostEvent.SharePersonalizedView,
+    HostEvent.DeletePersonalizedView,
+    HostEvent.SetPersonalizedViewPublic,
     HostEvent.AIHighlights,
     HostEvent.SendTestScheduleEmail,
     HostEvent.RefreshLiveboardBrowserCache,
@@ -128,6 +133,7 @@ describe('event contracts (drift guardrails)', () => {
             'CloseSpotterShareConversation',
             'CloseSpotterVizPanel',
             'DeleteLastPrompt',
+            'DeletePersonalizedView',
             'EditLastPrompt',
             'ExitSpotterSharedConversation',
             'InitSpotterVizConversation',
@@ -139,9 +145,11 @@ describe('event contracts (drift guardrails)', () => {
             'ResetSpotterConversation',
             'SelectPersonalisedView',
             'SetActiveTab',
+            'SetPersonalizedViewPublic',
             'SetPinboardHiddenTabs',
             'SetPinboardVisibleTabs',
             'SetPinboardVisibleVizs',
+            'SharePersonalizedView',
             'ShareSpotterConversation',
             'SpotterSearch',
             'SpotterVizSendUserMessage',
@@ -227,6 +235,12 @@ describe('event contracts (drift guardrails)', () => {
         expectType<string | number | NavigateRequest>(
             (undefined as unknown) as HostEventRequest<HostEvent.Navigate>,
         );
+        expectType<SetPersonalizedViewPublicRequest>(
+            (undefined as unknown) as HostEventRequest<HostEvent.SetPersonalizedViewPublic>,
+        );
+        expectType<SharePersonalizedViewPayload>(
+            (undefined as unknown) as EmbedEventData<EmbedEvent.SharePersonalizedView>,
+        );
         // Untyped event stays `any` (backward compatible).
         const untyped: HostEventRequest<HostEvent.LiveboardInfo> = { anything: 'goes' };
         expect(untyped).toBeDefined();
@@ -288,6 +302,7 @@ describe('event contracts (drift guardrails)', () => {
                 EmbedEvent.Schedule,
                 EmbedEvent.SchedulesList,
                 EmbedEvent.SendTestScheduleEmail,
+                EmbedEvent.SharePersonalizedView,
                 EmbedEvent.ShowUnderlyingData,
                 EmbedEvent.SpotIQAnalyze,
                 EmbedEvent.TableVizRendered,
@@ -347,6 +362,7 @@ describe('event contracts (drift guardrails)', () => {
             'savePersonalisedView',
             'schedule-list',
             'sendTestScheduleEmail',
+            'sharePersonalizedView',
             'showUnderlyingData',
             'spotIQAnalyze',
             'subscription',
@@ -434,6 +450,16 @@ describe('event contracts (drift guardrails)', () => {
             }),
             trigger(HostEvent.SpotterSearch, { query: 'revenue per year', executeSearch: true }),
             trigger(HostEvent.UpdateTheme, { isDarkMode: true }),
+            trigger(HostEvent.SharePersonalizedView, {
+                viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
+            }),
+            trigger(HostEvent.DeletePersonalizedView, {
+                viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
+            }),
+            trigger(HostEvent.SetPersonalizedViewPublic, {
+                viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
+                isPublic: true,
+            }),
         ];
         expect(ok.every(Boolean)).toBe(true);
     });
@@ -504,12 +530,12 @@ describe('event contracts (drift guardrails)', () => {
         expect([...all, voidEmpty, unmapped].every(Boolean)).toBe(true);
     });
 
-    // Doc <-> type drift guard. Event enum members document their payload with a
-    // `Payload: {@link XxxRequest}` / `{@link XxxPayload}` TypeDoc link. TypeScript
-    // does NOT validate {@link} targets, so documenting an event's payload without
-    // declaring the type ships a dangling doc link and an untyped event. This test
-    // fails in exactly that case: every payload link in types.ts must resolve to a
-    // real declared contract type.
+    // Doc <-> type drift guard. Event enum members document their payload with
+    // a `Payload: {@link XxxRequest}` / `{@link XxxPayload}` TypeDoc link.
+    // TypeScript does NOT validate {@link} targets, so documenting an event's
+    // payload without declaring the type ships a dangling doc link and an
+    // untyped event. This test fails in exactly that case: every payload link
+    // in types.ts must resolve to a real declared contract type.
     test('event doc payload links resolve to a declared type (docs and types must agree)', () => {
         const contractsDir = __dirname;
         const sources = [
@@ -535,16 +561,16 @@ describe('event contracts (drift guardrails)', () => {
             if (!declared.has(m[1])) dangling.add(m[1]);
         }
 
-        // If this fails, a doc links a payload type that does not exist — add the
-        // type (and map it), or fix the link.
+        // If this fails, a doc links a payload type that does not exist — add
+        // the type (and map it), or fix the link.
         expect([...dangling]).toEqual([]);
     });
 
     // Doc drives the type: if an event's TypeDoc documents a payload with a
-    // `Payload: {@link X}` link, that event MUST be typed in EmbedEventDataExtension.
-    // Otherwise the published doc promises a payload type while `on()` still hands
-    // back `any`. Adding the doc link is the trigger; this fails until the event is
-    // added to the map.
+    // `Payload: {@link X}` link, that event MUST be typed in
+    // EmbedEventDataExtension. Otherwise the published doc promises a payload
+    // type while `on()` still hands back `any`. Adding the doc link is the
+    // trigger; this fails until the event is added to the map.
     test('every embed event with a Payload {@link} is typed in the map', () => {
         const typesSrc = fs.readFileSync(
             path.join(__dirname, '..', 'types.ts'), 'utf8',
