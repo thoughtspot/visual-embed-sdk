@@ -2,6 +2,7 @@ import React, {
     useEffect, useRef, useState,
 } from 'react';
 import { getEmbedConfig } from '../embed/embedConfig';
+import { installRadianceRenderer } from './radiance-renderer';
 
 /**
  * Floating chat-style debugging assistant, in the shape of a modern AI
@@ -52,6 +53,12 @@ export interface DebugAgentProps {
      * extension relay. Get this from the extension's own popup UI.
      */
     extensionSessionId?: string;
+    /**
+     * Distance in pixels from the top of the viewport to the top of the
+     * pane, so it can sit under a fixed app header instead of over it.
+     * @default 0
+     */
+    topOffset?: number;
 }
 
 type Role = 'user' | 'assistant';
@@ -342,7 +349,11 @@ async function copyText(text: string): Promise<boolean> {
     }
 }
 
-/** Copy control that confirms in place, used on code blocks and messages. */
+/**
+ * Copy control that confirms in place, used on code blocks and under a reply.
+ * An icon-only 24px button, as in the Operator pane; the result ("Copied")
+ * appears beside the icon for a moment rather than in a toast.
+ */
 const CopyButton: React.FC<{
     text: string;
     label?: string;
@@ -360,13 +371,16 @@ const CopyButton: React.FC<{
     return (
         <button
             type="button"
+            data-ts-dbg-ghost
             onClick={async () => setState((await copyText(text)) ? 'copied' : 'failed')}
-            style={{ ...styles.copyBtn, ...overrideStyle }}
+            style={{ ...styles.iconAct, ...overrideStyle }}
             title="Copy to clipboard"
             aria-label={label ? `Copy ${label}` : 'Copy'}
         >
-            <Icon name={state === 'copied' ? 'check' : 'copy'} size={11} />
-            <span>{state === 'copied' ? 'Copied' : state === 'failed' ? 'Copy failed' : 'Copy'}</span>
+            <Icon name={state === 'copied' ? 'check' : 'copy'} size={14} />
+            {state !== 'idle' ? (
+                <span style={styles.copyNote}>{state === 'copied' ? 'Copied' : 'Copy failed'}</span>
+            ) : null}
         </button>
     );
 };
@@ -478,6 +492,9 @@ export function tokenizeCode(code: string, language?: string): Array<{ type: Tok
     return tokens;
 }
 
+/** Code longer than this folds behind a chevron, as in the Operator pane. */
+const CODE_FOLD_LINES = 8;
+
 /**
  * Renders the block with `div`s rather than `pre`/`code`.
  *
@@ -486,16 +503,44 @@ export function tokenizeCode(code: string, language?: string): Array<{ type: Tok
  * tokens on a near-black background inside an otherwise light panel. Nothing
  * here depends on `pre` semantics: `whiteSpace: 'pre'` preserves the
  * formatting, and the tag itself was the only thing host CSS could target.
+ *
+ * Shaped like the Operator pane's code block: a sunken well with a
+ * "ts · 3 lines" header, copy and, past eight lines, a fold toggle.
  */
 const CodeBlock: React.FC<{ code: string; language?: string }> = ({ code, language }) => {
     const { c, styles } = useTheme();
+    const lineCount = code.split('\n').length;
+    const foldable = lineCount > CODE_FOLD_LINES;
+    const [folded, setFolded] = useState(true);
     return (
         <div style={styles.codeBlock}>
             <div style={styles.codeBlockHeader}>
-                <span style={styles.codeBlockLang}>{language || 'code'}</span>
-                <CopyButton text={code} label="code" />
+                <span style={styles.codeBlockIco}><Icon name="code" size={14} /></span>
+                <span style={styles.codeBlockLang}>
+                    <span>{language || 'code'}</span>
+                    {` · ${lineCount} line${lineCount === 1 ? '' : 's'}`}
+                </span>
+                <span style={styles.codeActs}>
+                    <CopyButton text={code} label="code" style={styles.codeAct} />
+                    {foldable ? (
+                        <button
+                            type="button"
+                            data-ts-dbg-ghost
+                            onClick={() => setFolded((f) => !f)}
+                            aria-label={folded ? 'Expand code' : 'Collapse code'}
+                            title={folded ? 'Show all of it' : 'Fold it'}
+                            style={{ ...styles.iconAct, ...styles.codeAct }}
+                        >
+                            <Icon
+                                name="chevron"
+                                size={16}
+                                style={{ transform: folded ? 'rotate(-90deg)' : 'none' }}
+                            />
+                        </button>
+                    ) : null}
+                </span>
             </div>
-            <div style={styles.codeBlockPre}>
+            <div style={{ ...styles.codeBlockPre, ...(foldable && folded ? styles.codeBlockFolded : null) }}>
                 {tokenizeCode(code, language).map((token, i) => (
                     <span
                         key={i}
@@ -528,54 +573,61 @@ const KEY_STYLE_PROPS: Array<keyof CSSStyleDeclaration & string> = [
     'backgroundColor', 'border', 'borderRadius', 'opacity', 'zIndex', 'overflow',
 ];
 
-const PANEL_WIDTH = 420;
-const PANEL_MIN_WIDTH = 320;
-const PANEL_MIN_HEIGHT = 320;
-/** Gap left at the top and bottom when the panel runs full height. */
-const PANEL_MARGIN = 20;
+/** Pane width, as in the Operator design: 400 by default, 300–680 by drag. */
+const PANEL_WIDTH = 400;
+const PANEL_MIN_WIDTH = 300;
+const PANEL_MAX_WIDTH = 680;
+/** How long the pane takes to slide in and out. */
+const SLIDE_MS = 340;
+/** How long after a turn settles the background wash starts to leave. */
+const WASH_GONE_DELAY_MS = 530;
+/** The prompt grows with its text up to this height, then scrolls. */
+const PROMPT_MAX_HEIGHT = 184;
 const SESSION_STORAGE_KEY = 'ts-debug-agent-extension-session-id';
-const SIZE_STORAGE_KEY = 'ts-debug-agent-panel-size';
+const WIDTH_STORAGE_KEY = 'ts-debug-agent-pane-width';
 
-/** Tallest the panel can be while still clearing its margins. */
-const maxPanelHeight = () => Math.max(PANEL_MIN_HEIGHT, window.innerHeight - PANEL_MARGIN * 2);
-const maxPanelWidth = () => Math.max(PANEL_MIN_WIDTH, window.innerWidth - PANEL_MARGIN * 2);
-
-interface PanelSize {
-    width: number;
-    height: number;
-}
+/** Widest the pane can be: its maximum, or the viewport, whichever is less. */
+const maxPanelWidth = () => Math.max(PANEL_MIN_WIDTH, Math.min(PANEL_MAX_WIDTH, window.innerWidth));
 
 /**
- * The panel opens full height — a debugging transcript with code blocks in it
- * needs the room, and the old 600px box meant constant scrolling. Dragging the
- * top-left corner resizes it, and the result is remembered per origin.
+ * The pane is docked to the right edge at full height, so only its width is
+ * adjustable: dragging the inner (left) edge resizes it, and the result is
+ * remembered per origin.
  */
-function readStoredSize(): PanelSize | null {
+function readStoredWidth(): number | null {
     try {
-        const raw = window.localStorage.getItem(SIZE_STORAGE_KEY);
+        const raw = window.localStorage.getItem(WIDTH_STORAGE_KEY);
         if (!raw) return null;
-        const parsed = JSON.parse(raw) as Partial<PanelSize>;
-        if (typeof parsed.width !== 'number' || typeof parsed.height !== 'number') return null;
-        return parsed as PanelSize;
+        const parsed = Number(raw);
+        return Number.isFinite(parsed) ? parsed : null;
     } catch {
         return null;
     }
 }
 
-function storeSize(size: PanelSize): void {
+function storeWidth(width: number): void {
     try {
-        window.localStorage.setItem(SIZE_STORAGE_KEY, JSON.stringify(size));
+        window.localStorage.setItem(WIDTH_STORAGE_KEY, String(width));
     } catch {
-        // Ignore — the size just will not persist across reloads.
+        // Ignore — the width just will not persist across reloads.
     }
 }
 
-/** Keeps a stored or dragged size inside what the current viewport allows. */
-function clampSize(size: PanelSize): PanelSize {
-    return {
-        width: Math.min(Math.max(size.width, PANEL_MIN_WIDTH), maxPanelWidth()),
-        height: Math.min(Math.max(size.height, PANEL_MIN_HEIGHT), maxPanelHeight()),
-    };
+/** Keeps a stored or dragged width inside what the current viewport allows. */
+function clampWidth(width: number): number {
+    return Math.min(Math.max(width, PANEL_MIN_WIDTH), maxPanelWidth());
+}
+
+/**
+ * Whether the OS asks for less motion. The pane then skips its slide, the
+ * prompt's wiggle and the background drift. Guarded like `usePrefersDark`.
+ */
+function prefersReducedMotion(): boolean {
+    try {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    } catch {
+        return false;
+    }
 }
 
 /**
@@ -683,6 +735,7 @@ async function findEmbedFrame(
 export const DebugAgent: React.FC<DebugAgentProps> = ({
     agentApiUrl = 'http://localhost:8000',
     extensionSessionId,
+    topOffset = 0,
 }) => {
     const enabled = !!getEmbedConfig()?.enableDebugAgent;
     const prefersDark = usePrefersDark();
@@ -704,11 +757,22 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     const [hovered, setHovered] = useState<Element | null>(null);
     const [sessionInput, setSessionInput] = useState(() => extensionSessionId ?? readStoredSessionId());
     const [showSessionField, setShowSessionField] = useState(false);
-    // Full height by default; a remembered drag wins over it.
-    const [size, setSize] = useState<PanelSize>(() => clampSize(
-        readStoredSize() ?? { width: PANEL_WIDTH, height: maxPanelHeight() },
-    ));
+    // 400px by default; a remembered drag wins over it.
+    const [width, setWidth] = useState<number>(() => clampWidth(readStoredWidth() ?? PANEL_WIDTH));
     const [resizing, setResizing] = useState(false);
+    // Set while the pane slides out, so it can animate before it unmounts.
+    const [closing, setClosing] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+    // An empty send shakes the prompt instead of sending.
+    const [wiggle, setWiggle] = useState(false);
+    /**
+     * The Radiance background's state: `idle` while waiting for a prompt,
+     * `working` while the agent reads, writes or waits, and `gone` once an
+     * answer has settled — the wash lifts away until a new chat starts.
+     */
+    const [wash, setWash] = useState<'idle' | 'working' | 'gone'>('idle');
+    // Whether the canvas renderer runs; without it the static artwork shows.
+    const [rendererOn, setRendererOn] = useState(false);
 
     // The prop wins when given; otherwise whatever was pasted into the panel.
     const activeSessionId = (extensionSessionId ?? sessionInput).trim() || undefined;
@@ -716,7 +780,8 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     const historyRef = useRef<Array<{ role: Role; content: string }>>([]);
     const messagesRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const panelRef = useRef<HTMLDivElement>(null);
+    const panelRef = useRef<HTMLElement>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
     /** Aborts the in-flight agent stream. Non-null only while one is open. */
     const abortRef = useRef<AbortController | null>(null);
     /** Id of the reply currently streaming, so it renders without a copy button. */
@@ -742,38 +807,106 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     // A panel unmounted mid-stream should not leave the request running.
     useEffect(() => () => abortRef.current?.abort(), []);
 
-    // A window the panel no longer fits in has to pull it back in.
+    // A window the pane no longer fits in has to pull it back in.
     useEffect(() => {
-        const onResize = () => setSize((prev) => clampSize(prev));
+        const onResize = () => setWidth((prev) => clampWidth(prev));
         window.addEventListener('resize', onResize);
         return () => window.removeEventListener('resize', onResize);
     }, []);
 
+    // The Radiance renderer starts with the pane, not with the import.
+    useEffect(() => {
+        if (!open) return;
+        installRadianceRenderer();
+        setRendererOn(!!(window as any).RadianceLanguageRenderer);
+    }, [open]);
+
     /**
-     * Resizes from the top-left corner: the panel is pinned bottom-right, so
-     * dragging left grows the width and dragging up grows the height. The
-     * listeners live on the document for the duration of the drag, so the
-     * pointer leaving the handle does not strand it mid-resize.
+     * Drives the background: `working` for the whole turn, then `gone` a beat
+     * after the answer settles. With nothing in the transcript (a new chat)
+     * the wash comes back.
+     */
+    const transcriptStarted = items.some((it) => !isElement(it));
+    useEffect(() => {
+        if (busy) {
+            setWash('working');
+            return undefined;
+        }
+        if (!transcriptStarted) {
+            setWash('idle');
+            return undefined;
+        }
+        const id = window.setTimeout(() => setWash('gone'), WASH_GONE_DELAY_MS);
+        return () => window.clearTimeout(id);
+    }, [busy, transcriptStarted]);
+
+    // The renderer reads its attributes every frame; refresh registers a
+    // freshly mounted surface straight away.
+    useEffect(() => {
+        (window as any).RadianceLanguageRenderer?.refresh?.();
+    }, [open, wash, prefersDark]);
+
+    // The prompt grows with its text up to 184px, then scrolls.
+    useEffect(() => {
+        const el = textareaRef.current;
+        if (!el) return;
+        el.style.height = 'auto';
+        el.style.height = `${Math.min(el.scrollHeight, PROMPT_MAX_HEIGHT)}px`;
+    }, [input, open]);
+
+    // The chat menu closes on a click outside it or on Escape.
+    useEffect(() => {
+        if (!menuOpen) return undefined;
+        const onDown = (e: MouseEvent) => {
+            if (!menuRef.current?.contains(e.target as Node)) setMenuOpen(false);
+        };
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setMenuOpen(false);
+        };
+        document.addEventListener('mousedown', onDown);
+        document.addEventListener('keydown', onKey);
+        return () => {
+            document.removeEventListener('mousedown', onDown);
+            document.removeEventListener('keydown', onKey);
+        };
+    }, [menuOpen]);
+
+    /** Slides the pane out, then unmounts it; the conversation is kept. */
+    const closePane = () => {
+        setMenuOpen(false);
+        if (prefersReducedMotion()) {
+            setOpen(false);
+            return;
+        }
+        setClosing(true);
+        window.setTimeout(() => {
+            setClosing(false);
+            setOpen(false);
+        }, SLIDE_MS);
+    };
+
+    /**
+     * Resizes from the inner (left) edge: the pane is docked right, so
+     * dragging left grows it. The listeners live on the document for the
+     * duration of the drag, so the pointer leaving the handle does not strand
+     * it mid-resize.
      */
     const startResize = (e: React.MouseEvent) => {
         e.preventDefault();
-        const origin = { x: e.clientX, y: e.clientY };
-        const startSize = size;
+        const originX = e.clientX;
+        const startWidth = width;
         // Without this a drag selects the page text it passes over.
         const prevUserSelect = document.body.style.userSelect;
         setResizing(true);
 
-        const onMove = (ev: MouseEvent) => setSize(clampSize({
-            width: startSize.width + (origin.x - ev.clientX),
-            height: startSize.height + (origin.y - ev.clientY),
-        }));
+        const onMove = (ev: MouseEvent) => setWidth(clampWidth(startWidth + (originX - ev.clientX)));
         const onUp = () => {
             document.removeEventListener('mousemove', onMove);
             document.removeEventListener('mouseup', onUp);
             document.body.style.userSelect = prevUserSelect;
             setResizing(false);
-            setSize((final) => {
-                storeSize(final);
+            setWidth((final) => {
+                storeWidth(final);
                 return final;
             });
         };
@@ -890,7 +1023,12 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     async function sendMessage(e: React.FormEvent) {
         e.preventDefault();
         const text = input.trim();
-        if (!text || busy) return;
+        if (busy) return;
+        if (!text) {
+            // Answered with a shake rather than silently ignored.
+            if (!prefersReducedMotion()) setWiggle(true);
+            return;
+        }
         setInput('');
         await sendText(text, buildContextPreamble());
     }
@@ -1326,11 +1464,20 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
         textareaRef.current?.focus();
     };
 
+    // A conversation has started: the transcript holds more than attachments.
+    const hasConversation = transcriptStarted;
+    // The opener before any step arrives. Once a step is in, the live
+    // reasoning block says "Working" itself, so this would only repeat it.
+    const showWorking = busy
+        && !items.some((it) => isActivity(it) && !it.done)
+        && !items.some((it) => isMessage(it) && it.id === streamingIdRef.current);
+    const prominentWash = wash === 'working';
+
     return (
         <ThemeContext.Provider value={theme}>
-            {/* One stylesheet for the whole panel: several spinners on screen
-                used to inject the same @keyframes several times over. */}
-            <style>{KEYFRAMES}</style>
+            {/* One stylesheet for the whole pane: keyframes, plus the few
+                states inline styles cannot express (hover, placeholder). */}
+            <style>{paneSheet(c)}</style>
             {picking && hovered ? (
                 <ElementHoverOverlay
                     el={hovered}
@@ -1343,80 +1490,131 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                     type="button"
                     onClick={() => setOpen(true)}
                     aria-label={`Open ${PRODUCT_NAME}`}
+                    title={`Open ${PRODUCT_NAME}`}
+                    data-ts-dbg-fab
+                    data-ts-dbg-anim
                     style={styles.launcher}
                 >
-                    <AgentGlyph size={22} />
+                    <Icon name="spark" size={28} />
                 </button>
             ) : (
-                <div
+                <aside
                     ref={panelRef}
+                    data-ts-dbg-pane
+                    data-ts-dbg-anim
+                    aria-label={PRODUCT_NAME}
                     style={{
                         ...styles.panel,
-                        width: size.width,
-                        height: size.height,
+                        top: topOffset,
+                        width,
+                        transform: closing ? 'translateX(100%)' : undefined,
                         // A live drag must not animate, or it lags.
-                        transition: resizing ? 'none' : 'width 120ms ease, height 120ms ease',
+                        transition: resizing ? 'none' : `transform ${SLIDE_MS}ms cubic-bezier(.2,.8,.2,1)`,
                     }}
                 >
+                    {/* The Radiance glow: the Home pages' renderer, drawn
+                        behind everything and steered by the agent's state. */}
+                    <div
+                        aria-hidden
+                        data-ts-dbg-anim
+                        style={{
+                            ...(rendererOn ? styles.radiance : styles.radianceStatic),
+                            ...(wash === 'gone' ? styles.radianceGone : null),
+                        }}
+                    >
+                        <div
+                            className="radiance-local"
+                            data-radiance-appearance={prefersDark ? 'dark' : 'light'}
+                            data-radiance-layout="top-wash"
+                            data-radiance-variant={prominentWash ? 'dynamic-prominent' : 'dynamic-subtle'}
+                            data-radiance-intensity={prominentWash ? 'prominent' : 'subtle'}
+                            data-radiance-dark-glow={prominentWash ? 'prominent' : 'subtle'}
+                            data-radiance-speed={prominentWash
+                                ? (prefersDark ? '1.58' : '1.72')
+                                : (prefersDark ? '1.72' : '1.86')}
+                            style={styles.radianceLocal}
+                        />
+                    </div>
+
                     <div
                         onMouseDown={startResize}
                         style={styles.resizeHandle}
                         title="Drag to resize"
                         aria-hidden
                     />
-                    <div style={styles.header}>
-                        <span style={styles.headerTitle}>
-                            <AgentGlyph size={20} />
-                            <span>
-                                <div style={styles.headerName}>{PRODUCT_NAME}</div>
-                                <div style={styles.headerSubtitle}>
-                                    <span style={styles.headerTagline}>{PRODUCT_TAGLINE}</span>
-                                    <span aria-hidden style={styles.headerDivider}>{'·'}</span>
-                                    <span
-                                        data-ts-dbg-anim
-                                        style={{
-                                            ...styles.statusDot,
-                                            background: busy ? c.warning : c.success,
-                                            // Pulses while working.
-                                            animation: busy
-                                                ? 'ts-dbg-pulse 1.4s ease-in-out infinite'
-                                                : undefined,
-                                        }}
-                                    />
-                                    {busy ? 'Working…' : 'Ready'}
-                                </div>
-                            </span>
-                        </span>
-                        <span style={styles.headerActions}>
+
+                    <header style={styles.header}>
+                        <div ref={menuRef} style={styles.headerMenuHost}>
                             <button
                                 type="button"
-                                onClick={resetConversation}
-                                disabled={!items.length && !busy}
-                                aria-label="New conversation"
-                                title="Clear this conversation and start over"
-                                style={{
-                                    ...styles.iconBtn,
-                                    opacity: !items.length && !busy ? 0.35 : 1,
-                                    cursor: !items.length && !busy ? 'not-allowed' : 'pointer',
-                                }}
+                                onClick={() => setMenuOpen((m) => !m)}
+                                aria-haspopup="menu"
+                                aria-expanded={menuOpen}
+                                title="Chat menu"
+                                style={styles.headerTitleBtn}
                             >
-                                <Icon name="refresh" />
+                                <span>{PRODUCT_NAME}</span>
+                                <span
+                                    style={{
+                                        ...styles.headerChevron,
+                                        ...(menuOpen ? { background: c.ghostHover } : null),
+                                    }}
+                                >
+                                    <Icon name="chevron" size={16} />
+                                </span>
                             </button>
-                            <button type="button" onClick={() => setOpen(false)} aria-label="Close" style={styles.iconBtn}>
-                                <Icon name="close" />
-                            </button>
-                        </span>
-                    </div>
+                            {menuOpen ? (
+                                <div role="menu" data-ts-dbg-anim style={styles.menu}>
+                                    <button
+                                        type="button"
+                                        role="menuitem"
+                                        data-ts-dbg-ghost
+                                        onClick={() => {
+                                            setMenuOpen(false);
+                                            resetConversation();
+                                        }}
+                                        disabled={!items.length && !busy}
+                                        style={{
+                                            ...styles.menuItem,
+                                            ...(!items.length && !busy
+                                                ? { opacity: 0.5, cursor: 'not-allowed' }
+                                                : null),
+                                        }}
+                                    >
+                                        <Icon name="newChat" size={16} />
+                                        <span>New chat</span>
+                                    </button>
+                                </div>
+                            ) : null}
+                        </div>
+                        <span style={styles.grow} />
+                        {/* Screen readers still hear the agent's state, which
+                            the header no longer prints. */}
+                        <span aria-live="polite" style={styles.srOnly}>{busy ? 'Working' : 'Ready'}</span>
+                        <button
+                            type="button"
+                            data-ts-dbg-ghost
+                            onClick={closePane}
+                            aria-label="Collapse"
+                            title="Collapse"
+                            style={styles.iconBtn}
+                        >
+                            <Icon name="collapse" size={16} />
+                        </button>
+                    </header>
 
-                    <div ref={messagesRef} style={styles.messages}>
+                    <div ref={messagesRef} data-ts-dbg-scroll style={styles.messages}>
                         {/* Picked elements live in the tray above the input,
                             not the transcript, so attaching one must not count
                             as a conversation and hide the openers. */}
-                        {!items.some((it) => !isElement(it)) ? (
+                        {!hasConversation ? (
                             <WelcomeState
-                                onPick={() => setPicking(true)}
-                                onPrompt={(text) => sendText(text, buildContextPreamble())}
-                                extensionConnected={!!activeSessionId}
+                                onPrompt={(text) => {
+                                    // Fills the prompt rather than sending, so
+                                    // it can be edited first.
+                                    setInput(text);
+                                    textareaRef.current?.focus();
+                                }}
                             />
                         ) : null}
                         {items.map((item) => {
@@ -1430,170 +1628,161 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                                 return <div key={item.id} style={styles.notice}>{item.content}</div>;
                             }
                             const msg = item;
-                            return (
-                                <div key={msg.id} style={msg.role === 'user' ? styles.userRow : styles.assistantRow}>
-                                    {msg.role === 'assistant' ? (
-                                        <div style={styles.avatar}><AgentGlyph size={14} /></div>
-                                    ) : null}
-                                    <div style={msg.role === 'user' ? styles.userColumn : styles.assistantColumn}>
-                                        <div style={msg.role === 'user' ? styles.userBubble : styles.assistantBubble}>
-                                            {renderContent(msg.content, styles)}
-                                            {/* Live caret: the answer is
-                                                still arriving. */}
-                                            {msg.role === 'assistant' && busy
-                                                && msg.id === streamingIdRef.current ? (
-                                                    <span data-ts-dbg-anim style={styles.caret} />
-                                                ) : null}
-                                        </div>
-                                        {/* Only a settled reply gets a copy button: copying a
-                                            half-streamed answer hands over a truncated one. */}
-                                        {msg.role === 'assistant' && !(busy && msg.id === streamingIdRef.current) ? (
-                                            <CopyButton
-                                                text={msg.content}
-                                                label="response"
-                                                style={styles.messageCopyBtn}
-                                            />
-                                        ) : null}
+                            const streaming = busy && msg.id === streamingIdRef.current;
+                            if (msg.role === 'user') {
+                                return (
+                                    <div key={msg.id} style={styles.userRow}>
+                                        <div style={styles.userBubble}>{renderContent(msg.content, styles)}</div>
                                     </div>
+                                );
+                            }
+                            return (
+                                <div key={msg.id} style={styles.assistantRow}>
+                                    <div style={styles.agentMsg}>
+                                        {renderContent(msg.content, styles)}
+                                        {/* Live caret: the answer is still arriving. */}
+                                        {streaming ? <span data-ts-dbg-anim style={styles.caret} /> : null}
+                                    </div>
+                                    {/* Only a settled reply gets a copy button: copying a
+                                        half-streamed answer hands over a truncated one. */}
+                                    {!streaming ? (
+                                        <div style={styles.fb}>
+                                            <CopyButton text={msg.content} label="response" style={styles.fbBtn} />
+                                        </div>
+                                    ) : null}
                                 </div>
                             );
                         })}
-                        {busy && !items.some((it) => isActivity(it) && it.steps.some((s) => s.status === 'running'))
-                            && !items.some((it) => isMessage(it) && it.id === streamingIdRef.current) ? (
-                                <div style={styles.assistantRow}>
-                                    <div style={styles.avatar}><AgentGlyph size={14} /></div>
-                                    <div style={styles.assistantBubble}><TypingDots /></div>
-                                </div>
-                            ) : null}
+                        {showWorking ? (
+                            <div style={styles.work}>
+                                <span className="ts-dbg-shimmer" style={styles.workTrig}>Working</span>
+                            </div>
+                        ) : null}
                     </div>
 
-                    {/* One composer: the attached context, the input and
-                        every control live inside a single bordered surface.
-                        They used to be four stacked bands, each with its own
-                        padding, which read as scattered and pushed the input
-                        to the very bottom edge. */}
-                    <form
-                        onSubmit={sendMessage}
-                        style={{
-                            ...styles.composer,
-                            ...(composerFocused ? styles.composerFocused : null),
-                        }}
-                    >
-                        {pickedElements.length ? (
-                            <div style={styles.contextTray}>
-                                {pickedElements.map((el) => (
-                                    <ElementChip key={el.id} item={el} onRemove={() => removeContext(el.id)} />
-                                ))}
-                            </div>
-                        ) : null}
-
-                        {showSessionField && !extensionSessionId ? (
-                            <input
-                                type="text"
-                                value={sessionInput}
-                                onChange={(e) => {
-                                    setSessionInput(e.target.value);
-                                    storeSessionId(e.target.value.trim());
-                                }}
-                                placeholder="Extension session id (from the extension popup)"
-                                style={styles.sessionInput}
-                            />
-                        ) : null}
-
-                        <textarea
-                            ref={textareaRef}
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            onFocus={() => setComposerFocused(true)}
-                            onBlur={() => setComposerFocused(false)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' && !e.shiftKey) {
-                                    e.preventDefault();
-                                    sendMessage(e);
-                                }
+                    <div style={{ ...styles.dock, background: hasConversation ? c.surface : 'transparent' }}>
+                        {/* One prompt box: the attached context, the input and
+                            every control live inside a single bordered surface. */}
+                        <form
+                            onSubmit={sendMessage}
+                            onAnimationEnd={() => setWiggle(false)}
+                            style={{
+                                ...styles.prompt,
+                                ...(composerFocused ? styles.promptFocused : null),
+                                ...(wiggle ? styles.promptWiggle : null),
                             }}
-                            rows={1}
-                            placeholder="Ask about this embed, or describe a style change…"
-                            style={styles.textarea}
-                        />
+                        >
+                            {pickedElements.length ? (
+                                <div style={styles.contextTray}>
+                                    {pickedElements.map((el) => (
+                                        <ElementChip key={el.id} item={el} onRemove={() => removeContext(el.id)} />
+                                    ))}
+                                </div>
+                            ) : null}
 
-                        {/* Tools on the left, send on the right — the shape a
-                            developer already knows from every chat composer. */}
-                        <div style={styles.composerActions}>
-                            <div style={styles.composerTools}>
-                                <IconButton
-                                    onClick={togglePicking}
-                                    active={picking || pickingEmbed}
-                                    icon="target"
-                                    label={picking || pickingEmbed ? 'Picking…' : 'Pick'}
-                                    title={activeSessionId
-                                        ? 'Pick an element to attach as context — on the host page or inside the ThoughtSpot embed'
-                                        : 'Pick an element on the host page to attach as context'}
-                                />
-                                {activeSessionId ? (
-                                    <IconButton
-                                        onClick={toggleRecording}
-                                        disabled={recordingBusy}
-                                        danger={recording}
-                                        icon={recording ? 'stopSquare' : 'record'}
-                                        label={recording
-                                            ? (recordingBusy ? 'Stopping…' : 'Stop & analyse')
-                                            : (recordingBusy ? 'Starting…' : 'Record')}
-                                        title={recording
-                                            ? 'Stop recording and have the agent analyse what was captured'
-                                            : 'Record console, network and your actions while you reproduce a problem'}
-                                    />
-                                ) : null}
-                                {!extensionSessionId ? (
-                                    <IconButton
-                                        onClick={() => setShowSessionField((f) => !f)}
-                                        active={showSessionField}
-                                        icon={activeSessionId ? 'link' : 'plug'}
-                                        label={activeSessionId ? 'Extension' : 'Connect'}
-                                        title={activeSessionId
-                                            ? 'Browser extension connected — click to change or clear the session id'
-                                            : 'Paste the session id from the extension popup to inspect inside the embed'}
-                                    />
-                                ) : null}
-                            </div>
-
-                            {busy ? (
-                                <button
-                                    type="button"
-                                    onClick={stopStreaming}
-                                    aria-label="Stop"
-                                    title="Stop the agent"
-                                    style={styles.stopBtn}
-                                >
-                                    <Icon name="stopSquare" size={13} />
-                                </button>
-                            ) : (
-                                <button
-                                    type="submit"
-                                    disabled={!input.trim()}
-                                    aria-label="Send"
-                                    title="Send (Enter)"
-                                    style={{
-                                        ...styles.sendBtn,
-                                        ...(input.trim() ? null : styles.sendBtnIdle),
+                            {showSessionField && !extensionSessionId ? (
+                                <input
+                                    type="text"
+                                    value={sessionInput}
+                                    onChange={(e) => {
+                                        setSessionInput(e.target.value);
+                                        storeSessionId(e.target.value.trim());
                                     }}
-                                >
-                                    <Icon name="send" size={15} />
-                                </button>
-                            )}
-                        </div>
-                    </form>
-                </div>
+                                    placeholder="Extension session id (from the extension popup)"
+                                    style={styles.sessionInput}
+                                />
+                            ) : null}
+
+                            <textarea
+                                ref={textareaRef}
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                onFocus={() => setComposerFocused(true)}
+                                onBlur={() => setComposerFocused(false)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault();
+                                        sendMessage(e);
+                                    }
+                                }}
+                                rows={1}
+                                placeholder={PROMPT_PLACEHOLDER}
+                                style={styles.textarea}
+                            />
+
+                            {/* Tools on the left, send on the right. */}
+                            <div style={styles.composerActions}>
+                                <div style={styles.composerTools}>
+                                    <IconButton
+                                        onClick={togglePicking}
+                                        active={picking || pickingEmbed}
+                                        icon="target"
+                                        label={picking || pickingEmbed ? 'Picking…' : 'Pick'}
+                                        title={activeSessionId
+                                            ? 'Pick an element to attach as context — on the host page or inside the ThoughtSpot embed'
+                                            : 'Pick an element on the host page to attach as context'}
+                                    />
+                                    {activeSessionId ? (
+                                        <IconButton
+                                            onClick={toggleRecording}
+                                            disabled={recordingBusy}
+                                            danger={recording}
+                                            icon={recording ? 'stopSquare' : 'record'}
+                                            label={recording
+                                                ? (recordingBusy ? 'Stopping…' : 'Stop & analyse')
+                                                : (recordingBusy ? 'Starting…' : 'Record')}
+                                            title={recording
+                                                ? 'Stop recording and have the agent analyse what was captured'
+                                                : 'Record console, network and your actions while you reproduce a problem'}
+                                        />
+                                    ) : null}
+                                    {!extensionSessionId ? (
+                                        <IconButton
+                                            onClick={() => setShowSessionField((f) => !f)}
+                                            active={showSessionField}
+                                            icon={activeSessionId ? 'link' : 'plug'}
+                                            label={activeSessionId ? 'Extension' : 'Connect'}
+                                            title={activeSessionId
+                                                ? 'Browser extension connected — click to change or clear the session id'
+                                                : 'Paste the session id from the extension popup to inspect inside the embed'}
+                                        />
+                                    ) : null}
+                                </div>
+
+                                {busy ? (
+                                    <button
+                                        type="button"
+                                        data-ts-dbg-send
+                                        onClick={stopStreaming}
+                                        aria-label="Stop"
+                                        title="Stop the agent"
+                                        style={styles.sendBtn}
+                                    >
+                                        <span style={styles.stopGlyph} />
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="submit"
+                                        data-ts-dbg-send
+                                        aria-label="Send"
+                                        title="Send (Enter)"
+                                        // Never disabled: an empty send wiggles
+                                        // the prompt, so the click is answered.
+                                        style={{ ...styles.sendBtn, ...(input.trim() ? null : styles.sendBtnIdle) }}
+                                    >
+                                        <Icon name="send" size={16} />
+                                    </button>
+                                )}
+                            </div>
+                        </form>
+                        <p style={styles.disclaimer}>{`${PRODUCT_NAME} responses should be reviewed.`}</p>
+                    </div>
+                </aside>
             )}
         </ThemeContext.Provider>
     );
 };
 
-/**
- * The product mark. A gradient-filled rounded square with the spark glyph —
- * the one deliberately branded element, so it keeps its own colours in both
- * themes rather than following the palette.
- */
 /**
  * Inline SVG icons, replacing the unicode glyphs (`⌖ ⏺ ⚭ ↑ ✕ ↻`) the panel
  * used to draw with. Those render at wildly different weights and baselines
@@ -1602,8 +1791,8 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
  * button's hover and active states colour its icon for free.
  */
 type IconName = 'target' | 'record' | 'stopSquare' | 'link' | 'plug' | 'send'
-| 'refresh' | 'close' | 'chevron' | 'copy' | 'check' | 'warn' | 'spark'
-| 'palette' | 'eyeOff' | 'arrowRight';
+| 'close' | 'chevron' | 'copy' | 'check' | 'warn' | 'spark' | 'collapse'
+| 'newChat' | 'search' | 'memory' | 'terminal' | 'code';
 
 const ICON_PATHS: Record<IconName, React.ReactNode> = {
     // A crosshair: picking an element on the page.
@@ -1618,7 +1807,6 @@ const ICON_PATHS: Record<IconName, React.ReactNode> = {
     link: <path d="M6.4 9.6a2.6 2.6 0 0 1 0-3.7l1.8-1.8a2.6 2.6 0 0 1 3.7 3.7l-.9.9M9.6 6.4a2.6 2.6 0 0 1 0 3.7l-1.8 1.8a2.6 2.6 0 0 1-3.7-3.7l.9-.9" />,
     plug: <path d="M6 2.2v3.4M10 2.2v3.4M4.4 5.6h7.2v2.2a3.6 3.6 0 0 1-3.6 3.6A3.6 3.6 0 0 1 4.4 7.8zM8 11.4v2.4" />,
     send: <path d="M8 13.2V3.4M3.9 7.5 8 3.2l4.1 4.3" />,
-    refresh: <path d="M13.1 8a5.1 5.1 0 1 1-1.6-3.7M13.2 2.4v2.9h-2.9" />,
     close: <path d="M4.3 4.3l7.4 7.4M11.7 4.3l-7.4 7.4" />,
     chevron: <path d="M4.2 6.4 8 10.1l3.8-3.7" />,
     copy: (
@@ -1630,14 +1818,29 @@ const ICON_PATHS: Record<IconName, React.ReactNode> = {
     check: <path d="M3.4 8.4l3.1 3.1 6.1-6.6" />,
     warn: <path d="M8 3.1 14 13H2zM8 6.9v2.6M8 11.1v.1" />,
     spark: <path d="M8 2.2l1.5 4.3L13.8 8l-4.3 1.5L8 13.8l-1.5-4.3L2.2 8l4.3-1.5z" fill="currentColor" stroke="none" />,
-    palette: (
+    // » — collapses the pane to the right.
+    collapse: <path d="M3.6 4.4 7.2 8l-3.6 3.6M8.8 4.4 12.4 8l-3.6 3.6" />,
+    newChat: <path d="M13 8.8V12a1.4 1.4 0 0 1-1.4 1.4H4A1.4 1.4 0 0 1 2.6 12V4.4A1.4 1.4 0 0 1 4 3h3.2M11.4 2.2l2.4 2.4-5.4 5.4H6V7.6z" />,
+    // The three reasoning-step kinds in the Operator pane.
+    search: (
         <>
-            <path d="M8 13.8a5.8 5.8 0 1 1 5.8-5.8c0 1.5-1.2 2.2-2.4 2.2h-.9a1.4 1.4 0 0 0-1 2.4c.3.4 0 1.2-1.5 1.2z" />
-            <path d="M5.6 6.6v.01M8 5.2v.01M10.4 6.6v.01" />
+            <circle cx="7" cy="7" r="4.2" />
+            <path d="m10.2 10.2 3.4 3.4" />
         </>
     ),
-    eyeOff: <path d="M6.3 6.4a2.2 2.2 0 0 0 3.1 3.1M4.1 4.4A8.4 8.4 0 0 0 1.6 8s2.4 4 6.4 4a6.7 6.7 0 0 0 3.6-1M6.6 4.2A6.9 6.9 0 0 1 8 4c4 0 6.4 4 6.4 4a9.3 9.3 0 0 1-1.7 2.2M2.4 2.4l11.2 11.2" />,
-    arrowRight: <path d="M3.2 8h9.2M8.7 4.3 12.6 8l-3.9 3.7" />,
+    memory: (
+        <>
+            <rect x="3.2" y="2.4" width="9.6" height="11.2" rx="1.6" />
+            <path d="M5.8 5.6h4.4M5.8 8h4.4M5.8 10.4h2.6" />
+        </>
+    ),
+    terminal: (
+        <>
+            <rect x="1.8" y="3" width="12.4" height="10" rx="1.6" />
+            <path d="m4.6 6.4 2 1.6-2 1.6M8.4 9.8h3" />
+        </>
+    ),
+    code: <path d="M5.6 4.6 2.4 8l3.2 3.4M10.4 4.6 13.6 8l-3.2 3.4" />,
 };
 
 const Icon: React.FC<{ name: IconName; size?: number; style?: React.CSSProperties }> = ({
@@ -1661,9 +1864,9 @@ const Icon: React.FC<{ name: IconName; size?: number; style?: React.CSSPropertie
 );
 
 /**
- * A composer control: icon plus label, with its own hover and active
- * treatment. Hover is tracked in state because inline styles cannot express
- * `:hover`, and these need to feel responsive to be worth clicking.
+ * A prompt-box tool: a 32px round icon button, like the Operator pane's "+".
+ * The label is its accessible name and tooltip rather than visible text, so
+ * the prompt keeps the design's single row of round controls.
  */
 const IconButton: React.FC<{
     onClick: () => void;
@@ -1676,241 +1879,134 @@ const IconButton: React.FC<{
 }> = ({
     onClick, icon, label, title, active, danger, disabled,
 }) => {
-    const { c, styles } = useTheme();
-    const [hover, setHover] = useState(false);
-
-    const tone = danger
-        ? { background: c.dangerSoft, borderColor: c.dangerBorder, color: c.danger }
-        : active
-            ? { background: c.accentSoft, borderColor: c.accentBorder, color: c.accent }
-            : hover
-                ? { background: c.surfaceRaised, borderColor: c.borderStrong, color: c.text }
-                : null;
-
+    const { styles } = useTheme();
     return (
         <button
             type="button"
+            data-ts-dbg-ghost
             onClick={onClick}
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
             disabled={disabled}
+            aria-label={label}
+            aria-pressed={active || danger ? true : undefined}
             title={title}
             style={{
                 ...styles.toolBtn,
-                ...tone,
+                ...(active ? styles.toolBtnActive : null),
+                ...(danger ? styles.toolBtnDanger : null),
                 ...(disabled ? { opacity: 0.5, cursor: 'not-allowed' } : null),
             }}
         >
-            <Icon name={icon} size={13} />
-            <span>{label}</span>
+            <Icon name={icon} size={16} />
         </button>
-    );
-};
-
-const AgentGlyph: React.FC<{ size: number }> = ({ size }) => (
-    <div
-        style={{
-            width: size,
-            height: size,
-            borderRadius: size / 3.2,
-            flexShrink: 0,
-            background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 55%, #d946ef 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: size * 0.58,
-            lineHeight: 1,
-            color: '#ffffff',
-            boxShadow: `0 ${size / 12}px ${size / 3}px rgba(99, 102, 241, 0.35)`,
-        }}
-        aria-hidden
-    >
-        {'✦'}
-    </div>
-);
-
-const TypingDots: React.FC = () => {
-    const { c } = useTheme();
-    return (
-        <span style={{ display: 'inline-flex', gap: 3, alignItems: 'center', padding: '2px 0' }}>
-            {[0, 1, 2].map((i) => (
-                <span
-                    key={i}
-                    style={{
-                        width: 5,
-                        height: 5,
-                        borderRadius: '50%',
-                        background: c.textMuted,
-                        animation: 'ts-dbg-blink 1.1s infinite ease-in-out',
-                        animationDelay: `${i * 0.15}s`,
-                    }}
-                />
-            ))}
-        </span>
     );
 };
 
 /**
  * Openers offered on the empty state. Each is a question the agent handles
  * well with the tools it has, so a first-time user gets a useful answer
- * instead of having to guess what the panel can do. The `send` text is what
- * is actually asked; the label stays short enough to read at a glance.
+ * instead of having to guess what the pane can do. Clicking one fills the
+ * prompt with it; it is sent like any other message.
  */
-const STARTER_PROMPTS: Array<{ icon: IconName; label: string; send: string }> = [
-    {
-        icon: 'warn',
-        label: 'Diagnose this embed',
-        send: 'Check the console and network for errors in this embed and tell me what is wrong.',
-    },
-    {
-        icon: 'palette',
-        label: 'Match my app theme',
-        send: 'Give me the customCSS variables to make this embed match my host page theme.',
-    },
-    {
-        icon: 'eyeOff',
-        label: 'Hide an action',
-        send: 'How do I hide a specific action from the embed menus?',
-    },
+const STARTER_PROMPTS: string[] = [
+    'Check the console and network for errors in this embed and tell me what is wrong.',
+    'Give me the customCSS variables to make this embed match my host page theme.',
+    'How do I hide a specific action from the embed menus?',
 ];
 
-const WelcomeState: React.FC<{
-    onPick: () => void;
-    onPrompt: (text: string) => void;
-    extensionConnected?: boolean;
-}> = ({ onPick, onPrompt, extensionConnected }) => {
-    const { c, styles } = useTheme();
-    const [hovered, setHovered] = useState<string | null>(null);
+/** "Good morning!" and so on, by the viewer's local time. */
+function greetingFor(hour: number): string {
+    if (hour < 12) return 'Good morning!';
+    if (hour < 18) return 'Good afternoon!';
+    return 'Good evening!';
+}
 
+/**
+ * The empty state: a two-line greeting, the verb phrase in the accent purple,
+ * over a stack of starter prompts — the Operator pane's welcome state.
+ */
+const WelcomeState: React.FC<{ onPrompt: (text: string) => void }> = ({ onPrompt }) => {
+    const { styles } = useTheme();
     return (
-        <div style={styles.welcome}>
-            <AgentGlyph size={36} />
-            <div style={styles.welcomeTitle}>{`How can I help with this embed?`}</div>
-            <div style={styles.welcomeBody}>
-                Ask about console errors, failed requests, or configuration — or pick an
-                element to get style help for it.
-                {extensionConnected ? ' The connected extension lets that work inside the ThoughtSpot iframe too.' : ''}
+        <section data-ts-dbg-anim style={styles.welcome}>
+            <div style={styles.greet}>
+                <p style={styles.greetLine}>{greetingFor(new Date().getHours())}</p>
+                <p style={styles.greetLine}>
+                    {'What do we '}
+                    <span style={styles.greetAccent}>debug today?</span>
+                </p>
             </div>
-
-            {/* Clickable openers: the empty state was a large blank area, and a
-                first-time user had no idea what this panel could answer. */}
             <div style={styles.starterList}>
-                {STARTER_PROMPTS.map((p) => (
+                {STARTER_PROMPTS.map((text) => (
                     <button
-                        key={p.label}
+                        key={text}
                         type="button"
-                        onClick={() => onPrompt(p.send)}
-                        onMouseEnter={() => setHovered(p.label)}
-                        onMouseLeave={() => setHovered(null)}
-                        title={p.send}
-                        style={{
-                            ...styles.starterBtn,
-                            ...(hovered === p.label
-                                ? { borderColor: c.accent, background: c.accentSoft, color: c.accent }
-                                : null),
-                        }}
+                        data-ts-dbg-chip
+                        onClick={() => onPrompt(text)}
+                        style={styles.starterBtn}
                     >
-                        <span style={styles.starterIcon}><Icon name={p.icon} size={13} /></span>
-                        <span style={styles.starterLabel}>{p.label}</span>
-                        <span style={styles.starterArrow}><Icon name="arrowRight" size={12} /></span>
+                        {text}
                     </button>
                 ))}
             </div>
-
-            <button type="button" onClick={onPick} style={styles.welcomeBtn}>
-                <Icon name="target" size={12} />
-                <span>Pick an element instead</span>
-            </button>
-        </div>
+        </section>
     );
 };
 
+/** Picks the rail icon for a step: Search, Memory, or Code/console. */
+function stepIcon(toolName: string): IconName {
+    const name = baseToolName(toolName);
+    if (/doc|search|reference/i.test(name)) return 'search';
+    if (/memory/i.test(name)) return 'memory';
+    return 'terminal';
+}
+
 /**
- * One turn's tool calls, collapsed to a single status line and expandable to
- * the full step list.
+ * One turn's tool calls, as the Operator pane's reasoning block.
  *
- * Collapsed, the caption is the currently running step's end-user label (or a
- * count once the turn is done), never a tool name. Expanded, each step shows
- * its real tool name, argument summary and duration — the detail a developer
- * needs when the plain caption is not enough.
+ * While the turn runs, the header reads a shimmering "Working" and the steps
+ * are listed under it, each captioned in end-user language ("Reading the
+ * browser console…"), never by tool name. When the turn ends the block folds
+ * to "Show work". Opening it again lists the steps with each one's real tool
+ * name, arguments and duration — the detail a developer needs when the plain
+ * caption is not enough.
  */
 const ActivityCard: React.FC<{ group: ActivityGroup }> = ({ group }) => {
-    const { c, styles } = useTheme();
-    const [expanded, setExpanded] = useState(false);
-    const [hover, setHover] = useState(false);
-    const running = group.steps.find((s) => s.status === 'running');
+    const { styles } = useTheme();
+    // null follows the turn: open while it runs, folded once it is done.
+    const [userOpen, setUserOpen] = useState<boolean | null>(null);
+    const live = !group.done;
+    const open = userOpen ?? live;
+    // Tool names only once the developer has asked for the detail.
+    const detailed = userOpen === true;
     const failed = group.steps.some((s) => s.status === 'failed');
-    const totalMs = group.steps.reduce((sum, s) => sum + (s.durationMs ?? 0), 0);
-
-    // While running, the caption is the live step. Once the turn is over the
-    // card is the only way back to the steps, so it names the action instead
-    // of just counting: "Show steps" reads as a control, "2 steps" did not.
-    const stepCount = `${group.steps.length} step${group.steps.length === 1 ? '' : 's'}`;
-    const caption = running ? `${running.label}…` : stepCount;
 
     return (
-        <div style={{ ...styles.activityCard, ...(hover && !running ? styles.activityCardHover : null) }}>
+        <div data-ts-dbg-anim style={styles.work}>
             <button
                 type="button"
-                onClick={() => setExpanded((v) => !v)}
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
-                style={styles.activityHeader}
-                aria-expanded={expanded}
-                title={expanded ? 'Hide the steps taken' : 'Show the steps taken'}
+                data-ts-dbg-trig
+                onClick={() => setUserOpen(!open)}
+                aria-expanded={open}
+                title={open ? 'Hide the steps taken' : 'Show the steps taken'}
+                style={styles.workTrig}
             >
-                {running ? <Spinner /> : (
-                    <span style={{ ...styles.activityIcon, color: failed ? c.danger : c.success }}>
-                        <Icon name={failed ? 'warn' : 'check'} size={12} />
-                    </span>
-                )}
-                <span style={styles.activityCaption}>{caption}</span>
-                {totalMs && !running ? <span style={styles.activityDuration}>{formatDuration(totalMs)}</span> : null}
-                {/* An explicit label, not just a chevron: after the answer
-                    lands this is the only route back to the steps, and a bare
-                    glyph on a pale card did not read as clickable. */}
-                <span style={styles.activityToggle}>
-                    <span>{expanded ? 'Hide' : 'Show'} steps</span>
-                    <span
-                        data-ts-dbg-anim
-                        style={{
-                            ...styles.activityChevron,
-                            transform: expanded ? 'rotate(180deg)' : 'none',
-                        }}
-                    >
-                        <Icon name="chevron" size={11} />
-                    </span>
-                </span>
+                {live ? <span className="ts-dbg-shimmer">Working</span> : <span>Show work</span>}
+                {failed && !live ? <span style={styles.workFailed}>{'· a step failed'}</span> : null}
+                <Icon
+                    name="chevron"
+                    size={12}
+                    style={{ transform: open ? 'none' : 'rotate(-90deg)', transition: 'transform 200ms ease' }}
+                />
             </button>
-            {expanded ? (
-                <div style={styles.activitySteps}>
+            {open ? (
+                <div style={styles.steps}>
                     {group.steps.map((step, idx) => (
-                        <div
+                        <StepRow
                             key={step.id}
-                            data-ts-dbg-anim
-                            style={{ ...styles.activityStep, animationDelay: `${idx * 45}ms` }}
-                        >
-                            <span
-                                style={{
-                                    ...styles.activityStepIcon,
-                                    color: step.status === 'failed' ? c.danger : c.textFaint,
-                                }}
-                            >
-                                {step.status === 'running'
-                                    ? <Spinner />
-                                    : <Icon name={step.status === 'failed' ? 'warn' : 'check'} size={10} />}
-                            </span>
-                            <div style={styles.activityStepBody}>
-                                <div style={styles.activityStepTitle}>
-                                    <span>{step.label}</span>
-                                    {step.durationMs !== undefined ? (
-                                        <span style={styles.activityStepTime}>{formatDuration(step.durationMs)}</span>
-                                    ) : null}
-                                </div>
-                                <div style={styles.activityStepTool}>{step.toolName}</div>
-                                {step.args ? <div style={styles.activityStepArgs}>{step.args}</div> : null}
-                            </div>
-                        </div>
+                            step={step}
+                            last={idx === group.steps.length - 1}
+                            detailed={detailed}
+                        />
                     ))}
                 </div>
             ) : null}
@@ -1918,46 +2014,80 @@ const ActivityCard: React.FC<{ group: ActivityGroup }> = ({ group }) => {
     );
 };
 
-const Spinner: React.FC = () => {
-    const { c } = useTheme();
+/**
+ * A reasoning step: a 20px rail (icon over a 1px line to the next step) and
+ * the caption. Detailed, it adds a tool card with the raw tool name and input.
+ */
+const StepRow: React.FC<{ step: ActivityStep; last: boolean; detailed: boolean }> = ({
+    step, last, detailed,
+}) => {
+    const { c, styles } = useTheme();
+    const running = step.status === 'running';
+    const failed = step.status === 'failed';
     return (
-        <span
-            style={{
-                width: 10,
-                height: 10,
-                flexShrink: 0,
-                borderRadius: '50%',
-                border: `1.5px solid ${c.accentBorder}`,
-                borderTopColor: c.accent,
-                display: 'inline-block',
-                animation: 'ts-dbg-spin 0.7s linear infinite',
-            }}
-            aria-hidden
-        >
-        </span>
+        <div data-ts-dbg-anim style={styles.step}>
+            <div style={{ ...styles.stepRail, color: failed ? c.danger : c.textMuted }}>
+                <span style={styles.stepIco}>
+                    <Icon name={failed ? 'warn' : stepIcon(step.toolName)} size={14} />
+                </span>
+                {!last ? <span style={styles.stepLine} /> : null}
+            </div>
+            <div style={styles.stepBody}>
+                <div style={{ ...styles.stepHead, color: running ? c.textFaint : c.text }}>
+                    <span style={styles.stepLabel}>{running ? `${step.label}…` : step.label}</span>
+                    {step.durationMs !== undefined ? (
+                        <span style={styles.stepTime}>{formatDuration(step.durationMs)}</span>
+                    ) : null}
+                </div>
+                {detailed ? (
+                    <div style={styles.toolCard}>
+                        <div style={styles.toolSec}>
+                            <span style={styles.toolLbl}>Tool</span>
+                            <div style={styles.toolWell}>{step.toolName}</div>
+                        </div>
+                        {step.args ? (
+                            <div style={styles.toolSec}>
+                                <span style={styles.toolLbl}>Input</span>
+                                <div style={styles.toolWell}>{step.args}</div>
+                            </div>
+                        ) : null}
+                    </div>
+                ) : null}
+            </div>
+        </div>
     );
 };
 
 /**
- * One attached element, shown in the tray above the input. The selector is
- * clipped rather than wrapped so a deep one cannot squeeze out the badge or
- * the remove button, and the full value stays available on hover.
+ * One attached element, shown above the input as a file card: a 38px tile,
+ * the selector, and where it was picked. The selector is clipped rather than
+ * wrapped, and the remove badge appears on hover or focus.
  */
 const ElementChip: React.FC<{ item: PickedElementContext; onRemove: () => void }> = ({ item, onRemove }) => {
     const { styles } = useTheme();
     const size = item.styles.width && item.styles.height
         ? `${item.styles.width} × ${item.styles.height}`
         : '';
+    const where = item.inEmbed ? 'In the embed' : 'On the page';
     return (
         <div
+            data-ts-dbg-file
             style={styles.elementChip}
             title={`${item.selector}${size ? ` — ${size}` : ''}${item.inEmbed ? ' (inside the embed)' : ''}`}
         >
-            <span style={styles.elementChipIcon}><Icon name="target" size={11} /></span>
-            <span style={styles.elementChipTag}>{item.selector}</span>
-            {item.inEmbed ? <span style={styles.elementChipBadge}>embed</span> : null}
-            <button type="button" onClick={onRemove} aria-label={`Remove ${item.selector}`} style={styles.elementChipRemove}>
-                <Icon name="close" size={9} />
+            <span style={styles.elementChipTile}><Icon name="target" size={18} /></span>
+            <span style={styles.elementChipText}>
+                <span style={styles.elementChipTag}>{item.selector}</span>
+                <span style={styles.elementChipMeta}>{size ? `${where} · ${size}` : where}</span>
+            </span>
+            <button
+                type="button"
+                data-ts-dbg-file-x
+                onClick={onRemove}
+                aria-label={`Remove ${item.selector}`}
+                style={styles.elementChipRemove}
+            >
+                <Icon name="close" size={8} />
             </button>
         </div>
     );
@@ -2016,18 +2146,18 @@ const ElementHoverOverlay: React.FC<{ el: Element; iframeInspectable?: boolean }
     );
 };
 
-const FONT = '-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif';
-const MONO = 'ui-monospace, SFMono-Regular, Menlo, monospace';
+const FONT = '"Geist", "Helvetica Neue", Inter, Helvetica, Arial, sans-serif';
+const MONO = '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace';
 
-/** The panel's display name, shown in the header and the launcher label. */
+/** The pane's display name, shown in the header and the launcher label. */
 const PRODUCT_NAME = 'EmbedX';
-const PRODUCT_TAGLINE = 'Embed assistant';
+const PROMPT_PLACEHOLDER = 'Ask, learn, debug…';
 
 /**
  * The active palette and its built style set. A context rather than props so
- * the ~70 `styles.x` references in the subcomponents stay as they were; the
- * default is the light set, which is also what a subcomponent rendered outside
- * the panel (in a test, say) gets.
+ * the `styles.x` references in the subcomponents stay short; the default is
+ * the light set, which is also what a subcomponent rendered outside the pane
+ * (in a test, say) gets.
  */
 interface Theme {
     c: Palette;
@@ -2044,7 +2174,9 @@ function useTheme(): Theme {
 }
 
 /**
- * The panel renders inside the host page's DOM, so the host's own CSS cascades
+ * The Operator pane's tokens (Radiant 3.0), light and dark.
+ *
+ * The pane renders inside the host page's DOM, so the host's own CSS cascades
  * into it: a dark-theme host sets `color` on descendants and backgrounds on
  * `pre`/`code`, which previously left inline code as unreadable light-on-light
  * boxes and put light syntax tokens on a dark block.
@@ -2053,56 +2185,79 @@ function useTheme(): Theme {
  * without the other, and never relying on inheritance.
  */
 interface Palette {
+    /** Background/Base: the pane. */
     surface: string;
-    surfaceMuted: string;
-    surfaceRaised: string;
-    codeSurface: string;
-    codeHeader: string;
+    /** Background/Raised: the prompt box, menus. */
+    raised: string;
+    /** Background/Sunken: code wells. */
+    sunken: string;
+    /** Background/On Base: starter prompts, the user's message. */
+    onBase: string;
+    /** Background/Secondary action: file tiles. */
+    secondaryAction: string;
+    /** Background/Ghost hover: icon buttons and menu rows. */
+    ghostHover: string;
+    chipHover: string;
+    chipHoverBorder: string;
+    /** Border/Subtle. */
     border: string;
-    borderStrong: string;
+    /** Border/Bold. */
+    borderBold: string;
+    /** Content/Primary. */
     text: string;
+    /** Content/Secondary. */
     textMuted: string;
+    /** Content/Tertiary. */
     textFaint: string;
+    /** Content/Brand · Background/Brand. */
+    brand: string;
+    brandHover: string;
+    onBrand: string;
+    /** Content/Accent/Purple: the verb phrase in the greeting. */
     accent: string;
-    accentHover: string;
-    accentSoft: string;
-    accentBorder: string;
-    onAccent: string;
     inlineCodeText: string;
     success: string;
     warning: string;
-    /** Recording/destructive state — the only red in the panel. */
+    /** Content/Failure: recording and failed steps — the only red in the pane. */
     danger: string;
+    /** Background/Failure. */
     dangerSoft: string;
-    dangerBorder: string;
+    /** Elevation/Modal: the pane. */
     shadow: string;
-    /** Syntax-token colours, tuned per theme for contrast on `codeSurface`. */
+    promptShadow: string;
+    promptFocusShadow: string;
+    menuShadow: string;
+    /** Syntax-token colours, tuned per theme for contrast on `sunken`. */
     token: Record<Exclude<TokenType, 'plain'>, string>;
 }
 
 const LIGHT: Palette = {
     surface: '#ffffff',
-    surfaceMuted: '#f8fafc',
-    surfaceRaised: '#f1f5f9',
-    codeSurface: '#f6f8fa',
-    codeHeader: '#eef2f7',
-    border: '#e2e8f0',
-    borderStrong: '#cbd5e1',
-    text: '#0f172a',
-    textMuted: '#64748b',
-    textFaint: '#94a3b8',
-    accent: '#4f46e5',
-    accentHover: '#4338ca',
-    accentSoft: '#eef2ff',
-    accentBorder: '#c7d2fe',
-    onAccent: '#ffffff',
-    inlineCodeText: '#b91c4e',
-    success: '#1a7f37',
+    raised: '#ffffff',
+    sunken: '#f5f7fc',
+    onBase: '#f6f8fa',
+    secondaryAction: '#eef1f8',
+    ghostHover: 'rgba(192, 198, 207, 0.16)',
+    chipHover: '#eef2f8',
+    chipHoverBorder: '#dde2e8',
+    border: '#eaedf2',
+    borderBold: '#d2d7e6',
+    text: '#1d232f',
+    textMuted: '#777e8b',
+    textFaint: '#a5acb9',
+    brand: '#2770ef',
+    brandHover: '#1e5fd0',
+    onBrand: '#ffffff',
+    accent: '#8c62f5',
+    inlineCodeText: '#1d232f',
+    success: '#1e8a4c',
     warning: '#9a6700',
-    danger: '#d1242f',
-    dangerSoft: '#fdf0ef',
-    dangerBorder: '#f3c9c5',
-    shadow: '0 20px 48px rgba(15, 23, 42, 0.18)',
+    danger: '#e22b3d',
+    dangerSoft: '#ffebec',
+    shadow: '0 24px 32px rgba(25, 35, 49, 0.16), 0 0 4px rgba(25, 35, 49, 0.10)',
+    promptShadow: '0 2px 4px rgba(25, 35, 49, 0.04), 0 0 4px rgba(25, 35, 49, 0.10)',
+    promptFocusShadow: '0 3px 12px rgba(4, 101, 237, 0.12), 0 4px 24px rgba(56, 125, 222, 0.12)',
+    menuShadow: '0 12px 24px rgba(25, 35, 49, 0.12), 0 0 4px rgba(25, 35, 49, 0.08)',
     token: {
         comment: '#6a737d',
         string: '#0a6640',
@@ -2114,34 +2269,34 @@ const LIGHT: Palette = {
     },
 };
 
-/**
- * Dark palette. Slate-based rather than pure black so it reads as a panel
- * floating above a dark app rather than a hole in it, and the syntax tokens
- * are lightened to stay legible on `codeSurface`.
- */
+/** Dark palette: the Operator pane's dark tokens, with lightened syntax colours. */
 const DARK: Palette = {
-    surface: '#161b22',
-    surfaceMuted: '#1c222b',
-    surfaceRaised: '#232a35',
-    codeSurface: '#0f141a',
-    codeHeader: '#1c222b',
-    border: '#2d3542',
-    borderStrong: '#3d4757',
-    text: '#e6edf3',
-    textMuted: '#9aa6b5',
-    textFaint: '#6e7a8a',
-    accent: '#818cf8',
-    accentHover: '#a5b4fc',
-    accentSoft: '#1e2438',
-    accentBorder: '#3730a3',
-    onAccent: '#0f1117',
-    inlineCodeText: '#ff7b9c',
+    surface: '#1b1e24',
+    raised: '#23272f',
+    sunken: '#16181d',
+    onBase: '#23272f',
+    secondaryAction: '#2c313a',
+    ghostHover: 'rgba(255, 255, 255, 0.06)',
+    chipHover: '#2c313a',
+    chipHoverBorder: '#3d434e',
+    border: '#2c313a',
+    borderBold: '#3d434e',
+    text: '#e7eaee',
+    textMuted: '#9aa2ae',
+    textFaint: '#727986',
+    brand: '#2770ef',
+    brandHover: '#1e5fd0',
+    onBrand: '#ffffff',
+    accent: '#8c62f5',
+    inlineCodeText: '#e7eaee',
     success: '#3fb950',
     warning: '#d29922',
-    danger: '#f85149',
-    dangerSoft: '#2b1d1e',
-    dangerBorder: '#5c2b28',
-    shadow: '0 20px 48px rgba(0, 0, 0, 0.55)',
+    danger: '#f05b69',
+    dangerSoft: '#3a1d21',
+    shadow: '0 24px 32px rgba(0, 0, 0, 0.4), 0 0 4px rgba(0, 0, 0, 0.3)',
+    promptShadow: '0 2px 4px rgba(0, 0, 0, 0.2), 0 0 4px rgba(0, 0, 0, 0.3)',
+    promptFocusShadow: '0 3px 12px rgba(4, 101, 237, 0.2), 0 4px 24px rgba(56, 125, 222, 0.16)',
+    menuShadow: '0 12px 24px rgba(0, 0, 0, 0.35), 0 0 4px rgba(0, 0, 0, 0.2)',
     token: {
         comment: '#7d8896',
         string: '#7ee787',
@@ -2149,7 +2304,7 @@ const DARK: Palette = {
         number: '#79c0ff',
         tag: '#7ee787',
         attr: '#d2a8ff',
-        punct: '#9aa6b5',
+        punct: '#9aa2ae',
     },
 };
 
@@ -2189,73 +2344,145 @@ function usePrefersDark(): boolean {
 }
 
 /**
- * Every keyframe the panel uses, injected once from the panel root rather
- * than per component — three copies of the same `@keyframes` used to ship
- * whenever several spinners were on screen.
- *
- * `prefers-reduced-motion` turns the decorative ones off: a debugging tool
- * should not fight a user who has asked the OS for less movement.
+ * Static stand-in for the Radiance glow, used when the renderer cannot run
+ * (no canvas). The Figma artwork in pane coordinates, from the design's
+ * `.op-radiance--static`.
  */
-const KEYFRAMES = `
+const STATIC_WASH_LIGHT = [
+    'radial-gradient(circle 678px at 718px -20px, rgba(40,140,255,.135) 0%, rgba(40,140,255,.0405) 52%, rgba(40,140,255,0) 100%)',
+    'radial-gradient(circle 653px at 401px -59px, rgba(140,100,255,.117) 0%, rgba(140,100,255,.0351) 52%, rgba(140,100,255,0) 100%)',
+    'radial-gradient(circle 629px at -2px -88px, rgba(255,120,160,.117) 0%, rgba(255,120,160,.0351) 52%, rgba(255,120,160,0) 100%)',
+    'linear-gradient(180deg, rgba(200,220,255,.0945) 0%, rgba(140,100,255,.0558) 18%, rgba(255,120,160,.0468) 34%, rgba(80,220,180,.0216) 58%, rgba(255,255,255,0) 100%)',
+    'radial-gradient(circle 488px at -116px 172px, rgba(255,180,100,.44) 0%, rgba(255,180,100,0) 100%)',
+    'radial-gradient(circle 610px at 660px -60px, rgba(40,140,255,.58) 0%, rgba(40,140,255,0) 100%)',
+    'radial-gradient(circle 610px at 84px -2px, rgba(140,100,255,.6) 0%, rgba(140,100,255,0) 100%)',
+    'radial-gradient(circle 548px at -318px -60px, rgba(255,120,160,.58) 0%, rgba(255,120,160,0) 100%)',
+].join(', ');
+
+const STATIC_WASH_DARK = [
+    'radial-gradient(circle 678px at 718px -20px, rgba(39,140,255,.112) 0%, rgba(39,140,255,.034) 54%, rgba(39,140,255,0) 100%)',
+    'radial-gradient(circle 653px at 373px -59px, rgba(138,93,255,.103) 0%, rgba(138,93,255,.031) 54%, rgba(138,93,255,0) 100%)',
+    'radial-gradient(circle 629px at -30px -88px, rgba(255,93,142,.09) 0%, rgba(255,93,142,.027) 54%, rgba(255,93,142,0) 100%)',
+    'linear-gradient(180deg, rgba(138,93,255,.071) 0%, rgba(39,140,255,.05) 18%, rgba(255,93,142,.037) 34%, rgba(45,220,177,.015) 58%, rgba(0,0,0,0) 100%)',
+    'radial-gradient(circle 524px at -116px 190px, rgba(255,180,90,.24) 0%, rgba(255,180,90,0) 100%)',
+    'radial-gradient(circle 666px at 690px -59px, rgba(39,140,255,.42) 0%, rgba(39,140,255,0) 100%)',
+    'radial-gradient(circle 666px at 114px -1px, rgba(138,93,255,.46) 0%, rgba(138,93,255,0) 100%)',
+    'radial-gradient(circle 605px at -318px -59px, rgba(255,93,142,.42) 0%, rgba(255,93,142,0) 100%)',
+].join(', ');
+
+/** The top-wash mask: the glow fades out by about half the pane's height. */
+const WASH_MASK = 'linear-gradient(#000 0%, rgba(0, 0, 0, .92) 22%, rgba(0, 0, 0, .52) 54%, rgba(0, 0, 0, .18) 78%, transparent 100%)';
+
+/**
+ * Every keyframe the pane uses, plus the handful of states inline styles
+ * cannot express — hover, placeholder colour, the shimmering "Working" label,
+ * the launcher's gradient ring. Injected once from the pane root, and scoped
+ * to `data-ts-dbg-*` attributes so none of it reaches the host page.
+ *
+ * `prefers-reduced-motion` turns the decorative motion off: no slide, wiggle,
+ * drift, fade or shimmer.
+ */
+const paneSheet = (C: Palette): string => `
 @keyframes ts-dbg-blink {0%,80%,100%{opacity:.25} 40%{opacity:1}}
-@keyframes ts-dbg-spin {to{transform:rotate(360deg)}}
-@keyframes ts-dbg-in {from{opacity:0;transform:translateY(8px) scale(.98)} to{opacity:1;transform:none}}
 @keyframes ts-dbg-rise {from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none}}
 @keyframes ts-dbg-pop {from{opacity:0;transform:scale(.9)} to{opacity:1;transform:none}}
-@keyframes ts-dbg-expand {from{opacity:0;max-height:0} to{opacity:1;max-height:420px}}
-@keyframes ts-dbg-pulse {0%,100%{opacity:1} 50%{opacity:.45}}
-@keyframes ts-dbg-sheen {0%{background-position:-180% 0} 100%{background-position:180% 0}}
+@keyframes ts-dbg-slide {from{transform:translateX(100%)} to{transform:none}}
+@keyframes ts-dbg-menu {from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:none}}
+@keyframes ts-dbg-shimmer {from{background-position:100% 0} to{background-position:-100% 0}}
+@keyframes ts-dbg-wiggle {
+  0%{transform:translateX(0)} 15%{transform:translateX(-6px)} 30%{transform:translateX(5px)}
+  45%{transform:translateX(-4px)} 60%{transform:translateX(3px)} 75%{transform:translateX(-2px)} 100%{transform:translateX(0)}
+}
+[data-ts-dbg-pane] *, [data-ts-dbg-pane] *::before, [data-ts-dbg-pane] *::after { box-sizing: border-box; }
+[data-ts-dbg-pane] textarea::placeholder, [data-ts-dbg-pane] input::placeholder { color: ${C.textMuted}; opacity: 1; }
+[data-ts-dbg-ghost] { background: transparent; }
+[data-ts-dbg-ghost]:hover:not(:disabled) { background: ${C.ghostHover}; }
+[data-ts-dbg-chip]:hover { background: ${C.chipHover} !important; border-color: ${C.chipHoverBorder} !important; }
+[data-ts-dbg-trig]:hover { color: ${C.text} !important; }
+[data-ts-dbg-send]:hover { background: ${C.brandHover} !important; }
+[data-ts-dbg-file]:hover { background: ${C.onBase} !important; border-color: ${C.borderBold} !important; }
+[data-ts-dbg-file-x] { opacity: 0; }
+[data-ts-dbg-file]:hover [data-ts-dbg-file-x], [data-ts-dbg-file]:focus-within [data-ts-dbg-file-x] { opacity: 1; }
+[data-ts-dbg-scroll] { scrollbar-width: thin; scrollbar-color: ${C.borderBold} transparent; }
+.ts-dbg-shimmer {
+  background: linear-gradient(100deg, ${C.textMuted} 6%, color-mix(in srgb, ${C.textFaint} 45%, ${C.textMuted}) 28%, ${C.textFaint} 50%, color-mix(in srgb, ${C.textFaint} 45%, ${C.textMuted}) 72%, ${C.textMuted} 94%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+  animation: ts-dbg-shimmer 1.6s linear infinite;
+}
+[data-ts-dbg-fab]::before {
+  content: ""; position: absolute; inset: 0; padding: 2px; border-radius: 50%; pointer-events: none;
+  background: linear-gradient(90deg, #8c62f5 2%, #48d1e0 49%, #2770ef 96%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box exclude, linear-gradient(#fff 0 0);
+}
+[data-ts-dbg-fab]::after {
+  content: ""; position: absolute; inset: -2px; z-index: -1; border-radius: 50%; pointer-events: none;
+  background: linear-gradient(90deg, #8c62f5, #48d1e0, #2770ef); filter: blur(23px); opacity: .35;
+}
+[data-ts-dbg-fab]:hover { transform: translateY(-1px); }
 @media (prefers-reduced-motion: reduce) {
   [data-ts-dbg-anim] { animation: none !important; transition: none !important; }
+  .ts-dbg-shimmer { animation: none; background: none; color: ${C.textMuted}; -webkit-text-fill-color: currentColor; }
 }
 `;
 
 /**
  * Built per palette rather than as a constant, so the same rules serve light
  * and dark. Components read the active set from `ThemeContext` via
- * `useTheme()`, which keeps every `styles.x` call site unchanged.
+ * `useTheme()`. Values follow the Operator pane spec (README §8): Geist at
+ * 400/550, a 4px spacing grid, radii 6/8/10/16/20.
  */
 const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
+    // Shell / Floating button: 58px, gradient ring and halo from the sheet.
     launcher: {
         position: 'fixed',
-        bottom: 20,
-        right: 20,
-        width: 52,
-        height: 52,
+        right: 24,
+        bottom: 24,
+        width: 58,
+        height: 58,
+        padding: 0,
+        margin: 0,
         borderRadius: '50%',
+        border: 'none',
         background: C.surface,
-        color: C.text,
-        border: `1px solid ${C.border}`,
-        boxShadow: C.shadow,
+        color: C.brand,
+        boxShadow: '0 0 34px rgba(140, 98, 245, 0.42), 0 0 4px rgba(25, 35, 49, 0.08)',
         cursor: 'pointer',
         zIndex: 2147483647,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: 'grid',
+        placeItems: 'center',
         animation: 'ts-dbg-pop 260ms cubic-bezier(.2,.8,.2,1)',
-        transition: 'transform 140ms ease, box-shadow 140ms ease',
+        transition: 'transform 140ms ease',
     },
-    // Width and height come from the resize state; the panel stays pinned to
-    // the bottom-right so a drag from its top-left corner grows it inward.
+    // Docked to the right edge at full height; `top` and `width` come from
+    // props and the resize state.
     panel: {
         position: 'fixed',
-        bottom: PANEL_MARGIN,
-        right: PANEL_MARGIN,
-        background: C.surface,
-        color: C.text,
-        border: `1px solid ${C.border}`,
-        borderRadius: 16,
+        right: 0,
+        bottom: 0,
+        minWidth: PANEL_MIN_WIDTH,
+        maxWidth: PANEL_MAX_WIDTH,
         display: 'flex',
         flexDirection: 'column',
-        fontFamily: FONT,
-        fontSize: 13,
-        lineHeight: 1.55,
+        overflow: 'hidden',
+        // The glow sits at z-index -1, behind the content but above this
+        // background — isolation keeps that stacking inside the pane.
+        isolation: 'isolate',
+        background: C.surface,
+        color: C.text,
+        borderLeft: `1px solid ${C.border}`,
         boxShadow: C.shadow,
         zIndex: 2147483647,
-        overflow: 'hidden',
-        animation: 'ts-dbg-in 220ms cubic-bezier(.2,.8,.2,1)',
+        fontFamily: FONT,
+        fontSize: 14,
+        lineHeight: '20px',
+        WebkitFontSmoothing: 'antialiased',
+        animation: `ts-dbg-slide ${SLIDE_MS}ms cubic-bezier(.2,.8,.2,1)`,
         // Re-assert the inheritable properties a host page may have set on
-        // body or on a wrapper, so the panel looks the same on every host.
+        // body or on a wrapper, so the pane looks the same on every host.
         fontWeight: 400,
         fontStyle: 'normal',
         letterSpacing: 'normal',
@@ -2265,378 +2492,411 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         whiteSpace: 'normal',
         direction: 'ltr',
     },
+    // The inner edge: drag it to resize.
     resizeHandle: {
         position: 'absolute',
         top: 0,
+        bottom: 0,
         left: 0,
-        width: 18,
-        height: 18,
-        cursor: 'nwse-resize',
-        // Above the header, so the corner grabs before the title does.
-        zIndex: 1,
-        borderTopLeftRadius: 16,
-        // A faint corner mark: discoverable without becoming furniture.
-        background: `linear-gradient(135deg, ${C.borderStrong} 0 2px, transparent 2px)`,
+        width: 6,
+        zIndex: 6,
+        cursor: 'col-resize',
     },
+    // Pane / Radiance glow: the 1440px wash, centre slice behind the pane.
+    radiance: {
+        position: 'absolute',
+        top: -60,
+        bottom: 0,
+        left: 'calc(50% - 720px)',
+        width: 1440,
+        zIndex: -1,
+        pointerEvents: 'none',
+        opacity: C === DARK ? 0.66 : 0.76,
+        WebkitMaskImage: WASH_MASK,
+        maskImage: WASH_MASK,
+        transition: 'opacity 450ms ease, transform 450ms ease',
+    },
+    // Work done: the wash lifts away over 5s.
+    radianceGone: {
+        opacity: 0,
+        transform: 'translateY(-500px)',
+        transition: 'opacity 5000ms cubic-bezier(0, 0, .2, 1), transform 5000ms cubic-bezier(0, 0, .2, 1)',
+    },
+    radianceLocal: { position: 'absolute', inset: 0 },
+    // Without the renderer: the static artwork, already in pane coordinates,
+    // so it fills the pane with no 1440px offset and no mask.
+    radianceStatic: {
+        position: 'absolute',
+        inset: 0,
+        zIndex: -1,
+        pointerEvents: 'none',
+        backgroundColor: C.surface,
+        backgroundImage: C === DARK ? STATIC_WASH_DARK : STATIC_WASH_LIGHT,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '116% 112%',
+        transition: 'opacity 450ms ease, transform 450ms ease',
+    },
+    // Pane / Header: 56px, padding 0 12 0 16, transparent over the glow.
     header: {
+        position: 'relative',
+        zIndex: 3,
         flex: '0 0 auto',
-        padding: '11px 12px 11px 14px',
-        borderBottom: `1px solid ${C.border}`,
+        height: 56,
+        padding: '0 12px 0 16px',
         display: 'flex',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        background: C.surface,
+        gap: 8,
+        background: 'transparent',
         color: C.text,
     },
-    headerTitle: { display: 'flex', alignItems: 'center', gap: 10 },
-    headerName: {
-        fontWeight: 650, fontSize: 14, letterSpacing: -0.1, color: C.text,
+    headerMenuHost: { position: 'relative' },
+    headerTitleBtn: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        height: 32,
+        padding: 0,
+        margin: 0,
+        border: 'none',
+        background: 'transparent',
+        color: C.text,
+        cursor: 'pointer',
+        fontFamily: FONT,
+        fontSize: 14,
+        lineHeight: '20px',
+        fontWeight: 400,
+        whiteSpace: 'nowrap',
     },
-    headerSubtitle: {
-        fontSize: 10.5, color: C.textMuted, display: 'flex', alignItems: 'center', gap: 5, marginTop: 1,
+    headerChevron: {
+        display: 'inline-grid',
+        placeItems: 'center',
+        width: 32,
+        height: 32,
+        borderRadius: 16,
+        transition: 'background 120ms ease',
     },
-    headerTagline: { color: C.textFaint },
-    headerDivider: { color: C.textFaint, opacity: 0.7 },
+    grow: { flex: 1 },
+    srOnly: {
+        position: 'absolute',
+        width: 1,
+        height: 1,
+        overflow: 'hidden',
+        clip: 'rect(0 0 0 0)',
+        whiteSpace: 'nowrap',
+    },
+    iconBtn: {
+        display: 'grid',
+        placeItems: 'center',
+        width: 32,
+        height: 32,
+        padding: 0,
+        margin: 0,
+        border: 'none',
+        borderRadius: 16,
+        color: C.text,
+        cursor: 'pointer',
+        transition: 'background 120ms ease',
+    },
+    // Pane / Chat menu: Radiant menu, radius 6, padding 8 0, 28px rows.
+    menu: {
+        position: 'absolute',
+        top: 'calc(100% + 4px)',
+        left: 0,
+        zIndex: 30,
+        minWidth: 200,
+        padding: '8px 0',
+        display: 'flex',
+        flexDirection: 'column',
+        background: C.raised,
+        color: C.text,
+        borderRadius: 6,
+        boxShadow: C.menuShadow,
+        animation: 'ts-dbg-menu 180ms cubic-bezier(.2,.8,.2,1)',
+    },
+    menuItem: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        width: '100%',
+        minHeight: 28,
+        padding: '4px 16px',
+        margin: 0,
+        border: 'none',
+        color: C.text,
+        cursor: 'pointer',
+        textAlign: 'left',
+        fontFamily: FONT,
+        fontSize: 14,
+        lineHeight: '20px',
+    },
+    // The stream: padding 12 16, 16px between turns.
+    messages: {
+        position: 'relative',
+        zIndex: 1,
+        flex: '1 1 auto',
+        minHeight: 0,
+        overflowY: 'auto',
+        padding: '12px 16px 16px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 16,
+        // A host page setting `scroll-behavior: smooth` would fight the
+        // stream-following scroll, so it is pinned here.
+        scrollBehavior: 'auto',
+    },
+    // Welcome state: the greeting block centred vertically in the stream.
+    welcome: {
+        display: 'flex',
+        flexDirection: 'column',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+        padding: '8px 0 16px',
+        animation: 'ts-dbg-rise 300ms cubic-bezier(.2,.8,.2,1)',
+    },
+    greet: { textAlign: 'center' },
+    greetLine: {
+        margin: 0,
+        fontSize: 24,
+        lineHeight: '32px',
+        fontWeight: 550,
+        color: C.text,
+    },
+    greetAccent: { color: C.accent },
+    starterList: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 8,
+        marginTop: 32,
+    },
+    // Starter prompt: full width, padding 12 20, radius 40, On Base.
+    starterBtn: {
+        display: 'block',
+        width: '100%',
+        margin: 0,
+        padding: '12px 20px',
+        background: C.onBase,
+        color: C.text,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: C.border,
+        borderRadius: 40,
+        cursor: 'pointer',
+        fontFamily: FONT,
+        fontSize: 14,
+        lineHeight: '20px',
+        textAlign: 'left',
+        transition: 'background 180ms ease, border-color 180ms ease',
+    },
+    // minWidth 0 on the rows: without it a long line overflows the pane
+    // instead of wrapping.
+    userRow: { display: 'flex', justifyContent: 'flex-end', minWidth: 0 },
+    // User message: On Base, padding 12 16, radius 16 16 4 16, 16/24.
+    userBubble: {
+        maxWidth: '92%',
+        minWidth: 0,
+        padding: '12px 16px',
+        borderRadius: '16px 16px 4px 16px',
+        background: C.onBase,
+        color: C.text,
+        fontSize: 16,
+        lineHeight: '24px',
+        wordBreak: 'break-word',
+        overflowWrap: 'anywhere',
+    },
+    assistantRow: {
+        display: 'flex', flexDirection: 'column', gap: 8, minWidth: 0,
+    },
+    // Thread block · Agent text: full width, 14/20, no bubble.
+    agentMsg: {
+        minWidth: 0,
+        fontSize: 14,
+        lineHeight: '20px',
+        // Explicit, so a dark host page cannot wash out the reply text.
+        color: C.text,
+        wordBreak: 'break-word',
+        overflowWrap: 'anywhere',
+    },
+    // Feedback row under an answer: 24px icon buttons, gap 8.
+    fb: { display: 'flex', alignItems: 'center', gap: 8 },
+    fbBtn: { borderRadius: 12, color: C.textMuted },
+    iconAct: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 4,
+        minWidth: 24,
+        height: 24,
+        padding: '0 5px',
+        margin: 0,
+        border: 'none',
+        borderRadius: 4,
+        color: C.text,
+        cursor: 'pointer',
+        flexShrink: 0,
+        fontFamily: FONT,
+        transition: 'background 120ms ease',
+    },
+    copyNote: { fontSize: 12, lineHeight: '18px', color: C.textFaint },
     caret: {
         display: 'inline-block',
         width: 2,
         height: '0.95em',
         marginLeft: 2,
         verticalAlign: 'text-bottom',
-        background: C.accent,
+        background: C.brand,
         animation: 'ts-dbg-blink 1s step-end infinite',
     },
-    statusDot: {
-        width: 6, height: 6, borderRadius: '50%', display: 'inline-block',
-    },
-    headerActions: { display: 'flex', alignItems: 'center', gap: 2 },
-    iconBtn: {
-        background: 'transparent',
-        border: 'none',
-        color: C.textMuted,
-        cursor: 'pointer',
-        fontSize: 14,
-        lineHeight: 1,
-        padding: '5px 6px',
-        borderRadius: 6,
-        transition: 'background 120ms ease, color 120ms ease',
-    },
-    messages: {
-        flex: '1 1 auto',
-        minHeight: 0,
-        overflowY: 'auto',
-        padding: '14px 14px 6px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 12,
-        // A host page setting `scroll-behavior: smooth` would fight the
-        // stream-following scroll, so it is pinned here.
-        scrollBehavior: 'auto',
-    },
-    welcome: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-        gap: 10,
-        padding: '24px 12px 8px',
-        color: C.textMuted,
-        marginTop: 'auto',
-        animation: 'ts-dbg-rise 300ms cubic-bezier(.2,.8,.2,1)',
-    },
-    welcomeTitle: {
-        color: C.text, fontWeight: 650, fontSize: 15.5, letterSpacing: -0.2, marginTop: 2,
-    },
-    welcomeBody: { fontSize: 12.5, maxWidth: 270, color: C.textMuted },
-    welcomeBtn: {
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 5,
-        marginTop: 2,
-        background: 'transparent',
-        color: C.textMuted,
-        border: 'none',
-        borderRadius: 8,
-        padding: '6px 10px',
-        cursor: 'pointer',
-        fontFamily: FONT,
-        fontSize: 11.5,
-        transition: 'color 120ms ease',
-    },
-    starterList: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 6,
-        width: '100%',
-        maxWidth: 290,
-        marginTop: 4,
-    },
-    starterBtn: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 9,
-        width: '100%',
-        boxSizing: 'border-box',
-        padding: '9px 11px',
-        background: C.surfaceMuted,
-        color: C.text,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: C.border,
-        borderRadius: 10,
-        cursor: 'pointer',
-        fontFamily: FONT,
-        fontSize: 12.5,
-        textAlign: 'left',
-        transition: 'background 130ms ease, border-color 130ms ease, color 130ms ease, transform 130ms ease',
-    },
-    starterIcon: { display: 'flex', alignItems: 'center', flexShrink: 0, color: C.textMuted },
-    starterLabel: {
-        flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-    },
-    starterArrow: {
-        display: 'flex', alignItems: 'center', flexShrink: 0, opacity: 0.5,
-    },
-    // minWidth 0 on the row: without it the nested column cannot shrink below
-    // its content, so a long line overflows the panel instead of wrapping.
-    userRow: {
-        display: 'flex', justifyContent: 'flex-end', minWidth: 0,
-    },
-    assistantRow: {
-        display: 'flex', gap: 8, alignItems: 'flex-start', minWidth: 0,
-    },
-    avatar: { marginTop: 2, flexShrink: 0 },
-    // The bubble fills its column, which is what caps the width — capping in
-    // both would compound to roughly 72% of the panel.
-    userBubble: {
-        padding: '9px 12px',
-        borderRadius: '14px 14px 3px 14px',
-        background: C.accent,
-        color: C.onAccent,
-        maxWidth: '100%',
-        boxSizing: 'border-box',
-        wordBreak: 'break-word',
-        overflowWrap: 'anywhere',
-    },
-    assistantBubble: {
-        padding: '9px 12px',
-        borderRadius: '14px 14px 14px 3px',
-        background: C.surfaceMuted,
-        // Explicit, so a dark host page cannot wash out the reply text.
-        color: C.text,
-        border: `1px solid ${C.border}`,
-        maxWidth: '100%',
-        boxSizing: 'border-box',
-        wordBreak: 'break-word',
-        overflowWrap: 'anywhere',
-    },
     inlineCode: {
-        background: C.codeHeader,
+        background: C.sunken,
         // Explicit: a dark host page would otherwise leave this light on light.
         color: C.inlineCodeText,
         border: `1px solid ${C.border}`,
-        borderRadius: 3,
-        padding: '1px 4px',
+        borderRadius: 4,
+        padding: '0 4px',
         fontFamily: MONO,
-        fontSize: '0.92em',
-        // A long token (a CSS variable, a selector) must not run off the panel.
+        fontSize: '0.9em',
+        // A long token (a CSS variable, a selector) must not run off the pane.
         overflowWrap: 'anywhere',
-    },
-    activityCard: {
-        alignSelf: 'stretch',
-        background: C.surfaceMuted,
-        color: C.textMuted,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: C.border,
-        borderRadius: 10,
-        overflow: 'hidden',
-        transition: 'border-color 120ms ease, background 120ms ease',
-        animation: 'ts-dbg-rise 240ms cubic-bezier(.2,.8,.2,1)',
-    },
-    // Hover makes the finished card read as a control rather than a caption.
-    activityCardHover: {
-        background: C.surfaceRaised,
-        borderColor: C.borderStrong,
-    },
-    activityHeader: {
-        width: '100%',
-        boxSizing: 'border-box',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 8,
-        padding: '7px 10px',
-        background: 'transparent',
-        border: 'none',
-        cursor: 'pointer',
-        textAlign: 'left',
-        fontFamily: FONT,
-        fontSize: 11.5,
-        color: C.textMuted,
-        // The whole row is the hit target, not just the chevron.
-        appearance: 'none',
-        margin: 0,
-    },
-    activityIcon: { display: 'flex', alignItems: 'center', flexShrink: 0 },
-    activityCaption: {
-        flex: 1,
-        minWidth: 0,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        color: C.text,
-        fontWeight: 500,
-    },
-    activityDuration: {
-        color: C.textFaint, fontSize: 10.5, flexShrink: 0, fontVariantNumeric: 'tabular-nums',
-    },
-    // The visible affordance: accent-coloured, so it reads as interactive.
-    activityToggle: {
-        marginLeft: 'auto',
-        flexShrink: 0,
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 3,
-        color: C.accent,
-        fontSize: 10.5,
-        fontWeight: 500,
-    },
-    activityChevron: {
-        flexShrink: 0,
-        display: 'inline-flex',
-        alignItems: 'center',
-        transition: 'transform 160ms cubic-bezier(.2,.8,.2,1)',
-    },
-    activitySteps: {
-        borderTop: `1px solid ${C.border}`,
-        animation: 'ts-dbg-expand 200ms cubic-bezier(.2,.8,.2,1)',
-        overflow: 'hidden',
-        padding: '6px 10px 8px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 7,
-    },
-    activityStep: {
-        display: 'flex',
-        gap: 7,
-        alignItems: 'flex-start',
-        animation: 'ts-dbg-rise 220ms ease both',
-    },
-    activityStepIcon: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-        width: 12,
-        height: 17,
-    },
-    activityStepBody: { minWidth: 0, flex: 1 },
-    activityStepTitle: {
-        display: 'flex', gap: 8, alignItems: 'baseline', color: C.text, fontSize: 11.5,
-    },
-    activityStepTime: { color: C.textFaint, fontSize: 10, marginLeft: 'auto', flexShrink: 0 },
-    activityStepTool: { fontFamily: MONO, fontSize: 10, color: C.textMuted },
-    activityStepArgs: {
-        fontFamily: MONO,
-        fontSize: 10,
-        color: C.textFaint,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-    },
-    notice: {
-        animation: 'ts-dbg-rise 220ms ease',
-        alignSelf: 'center', fontSize: 11, color: C.textFaint, padding: '2px 0',
-    },
-    rule: {
-        height: 1, background: C.border, margin: '8px 0',
     },
     link: {
         // Colour and underline stated, so a host page's `a { }` rules cannot
         // restyle these into invisibility the way they did with inline code.
-        color: C.accent,
+        color: C.brand,
         textDecoration: 'underline',
         overflowWrap: 'anywhere',
     },
-    contextTray: {
-        display: 'flex', flexWrap: 'wrap', gap: 6, maxHeight: 76, overflowY: 'auto',
+    rule: { height: 1, background: C.border, margin: '8px 0' },
+    notice: {
+        animation: 'ts-dbg-rise 220ms ease',
+        alignSelf: 'center',
+        fontSize: 12,
+        lineHeight: '18px',
+        color: C.textFaint,
+        textAlign: 'center',
     },
-    userColumn: {
+    // Pane / Reasoning.
+    work: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-end',
-        maxWidth: '85%',
-        minWidth: 0,
-        flexShrink: 1,
+        gap: 12,
+        animation: 'ts-dbg-rise 240ms cubic-bezier(.2,.8,.2,1)',
     },
-    assistantColumn: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        maxWidth: '85%',
-        minWidth: 0,
-        flexShrink: 1,
-    },
-    messageCopyBtn: { marginTop: 3, alignSelf: 'flex-start' },
-    copyBtn: {
+    // Header: 16/24 Content/Secondary + 12px chevron, gap 4.
+    workTrig: {
         display: 'inline-flex',
         alignItems: 'center',
         gap: 4,
-        background: 'transparent',
+        alignSelf: 'flex-start',
+        padding: 0,
+        margin: 0,
         border: 'none',
-        color: C.textMuted,
+        background: 'transparent',
         cursor: 'pointer',
         fontFamily: FONT,
-        fontSize: 10.5,
-        padding: '3px 6px',
-        borderRadius: 6,
-        flexShrink: 0,
-        transition: 'background 120ms ease, color 120ms ease',
+        fontSize: 16,
+        lineHeight: '24px',
+        color: C.textMuted,
     },
-    codeBlock: {
-        animation: 'ts-dbg-rise 220ms ease',
-        margin: '6px 0',
-        background: C.codeSurface,
+    workFailed: { color: C.danger, fontSize: 14 },
+    steps: { display: 'flex', flexDirection: 'column' },
+    // Step: 20px rail, gap 4, rows at least 36px.
+    step: {
+        display: 'flex',
+        gap: 4,
+        minHeight: 36,
+        animation: 'ts-dbg-rise 220ms ease both',
+    },
+    stepRail: {
+        display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '0 0 20px',
+    },
+    stepIco: {
+        display: 'grid', placeItems: 'center', width: 20, height: 20,
+    },
+    stepLine: { width: 1, height: 16, background: C.border },
+    stepBody: { flex: 1, minWidth: 0, paddingBottom: 8 },
+    stepHead: {
+        display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, lineHeight: '20px',
+    },
+    stepLabel: {
+        flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+    },
+    stepTime: {
+        flexShrink: 0, fontSize: 12, lineHeight: '18px', color: C.textFaint, fontVariantNumeric: 'tabular-nums',
+    },
+    // Tool call: radius 12, padding 12, gap 8, Background/Base, Border/Subtle.
+    toolCard: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 8,
+        marginTop: 8,
+        padding: 12,
+        background: C.surface,
         color: C.text,
         border: `1px solid ${C.border}`,
+        borderRadius: 12,
+    },
+    toolSec: { display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 },
+    toolLbl: { fontSize: 12, lineHeight: '18px', color: C.textMuted },
+    toolWell: {
+        padding: '8px 12px',
+        background: C.sunken,
+        color: C.text,
         borderRadius: 8,
-        // Clips the corners only; the `pre` inside owns the horizontal scroll.
+        fontFamily: MONO,
+        fontSize: 12,
+        lineHeight: '20px',
+        overflowWrap: 'anywhere',
+    },
+    // Pane / Code block: radius 8, Background/Sunken.
+    codeBlock: {
+        animation: 'ts-dbg-rise 220ms ease',
+        margin: '8px 0',
+        display: 'flex',
+        flexDirection: 'column',
+        background: C.sunken,
+        color: C.text,
+        borderRadius: 8,
+        // Clips the corners only; the scroller owns the horizontal scroll.
         overflow: 'hidden',
         // Without these the block sizes itself to its widest line and pushes
-        // the bubble out, so the `pre` never overflows and never scrolls —
-        // which is why copy returned lines the panel would not show.
+        // the message out, so the scroller never overflows and never scrolls —
+        // which is why copy returned lines the pane would not show.
         maxWidth: '100%',
         minWidth: 0,
-        // The block is a flex child of the message column.
         flexShrink: 1,
         alignSelf: 'stretch',
     },
+    // Header: padding 8 10 4 16, gap 8 — icon, "ts · 3 lines", actions.
     codeBlockHeader: {
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
         gap: 8,
-        padding: '3px 6px 3px 10px',
-        borderBottom: `1px solid ${C.border}`,
-        background: C.codeHeader,
+        padding: '8px 10px 4px 16px',
     },
+    codeBlockIco: { display: 'flex', color: C.textMuted },
     codeBlockLang: {
-        fontFamily: MONO, fontSize: 10, color: C.textMuted, textTransform: 'lowercase',
+        flex: 1,
+        minWidth: 0,
+        fontSize: 12,
+        lineHeight: '18px',
+        color: C.textMuted,
+        textTransform: 'lowercase',
     },
+    codeActs: { display: 'flex', alignItems: 'center', gap: 2 },
+    codeAct: { color: C.text },
     // A div, so host `pre`/`code` rules cannot reach it. That means the
     // formatting `pre` gave for free has to be stated here.
     codeBlockPre: {
         display: 'block',
         margin: 0,
-        padding: '8px 10px',
+        padding: '4px 16px 12px',
         // The scroll container for long lines.
         overflowX: 'auto',
         overflowY: 'hidden',
         fontFamily: MONO,
-        fontSize: 11.5,
-        lineHeight: 1.5,
+        fontSize: 12,
+        lineHeight: '22px',
         color: C.text,
-        background: C.codeSurface,
+        background: C.sunken,
         // Replaces what `pre` provided: keep newlines and runs of spaces, and
         // do not wrap — long lines scroll instead.
         whiteSpace: 'pre',
@@ -2644,190 +2904,206 @@ const makeStyles = (C: Palette): Record<string, React.CSSProperties> => ({
         textIndent: 0,
         tabSize: 4,
         // Scrolling beats wrapping for code, but a single enormous token must
-        // not be able to stretch the panel itself.
+        // not be able to stretch the pane itself.
         maxWidth: '100%',
-        boxSizing: 'border-box',
     },
+    // Past eight lines the block folds, fading out at the bottom.
+    codeBlockFolded: {
+        maxHeight: 22 * CODE_FOLD_LINES + 16,
+        WebkitMaskImage: 'linear-gradient(#000 70%, transparent)',
+        maskImage: 'linear-gradient(#000 70%, transparent)',
+    },
+    // Attached elements sit in a row above the text, two per row at 400px.
+    contextTray: {
+        display: 'flex', flexWrap: 'wrap', gap: 8, maxHeight: 108, overflowY: 'auto', padding: '5px 5px 0 0',
+    },
+    // Pane / File card: 46px, padding 4 8 4 4, gap 8, radius 10.
     elementChip: {
-        animation: 'ts-dbg-pop 200ms cubic-bezier(.2,.8,.2,1)',
+        position: 'relative',
+        flex: '1 1 calc(50% - 4px)',
+        minWidth: 0,
         display: 'flex',
         alignItems: 'center',
-        gap: 6,
-        fontSize: 11,
-        background: C.accentSoft,
-        border: `1px solid ${C.accentBorder}`,
-        borderRadius: 8,
-        padding: '4px 6px 4px 8px',
-        maxWidth: '100%',
-        minWidth: 0,
-    },
-    elementChipIcon: { color: C.accent, flexShrink: 0 },
-    elementChipTag: {
-        fontFamily: MONO,
-        color: C.accent,
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        minWidth: 0,
-    },
-    elementChipBadge: {
-        flexShrink: 0,
-        fontSize: 9,
-        textTransform: 'uppercase',
-        letterSpacing: 0.3,
-        color: C.accent,
-        background: C.accentSoft,
-        borderRadius: 4,
-        padding: '1px 4px',
-    },
-    elementChipRemove: {
-        background: 'transparent',
-        border: 'none',
-        color: C.textMuted,
-        cursor: 'pointer',
-        fontSize: 10,
-        padding: '2px 3px',
-        flexShrink: 0,
-        lineHeight: 1,
-    },
-    toolbar: {
-        flex: '0 0 auto', padding: '8px 12px 0', display: 'flex', gap: 8, flexWrap: 'wrap',
-    },
-    sessionRow: {
-        flex: '0 0 auto', padding: '8px 12px 0',
-    },
-    sessionInput: {
-        width: '100%',
-        boxSizing: 'border-box',
+        gap: 8,
+        height: 46,
+        padding: '4px 8px 4px 4px',
         background: C.surface,
         color: C.text,
         border: `1px solid ${C.border}`,
-        borderRadius: 8,
-        padding: '6px 10px',
+        borderRadius: 10,
+        animation: 'ts-dbg-pop 200ms cubic-bezier(.2,.8,.2,1)',
+        transition: 'background 120ms ease, border-color 120ms ease',
+    },
+    elementChipTile: {
+        flex: '0 0 38px',
+        width: 38,
+        height: 38,
+        display: 'grid',
+        placeItems: 'center',
+        borderRadius: 6,
+        background: C.secondaryAction,
+        color: C.textMuted,
+    },
+    elementChipText: {
+        flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2,
+    },
+    elementChipTag: {
+        fontSize: 14,
+        lineHeight: '20px',
+        color: C.text,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+    },
+    elementChipMeta: {
+        fontSize: 12,
+        lineHeight: '18px',
+        color: C.textMuted,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+    },
+    // The remove badge at the top-right corner, shown on hover or focus.
+    elementChipRemove: {
+        position: 'absolute',
+        top: -5,
+        right: -5,
+        display: 'grid',
+        placeItems: 'center',
+        width: 14,
+        height: 14,
+        padding: 0,
+        margin: 0,
+        border: 'none',
+        borderRadius: '50%',
+        background: C.text,
+        color: C.surface,
+        cursor: 'pointer',
+        transition: 'opacity 120ms ease',
+    },
+    // Radiant TextInput: 32px, radius 6, Border/Bold.
+    sessionInput: {
+        width: '100%',
+        height: 32,
+        background: C.surface,
+        color: C.text,
+        border: `1px solid ${C.borderBold}`,
+        borderRadius: 6,
+        padding: '0 12px',
         fontFamily: MONO,
-        fontSize: 11,
+        fontSize: 12,
         outline: 'none',
     },
-    toolBtn: {
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 5,
-        background: C.surface,
-        color: C.textMuted,
-        // Longhand, not `border`: the hover and active tones below override
-        // borderColor alone, and React warns when a longhand overrides a
-        // shorthand between renders.
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: C.border,
-        borderRadius: 999,
-        padding: '5px 10px',
-        fontSize: 11.5,
-        fontWeight: 500,
-        cursor: 'pointer',
-        fontFamily: FONT,
-        whiteSpace: 'nowrap',
-        transition: 'background 130ms ease, border-color 130ms ease, color 130ms ease',
-    },
-    toolBtnActive: {
-        background: C.accent,
-        color: C.onAccent,
-        border: `1px solid ${C.accent}`,
-        borderRadius: 8,
-        padding: '5px 10px',
-        fontSize: 11.5,
-        cursor: 'pointer',
-        fontFamily: FONT,
-    },
-    /**
-     * Recording is the one state in the panel worth colouring red: it is
-     * ongoing, invisible on the page itself, and capturing data until stopped.
-     */
-    toolBtnRecording: {
-        background: C.danger,
-        color: '#ffffff',
-        border: `1px solid ${C.danger}`,
-        borderRadius: 8,
-        padding: '5px 10px',
-        fontSize: 11.5,
-        cursor: 'pointer',
-        fontFamily: FONT,
-    },
-    composer: {
+    // Dock: padding 0 16 16, gap 8. Transparent until a chat starts.
+    dock: {
+        position: 'relative',
+        zIndex: 2,
         flex: '0 0 auto',
-        margin: '0 12px 12px',
-        padding: 8,
         display: 'flex',
         flexDirection: 'column',
         gap: 8,
-        background: C.surfaceMuted,
+        padding: '0 16px 16px',
+    },
+    // Prompt box: radius 20, padding 12 16 16, gap 12, Raised, Border/Subtle.
+    prompt: {
+        position: 'relative',
+        margin: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 12,
+        padding: '12px 16px 16px',
+        background: C.raised,
         color: C.text,
         borderStyle: 'solid',
         borderWidth: 1,
         borderColor: C.border,
-        borderRadius: 14,
-        transition: 'border-color 140ms ease, box-shadow 140ms ease',
+        borderRadius: 20,
+        boxShadow: C.promptShadow,
+        transition: 'border-color 150ms ease, box-shadow 150ms ease',
     },
-    composerFocused: {
-        borderColor: C.accentBorder,
-        boxShadow: `0 0 0 3px ${C.accentSoft}`,
+    promptFocused: {
+        borderColor: C.brand,
+        boxShadow: C.promptFocusShadow,
     },
+    // An empty send wiggles the box instead of sending.
+    promptWiggle: { animation: 'ts-dbg-wiggle 360ms cubic-bezier(.36,.07,.19,.97)' },
     composerActions: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 8,
+        minHeight: 32,
     },
     composerTools: {
-        display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', minWidth: 0,
+        display: 'flex', alignItems: 'center', gap: 4, flexWrap: 'wrap', minWidth: 0,
     },
-    // Sits inside the composer, so the surface and focus ring belong to the
-    // parent and this contributes only the text area itself.
+    // Prompt text: 16/24, grows to 184px and then scrolls.
     textarea: {
+        display: 'block',
+        width: '100%',
+        minHeight: 24,
+        maxHeight: PROMPT_MAX_HEIGHT,
+        padding: 0,
+        margin: 0,
         resize: 'none',
+        overflowY: 'auto',
         background: 'transparent',
         color: C.text,
         border: 'none',
         borderRadius: 0,
-        padding: '4px 4px 0',
-        fontFamily: FONT,
-        fontSize: 13,
-        lineHeight: 1.5,
         outline: 'none',
-        minHeight: 38,
-        maxHeight: 132,
+        boxShadow: 'none',
+        fontFamily: FONT,
+        fontSize: 16,
+        lineHeight: '24px',
     },
-    sendBtn: {
+    // The 32px round tools, like the design's "+".
+    toolBtn: {
+        display: 'grid',
+        placeItems: 'center',
         width: 32,
         height: 32,
-        flexShrink: 0,
-        borderRadius: '50%',
-        background: C.accent,
-        color: C.onAccent,
+        padding: 0,
+        margin: 0,
         border: 'none',
+        borderRadius: 16,
+        color: C.text,
         cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        transition: 'background 130ms ease, opacity 130ms ease',
+        transition: 'background 120ms ease, color 120ms ease',
     },
-    sendBtnIdle: {
-        background: C.surfaceRaised,
-        color: C.textFaint,
-        cursor: 'not-allowed',
-    },
-    stopBtn: {
+    toolBtnActive: { background: C.ghostHover, color: C.brand },
+    /**
+     * Recording is the one state in the pane worth colouring red: it is
+     * ongoing, invisible on the page itself, and capturing data until stopped.
+     */
+    toolBtnDanger: { background: C.dangerSoft, color: C.danger },
+    // Send: 32px, radius 18, Background/Brand, white arrow.
+    sendBtn: {
+        display: 'grid',
+        placeItems: 'center',
         width: 32,
         height: 32,
         flexShrink: 0,
-        borderRadius: '50%',
-        background: C.surface,
-        color: C.text,
-        border: `1px solid ${C.borderStrong}`,
-        fontSize: 10,
+        padding: 0,
+        margin: 0,
+        border: 'none',
+        borderRadius: 18,
+        background: C.brand,
+        color: C.onBrand,
         cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        transition: 'background 120ms ease, opacity 120ms ease',
+    },
+    // At 50% until there is something to send.
+    sendBtnIdle: { opacity: 0.5 },
+    // Streaming: a 10px rounded stop square in the send disc.
+    stopGlyph: {
+        display: 'block', width: 10, height: 10, borderRadius: 2, background: 'currentColor',
+    },
+    disclaimer: {
+        margin: 0,
+        textAlign: 'center',
+        fontSize: 12,
+        lineHeight: '18px',
+        color: C.textMuted,
     },
 });

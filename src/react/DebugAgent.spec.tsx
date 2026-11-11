@@ -55,6 +55,25 @@ const openPanel = async () => act(async () => {
     fireEvent.click(screen.getByLabelText('Open EmbedX'));
 });
 
+/** The prompt box's text area. */
+const promptInput = () => screen.getByPlaceholderText(/Ask, learn, debug/);
+
+/** The docked pane itself. */
+const paneEl = () => document.querySelector('[data-ts-dbg-pane]') as HTMLElement;
+
+/** The reasoning block's header: "Working" while the turn runs, "Show work" after. */
+const workToggle = () => screen.getByRole('button', { name: /^(Working|Show work)/ });
+
+/** Starts a new chat from the title menu. */
+const startNewChat = async () => {
+    await act(async () => {
+        fireEvent.click(screen.getByRole('button', { name: /EmbedX/ }));
+    });
+    await act(async () => {
+        fireEvent.click(screen.getByRole('menuitem', { name: 'New chat' }));
+    });
+};
+
 /**
  * Sends a question and lets the already-queued SSE chunks drain, so the
  * assertions that follow see the mid-stream UI without tripping the repo's
@@ -62,8 +81,8 @@ const openPanel = async () => act(async () => {
  */
 const ask = async (text = 'why is my embed blank?') => {
     await act(async () => {
-        fireEvent.change(screen.getByPlaceholderText(/Ask about this embed/), { target: { value: text } });
-        fireEvent.submit(screen.getByPlaceholderText(/Ask about this embed/).closest('form')!);
+        fireEvent.change(promptInput(), { target: { value: text } });
+        fireEvent.submit(promptInput().closest('form')!);
     });
 };
 
@@ -187,7 +206,7 @@ describe('DebugAgent', () => {
         await waitFor(() => expect(screen.getByText('ts')).toBeInTheDocument());
         // Highlighting splits the snippet across spans, and the block is a
         // div (not `pre`) so host CSS cannot reach it -- assert on the panel.
-        expect(document.querySelector('div[style*="2147483647"]'))
+        expect(paneEl())
             .toHaveTextContent('init({ thoughtSpotHost: "x" });');
 
         // Highlighted: the string literal is its own coloured span.
@@ -242,12 +261,18 @@ describe('DebugAgent', () => {
         await openPanel();
         await ask();
 
-        // Collapsed: the friendly caption only — never the raw tool name.
+        // Live: the friendly caption only — never the raw tool name — under
+        // a "Working" header that is open while the turn runs.
         await waitFor(() => expect(screen.getByText('Reading the browser console…')).toBeInTheDocument());
         expect(screen.queryByText(/list_console_messages/)).not.toBeInTheDocument();
+        expect(workToggle()).toHaveTextContent('Working');
+        expect(workToggle()).toHaveAttribute('aria-expanded', 'true');
 
-        // Expanded: the real tool name and its arguments.
-        fireEvent.click(screen.getByRole('button', { expanded: false }));
+        // Folding and reopening it asks for the detail: the real tool name
+        // and its arguments.
+        fireEvent.click(workToggle());
+        expect(screen.queryByText('Reading the browser console…')).not.toBeInTheDocument();
+        fireEvent.click(workToggle());
         expect(screen.getByText('mcp__chrome-devtools__list_console_messages')).toBeInTheDocument();
         expect(screen.getByText('pageId: 1')).toBeInTheDocument();
         await finish();
@@ -268,11 +293,13 @@ describe('DebugAgent', () => {
         await ask();
         await finish();
 
-        // One card for both calls, captioned by count rather than by tool name.
-        await waitFor(() => expect(screen.getByText(/^2 steps/)).toBeInTheDocument());
-        expect(screen.getAllByRole('button', { expanded: false })).toHaveLength(1);
+        // One block for both calls, folded to "Show work" once the turn ends.
+        await waitFor(() => expect(workToggle()).toHaveTextContent('Show work'));
+        expect(workToggle()).toHaveAttribute('aria-expanded', 'false');
+        expect(screen.getAllByRole('button', { name: /^(Working|Show work)/ })).toHaveLength(1);
+        expect(screen.queryByText('Read the browser console')).not.toBeInTheDocument();
 
-        fireEvent.click(screen.getByRole('button', { expanded: false }));
+        fireEvent.click(workToggle());
         expect(screen.getByText('Read the browser console')).toBeInTheDocument();
         expect(screen.getByText('Read the developer docs')).toBeInTheDocument();
     });
@@ -325,10 +352,10 @@ describe('DebugAgent', () => {
         await first.finish();
         await waitFor(() => expect(screen.getByText('First answer')).toBeInTheDocument());
 
-        fireEvent.click(screen.getByLabelText('New conversation'));
+        await startNewChat();
         expect(screen.queryByText('First answer')).not.toBeInTheDocument();
         expect(screen.queryByText('first question')).not.toBeInTheDocument();
-        expect(screen.getByText('How can I help with this embed?')).toBeInTheDocument();
+        expect(screen.getByText('debug today?')).toBeInTheDocument();
 
         // The next turn must not carry the cleared turns to the agent.
         const second = mockAgentStream([{ type: 'text', content: 'Second answer' }]);
@@ -353,13 +380,11 @@ describe('DebugAgent', () => {
 
         // Reset while the stream is still open: aborting unwinds the turn, and
         // its own cleanup must not write back into the cleared conversation.
-        await act(async () => {
-            fireEvent.click(screen.getByLabelText('New conversation'));
-        });
+        await startNewChat();
 
         expect(screen.queryByText('Partial answer')).not.toBeInTheDocument();
         expect(screen.queryByText('Stopped.')).not.toBeInTheDocument();
-        expect(screen.getByText('How can I help with this embed?')).toBeInTheDocument();
+        expect(screen.getByText('debug today?')).toBeInTheDocument();
         // Reset also settles the panel, rather than leaving Stop showing.
         expect(screen.getByLabelText('Send')).toBeInTheDocument();
 
@@ -389,11 +414,10 @@ describe('DebugAgent', () => {
         await waitFor(() => expect(screen.getByLabelText('Send')).toBeInTheDocument());
         // No spinner left, and the card reports the turn as having a problem.
         expect(screen.queryByText('Reading the browser console…')).not.toBeInTheDocument();
-        fireEvent.click(screen.getByRole('button', { expanded: false }));
-        // The step no longer claims to be running, and the card reports a
-        // problem via its danger-coloured icon rather than a glyph.
-        const card = screen.getByRole('button', { expanded: true });
-        expect(card).toHaveTextContent('Hide steps');
+        // The block says a step failed, and opening it shows which.
+        expect(workToggle()).toHaveTextContent('a step failed');
+        fireEvent.click(workToggle());
+        expect(workToggle()).toHaveAttribute('aria-expanded', 'true');
         expect(screen.getByText('list_console_messages')).toBeInTheDocument();
     });
 
@@ -433,7 +457,7 @@ describe('DebugAgent', () => {
             // being typed about it.
             const form = document.querySelector('form')!;
             expect(form.contains(chip)).toBe(true);
-            const textarea = screen.getByPlaceholderText(/Ask about this embed/);
+            const textarea = promptInput();
             expect(chip.compareDocumentPosition(textarea) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
 
             // And it is not in the scrolling message list.
@@ -527,14 +551,17 @@ describe('DebugAgent', () => {
             await act(async () => {
                 fireEvent.click(screen.getByTitle(/Pick an element on the host page/));
             });
+            // An icon button: its label is the accessible name, and it reads
+            // as pressed while armed.
             const button = screen.getByTitle(/Pick an element on the host page/);
-            expect(button).toHaveTextContent('Picking…');
+            expect(button).toHaveAccessibleName('Picking…');
+            expect(button).toHaveAttribute('aria-pressed', 'true');
 
             await act(async () => {
                 fireEvent.keyDown(document, { key: 'Escape' });
             });
-            expect(button).toHaveTextContent('Pick');
-            expect(button).not.toHaveTextContent('Picking…');
+            expect(button).toHaveAccessibleName('Pick');
+            expect(button).not.toHaveAttribute('aria-pressed');
         });
 
         it('sends the pinned element as context, and drops it when removed', async () => {
@@ -563,54 +590,140 @@ describe('DebugAgent', () => {
         });
     });
 
-    describe('panel sizing', () => {
+    describe('pane layout and sizing', () => {
         afterEach(() => {
             try {
-                window.localStorage.removeItem('ts-debug-agent-panel-size');
+                window.localStorage.removeItem('ts-debug-agent-pane-width');
             } catch {
                 // Storage may be unavailable; nothing to undo.
             }
         });
 
-        const panelOf = () => document.querySelector('div[style*="position: fixed"][style*="flex-direction: column"]') as HTMLElement;
-
-        it('opens full height within its margins', async () => {
+        it('docks to the right edge at full height, 400px wide by default', async () => {
             render(<DebugAgent />);
             await openPanel();
-            // jsdom reports innerHeight 768, leaving 20px top and bottom.
-            expect(panelOf()).toHaveStyle({ height: `${window.innerHeight - 40}px` });
+            expect(paneEl()).toHaveStyle({
+                position: 'fixed', right: '0px', bottom: '0px', top: '0px', width: '400px',
+            });
         });
 
-        it('resizes by dragging the corner and remembers the result', async () => {
+        it('starts below a host header when given a topOffset', async () => {
+            render(<DebugAgent topOffset={60} />);
+            await openPanel();
+            expect(paneEl()).toHaveStyle({ top: '60px' });
+        });
+
+        it('resizes by dragging its inner edge and remembers the result', async () => {
             render(<DebugAgent />);
             await openPanel();
-            const before = panelOf().style.width;
 
             const handle = screen.getByTitle('Drag to resize');
             await act(async () => {
                 fireEvent.mouseDown(handle, { clientX: 500, clientY: 300 });
-                // Dragging left and up grows a bottom-right-pinned panel.
-                fireEvent.mouseMove(document, { clientX: 440, clientY: 260 });
+                // Dragging left grows a right-docked pane.
+                fireEvent.mouseMove(document, { clientX: 420, clientY: 300 });
                 fireEvent.mouseUp(document);
             });
 
-            expect(panelOf().style.width).not.toBe(before);
-            expect(panelOf()).toHaveStyle({ width: '480px' });
-            expect(JSON.parse(window.localStorage.getItem('ts-debug-agent-panel-size')!))
-                .toMatchObject({ width: 480 });
+            expect(paneEl()).toHaveStyle({ width: '480px' });
+            expect(window.localStorage.getItem('ts-debug-agent-pane-width')).toBe('480');
         });
 
-        it('never shrinks below its minimum, however far the corner is dragged', async () => {
+        it('keeps between 300 and 680px, however far the edge is dragged', async () => {
             render(<DebugAgent />);
             await openPanel();
 
             await act(async () => {
-                fireEvent.mouseDown(screen.getByTitle('Drag to resize'), { clientX: 100, clientY: 100 });
-                fireEvent.mouseMove(document, { clientX: 5000, clientY: 5000 });
+                fireEvent.mouseDown(screen.getByTitle('Drag to resize'), { clientX: 500 });
+                fireEvent.mouseMove(document, { clientX: 5000 });
                 fireEvent.mouseUp(document);
             });
+            expect(paneEl()).toHaveStyle({ width: '300px' });
 
-            expect(panelOf()).toHaveStyle({ width: '320px', height: '320px' });
+            await act(async () => {
+                fireEvent.mouseDown(screen.getByTitle('Drag to resize'), { clientX: 500 });
+                fireEvent.mouseMove(document, { clientX: -5000 });
+                fireEvent.mouseUp(document);
+            });
+            expect(paneEl()).toHaveStyle({ width: '680px' });
+        });
+
+        it('collapses with », keeping the conversation for when it reopens', async () => {
+            const { fetchMock, finish } = mockAgentStream([{ type: 'text', content: 'Kept answer' }]);
+            global.fetch = fetchMock as any;
+            render(<DebugAgent />);
+            await openPanel();
+            await ask();
+            await finish();
+
+            await act(async () => {
+                fireEvent.click(screen.getByLabelText('Collapse'));
+            });
+            // It slides out first, then unmounts.
+            expect(paneEl()).toHaveStyle({ transform: 'translateX(100%)' });
+            await waitFor(() => expect(paneEl()).toBeNull());
+
+            await openPanel();
+            expect(screen.getByText('Kept answer')).toBeInTheDocument();
+        });
+    });
+
+    describe('operator pane behaviour', () => {
+        const wash = () => document.querySelector('.radiance-local') as HTMLElement;
+
+        it('shakes the prompt instead of sending when it is empty', async () => {
+            const fetchMock = jest.fn();
+            global.fetch = fetchMock as any;
+            render(<DebugAgent />);
+            await openPanel();
+
+            const form = promptInput().closest('form')!;
+            await act(async () => {
+                fireEvent.submit(form);
+            });
+            expect(fetchMock).not.toHaveBeenCalled();
+            expect(form.style.animation).toContain('ts-dbg-wiggle');
+
+            await act(async () => {
+                fireEvent.animationEnd(form);
+            });
+            expect(form.style.animation).toBe('');
+        });
+
+        it('turns the background up while working and lets it go once the answer settles', async () => {
+            const { fetchMock, finish } = mockAgentStream([{ type: 'text', content: 'Done.' }]);
+            global.fetch = fetchMock as any;
+            render(<DebugAgent />);
+            await openPanel();
+
+            expect(wash().dataset.radianceVariant).toBe('dynamic-subtle');
+            await ask();
+            await waitFor(() => expect(wash().dataset.radianceVariant).toBe('dynamic-prominent'));
+
+            await finish();
+            await waitFor(() => expect(wash().dataset.radianceVariant).toBe('dynamic-subtle'));
+            // 530ms after the answer, the wash lifts away.
+            await waitFor(() => expect(wash().parentElement).toHaveStyle({ opacity: '0' }));
+
+            // A new chat brings it back.
+            await startNewChat();
+            expect(wash().parentElement).not.toHaveStyle({ opacity: '0' });
+        });
+
+        it('folds code longer than eight lines behind a toggle', async () => {
+            const code = Array.from({ length: 12 }, (_, i) => `const v${i} = ${i};`).join('\n');
+            const { fetchMock, finish } = mockAgentStream([{ type: 'text', content: `\`\`\`js\n${code}\n\`\`\`` }]);
+            global.fetch = fetchMock as any;
+            render(<DebugAgent />);
+            await openPanel();
+            await ask();
+            await finish();
+
+            expect(screen.getByText('· 12 lines', { exact: false })).toBeInTheDocument();
+            expect(codeScroller().style.maxHeight).toBe('192px');
+            fireEvent.click(screen.getByLabelText('Expand code'));
+            expect(codeScroller().style.maxHeight).toBe('');
+            expect(screen.getByLabelText('Collapse code')).toBeInTheDocument();
         });
     });
 
@@ -631,15 +744,16 @@ describe('DebugAgent', () => {
             });
         };
 
-        const panel = () => document.querySelector('div[style*="2147483647"]') as HTMLElement;
+        const panel = () => paneEl();
 
         it('presents itself as EmbedX with its tagline', async () => {
             render(<DebugAgent />);
             expect(screen.getByLabelText('Open EmbedX')).toBeInTheDocument();
             await openPanel();
             expect(screen.getByText('EmbedX')).toBeInTheDocument();
-            expect(screen.getByText('Embed assistant')).toBeInTheDocument();
+            // The state is announced to screen readers, not printed.
             expect(screen.getByText('Ready')).toBeInTheDocument();
+            expect(screen.getByText('EmbedX responses should be reviewed.')).toBeInTheDocument();
         });
 
         it('uses the light surface when the OS prefers light', async () => {
@@ -647,16 +761,16 @@ describe('DebugAgent', () => {
             render(<DebugAgent />);
             await openPanel();
             expect(panel().style.background).toBe('rgb(255, 255, 255)');
-            expect(panel().style.color).toBe('rgb(15, 23, 42)');
+            expect(panel().style.color).toBe('rgb(29, 35, 47)');
         });
 
         it('uses the dark surface when the OS prefers dark', async () => {
             setColorScheme(true);
             render(<DebugAgent />);
             await openPanel();
-            // Dark slate panel with light text, rather than the light default.
-            expect(panel().style.background).toBe('rgb(22, 27, 34)');
-            expect(panel().style.color).toBe('rgb(230, 237, 243)');
+            // The Operator pane's dark surface with light text.
+            expect(panel().style.background).toBe('rgb(27, 30, 36)');
+            expect(panel().style.color).toBe('rgb(231, 234, 238)');
         });
 
         it('still renders when matchMedia is unavailable', async () => {
@@ -673,24 +787,32 @@ describe('DebugAgent', () => {
     });
 
     describe('starter prompts', () => {
-        it('offers openers on the empty state and sends the one clicked', async () => {
+        const starter = (text: RegExp) => screen.getByRole('button', { name: text });
+
+        it('fills the prompt with the opener clicked, without sending it', async () => {
             const { fetchMock, finish } = mockAgentStream([{ type: 'text', content: 'Looking…' }]);
             global.fetch = fetchMock as any;
 
             render(<DebugAgent />);
             await openPanel();
 
-            const starter = screen.getByText('Diagnose this embed');
             await act(async () => {
-                fireEvent.click(starter);
+                fireEvent.click(starter(/Check the console and network for errors/));
+            });
+            expect(fetchMock).not.toHaveBeenCalled();
+            expect(promptInput()).toHaveValue(
+                'Check the console and network for errors in this embed and tell me what is wrong.',
+            );
+
+            await act(async () => {
+                fireEvent.submit(promptInput().closest('form')!);
             });
             await finish();
 
-            // The full question goes to the agent, not the short label.
             const body = JSON.parse(fetchMock.mock.calls[0][1].body);
             expect(body.messages[0].content).toContain('Check the console and network for errors');
             // And the openers give way to the conversation.
-            expect(screen.queryByText('Diagnose this embed')).not.toBeInTheDocument();
+            expect(screen.queryByRole('button', { name: /Check the console and network/ })).not.toBeInTheDocument();
         });
 
         it('attaches any picked element to a starter prompt too', async () => {
@@ -713,7 +835,10 @@ describe('DebugAgent', () => {
                 fireEvent.mouseDown(document.body, { clientX: 5, clientY: 5 });
             });
             await act(async () => {
-                fireEvent.click(screen.getByText('Match my app theme'));
+                fireEvent.click(starter(/match my host page theme/));
+            });
+            await act(async () => {
+                fireEvent.submit(promptInput().closest('form')!);
             });
             await finish();
 
@@ -741,7 +866,7 @@ describe('DebugAgent', () => {
             await finish();
 
             await waitFor(() => expect(screen.getByText('ts')).toBeInTheDocument());
-            const panel = document.querySelector('div[style*="2147483647"]')!;
+            const panel = paneEl();
             expect(panel.querySelectorAll('pre')).toHaveLength(0);
             expect(panel.querySelectorAll('code')).toHaveLength(0);
             // The code is still there, just in tags host CSS does not target.
@@ -814,14 +939,14 @@ describe('DebugAgent', () => {
             await replyWith('Avoid [click me](javascript:alert(1)) here.');
 
             expect(screen.queryByRole('link')).not.toBeInTheDocument();
-            const panel = document.querySelector('div[style*="2147483647"]')!;
+            const panel = paneEl();
             expect(panel).toHaveTextContent('[click me](javascript:alert(1))');
         });
 
         it('draws a thematic break instead of printing dashes', async () => {
             await replyWith('Answer.\n\n---\n\nDisclaimer.');
 
-            const panel = document.querySelector('div[style*="2147483647"]')!;
+            const panel = paneEl();
             expect(panel).toHaveTextContent('Answer.');
             expect(panel).toHaveTextContent('Disclaimer.');
             expect(panel).not.toHaveTextContent('---');
@@ -841,14 +966,14 @@ describe('DebugAgent', () => {
         await ask();
         await finish();
 
-        // After the stream, the card must still offer a named way into the
+        // After the stream, the block must still offer a named way into the
         // steps — a bare chevron did not read as clickable.
-        const toggle = await screen.findByRole('button', { expanded: false });
-        expect(toggle).toHaveTextContent('Show steps');
+        await waitFor(() => expect(workToggle()).toHaveTextContent('Show work'));
+        expect(workToggle()).toHaveAttribute('aria-expanded', 'false');
         expect(screen.getByText('All clear.')).toBeInTheDocument();
 
-        fireEvent.click(toggle);
-        expect(screen.getByRole('button', { expanded: true })).toHaveTextContent('Hide steps');
+        fireEvent.click(workToggle());
+        expect(workToggle()).toHaveAttribute('aria-expanded', 'true');
         expect(screen.getByText('list_console_messages')).toBeInTheDocument();
     });
 
