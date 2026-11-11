@@ -52,7 +52,7 @@ function mockAgentStream(events: Array<Record<string, unknown>>) {
 }
 
 const openPanel = async () => act(async () => {
-    fireEvent.click(screen.getByLabelText('Open EmbedX'));
+    fireEvent.click(screen.getByLabelText('Open ThoughtSpot Operator'));
 });
 
 /** The prompt box's text area. */
@@ -67,7 +67,7 @@ const workToggle = () => screen.getByRole('button', { name: /^(Working|Show work
 /** Starts a new chat from the title menu. */
 const startNewChat = async () => {
     await act(async () => {
-        fireEvent.click(screen.getByRole('button', { name: /EmbedX/ }));
+        fireEvent.click(screen.getByRole('button', { name: /ThoughtSpot Operator/ }));
     });
     await act(async () => {
         fireEvent.click(screen.getByRole('menuitem', { name: 'New chat' }));
@@ -746,14 +746,14 @@ describe('DebugAgent', () => {
 
         const panel = () => paneEl();
 
-        it('presents itself as EmbedX with its tagline', async () => {
+        it('presents itself as ThoughtSpot Operator with its tagline', async () => {
             render(<DebugAgent />);
-            expect(screen.getByLabelText('Open EmbedX')).toBeInTheDocument();
+            expect(screen.getByLabelText('Open ThoughtSpot Operator')).toBeInTheDocument();
             await openPanel();
-            expect(screen.getByText('EmbedX')).toBeInTheDocument();
+            expect(screen.getByText('ThoughtSpot Operator')).toBeInTheDocument();
             // The state is announced to screen readers, not printed.
             expect(screen.getByText('Ready')).toBeInTheDocument();
-            expect(screen.getByText('EmbedX responses should be reviewed.')).toBeInTheDocument();
+            expect(screen.getByText('ThoughtSpot Operator responses should be reviewed.')).toBeInTheDocument();
         });
 
         it('uses the light surface when the OS prefers light', async () => {
@@ -782,7 +782,7 @@ describe('DebugAgent', () => {
             });
             render(<DebugAgent />);
             await openPanel();
-            expect(screen.getByText('EmbedX')).toBeInTheDocument();
+            expect(screen.getByText('ThoughtSpot Operator')).toBeInTheDocument();
         });
     });
 

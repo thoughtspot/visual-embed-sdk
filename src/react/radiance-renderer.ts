@@ -4,7 +4,7 @@
  * The Radiance glow renderer, the same one the ThoughtSpot Home pages use
  * (radiance-spotter-home, by Tarun Bhandari). The body below is the shipped
  * `radiance-renderer.js`, verbatim apart from indentation, wrapped so it runs
- * only when the EmbedX pane first opens rather than at import time.
+ * only when the ThoughtSpot Operator pane first opens rather than at import time.
  *
  * It draws into every `.radiance-local` element on the page and is steered by
  * that element's `data-radiance-*` attributes; call

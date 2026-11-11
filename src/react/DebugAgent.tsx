@@ -2150,7 +2150,7 @@ const FONT = '"Geist", "Helvetica Neue", Inter, Helvetica, Arial, sans-serif';
 const MONO = '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace';
 
 /** The pane's display name, shown in the header and the launcher label. */
-const PRODUCT_NAME = 'EmbedX';
+const PRODUCT_NAME = 'ThoughtSpot Operator';
 const PROMPT_PLACEHOLDER = 'Ask, learn, debug…';
 
 /**
