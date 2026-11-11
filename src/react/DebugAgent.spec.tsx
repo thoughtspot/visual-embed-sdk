@@ -773,6 +773,55 @@ describe('DebugAgent', () => {
             expect(panel().style.color).toBe('rgb(231, 234, 238)');
         });
 
+        describe('when the host page declares a color-scheme', () => {
+            let style: HTMLStyleElement;
+            beforeEach(() => {
+                // Mirrors a host with its own toggle: data-theme drives color-scheme.
+                style = document.createElement('style');
+                style.textContent = ':root { color-scheme: light; } :root[data-theme="dark"] { color-scheme: dark; }';
+                document.head.appendChild(style);
+            });
+            afterEach(() => {
+                style.remove();
+                delete document.documentElement.dataset.theme;
+            });
+
+            it("follows the host's dark theme even when the OS prefers light", async () => {
+                setColorScheme(false);
+                document.documentElement.dataset.theme = 'dark';
+                render(<DebugAgent />);
+                await openPanel();
+                expect(panel().style.background).toBe('rgb(27, 30, 36)');
+            });
+
+            it("follows the host's light theme even when the OS prefers dark", async () => {
+                setColorScheme(true);
+                render(<DebugAgent />);
+                await openPanel();
+                expect(panel().style.background).toBe('rgb(255, 255, 255)');
+            });
+
+            it('switches live when the host toggles its theme', async () => {
+                setColorScheme(false);
+                render(<DebugAgent />);
+                await openPanel();
+                expect(panel().style.background).toBe('rgb(255, 255, 255)');
+
+                await act(async () => {
+                    document.documentElement.dataset.theme = 'dark';
+                    // Let the MutationObserver callback run.
+                    await Promise.resolve();
+                });
+                expect(panel().style.background).toBe('rgb(27, 30, 36)');
+
+                await act(async () => {
+                    delete document.documentElement.dataset.theme;
+                    await Promise.resolve();
+                });
+                expect(panel().style.background).toBe('rgb(255, 255, 255)');
+            });
+        });
+
         it('still renders when matchMedia is unavailable', async () => {
             // Some embedded webviews lack it; the panel must not crash.
             Object.defineProperty(window, 'matchMedia', {

@@ -620,7 +620,7 @@ function clampWidth(width: number): number {
 
 /**
  * Whether the OS asks for less motion. The pane then skips its slide, the
- * prompt's wiggle and the background drift. Guarded like `usePrefersDark`.
+ * prompt's wiggle and the background drift. Guarded like `osPrefersDark`.
  */
 function prefersReducedMotion(): boolean {
     try {
@@ -738,7 +738,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     topOffset = 0,
 }) => {
     const enabled = !!getEmbedConfig()?.enableDebugAgent;
-    const prefersDark = usePrefersDark();
+    const hostDark = useHostDark();
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState<TimelineItem[]>([]);
     const [input, setInput] = useState('');
@@ -844,7 +844,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
     // freshly mounted surface straight away.
     useEffect(() => {
         (window as any).RadianceLanguageRenderer?.refresh?.();
-    }, [open, wash, prefersDark]);
+    }, [open, wash, hostDark]);
 
     // The prompt grows with its text up to 184px, then scrolls.
     useEffect(() => {
@@ -993,9 +993,9 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
 
     // Before the early return, so the hook order never changes with `enabled`.
     const theme = React.useMemo<Theme>(() => {
-        const c = prefersDark ? DARK : LIGHT;
+        const c = hostDark ? DARK : LIGHT;
         return { c, styles: makeStyles(c) };
-    }, [prefersDark]);
+    }, [hostDark]);
     const { c, styles } = theme;
 
     if (!enabled) return null;
@@ -1524,14 +1524,14 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                     >
                         <div
                             className="radiance-local"
-                            data-radiance-appearance={prefersDark ? 'dark' : 'light'}
+                            data-radiance-appearance={hostDark ? 'dark' : 'light'}
                             data-radiance-layout="top-wash"
                             data-radiance-variant={prominentWash ? 'dynamic-prominent' : 'dynamic-subtle'}
                             data-radiance-intensity={prominentWash ? 'prominent' : 'subtle'}
                             data-radiance-dark-glow={prominentWash ? 'prominent' : 'subtle'}
                             data-radiance-speed={prominentWash
-                                ? (prefersDark ? '1.58' : '1.72')
-                                : (prefersDark ? '1.72' : '1.86')}
+                                ? (hostDark ? '1.58' : '1.72')
+                                : (hostDark ? '1.72' : '1.86')}
                             style={styles.radianceLocal}
                         />
                     </div>
@@ -2309,35 +2309,95 @@ const DARK: Palette = {
 };
 
 /**
- * Tracks the OS colour-scheme preference, so the panel suits a light and a
- * dark host without the host having to configure anything. `matchMedia` is
- * missing in some embedded webviews and throws under some test setups, hence
- * the guards; light is the fallback.
+ * The scheme the host page declares through CSS `color-scheme`, or null when
+ * it declares none (`normal`) or both (`light dark`) and so leaves the choice
+ * to the OS. Read from the computed style because hosts set it in many ways —
+ * a `data-theme` or class toggle, a media query, an inline style. `<body>` is
+ * checked first since it can override `<html>`; `<html>` is then checked
+ * directly rather than trusting inheritance to have carried it to `<body>`.
  */
-function usePrefersDark(): boolean {
-    const [dark, setDark] = useState(() => {
-        try {
-            return window.matchMedia('(prefers-color-scheme: dark)').matches;
-        } catch {
-            return false;
-        }
-    });
+function declaredScheme(): 'light' | 'dark' | null {
+    const candidates = [document.body, document.documentElement].filter(Boolean);
+    for (const el of candidates) {
+        const scheme = schemeOf(el);
+        if (scheme) return scheme;
+    }
+    return null;
+}
+
+function schemeOf(el: Element): 'light' | 'dark' | null {
+    let value: string;
+    try {
+        value = window.getComputedStyle(el).getPropertyValue('color-scheme');
+    } catch {
+        return null;
+    }
+    const tokens = value.trim().split(/\s+/);
+    const light = tokens.includes('light');
+    const dark = tokens.includes('dark');
+    if (dark === light) return null;
+    return dark ? 'dark' : 'light';
+}
+
+/**
+ * Whether the OS asks for a dark scheme. `matchMedia` is missing in some
+ * embedded webviews and throws under some test setups, hence the guard;
+ * light is the fallback.
+ */
+function osPrefersDark(): boolean {
+    try {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } catch {
+        return false;
+    }
+}
+
+function hostIsDark(): boolean {
+    const scheme = declaredScheme();
+    return scheme ? scheme === 'dark' : osPrefersDark();
+}
+
+/**
+ * Matches the pane to the host page's theme without the host configuring
+ * anything: the page's declared `color-scheme` wins, so an app with its own
+ * light/dark toggle gets a pane that follows the toggle rather than the OS.
+ * Pages that declare no scheme fall back to the OS preference.
+ *
+ * Re-checked when `<html>` or `<body>` attributes change (where theme toggles
+ * live) and when the OS preference changes (which can flip a media-query-driven
+ * `color-scheme`).
+ */
+function useHostDark(): boolean {
+    const [dark, setDark] = useState(hostIsDark);
 
     useEffect(() => {
-        let mq: MediaQueryList;
+        const update = () => setDark(hostIsDark());
+        const cleanups: Array<() => void> = [];
+
         try {
-            mq = window.matchMedia('(prefers-color-scheme: dark)');
+            const mq = window.matchMedia('(prefers-color-scheme: dark)');
+            // Safari < 14 only has the deprecated addListener.
+            if (mq.addEventListener) {
+                mq.addEventListener('change', update);
+                cleanups.push(() => mq.removeEventListener('change', update));
+            } else {
+                mq.addListener(update);
+                cleanups.push(() => mq.removeListener(update));
+            }
         } catch {
-            return undefined;
+            // No matchMedia: the declared scheme alone decides.
         }
-        const onChange = (e: MediaQueryListEvent) => setDark(e.matches);
-        // Safari < 14 only has the deprecated addListener.
-        if (mq.addEventListener) mq.addEventListener('change', onChange);
-        else mq.addListener(onChange);
-        return () => {
-            if (mq.removeEventListener) mq.removeEventListener('change', onChange);
-            else mq.removeListener(onChange);
-        };
+
+        if (typeof MutationObserver !== 'undefined') {
+            const observer = new MutationObserver(update);
+            observer.observe(document.documentElement, { attributes: true });
+            if (document.body) observer.observe(document.body, { attributes: true });
+            cleanups.push(() => observer.disconnect());
+        }
+
+        // The theme may have changed between the first render and this effect.
+        update();
+        return () => cleanups.forEach((cleanup) => cleanup());
     }, []);
 
     return dark;
