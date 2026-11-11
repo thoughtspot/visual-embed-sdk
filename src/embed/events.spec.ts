@@ -123,14 +123,22 @@ describe('test communication between host app and ThoughtSpot', () => {
         });
     });
 
-    // TODO: enable test once we are actually able to load stuff in the iframe
-    xtest('should trigger iframe load event', async () => {
+    test('should trigger iframe load event', async () => {
         const onLoadSpy = jest.fn();
 
         const searchEmbed = new SearchEmbed(getRootEl(), {});
-        searchEmbed.on(EmbedEvent.Load, onLoadSpy).render();
+        await searchEmbed.on(EmbedEvent.Load, onLoadSpy).render();
+        // jsdom does not fetch iframe content, so fire the load event a browser
+        // would fire once the ThoughtSpot app has loaded.
+        getIFrameEl().dispatchEvent(new Event('load'));
         await executeAfterWait(() => {
-            expect(onLoadSpy).toHaveBeenCalled();
+            expect(onLoadSpy).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    type: EmbedEvent.Load,
+                    data: { timestamp: expect.any(Number) },
+                }),
+                expect.anything(),
+            );
         }, EVENT_WAIT_TIME);
     });
 
