@@ -1163,6 +1163,7 @@ export class AppEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled,
             isScopedLiveboardFilteringEnabled,
             isPersonalizedViewsSharingEnabled,
+            isProgrammaticFilterParameterUpdateEnabled,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
             showSpotterLimitations,
@@ -1378,6 +1379,12 @@ export class AppEmbed extends V1Embed {
             params[
                 Param.IsPersonalizedViewsSharingEnabled
             ] = isPersonalizedViewsSharingEnabled;
+        }
+
+        if (isProgrammaticFilterParameterUpdateEnabled !== undefined) {
+            params[
+                Param.IsProgrammaticFilterParameterUpdateEnabled
+            ] = isProgrammaticFilterParameterUpdateEnabled;
         }
 
         if (isThisPeriodInDateFiltersEnabled !== undefined) {

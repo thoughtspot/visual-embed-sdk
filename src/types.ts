@@ -2336,6 +2336,37 @@ export interface LiveboardAppEmbedViewConfig {
      */
     isPersonalizedViewsSharingEnabled?: boolean;
     /**
+     * This flag is used to enable or disable the Liveboard Filter and Parameter
+     * Overrides feature in the embed. This feature applies the filter and
+     * Parameter overrides set in {@link LiveboardViewConfig.liveboardOverride}
+     * (`LiveboardEmbed`) or {@link AppViewConfig.liveboardOverrides} (`AppEmbed`)
+     * when a Liveboard loads. An override changes the value of a filter or
+     * Parameter that already exists on the Liveboard; it does not add one.
+     *
+     * Setting this flag to `true` does not apply overrides when the feature is
+     * turned off on your ThoughtSpot instance. If this flag is not set, the
+     * embed follows the setting on your ThoughtSpot instance.
+     *
+     * This flag does not affect runtime filters and Parameters set through
+     * `runtimeFilters`, `runtimeParameters`, or {@link HostEvent.UpdateRuntimeFilters}.
+     *
+     * For more information, see
+     * link:https://developers.thoughtspot.com/docs/liveboard-filter-and-parameter-overrides[Liveboard
+     * Filter and Parameter Overrides].
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isProgrammaticFilterParameterUpdateEnabled: true,
+     * })
+     * ```
+     */
+    isProgrammaticFilterParameterUpdateEnabled?: boolean;
+    /**
      * This flag is used to enable or disable the link parameters in liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -7538,6 +7569,7 @@ export enum Param {
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isScopedLiveboardFilteringEnabled = 'isScopedLiveboardFilteringEnabled',
     IsPersonalizedViewsSharingEnabled = 'isPersonalizedViewsSharingEnabled',
+    IsProgrammaticFilterParameterUpdateEnabled = 'isProgrammaticFilterParameterUpdateEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
