@@ -2350,6 +2350,10 @@ export interface LiveboardAppEmbedViewConfig {
      * This flag does not affect runtime filters and Parameters set through
      * `runtimeFilters`, `runtimeParameters`, or {@link HostEvent.UpdateRuntimeFilters}.
      *
+     * For more information, see
+     * link:https://developers.thoughtspot.com/docs/liveboard-filter-and-parameter-overrides[Liveboard
+     * Filter and Parameter Overrides].
+     *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
      * @version SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl
      * @example
