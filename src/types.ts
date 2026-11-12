@@ -2343,10 +2343,9 @@ export interface LiveboardAppEmbedViewConfig {
      * when a Liveboard loads. An override changes the value of a filter or
      * Parameter that already exists on the Liveboard; it does not add one.
      *
-     * This is an Early Access feature that an administrator must also enable on
-     * the ThoughtSpot instance. Setting this flag to `true` does not apply
-     * overrides when the feature is off on the instance. If this flag is not
-     * set, the embed follows the setting on your ThoughtSpot instance.
+     * Setting this flag to `true` does not apply overrides when the feature is
+     * turned off on your ThoughtSpot instance. If this flag is not set, the
+     * embed follows the setting on your ThoughtSpot instance.
      *
      * This flag does not affect runtime filters and Parameters set through
      * `runtimeFilters`, `runtimeParameters`, or {@link HostEvent.UpdateRuntimeFilters}.
