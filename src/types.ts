@@ -2336,8 +2336,8 @@ export interface LiveboardAppEmbedViewConfig {
      */
     isPersonalizedViewsSharingEnabled?: boolean;
     /**
-     * This flag is used to enable or disable the Programmatic Liveboard Filter and
-     * Parameter Update feature in the embed. This feature applies the filter and
+     * This flag is used to enable or disable the Liveboard Filter and Parameter
+     * Overrides feature in the embed. This feature applies the filter and
      * Parameter overrides set in {@link LiveboardViewConfig.liveboardOverride}
      * (`LiveboardEmbed`) or {@link AppViewConfig.liveboardOverrides} (`AppEmbed`)
      * when a Liveboard loads. An override changes the value of a filter or
