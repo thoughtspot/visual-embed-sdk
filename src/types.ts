@@ -7570,6 +7570,7 @@ export enum Param {
     IsDarkMode = 'isDarkMode',
     RadiantThemeEnabled = 'radiantThemeEnabled',
     SpotterExperienceVersion = 'spotterExperienceVersion',
+    EnableDataApps = 'enableDataApps',
 }
 
 /**
@@ -10574,6 +10575,9 @@ export enum EmbedErrorCodes {
 
     /** Required Liveboard ID is missing from configuration */
     LIVEBOARD_ID_MISSING = 'LIVEBOARD_ID_MISSING',
+
+    /** Required App ID (`dataAppId`) is missing from configuration */
+    DATA_APP_ID_MISSING = 'DATA_APP_ID_MISSING',
 
     /** Conflicting action configuration detected */
     CONFLICTING_ACTIONS_CONFIG = 'CONFLICTING_ACTIONS_CONFIG',
