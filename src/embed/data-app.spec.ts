@@ -5,7 +5,9 @@ import {
     AuthType,
     EmbedErrorCodes,
     EmbedErrorSeverity,
+    EmbedEvent,
     ErrorDetailsTypes,
+    RuntimeFilterOp,
 } from '../types';
 import { logger } from '../utils/logger';
 import {
@@ -15,6 +17,9 @@ import {
     getRootEl,
     defaultParamsWithoutHiddenActions as defaultParams,
     expectUrlMatchesWithParams,
+    executeAfterWait,
+    mockMessageChannel,
+    postMessageToParent,
 } from '../test/test-utils';
 import { ERROR_MESSAGE } from '../errors';
 
@@ -61,6 +66,48 @@ describe('DataAppEmbed', () => {
         });
         await embed.render();
         expect(getIFrameSrc()).toContain('enableDataApps=true');
+    });
+
+    it.each([true, false])('sends hideDataAppHeader=%s on the URL', async (hideDataAppHeader) => {
+        const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1', hideDataAppHeader });
+        await embed.render();
+        expect(getIFrameSrc()).toContain(`hideDataAppHeader=${hideDataAppHeader}`);
+    });
+
+    it('leaves hideDataAppHeader off the URL when it is not set', async () => {
+        const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+        await embed.render();
+        expect(getIFrameSrc()).not.toContain('hideDataAppHeader');
+    });
+
+    // The app reads them from the init payload; the URL never carries them.
+    it('sends runtime filters and parameters in APP_INIT, not in the URL', async () => {
+        const embed = new DataAppEmbed(getRootEl(), {
+            dataAppId: 'app-1',
+            runtimeFilters: [{ columnName: 'Region', operator: RuntimeFilterOp.EQ, values: ['West'] }],
+            runtimeParameters: [{ name: 'Target', value: 1000 }],
+        });
+        mockMessageChannel();
+        embed.render();
+        const mockPort: any = { postMessage: jest.fn() };
+        await executeAfterWait(() => {
+            postMessageToParent(
+                getIFrameEl().contentWindow,
+                { type: EmbedEvent.APP_INIT, data: {} },
+                mockPort,
+            );
+        });
+        await executeAfterWait(() => {
+            expect(mockPort.postMessage).toHaveBeenCalledWith({
+                type: EmbedEvent.APP_INIT,
+                data: expect.objectContaining({
+                    runtimeFilterParams: 'col1=Region&op1=EQ&val1=West',
+                    runtimeParameterParams: 'param1=Target&paramVal1=1000',
+                }),
+            });
+        });
+        expect(getIFrameSrc()).not.toContain('col1=');
+        expect(getIFrameSrc()).not.toContain('param1=');
     });
 
     it('URL-encodes the App id in the path', async () => {

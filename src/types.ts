@@ -4632,6 +4632,72 @@ export enum EmbedEvent {
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
     RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
+    /**
+     * Emitted when the user clicks inside a tile of an embedded App.
+     * The tile's own click behavior, such as a cross-filter or a drill,
+     * runs as usual.
+     *
+     * Only tiles that the App wraps in a tile component send tile events;
+     * Apps built before tile support send none.
+     *
+     * Payload: {@link DataAppTilePayload}.
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * dataAppEmbed.on(EmbedEvent.TileClick, (payload) => {
+     *     console.log('Tile clicked', payload.tileId);
+     * })
+     * ```
+     */
+    TileClick = 'TileClick',
+    /**
+     * Emitted when a tile of an embedded App has its data and paints it.
+     * Sent once per tile per load, and again when a refresh, a filter
+     * change or an input change re-runs the tile.
+     *
+     * Payload: {@link DataAppTilePayload}.
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * dataAppEmbed.on(EmbedEvent.TileLoad, (payload) => {
+     *     console.log('Tile loaded', payload.tileId);
+     * })
+     * ```
+     */
+    TileLoad = 'TileLoad',
+    /**
+     * Emitted when the data of a tile in an embedded App fails to load.
+     * Sent once per tile: a failed step that feeds three tiles sends three
+     * events.
+     *
+     * Payload: {@link DataAppTileErrorPayload}.
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * dataAppEmbed.on(EmbedEvent.TileError, (payload) => {
+     *     console.warn('Tile failed', payload.tileId, payload.errorCode);
+     * })
+     * ```
+     */
+    TileError = 'TileError',
+    /**
+     * Emitted when the user switches an embedded App between light and
+     * dark with the App's own color scheme button. Not sent after
+     * {@link HostEvent.UpdateTheme}, so a host that mirrors this event back
+     * does not loop. When the user picks the system scheme, `isDarkMode`
+     * is the operating system's current scheme. Apps with a single color
+     * scheme have no such button and never send it.
+     *
+     * Payload: {@link DarkmodePayload}.
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * dataAppEmbed.on(EmbedEvent.Darkmode, ({ isDarkMode }) => {
+     *     document.body.classList.toggle('dark', isDarkMode);
+     * })
+     * ```
+     */
+    Darkmode = 'Darkmode',
 }
 
 /**
@@ -4890,9 +4956,10 @@ export enum HostEvent {
      * attributes passed with this event are appended to the existing runtime
      * filters applied on a Liveboard.
      *
-     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`
-     * and `AppEmbed` only. In full application embedding, this event updates
-     * the runtime filters applied on the Liveboard and saved Answer objects.
+     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`,
+     * `AppEmbed` and `DataAppEmbed` only. In full application embedding, this event
+     * updates the runtime filters applied on the Liveboard and saved Answer objects.
+     * In `DataAppEmbed`, the App re-runs the tiles the filters affect.
      *
      * Payload: {@link RuntimeFilter}[].
      * @param - Array of {@link RuntimeFilter} objects. Each item includes:
@@ -6600,7 +6667,9 @@ export enum HostEvent {
     ResetLiveboardPersonalizedView = ResetLiveboardPersonalisedView,
     /**
      * Triggers an action to update Parameter values on embedded
-     * Answers, Liveboard, and Spotter answer in Edit mode.
+     * Answers, Liveboard, and Spotter answer in Edit mode. In `DataAppEmbed`,
+     * the App re-runs the tiles the Parameters affect; `applicability` does
+     * not apply there.
      * Payload: {@link RuntimeParameter}[].
      * @param - Includes the following keys for each item:
      * - `name`: Name of the parameter.
@@ -7332,6 +7401,10 @@ export enum HostEvent {
      * The event resolves with the applied value, such as `{ isDarkMode: true }`.
      * When dark appearance is not available in the embed, the embed does not
      * change and the event rejects with an error message instead.
+     *
+     * In `DataAppEmbed`, the App switches along with the ThoughtSpot
+     * header. An App with a single color scheme cannot switch, so the
+     * event rejects and nothing changes.
      * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
      * @param - `isDarkMode` - `true` for dark appearance, `false` for the
      * default appearance.
@@ -7355,6 +7428,41 @@ export enum HostEvent {
      * ```
      */
     UpdateTheme = 'UpdateTheme',
+
+    /**
+     * Load an App in `DataAppEmbed`, or switch the embed to another App,
+     * without reloading the frame.
+     * Payload: {@link DataAppInitRequest}.
+     *
+     * The runtime filters and runtime parameters in the payload replace the
+     * ones the embed had, and apply from the App's first load. Leaving them
+     * out clears them. When `appId` is the App already open, the App re-runs
+     * with the new values.
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * await dataAppEmbed.trigger(HostEvent.DataAppInit, {
+     *     appId: '<app-id>',
+     *     runtimeFilters: [
+     *         { columnName: 'Region', operator: RuntimeFilterOp.EQ, values: ['West'] },
+     *     ],
+     * });
+     * ```
+     */
+    DataAppInit = 'DataAppInit',
+
+    /**
+     * Re-run the steps of the App open in `DataAppEmbed` and repaint every
+     * tile on screen with fresh data, without reloading the frame. Each tile
+     * sends {@link EmbedEvent.TileLoad} again once its new data paints.
+     * Payload: none.
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * await dataAppEmbed.trigger(HostEvent.RefreshDataApp);
+     * ```
+     */
+    RefreshDataApp = 'RefreshDataApp',
 }
 
 /**
@@ -7571,6 +7679,7 @@ export enum Param {
     RadiantThemeEnabled = 'radiantThemeEnabled',
     SpotterExperienceVersion = 'spotterExperienceVersion',
     EnableDataApps = 'enableDataApps',
+    HideDataAppHeader = 'hideDataAppHeader',
 }
 
 /**
@@ -10756,6 +10865,11 @@ export enum ContextType {
      * Other context for any other generic page.
      */
     Other = 'other',
+    /**
+     * App context for the App open in `DataAppEmbed`.
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     */
+    DataApp = 'dataApp',
 }
 
 export interface DefaultAppInitData {

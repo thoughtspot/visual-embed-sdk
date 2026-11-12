@@ -115,6 +115,9 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
     HostEvent.CloseSpotterVizPanel,
     // Appearance
     HostEvent.UpdateTheme,
+    // Apps
+    HostEvent.DataAppInit,
+    HostEvent.RefreshDataApp,
 ];
 
 // Type-level assertions: compile failures here mean contract resolution
@@ -132,6 +135,7 @@ describe('event contracts (drift guardrails)', () => {
             'AskSpotter',
             'CloseSpotterShareConversation',
             'CloseSpotterVizPanel',
+            'DataAppInit',
             'DeleteLastPrompt',
             'DeletePersonalizedView',
             'EditLastPrompt',
@@ -141,6 +145,7 @@ describe('event contracts (drift guardrails)', () => {
             'OpenSpotterVizPanel',
             'PinSpotterConversation',
             'PreviewSpotterData',
+            'RefreshDataApp',
             'ResetLiveboardPersonalisedView',
             'ResetSpotterConversation',
             'SelectPersonalisedView',
@@ -311,9 +316,14 @@ describe('event contracts (drift guardrails)', () => {
                 EmbedEvent.VizPointClick,
                 EmbedEvent.VizPointDoubleClick,
                 EmbedEvent.VizPointRightClick,
+                EmbedEvent.TileClick,
+                EmbedEvent.TileLoad,
+                EmbedEvent.TileError,
+                EmbedEvent.Darkmode,
             ].map((e) => `${e}`).sort(),
         ).toEqual([
             'AIHighlights',
+            'Darkmode',
             'EmbedIframeCenter',
             'EmbedListenerReady',
             'Error',
@@ -321,6 +331,9 @@ describe('event contracts (drift guardrails)', () => {
             'LiveboardTopUsersLoaded',
             'PinboardRendered',
             'TableVizRendered',
+            'TileClick',
+            'TileError',
+            'TileLoad',
             'addRemoveColumns',
             'addToCoaching',
             'addToFavorites',
@@ -460,6 +473,13 @@ describe('event contracts (drift guardrails)', () => {
                 viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
                 isPublic: true,
             }),
+            trigger(HostEvent.DataAppInit, {
+                appId: '<app-id>',
+                runtimeFilters: [
+                    { columnName: 'Region', operator: RuntimeFilterOp.EQ, values: ['West'] },
+                ],
+            }),
+            trigger(HostEvent.RefreshDataApp, {}),
         ];
         expect(ok.every(Boolean)).toBe(true);
     });

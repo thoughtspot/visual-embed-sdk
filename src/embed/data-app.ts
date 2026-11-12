@@ -4,6 +4,8 @@ import {
     EmbedErrorSeverity,
     ErrorDetailsTypes,
     Param,
+    RuntimeFilter,
+    RuntimeParameter,
 } from '../types';
 import { ERROR_MESSAGE } from '../errors';
 import { setParamIfDefined } from '../utils';
@@ -48,6 +50,61 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * ```
      */
     enableDataApps?: boolean;
+    /**
+     * Runtime filters for the App, in the Liveboard shape. They apply from
+     * the App's first load; change them later with
+     * `HostEvent.UpdateRuntimeFilters` or `HostEvent.DataAppInit`.
+     * They are sent in the app init payload, never in the URL.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataAppId: '<app-id>',
+     *    runtimeFilters: [
+     *        { columnName: 'Region', operator: RuntimeFilterOp.EQ, values: ['West'] },
+     *    ],
+     * });
+     * ```
+     */
+    runtimeFilters?: RuntimeFilter[];
+    /**
+     * Runtime parameters for the App. They apply from the App's first load;
+     * change them later with `HostEvent.UpdateParameters` or
+     * `HostEvent.DataAppInit`. They are sent in the app init payload,
+     * never in the URL.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataAppId: '<app-id>',
+     *    runtimeParameters: [{ name: 'Target', value: 1000 }],
+     * });
+     * ```
+     */
+    runtimeParameters?: RuntimeParameter[];
+    /**
+     * Hides the ThoughtSpot header above the App, with its name and
+     * actions, so the App fills the frame.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    ... // other options
+     *    dataAppId: '<app-id>',
+     *    hideDataAppHeader: true,
+     * });
+     * ```
+     */
+    hideDataAppHeader?: boolean;
 }
 
 /**
@@ -71,7 +128,10 @@ export class DataAppEmbed extends TsEmbed {
         viewConfig = {
             embedComponentType: 'dataApp',
             ...viewConfig,
-        };
+            // Filters and parameters go in the app init payload, never the URL.
+            excludeRuntimeFiltersfromURL: true,
+            excludeRuntimeParametersfromURL: true,
+        } as DataAppEmbedViewConfig;
         // Not in the view config type, but a JS caller can still pass it.
         if ((viewConfig as { fullHeight?: boolean }).fullHeight) {
             logger.warn('DataAppEmbed does not support fullHeight; it is ignored.');
@@ -83,6 +143,12 @@ export class DataAppEmbed extends TsEmbed {
     protected getEmbedParamsObject() {
         const params = this.getBaseQueryParams();
         setParamIfDefined(params, Param.EnableDataApps, this.viewConfig.enableDataApps, true);
+        setParamIfDefined(
+            params,
+            Param.HideDataAppHeader,
+            this.viewConfig.hideDataAppHeader,
+            true,
+        );
         return params;
     }
 

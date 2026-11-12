@@ -385,6 +385,43 @@ export interface SpotterUsageLimitUpgradePayload extends EmbedEventPayloadBase {
     status: SpotterUsageLimitStatus;
 }
 
+/**
+ * {@link EmbedEvent.TileClick} and {@link EmbedEvent.TileLoad}: a tile of the App
+ * open in `DataAppEmbed`.
+ * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+ */
+export interface DataAppTilePayload extends EmbedEventPayloadBase {
+    /** ID of the App the tile belongs to. */
+    appId: string;
+    /** The tile's ID, unique within the App. */
+    tileId: string;
+}
+
+/**
+ * {@link EmbedEvent.TileError}: a tile whose data failed to load, with what the
+ * App knows about the failure.
+ * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+ */
+export interface DataAppTileErrorPayload extends DataAppTilePayload {
+    /** Error code, for example `connector.not_connected`. */
+    errorCode?: string;
+    /** The message the tile shows, at most 240 characters. */
+    message?: string;
+    /** The data source the tile reads, when known. */
+    sourceName?: string;
+    /** The connector the tile reads, for connector data only. */
+    connectorName?: string;
+}
+
+/**
+ * {@link EmbedEvent.Darkmode}: the color scheme the user picked in the App.
+ * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+ */
+export interface DarkmodePayload extends EmbedEventPayloadBase {
+    /** `true` when the App is now dark. */
+    isDarkMode: boolean;
+}
+
 // ============================================================================
 // The map — every typed embed event, grouped by domain.
 // ============================================================================
@@ -482,6 +519,12 @@ export interface EmbedEventDataExtension {
 
     // --- Spotter usage ---
     [EmbedEvent.SpotterUsageLimitUpgrade]: SpotterUsageLimitUpgradePayload;
+
+    // --- Apps ---
+    [EmbedEvent.TileClick]: DataAppTilePayload;
+    [EmbedEvent.TileLoad]: DataAppTilePayload;
+    [EmbedEvent.TileError]: DataAppTileErrorPayload;
+    [EmbedEvent.Darkmode]: DarkmodePayload;
 }
 
 // ============================================================================

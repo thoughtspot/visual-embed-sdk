@@ -340,6 +340,28 @@ export interface UpdateThemeRequest {
 }
 
 /**
+ * Request payload for {@link HostEvent.DataAppInit}.
+ * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+ */
+export interface DataAppInitRequest {
+    /**
+     * ID of the App to open. When it is the App already open, the App
+     * re-runs with the runtime filters and parameters below.
+     */
+    appId: string;
+    /**
+     * Runtime filters for the App, in the Liveboard shape. They replace the
+     * ones the embed had; leaving them out clears them.
+     */
+    runtimeFilters?: RuntimeFilter[];
+    /**
+     * Runtime parameters for the App. They replace the ones the embed had;
+     * leaving them out clears them.
+     */
+    runtimeParameters?: RuntimeParameter[];
+}
+
+/**
  * Typed request payloads for host events that do not go through the UI
  * passthrough pipeline (`HostEvent` member → request type; `void` = no payload).
  *
@@ -446,6 +468,10 @@ export interface HostEventRequestMap {
 
     // ==================== APPEARANCE ====================
     [HostEvent.UpdateTheme]: UpdateThemeRequest;
+
+    // ==================== APPS ====================
+    [HostEvent.DataAppInit]: DataAppInitRequest;
+    [HostEvent.RefreshDataApp]: void;
 }
 
 /**
