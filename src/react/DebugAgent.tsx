@@ -1716,7 +1716,7 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
                                     <IconButton
                                         onClick={togglePicking}
                                         active={picking || pickingEmbed}
-                                        icon="target"
+                                        icon="pointEdit"
                                         label={picking || pickingEmbed ? 'Picking…' : 'Pick'}
                                         title={activeSessionId
                                             ? 'Pick an element to attach as context — on the host page or inside the ThoughtSpot embed'
@@ -1790,18 +1790,14 @@ export const DebugAgent: React.FC<DebugAgentProps> = ({
  * what made the controls look unfinished. These inherit `currentColor`, so a
  * button's hover and active states colour its icon for free.
  */
-type IconName = 'target' | 'record' | 'stopSquare' | 'link' | 'plug' | 'send'
+type IconName = 'pointEdit' | 'record' | 'stopSquare' | 'link' | 'plug' | 'send'
 | 'close' | 'chevron' | 'copy' | 'check' | 'warn' | 'spark' | 'collapse'
 | 'newChat' | 'search' | 'memory' | 'terminal' | 'code';
 
 const ICON_PATHS: Record<IconName, React.ReactNode> = {
-    // A crosshair: picking an element on the page.
-    target: (
-        <>
-            <circle cx="8" cy="8" r="4.2" />
-            <path d="M8 .9v2.6M8 12.5v2.6M.9 8h2.6M12.5 8h2.6" />
-        </>
-    ),
+    // A pointer over a frame: picking an element on the page. The SpotterX
+    // "Point and edit" icon (Figma "AI referencing"), drawn on an 18px grid.
+    pointEdit: <path d="M8.33718 8.38586C8.09092 7.50063 9.02268 6.75068 9.83479 7.18044L16.4889 10.703L16.5655 10.7473C17.3266 11.2297 17.1546 12.4171 16.2529 12.6428L13.6359 13.297L12.4595 16.2011C12.0844 17.1271 10.7495 17.0518 10.4814 16.0895L8.33718 8.38586ZM14.084 1C15.2884 1 16.2648 1.97639 16.2648 3.18083V7.32441H14.5202V3.18083C14.5202 2.93995 14.3249 2.74467 14.084 2.74467H3.17985C2.93897 2.74467 2.74369 2.93995 2.74369 3.18083V11.468C2.74369 11.7088 2.93897 11.9042 3.17985 11.9042H6.99631V13.6488H3.17985C1.97542 13.6488 0.999023 12.6724 0.999023 11.468V3.18083C0.999023 1.97639 1.97542 1 3.17985 1H14.084ZM11.6127 13.6454L12.152 12.3139C12.2775 12.0039 12.5438 11.7723 12.8683 11.6912L14.0636 11.3922L10.4533 9.48054L11.6127 13.6454Z" fill="currentColor" stroke="none" />,
     record: <circle cx="8" cy="8" r="4.2" fill="currentColor" stroke="none" />,
     stopSquare: <rect x="4.2" y="4.2" width="7.6" height="7.6" rx="1.4" fill="currentColor" stroke="none" />,
     link: <path d="M6.4 9.6a2.6 2.6 0 0 1 0-3.7l1.8-1.8a2.6 2.6 0 0 1 3.7 3.7l-.9.9M9.6 6.4a2.6 2.6 0 0 1 0 3.7l-1.8 1.8a2.6 2.6 0 0 1-3.7-3.7l.9-.9" />,
@@ -1843,13 +1839,18 @@ const ICON_PATHS: Record<IconName, React.ReactNode> = {
     code: <path d="M5.6 4.6 2.4 8l3.2 3.4M10.4 4.6 13.6 8l-3.2 3.4" />,
 };
 
+/** Icons drawn on a grid other than the default 16px one. */
+const ICON_VIEWBOX: Partial<Record<IconName, string>> = {
+    pointEdit: '0 0 18 18',
+};
+
 const Icon: React.FC<{ name: IconName; size?: number; style?: React.CSSProperties }> = ({
     name, size = 14, style: extra,
 }) => (
     <svg
         width={size}
         height={size}
-        viewBox="0 0 16 16"
+        viewBox={ICON_VIEWBOX[name] ?? '0 0 16 16'}
         fill="none"
         stroke="currentColor"
         strokeWidth={1.5}
@@ -1896,7 +1897,8 @@ const IconButton: React.FC<{
                 ...(disabled ? { opacity: 0.5, cursor: 'not-allowed' } : null),
             }}
         >
-            <Icon name={icon} size={16} />
+            {/* The Figma icon is 18px in its 32px button; the rest are 16px. */}
+            <Icon name={icon} size={icon === 'pointEdit' ? 18 : 16} />
         </button>
     );
 };
@@ -2075,7 +2077,7 @@ const ElementChip: React.FC<{ item: PickedElementContext; onRemove: () => void }
             style={styles.elementChip}
             title={`${item.selector}${size ? ` — ${size}` : ''}${item.inEmbed ? ' (inside the embed)' : ''}`}
         >
-            <span style={styles.elementChipTile}><Icon name="target" size={18} /></span>
+            <span style={styles.elementChipTile}><Icon name="pointEdit" size={18} /></span>
             <span style={styles.elementChipText}>
                 <span style={styles.elementChipTag}>{item.selector}</span>
                 <span style={styles.elementChipMeta}>{size ? `${where} · ${size}` : where}</span>
