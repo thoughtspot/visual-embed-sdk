@@ -273,6 +273,32 @@ export interface PersonalisedViewRequest {
 }
 
 /**
+ * Request payload for {@link HostEvent.SharePersonalizedView}.
+ */
+export interface SharePersonalizedViewRequest {
+    /** GUID of the view to share. */
+    viewId: string;
+}
+
+/**
+ * Request payload for {@link HostEvent.DeletePersonalizedView}.
+ */
+export interface DeletePersonalizedViewRequest {
+    /** GUID of the view to delete. */
+    viewId: string;
+}
+
+/**
+ * Request payload for {@link HostEvent.SetPersonalizedViewPublic}.
+ */
+export interface SetPersonalizedViewPublicRequest {
+    /** GUID of the view. */
+    viewId: string;
+    /** `true` to make the view public, `false` to make it private. */
+    isPublic: boolean;
+}
+
+/**
  * Request payload for schedule-email related host events.
  */
 export interface ScheduleEmailRequest {
@@ -393,6 +419,9 @@ export interface HostEventRequestMap {
     [HostEvent.UpdatePersonalisedView]: Pick<PersonalisedViewRequest, 'viewId'>;
     [HostEvent.SelectPersonalizedView]: PersonalisedViewRequest;
     [HostEvent.ResetLiveboardPersonalisedView]: void;
+    [HostEvent.SharePersonalizedView]: SharePersonalizedViewRequest;
+    [HostEvent.DeletePersonalizedView]: DeletePersonalizedViewRequest;
+    [HostEvent.SetPersonalizedViewPublic]: SetPersonalizedViewPublicRequest;
     [HostEvent.AIHighlights]: void;
     [HostEvent.SendTestScheduleEmail]: ScheduleEmailRequest;
     [HostEvent.RefreshLiveboardBrowserCache]: ScheduleEmailRequest;

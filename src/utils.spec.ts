@@ -1288,10 +1288,10 @@ describe('getHostEventsConfig', () => {
         });
     });
 
-    test('returns undefined for missing keys', () => {
+    test('defaults useHostEventsV2 to true and leaves shouldBypassPayloadValidation undefined when keys are missing', () => {
         const result = getHostEventsConfig({} as any);
         expect(result.shouldBypassPayloadValidation).toBeUndefined();
-        expect(result.useHostEventsV2).toBeUndefined();
+        expect(result.useHostEventsV2).toBe(true);
     });
 
     test('ignores unrelated config properties', () => {

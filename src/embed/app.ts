@@ -653,6 +653,25 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * ```
      */
     isLiveboardXLSXCSVDownloadEnabled?: boolean;
+    /**
+     * This flag groups the Liveboard author actions - Request verification,
+     * Withdraw verification, Mark as verified, Remove verification, Publish and
+     * Translate Liveboard - under a single **Author** menu in the Liveboard
+     * `...` menu. When disabled, those actions stay at the top level.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @type {boolean}
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isLiveboardAuthorMenuEnabled: false,
+     * })
+     * ```
+     */
+    isLiveboardAuthorMenuEnabled?: boolean;
 
     /**
      * This flag is used to enable/disable the granular XLSX/CSV schedules feature
@@ -1139,9 +1158,11 @@ export class AppEmbed extends V1Embed {
             liveboardGutter,
             isPNGInScheduledEmailsEnabled = false,
             isLiveboardXLSXCSVDownloadEnabled,
+            isLiveboardAuthorMenuEnabled,
             isGranularXLSXCSVSchedulesEnabled,
             isCentralizedLiveboardFilterUXEnabled,
             isScopedLiveboardFilteringEnabled,
+            isPersonalizedViewsSharingEnabled,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
             showSpotterLimitations,
@@ -1325,6 +1346,10 @@ export class AppEmbed extends V1Embed {
             params[Param.isLiveboardXLSXCSVDownloadEnabled] = isLiveboardXLSXCSVDownloadEnabled;
         }
 
+        if (isLiveboardAuthorMenuEnabled !== undefined) {
+            params[Param.isLiveboardAuthorMenuEnabled] = isLiveboardAuthorMenuEnabled;
+        }
+
         if (isGranularXLSXCSVSchedulesEnabled !== undefined) {
             params[Param.isGranularXLSXCSVSchedulesEnabled] = isGranularXLSXCSVSchedulesEnabled;
         }
@@ -1347,6 +1372,12 @@ export class AppEmbed extends V1Embed {
             params[
                 Param.isScopedLiveboardFilteringEnabled
             ] = isScopedLiveboardFilteringEnabled;
+        }
+
+        if (isPersonalizedViewsSharingEnabled !== undefined) {
+            params[
+                Param.IsPersonalizedViewsSharingEnabled
+            ] = isPersonalizedViewsSharingEnabled;
         }
 
         if (isThisPeriodInDateFiltersEnabled !== undefined) {

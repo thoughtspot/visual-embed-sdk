@@ -1269,6 +1269,44 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set isLiveboardAuthorMenuEnabled to true in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isLiveboardAuthorMenuEnabled: true,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardAuthorMenuEnabled=true&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should set isLiveboardAuthorMenuEnabled to false in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isLiveboardAuthorMenuEnabled: false,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isLiveboardAuthorMenuEnabled=false&navigationVersion=v3&homepageVersion=v3${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set isLiveboardAuthorMenuEnabled in url when unset', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isLiveboardAuthorMenuEnabled');
+        });
+    });
+
     test('should set isGranularXLSXCSVSchedulesEnabled to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
@@ -1370,6 +1408,30 @@ describe('App embed tests', () => {
         appEmbed.render();
         await executeAfterWait(() => {
             expect(getIFrameSrc()).not.toContain('isScopedLiveboardFilteringEnabled');
+        });
+    });
+
+    test.each([true, false])('should set isPersonalizedViewsSharingEnabled to %s in url', async (isEnabled) => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isPersonalizedViewsSharingEnabled: isEnabled,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isPersonalizedViewsSharingEnabled=${isEnabled}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set isPersonalizedViewsSharingEnabled in url when undefined', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isPersonalizedViewsSharingEnabled');
         });
     });
 

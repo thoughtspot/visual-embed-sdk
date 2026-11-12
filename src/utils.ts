@@ -723,7 +723,7 @@ export const formatTemplate = (template: string, values: Record<string, any>): s
 export const getHostEventsConfig = (viewConfig: BaseViewConfig) => {
     return {
         shouldBypassPayloadValidation: viewConfig.shouldBypassPayloadValidation,
-        useHostEventsV2: viewConfig.useHostEventsV2,
+        useHostEventsV2: viewConfig.useHostEventsV2 ?? true,
     };
 }
 
