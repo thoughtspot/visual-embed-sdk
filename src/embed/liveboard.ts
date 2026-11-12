@@ -718,6 +718,7 @@ export class LiveboardEmbed extends V1Embed {
             isCentralizedLiveboardFilterUXEnabled,
             isScopedLiveboardFilteringEnabled,
             isPersonalizedViewsSharingEnabled,
+            isProgrammaticFilterParameterUpdateEnabled,
             isLinkParametersEnabled,
             updatedSpotterChatPrompt,
             showSpotterRadiance,
@@ -879,6 +880,12 @@ export class LiveboardEmbed extends V1Embed {
             params[
                 Param.IsPersonalizedViewsSharingEnabled
             ] = isPersonalizedViewsSharingEnabled;
+        }
+
+        if (isProgrammaticFilterParameterUpdateEnabled !== undefined) {
+            params[
+                Param.IsProgrammaticFilterParameterUpdateEnabled
+            ] = isProgrammaticFilterParameterUpdateEnabled;
         }
 
         if (isThisPeriodInDateFiltersEnabled !== undefined) {

@@ -2336,6 +2336,26 @@ export interface LiveboardAppEmbedViewConfig {
      */
     isPersonalizedViewsSharingEnabled?: boolean;
     /**
+     * This flag is used to enable or disable programmatic updates to Liveboard
+     * filters and Parameters from the host application. When enabled, the
+     * {@link HostEvent.UpdateFilters} and {@link HostEvent.UpdateParameters}
+     * host events update the filter and Parameter values on the embedded
+     * Liveboard. If this flag is not set, the embed follows the setting on
+     * your ThoughtSpot instance.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isProgrammaticFilterParameterUpdateEnabled: true,
+     * })
+     * ```
+     */
+    isProgrammaticFilterParameterUpdateEnabled?: boolean;
+    /**
      * This flag is used to enable or disable the link parameters in liveboard.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
@@ -7538,6 +7558,7 @@ export enum Param {
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isScopedLiveboardFilteringEnabled = 'isScopedLiveboardFilteringEnabled',
     IsPersonalizedViewsSharingEnabled = 'isPersonalizedViewsSharingEnabled',
+    IsProgrammaticFilterParameterUpdateEnabled = 'isProgrammaticFilterParameterUpdateEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
