@@ -14,6 +14,8 @@ export {
     useSpotterAgent,
     useEmbedRef,
     useInit,
+    DebugAgent,
+    DebugAgentProps,
 } from './index';
 
 export {
@@ -41,6 +43,7 @@ export {
     Action,
     DisabledActionReasonMap,
     EmbedConfig,
+    FullPageDiagnosticsConfig,
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
@@ -62,6 +65,9 @@ export {
     CustomCssVariables,
     RuntimeParameter,
     resetCachedAuthToken,
+    requestFullPageDiagnostics,
+    endFullPageDiagnostics,
+    getFullPageDiagnosticsSessionId,
     UIPassthroughEvent,
     // Host event payload / response contracts — kept in sync with src/index.ts
     // (enforced by all-types-export.parity.spec.ts).

@@ -46,6 +46,7 @@ import {
     AuthFailureType, AuthStatus, AuthEvent, AuthEventEmitter,
 } from './auth';
 import { getSessionInfo } from './utils/sessionInfoService';
+import { installEarlyErrorBuffer } from './debug/bus';
 import {
     AuthType,
     RuntimeFilter,
@@ -56,6 +57,7 @@ import {
     Action,
     DisabledActionReasonMap,
     EmbedConfig,
+    FullPageDiagnosticsConfig,
     PrefetchFeatures,
     FrameParams,
     DOMSelector,
@@ -280,6 +282,7 @@ export {
     DisabledActionReasonMap,
     ContextMenuTriggerOptions,
     EmbedConfig,
+    FullPageDiagnosticsConfig,
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
@@ -453,4 +456,12 @@ export {
 };
 
 export { resetCachedAuthToken } from './authToken';
+export {
+    requestFullPageDiagnostics,
+    endFullPageDiagnostics,
+    getFullPageDiagnosticsSessionId,
+} from './debug';
 export { startAutoMCPFrameRenderer } from './embed/auto-frame-renderer';
+
+// Local-only error buffer; nothing leaves the page without consent.
+installEarlyErrorBuffer();

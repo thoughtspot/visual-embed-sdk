@@ -83,6 +83,10 @@ import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { summarizeRuntimeDataForTelemetry } from '../utils/runtimeTelemetry';
 import { reportHostEvent } from '../utils/hostEventTelemetry';
 import { processEventData, processAuthFailure } from '../utils/processData';
+import {
+    emit as emitDebugEvent, embedIdOf, recordSdkCall, describeElement,
+} from '../debug/bus';
+import { redactValue, shapeOf } from '../debug/redact';
 import { version } from '../utils/sdk-version';
 import {
     getAuthPromise,
@@ -375,7 +379,11 @@ export class TsEmbed {
             excludeRuntimeParametersfromURL: true,
             ...viewConfig,
         };
+        // Handlers the SDK registers for itself are not part of the
+        // customer's integration, so diagnostics skip them.
+        this.isRegisteringInternalHandlers = true;
         this.registerAppInit();
+        this.isRegisteringInternalHandlers = false;
         uploadMixpanelEvent(
             MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE,
             summarizeRuntimeDataForTelemetry(viewConfig),
@@ -586,6 +594,11 @@ export class TsEmbed {
         const eventPort = this.getEventPort(event);
         const eventData = this.formatEventData(event, eventType);
         if (isMessageFromIframe(event, this.iFrame, this.thoughtSpotHost)) {
+            emitDebugEvent('embed', 'embed.event', eventType === EmbedEvent.Error ? 'error' : 'info', {
+                embedId: embedIdOf(this),
+                event: eventType,
+                payloadShape: shapeOf(eventData?.data),
+            });
             const processedEventData = processEventData(
                 eventType,
                 eventData,
@@ -1449,6 +1462,13 @@ export class TsEmbed {
         uploadMixpanelEvent(`${MIXPANEL_EVENT.VISUAL_SDK_ON}-${messageType}`, {
             isRegisteredBySDK,
         });
+        if (!isRegisteredBySDK && !this.isRegisteringInternalHandlers) {
+            recordSdkCall('embed.on', {
+                embedId: embedIdOf(this),
+                event: messageType,
+                afterRender: !!this.isRendered,
+            });
+        }
         if (this.isRendered) {
             logger.warn('Please register event handlers before calling render');
         }
@@ -1624,6 +1644,13 @@ export class TsEmbed {
             context,
             embedComponentType: this.viewConfig?.embedComponentType,
         });
+        recordSdkCall('embed.trigger', {
+            embedId: embedIdOf(this),
+            hostEvent: messageType,
+            payloadShape: shapeOf(data),
+            isRendered: !!this.isRendered,
+            hasIframe: !!this.iFrame,
+        });
 
         if (!this.isRendered) {
             this.handleError({
@@ -1712,6 +1739,7 @@ export class TsEmbed {
             visibleActions: this.viewConfig.visibleActions ?? [],
             disabledActions: this.viewConfig.disabledActions ?? [],
         });
+        this.recordRenderForDiagnostics();
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
         }
@@ -1724,6 +1752,39 @@ export class TsEmbed {
     public getIframeSrc(): string {
         return '';
     }
+
+    /**
+     * Records a render call with the container's state at that moment, for
+     * full page diagnostics. Never throws.
+     */
+    private recordRenderForDiagnostics(): void {
+        try {
+            const host = this.hostElement;
+            // Cheap layout reads only: no getComputedStyle on the render path.
+            const rect = host?.getBoundingClientRect?.();
+            recordSdkCall('embed.render', {
+                embedId: embedIdOf(this),
+                embedType: this.viewConfig.embedComponentType || this.constructor.name,
+                renderCount: (this.debugRenderCount += 1),
+                initCalled: getIsInitCalled(),
+                viewConfig: redactValue(this.viewConfig),
+                container: host ? {
+                    element: describeElement(host),
+                    inDocument: document.contains(host),
+                    width: rect ? Math.round(rect.width) : null,
+                    height: rect ? Math.round(rect.height) : null,
+                    // False when the element or an ancestor is display:none.
+                    rendersBox: host.getClientRects().length > 0,
+                } : null,
+            });
+        } catch (e) {
+            // Diagnostics must never affect rendering.
+        }
+    }
+
+    private debugRenderCount = 0;
+
+    private isRegisteringInternalHandlers = false;
 
     protected handleRenderForPrerender() {
         return this.render();
@@ -1850,6 +1911,7 @@ export class TsEmbed {
      * @version SDK: 1.19.1 | ThoughtSpot: *
      */
     public destroy(): void {
+        recordSdkCall('embed.destroy', { embedId: embedIdOf(this), wasRendered: !!this.isRendered });
         try {
             this.removeFullscreenChangeHandler();
             this.unsubscribeToEvents();
