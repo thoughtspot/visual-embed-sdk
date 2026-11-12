@@ -12,6 +12,11 @@ module.exports = {
             functions: 80,
             lines: 80,
         },
+        './scripts/check-tests-included.js': {
+            branches: 80,
+            functions: 80,
+            lines: 80,
+        },
     },
     testMatch: ['**/scripts/**/*.spec.js'],
 };
