@@ -2336,15 +2336,23 @@ export interface LiveboardAppEmbedViewConfig {
      */
     isPersonalizedViewsSharingEnabled?: boolean;
     /**
-     * This flag is used to enable or disable programmatic updates to Liveboard
-     * filters and Parameters from the host application. When enabled, the
-     * {@link HostEvent.UpdateFilters} and {@link HostEvent.UpdateParameters}
-     * host events update the filter and Parameter values on the embedded
-     * Liveboard. If this flag is not set, the embed follows the setting on
-     * your ThoughtSpot instance.
+     * This flag is used to enable or disable the Programmatic Liveboard Filter and
+     * Parameter Update feature in the embed. This feature applies the filter and
+     * Parameter overrides set in {@link LiveboardViewConfig.liveboardOverride}
+     * (`LiveboardEmbed`) or {@link AppViewConfig.liveboardOverrides} (`AppEmbed`)
+     * when a Liveboard loads. An override changes the value of a filter or
+     * Parameter that already exists on the Liveboard; it does not add one.
+     *
+     * This is an Early Access feature that an administrator must also enable on
+     * the ThoughtSpot instance. Setting this flag to `true` does not apply
+     * overrides when the feature is off on the instance. If this flag is not
+     * set, the embed follows the setting on your ThoughtSpot instance.
+     *
+     * This flag does not affect runtime filters and Parameters set through
+     * `runtimeFilters`, `runtimeParameters`, or {@link HostEvent.UpdateRuntimeFilters}.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
