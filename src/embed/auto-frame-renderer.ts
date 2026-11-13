@@ -23,6 +23,13 @@ const DEFAULT_STALE_ANSWER_NOTICE =
     'This data may have changed since the last time you had a chat.';
 
 /**
+ * Shown in place of a stored-chat frame whose answer cannot be resolved. Such
+ * a frame carries no session params of its own, so its source URL is a bare
+ * app URL: rendering it would load the ThoughtSpot homepage outside embed mode.
+ */
+const UNRESOLVED_ANSWER_NOTICE = 'This answer could not be loaded.';
+
+/**
  * Hash parameters that locate a specific answer generation. These expire with
  * the answer object (roughly 8 hours), which is why a host app replaying a
  * stored conversation must not persist them - it stores the conversation
@@ -69,6 +76,11 @@ export const HiddenActionItemByDefaultForMCPAnswers = [
  * Each matching iframe is replaced in-place with a new ThoughtSpot embed
  * iframe that merges the original iframe's query parameters with the SDK
  * embed parameters.
+ *
+ * A frame that replays a stored chat (it carries
+ * {@link Param.TsmcpConversationId}) is resolved to the answer's current
+ * session first. If that fails, the frame is replaced with a short text
+ * notice instead of an embed.
  *
  * Call {@link MutationObserver.disconnect | observer.disconnect()} on the
  * returned observer to stop monitoring the DOM.
@@ -274,7 +286,17 @@ function unionHideActions(sdkValue: unknown, sourceValue: unknown): string[] {
     );
 }
 
+/**
+ * Nodes this renderer inserted itself, plus any iframes inside them. The
+ * observer skips them so its own output can never be picked up as a new MCP
+ * iframe, whatever the `src` carries.
+ */
+const renderedFrames = new WeakSet<Node>();
+
 function isTSMCPIframe(iframe: HTMLIFrameElement) {
+    if (renderedFrames.has(iframe)) {
+        return false;
+    }
     try {
         const url = new URL(iframe.src);
         return url.searchParams.get(Param.Tsmcp) === 'true';
@@ -334,34 +356,24 @@ class AutoFrameRenderer extends TsEmbed {
      * Builds the final iframe `src` by merging the SDK embed parameters
      * with the query parameters already present on the source iframe URL.
      *
-     * The `tsmcp` marker param is removed so it does not propagate to the
-     * ThoughtSpot application. This is not just cosmetic: `tsmcp=true` is
-     * also how {@link isTSMCPIframe} recognizes an iframe as one this
-     * renderer must process. If the marker survived onto the iframe this
-     * class inserts, the same {@link MutationObserver} would immediately
-     * detect its own output as a new MCP iframe and re-process it, causing
-     * infinite recursive replacement. Do not re-add `tsmcp` here.
+     * The SDK markers - `tsmcp`, `tsmcpConversationId` and `tsmcpAnswerIndex`
+     * - are removed so they do not propagate to the ThoughtSpot application.
+     * For `tsmcp` this is not just cosmetic: it is also how
+     * {@link isTSMCPIframe} recognizes an iframe as one this renderer must
+     * process, so it must never survive onto an iframe this class inserts.
+     * Do not re-add it here.
      *
      * @param sourceSrc - The original iframe's `src` URL string.
-     * @param preserveSourceUrl - When true, return the source URL unchanged.
+     * @param resolved - Session params resolved for a replayed answer, written
+     *   into the hash route.
      * @returns The constructed URL to use for the ThoughtSpot embed iframe.
      */
-    private getMCPIframeSrc(
-        sourceSrc: string,
-        resolved?: AnswerSessionParams,
-        preserveSourceUrl = false,
-    ) {
-        if (preserveSourceUrl) {
-            return sourceSrc;
-        }
-        const queryParams = this.getUrlQueryParamsObject();
+    private getMCPIframeSrc(sourceSrc: string, resolved?: AnswerSessionParams) {
         const sourceURL = new URL(sourceSrc);
-        const existingQueryParams = sourceURL.searchParams;
-        const existingQueryParamsObject = Object.fromEntries(existingQueryParams);
-        delete existingQueryParamsObject[Param.Tsmcp];
-        // Replay markers address the SDK, not the ThoughtSpot application.
-        delete existingQueryParamsObject[Param.TsmcpConversationId];
-        delete existingQueryParamsObject[Param.TsmcpAnswerIndex];
+        [Param.Tsmcp, Param.TsmcpConversationId, Param.TsmcpAnswerIndex]
+            .forEach((key) => sourceURL.searchParams.delete(key));
+        const queryParams = this.getUrlQueryParamsObject();
+        const existingQueryParamsObject = Object.fromEntries(sourceURL.searchParams);
 
         // Source-iframe params win over SDK params on merge. Hidden actions
         // are the exception: union them so a `hideAction` on the source iframe
@@ -489,13 +501,25 @@ class AutoFrameRenderer extends TsEmbed {
      * replaces the original iframe in-place rather than being appended
      * to a container element. Falls back to the default behavior when
      * no iframe has been set for replacement.
+     *
+     * A string is inserted as text, never as markup. Every inserted node is
+     * recorded so the observer never re-processes it, and tagged with this
+     * instance the way the base class tags its own insertions.
      */
     protected handleInsertionIntoDOM(child: string | Node): void {
-        if (this.frameToReplace) {
-            this.frameToReplace.replaceWith(child);
-        } else {
+        if (!this.frameToReplace) {
             super.handleInsertionIntoDOM(child);
+            return;
         }
+        const node = typeof child === 'string' ? document.createTextNode(child) : child;
+        renderedFrames.add(node);
+        // The observer also scans added subtrees, so cover nested iframes too.
+        if (node instanceof Element) {
+            node.querySelectorAll('iframe').forEach((frame) => renderedFrames.add(frame));
+        }
+        this.frameToReplace.replaceWith(node);
+        this.insertedDomEl = node;
+        (node as any)[this.embedNodeKey] = this;
     }
 
     /**
@@ -524,13 +548,15 @@ class AutoFrameRenderer extends TsEmbed {
                 conversationId,
                 answerIndexFromParam(sourceParams.get(Param.TsmcpAnswerIndex)),
             );
+            if (!resolved) {
+                // The reason is already logged by the resolver.
+                this.handleInsertionIntoDOM(UNRESOLVED_ANSWER_NOTICE);
+                this.isRendered = true;
+                return;
+            }
         }
 
-        const src = this.getMCPIframeSrc(
-            iframe.src,
-            resolved ?? undefined,
-            Boolean(conversationId) && !resolved,
-        );
+        const src = this.getMCPIframeSrc(iframe.src, resolved ?? undefined);
         await this.renderIFrame(src);
 
         // Mark only answers actually re-resolved: their numbers were computed

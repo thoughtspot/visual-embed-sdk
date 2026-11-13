@@ -634,9 +634,9 @@ describe('startAutoMCPFrameRenderer', () => {
             document.body.appendChild(iframe);
             await new Promise((r) => setTimeout(r, 50));
 
-            // tsmcp must not survive on the rendered iframe: isTSMCPIframe would
-            // otherwise re-match the SDK's own output and cause an infinite
-            // replacement loop via the same MutationObserver.
+            // tsmcp must not survive on the rendered iframe: isTSMCPIframe
+            // would otherwise re-match the SDK's own output and cause an
+            // infinite replacement loop via the same MutationObserver.
             expect(capturedSrc).not.toContain(`${Param.Tsmcp}=true`);
             expect(capturedSrc).toContain('customParam=hello');
             expect(capturedSrc).toMatch(/\?[^#]+#/);
@@ -759,8 +759,9 @@ describe('startAutoMCPFrameRenderer', () => {
             return new URLSearchParams(qs).get(param);
         }
 
-        // hiddenActions is covered separately below: the auto-renderer unions the
-        // MCP denylist into hideAction, so its value is a superset of LiveboardEmbed's.
+        // hiddenActions is covered separately below: the auto-renderer unions
+        // the MCP denylist into hideAction, so its value is a superset of
+        // LiveboardEmbed's.
         test.each([
             ['disabledActions', { disabledActions: [Action.Pin] }, 'disableAction'],
             ['visibleActions', { visibleActions: [Action.Download] }, 'visibleAction'],
@@ -793,7 +794,8 @@ describe('startAutoMCPFrameRenderer', () => {
             const liveboardParsed = JSON.parse(liveboardValue);
             expect(Array.isArray(autoParsed)).toBe(true);
             expect(Array.isArray(liveboardParsed)).toBe(true);
-            // Auto-renderer hides everything LiveboardEmbed does, plus the MCP denylist.
+            // Auto-renderer hides everything LiveboardEmbed does, plus the MCP
+            // denylist.
             liveboardParsed.forEach((action: string) => expect(autoParsed).toContain(action));
             HiddenActionItemByDefaultForMCPAnswers.forEach((action) =>
                 expect(autoParsed).toContain(action));
@@ -865,6 +867,17 @@ describe('startAutoMCPFrameRenderer', () => {
             return { renderedSrc, frame: frame! };
         }
 
+        /**
+         * A replay frame that cannot be resolved is replaced with a text
+         * notice: no embed is rendered and no iframe is left behind.
+         */
+        function expectUnresolvedNotice(renderedSrc: string) {
+            expect(renderedSrc).toBe('');
+            expect(renderIFrameSpy).not.toHaveBeenCalled();
+            expect(document.body.textContent).toContain('This answer could not be loaded.');
+            expect(document.querySelector('iframe')).toBeNull();
+        }
+
         beforeEach(() => {
             fetchMock = jest.spyOn(global, 'fetch').mockImplementation(async (input: any) => {
                 const url = typeof input === 'string' ? input : input.url;
@@ -928,14 +941,75 @@ describe('startAutoMCPFrameRenderer', () => {
             expect(frame.title).toBe('Numbers may differ.');
         });
 
-        test('falls back to the source URL when resolution fails', async () => {
+        test('shows a notice instead of the bare source URL when resolution fails', async () => {
             fetchMock.mockImplementation(async () => ({ ok: false, status: 500 } as any));
-            const { renderedSrc, frame } = await renderReplayFrame();
+            const { renderedSrc } = await renderReplayFrame();
 
-            // No invented params, and no notice claiming a successful refresh.
-            expect(renderedSrc).toBe(REPLAY_SRC);
-            expect(renderedSrc).not.toContain('sessionId=');
-            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+            // The source URL has no session params, so rendering it would load
+            // the ThoughtSpot homepage outside embed mode.
+            expectUnresolvedNotice(renderedSrc);
+        });
+
+        test('a 422 from the conversation service is handled once, with no loop', async () => {
+            // "Invalid org id" from the conversation service (SCAL-352370).
+            fetchMock.mockImplementation(async () => ({ ok: false, status: 422 } as any));
+            const { renderedSrc } = await renderReplayFrame(
+                {},
+                `${REPLAY_SRC}&keep=1#/embed/conv-assist-answer`,
+            );
+
+            expectUnresolvedNotice(renderedSrc);
+            // One conversation lookup, not one per loop turn.
+            expect(fetchMock).toHaveBeenCalledTimes(1);
+        });
+
+        /** Renders TSMCP_SRC with renderIFrame inserting what `build` returns. */
+        async function renderInserting(build: (frame: HTMLIFrameElement) => Node) {
+            let inserted: Node;
+            renderIFrameSpy.mockRestore();
+            renderIFrameSpy = jest.spyOn(TsEmbed.prototype as any, 'renderIFrame')
+                .mockImplementation(async function (this: any) {
+                    // The marker survives here on purpose: only the guard
+                    // stands between this output and the observer.
+                    const frame = document.createElement('iframe');
+                    frame.src = TSMCP_SRC;
+                    this.setIframeElement(frame);
+                    inserted = build(frame);
+                    this.handleInsertionIntoDOM(inserted);
+                });
+
+            const observer = startAutoMCPFrameRenderer();
+            const iframe = document.createElement('iframe');
+            iframe.src = TSMCP_SRC;
+            document.body.appendChild(iframe);
+            await new Promise((r) => setTimeout(r, 300));
+            observer.disconnect();
+            return inserted!;
+        }
+
+        test('never re-processes a frame it inserted even if its src carries tsmcp=true', async () => {
+            const inserted = await renderInserting((frame) => frame);
+
+            expect(renderIFrameSpy).toHaveBeenCalledTimes(1);
+            expect(inserted.isConnected).toBe(true);
+        });
+
+        test('never re-processes an iframe nested inside a node it inserted', async () => {
+            const inserted = await renderInserting((frame) => {
+                const wrapper = document.createElement('div');
+                wrapper.appendChild(frame);
+                return wrapper;
+            });
+
+            expect(renderIFrameSpy).toHaveBeenCalledTimes(1);
+            expect(inserted.isConnected).toBe(true);
+        });
+
+        test('tags the inserted node with its embed instance, like the base class', async () => {
+            const inserted = await renderInserting((frame) => frame);
+
+            expect((inserted as any).__tsEmbed).toBeInstanceOf(TsEmbed);
+            expect((inserted as any).__tsEmbed.insertedDomEl).toBe(inserted);
         });
 
         test.each([
@@ -951,10 +1025,9 @@ describe('startAutoMCPFrameRenderer', () => {
                     json: async () => (url.includes('/load/public') ? detailsPayload : body),
                 } as any;
             });
-            const { renderedSrc, frame } = await renderReplayFrame();
+            const { renderedSrc } = await renderReplayFrame();
 
-            expect(renderedSrc).not.toContain('sessionId=');
-            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+            expectUnresolvedNotice(renderedSrc);
         });
 
         test('falls back on a null details body instead of throwing', async () => {
@@ -968,7 +1041,7 @@ describe('startAutoMCPFrameRenderer', () => {
             });
             const { renderedSrc } = await renderReplayFrame();
 
-            expect(renderedSrc).not.toContain('sessionId=');
+            expectUnresolvedNotice(renderedSrc);
         });
 
         test.each([
@@ -986,13 +1059,11 @@ describe('startAutoMCPFrameRenderer', () => {
                     json: async () => (url.includes('/load/public') ? { answer } : messagesPayload),
                 } as any;
             });
-            const { renderedSrc, frame } = await renderReplayFrame();
+            const { renderedSrc } = await renderReplayFrame();
 
-            // Never emit a literal "null" generation into the hash.
-            expect(renderedSrc).not.toContain('genNo=null');
-            expect(renderedSrc).not.toContain('acGenNo=null');
-            expect(renderedSrc).not.toContain('sessionId=');
-            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+            // Never emit a literal "null" generation into the hash: the
+            // answer is treated as unresolved and no embed is rendered.
+            expectUnresolvedNotice(renderedSrc);
         });
 
         test.each([
@@ -1088,14 +1159,13 @@ describe('startAutoMCPFrameRenderer', () => {
             const src = `https://${thoughtSpotHost}/v2/?${Param.Tsmcp}=true`
                 + `&${Param.TsmcpConversationId}=${CONVERSATION_ID}`
                 + `&${Param.TsmcpAnswerIndex}=5`;
-            const { renderedSrc, frame } = await renderReplayFrame({}, src);
+            const { renderedSrc } = await renderReplayFrame({}, src);
 
             // The list, read once more in case it predated the answer; there is
             // no answer to load.
             expect(fetchedUrls()).toHaveLength(2);
             expect(fetchedUrls().every((url) => url.endsWith('/public') && !url.includes('/load/'))).toBe(true);
-            expect(renderedSrc).not.toContain('sessionId=');
-            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+            expectUnresolvedNotice(renderedSrc);
         });
 
         test('falls back when the answer load fails', async () => {
@@ -1106,21 +1176,19 @@ describe('startAutoMCPFrameRenderer', () => {
                 }
                 return { ok: true, status: 200, json: async () => messagesPayload } as any;
             });
-            const { renderedSrc, frame } = await renderReplayFrame();
+            const { renderedSrc } = await renderReplayFrame();
 
             expect(fetchedUrls()).toHaveLength(2);
-            expect(renderedSrc).not.toContain('sessionId=');
-            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+            expectUnresolvedNotice(renderedSrc);
         });
 
         test('falls back when a fetch throws', async () => {
             fetchMock.mockImplementation(async () => {
                 throw new Error('network down');
             });
-            const { renderedSrc, frame } = await renderReplayFrame();
+            const { renderedSrc } = await renderReplayFrame();
 
-            expect(renderedSrc).not.toContain('sessionId=');
-            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+            expectUnresolvedNotice(renderedSrc);
         });
 
         test.each([
@@ -1133,10 +1201,9 @@ describe('startAutoMCPFrameRenderer', () => {
             ['a positive generation_number', { ...detailsPayload.answer, generation_number: 0 }],
         ])('treats a missing %s as unresolvable', async (_label, answer) => {
             mockConversation(messagesPayload, { answer });
-            const { renderedSrc, frame } = await renderReplayFrame();
+            const { renderedSrc } = await renderReplayFrame();
 
-            expect(renderedSrc).not.toContain('sessionId=');
-            expect(frame.dataset.tsStaleAnswer).toBeUndefined();
+            expectUnresolvedNotice(renderedSrc);
         });
 
         test('skips the notice when no iframe was rendered', async () => {
