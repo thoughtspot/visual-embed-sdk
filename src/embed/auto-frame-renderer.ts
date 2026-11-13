@@ -80,7 +80,7 @@ export const HiddenActionItemByDefaultForMCPAnswers = [
  * A frame that replays a stored chat (it carries
  * {@link Param.TsmcpConversationId}) is resolved to the answer's current
  * session first. If that fails, the frame is replaced with a short text
- * notice instead of an embed.
+ * notice instead of an embed; set `unresolvedAnswerNoticeText` to change it.
  *
  * Call {@link MutationObserver.disconnect | observer.disconnect()} on the
  * returned observer to stop monitoring the DOM.
@@ -550,7 +550,9 @@ class AutoFrameRenderer extends TsEmbed {
             );
             if (!resolved) {
                 // The reason is already logged by the resolver.
-                this.handleInsertionIntoDOM(UNRESOLVED_ANSWER_NOTICE);
+                this.handleInsertionIntoDOM(
+                    this.viewConfig.unresolvedAnswerNoticeText || UNRESOLVED_ANSWER_NOTICE,
+                );
                 this.isRendered = true;
                 return;
             }

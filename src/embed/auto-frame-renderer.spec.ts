@@ -950,6 +950,15 @@ describe('startAutoMCPFrameRenderer', () => {
             expectUnresolvedNotice(renderedSrc);
         });
 
+        test('unresolvedAnswerNoticeText overrides the default notice', async () => {
+            fetchMock.mockImplementation(async () => ({ ok: false, status: 500 } as any));
+            await renderReplayFrame({ unresolvedAnswerNoticeText: 'Answer unavailable.' });
+
+            expect(document.body.textContent).toContain('Answer unavailable.');
+            expect(document.body.textContent).not.toContain('This answer could not be loaded.');
+            expect(document.querySelector('iframe')).toBeNull();
+        });
+
         test('a 422 from the conversation service is handled once, with no loop', async () => {
             // "Invalid org id" from the conversation service (SCAL-352370).
             fetchMock.mockImplementation(async () => ({ ok: false, status: 422 } as any));

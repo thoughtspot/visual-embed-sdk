@@ -1794,6 +1794,23 @@ export type AutoMCPFrameRendererViewConfig = Omit<
      * @version SDK: 1.51.3
      */
     staleAnswerNoticeText?: string;
+    /**
+     * Text shown in place of an answer from a stored conversation that cannot
+     * be loaded, for example because the conversation is no longer available.
+     * The frame is replaced with this text instead of an embed. Override it to
+     * translate the message or match your own product voice.
+     *
+     * Only affects frames carrying {@link Param.TsmcpConversationId}.
+     * @default 'This answer could not be loaded.'
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * startAutoMCPFrameRenderer({
+     *   unresolvedAnswerNoticeText: 'This answer is no longer available.',
+     * });
+     * ```
+     */
+    unresolvedAnswerNoticeText?: string;
 };
 
 /**
