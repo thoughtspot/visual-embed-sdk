@@ -17,6 +17,12 @@ describe('check-tests-included', () => {
         expect(check(['src/embed/liveboard.ts', 'src/embed/liveboard.spec.ts']).ok).toBe(true);
     });
 
+    test('fails when the only spec changed is outside src/', () => {
+        const result = check(['src/embed/liveboard.ts', 'scripts/check-tests-included.spec.js']);
+        expect(result.ok).toBe(false);
+        expect(result.src).toEqual(['src/embed/liveboard.ts']);
+    });
+
     test('ignores .d.ts-only changes', () => {
         expect(check(['src/types.d.ts']).ok).toBe(true);
     });
