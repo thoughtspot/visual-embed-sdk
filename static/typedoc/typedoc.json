@@ -1602,7 +1602,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl"
+								"text": "SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl"
 							},
 							{
 								"tag": "example",
@@ -2900,7 +2900,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl"
+								"text": "SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl"
 							},
 							{
 								"tag": "example",
@@ -3431,7 +3431,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl"
+								"text": "SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl"
 							},
 							{
 								"tag": "example",
@@ -4303,7 +4303,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl"
+								"text": "SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl"
 							},
 							{
 								"tag": "example",
@@ -11043,7 +11043,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl\n"
+								"text": "SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl\n"
 							}
 						]
 					},
@@ -13550,7 +13550,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl\n"
+								"text": "SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl\n"
 							}
 						]
 					},
@@ -15663,7 +15663,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl\n"
+								"text": "SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl\n"
 							}
 						]
 					},
@@ -15807,7 +15807,7 @@
 							},
 							{
 								"tag": "version",
-								"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl\n"
+								"text": "SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl\n"
 							}
 						]
 					},
@@ -33559,7 +33559,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl"
+								"text": "SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl"
 							},
 							{
 								"tag": "example",
@@ -59185,7 +59185,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl"
+								"text": "SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl"
 							},
 							{
 								"tag": "example",
@@ -70823,7 +70823,7 @@
 						"tags": [
 							{
 								"tag": "version",
-								"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 26.11.0.cl"
+								"text": "SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl"
 							},
 							{
 								"tag": "default",
@@ -77844,7 +77844,7 @@
 											},
 											{
 												"tag": "version",
-												"text": "SDK: 1.54.1 | ThoughtSpot Cloud: 26.9.0.cl"
+												"text": "SDK: <TBD> | ThoughtSpot Cloud: 26.9.0.cl"
 											},
 											{
 												"tag": "example",
