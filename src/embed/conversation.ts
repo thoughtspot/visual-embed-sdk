@@ -434,7 +434,7 @@ export interface SpotterChatViewConfig {
      * default Spotter experience.
      *
      * Supported embed types: `SpotterEmbed`, `LiveboardEmbed`, `AppEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 26.11.0.cl
      * @default false
      * @example
      * ```js
