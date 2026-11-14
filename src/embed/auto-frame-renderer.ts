@@ -415,7 +415,7 @@ class AutoFrameRenderer extends TsEmbed {
      *    agent-context state.
      *
      * @returns The resolved parameters, or `null` when resolution fails - the
-     *   caller then falls back to whatever the source URL already carried.
+     *   caller then shows the unresolved-answer notice instead of an embed.
      */
     private async resolveAnswerSessionParams(
         conversationId: string,
