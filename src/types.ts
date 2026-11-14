@@ -1802,7 +1802,7 @@ export type AutoMCPFrameRendererViewConfig = Omit<
      *
      * Only affects frames carrying {@link Param.TsmcpConversationId}.
      * @default 'This answer could not be loaded.'
-     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 26.10.0.cl
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 26.9.0.cl
      * @example
      * ```js
      * startAutoMCPFrameRenderer({
