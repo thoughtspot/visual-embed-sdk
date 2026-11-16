@@ -3,6 +3,7 @@ const os = require('os');
 const path = require('path');
 
 const {
+    PLACEHOLDER_TOKEN,
     PROBLEM,
     cloudVersionWarning,
     collectSourceFiles,
@@ -31,15 +32,15 @@ describe('parseArgs', () => {
 describe('resolveVersionLine', () => {
     test('resolves the SDK half and leaves the ThoughtSpot half alone', () => {
         expect(
-            resolveVersionLine(' * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl', SDK_VERSION),
+            resolveVersionLine(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.10.0.cl', SDK_VERSION),
         ).toBe(` * @version SDK: ${SDK_VERSION} | ThoughtSpot Cloud: 26.10.0.cl`);
     });
 
     test('never invents a ThoughtSpot release', () => {
-        // The SDK half resolves; the ThoughtSpot <TBD> is deliberately left for
-        // --lint / --check to report rather than being silently filled in.
-        expect(resolveVersionLine(' * @version SDK: <TBD> | ThoughtSpot: <TBD>', SDK_VERSION)).toBe(
-            ` * @version SDK: ${SDK_VERSION} | ThoughtSpot: <TBD>`,
+        // The SDK half resolves; the ThoughtSpot placeholder is deliberately
+        // left for --lint / --check to report rather than silently filled in.
+        expect(resolveVersionLine(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: %NEXT_SDK_VERSION%', SDK_VERSION)).toBe(
+            ` * @version SDK: ${SDK_VERSION} | ThoughtSpot: %NEXT_SDK_VERSION%`,
         );
     });
 
@@ -48,66 +49,94 @@ describe('resolveVersionLine', () => {
         expect(resolveVersionLine(released, SDK_VERSION)).toBe(released);
     });
 
-    test('is case insensitive on the placeholder', () => {
-        expect(resolveVersionLine(' * @version SDK: <tbd> | ThoughtSpot: *', SDK_VERSION)).toBe(
-            ` * @version SDK: ${SDK_VERSION} | ThoughtSpot: *`,
-        );
+    test.each([
+        ['a lowercase token', ' * @version SDK: %next_sdk_version% | ThoughtSpot: *'],
+        ['the legacy <TBD> token', ' * @version SDK: <TBD> | ThoughtSpot: *'],
+    ])('only resolves the exact placeholder, not %s', (_, line) => {
+        expect(resolveVersionLine(line, SDK_VERSION)).toBe(line);
     });
 });
 
 describe('inspectVersionLine', () => {
     test('accepts a placeholder in the SDK half with a real ThoughtSpot release', () => {
-        expect(inspectVersionLine(' * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl')).toEqual(
+        expect(inspectVersionLine(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.10.0.cl')).toEqual(
             [PROBLEM.UNRESOLVED_SDK],
         );
     });
 
     test('rejects a placeholder in the ThoughtSpot half', () => {
-        expect(inspectVersionLine(' * @version SDK: <TBD> | ThoughtSpot: <TBD>')).toContain(
-            PROBLEM.TBD_THOUGHTSPOT,
+        expect(inspectVersionLine(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: %NEXT_SDK_VERSION%')).toContain(
+            PROBLEM.PLACEHOLDER_THOUGHTSPOT,
         );
     });
 
     test('rejects a new annotation that names no ThoughtSpot release', () => {
-        expect(inspectVersionLine(' * @version SDK: <TBD>')).toContain(PROBLEM.MISSING_THOUGHTSPOT);
+        expect(inspectVersionLine(' * @version SDK: %NEXT_SDK_VERSION%')).toContain(PROBLEM.MISSING_THOUGHTSPOT);
     });
 
     test('leaves legacy SDK-only annotations alone', () => {
         // ~The repo has many `@version SDK: 1.19.0` lines with no ThoughtSpot
-        // segment. The rule is only enforced on lines still carrying <TBD>.
+        // segment. The rule is only enforced on lines still carrying the
+        // placeholder.
         expect(inspectVersionLine(' * @version SDK: 1.19.0')).toEqual([]);
     });
 
     test.each([
-        ['an empty ThoughtSpot half', ' * @version SDK: <TBD> | '],
-        ['a ThoughtSpot label with no version', ' * @version SDK: <TBD> | ThoughtSpot Cloud:'],
-        ['a ThoughtSpot half with no version in it', ' * @version SDK: <TBD> | ThoughtSpot: TODO'],
-    ])('rejects %s on a <TBD> line', (_, line) => {
+        ['an empty ThoughtSpot half', ' * @version SDK: %NEXT_SDK_VERSION% | '],
+        ['a ThoughtSpot label with no version', ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud:'],
+        ['a ThoughtSpot half with no version in it', ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: TODO'],
+    ])('rejects %s on a placeholder line', (_, line) => {
         expect(inspectVersionLine(line)).toEqual([PROBLEM.UNRESOLVED_SDK, PROBLEM.MISSING_THOUGHTSPOT]);
     });
 
-    test('reports a <TBD> ThoughtSpot half once, not also as missing', () => {
-        expect(inspectVersionLine(' * @version SDK: <TBD> | ThoughtSpot: <TBD>')).toEqual([
-            PROBLEM.TBD_THOUGHTSPOT,
+    test('reports a placeholder ThoughtSpot half once, not also as missing', () => {
+        expect(inspectVersionLine(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: %NEXT_SDK_VERSION%')).toEqual([
+            PROBLEM.PLACEHOLDER_THOUGHTSPOT,
             PROBLEM.UNRESOLVED_SDK,
         ]);
     });
 
     test.each([
-        ['a wildcard', ' * @version SDK: <TBD> | ThoughtSpot: *'],
-        ['a software release', ' * @version SDK: <TBD> | ThoughtSpot: 10.1.0.sw'],
-        ['a Cloud and a software release', ' * @version SDK: <TBD> | ThoughtSpot: 26.10.0.cl, 10.13.0.sw'],
+        ['a wildcard', ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: *'],
+        ['a software release', ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: 10.1.0.sw'],
+        ['a Cloud and a software release', ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: 26.10.0.cl, 10.13.0.sw'],
     ])('accepts %s as the ThoughtSpot release', (_, line) => {
         expect(inspectVersionLine(line)).toEqual([PROBLEM.UNRESOLVED_SDK]);
     });
 
     test.each([
-        ['a misspelled placeholder', ' * @version SDK: <TDB> | ThoughtSpot Cloud: 26.10.0.cl'],
+        ['a misspelled placeholder', ' * @version SDK: %NEXT_SDK_VERSON% | ThoughtSpot Cloud: 26.10.0.cl'],
+        ['a lowercase placeholder', ' * @version SDK: %next_sdk_version% | ThoughtSpot Cloud: 26.10.0.cl'],
+        ['a placeholder missing a %', ' * @version SDK: %NEXT_SDK_VERSION | ThoughtSpot Cloud: 26.10.0.cl'],
+        ['a misspelled legacy placeholder', ' * @version SDK: <TDB> | ThoughtSpot Cloud: 26.10.0.cl'],
         ['a bare TBD', ' * @version SDK: TBD | ThoughtSpot Cloud: 26.10.0.cl'],
         ['a two-part version', ' * @version SDK: 1.53 | ThoughtSpot Cloud: 26.10.0.cl'],
         ['no version at all', ' * @version SDK: | ThoughtSpot Cloud: 26.10.0.cl'],
     ])('flags %s in the SDK half', (_, line) => {
         expect(inspectVersionLine(line)).toEqual([PROBLEM.MALFORMED_SDK]);
+    });
+
+    test.each([
+        ['the SDK half', ' * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl'],
+        ['the SDK half, in lowercase', ' * @version SDK: <tbd> | ThoughtSpot Cloud: 26.10.0.cl'],
+        ['the ThoughtSpot half of a released tag', ' * @version SDK: 1.54.0 | ThoughtSpot: <TBD>'],
+        ['both halves', ' * @version SDK: <TBD> | ThoughtSpot: <TBD>'],
+    ])('reports a legacy <TBD> in %s once, with the rename hint', (_, line) => {
+        expect(inspectVersionLine(line)).toEqual([PROBLEM.LEGACY_PLACEHOLDER]);
+    });
+
+    test('reports a legacy <TBD> ThoughtSpot half once, not also as missing', () => {
+        expect(
+            inspectVersionLine(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: <TBD>'),
+        ).toEqual([PROBLEM.LEGACY_PLACEHOLDER, PROBLEM.UNRESOLVED_SDK]);
+    });
+
+    test('gives the same answer every time it sees the same line', () => {
+        // Guards against stateful matching (a global RegExp's lastIndex), which
+        // would make every second check of a line come back clean.
+        const line = ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.10.0.cl';
+        expect(inspectVersionLine(line)).toEqual([PROBLEM.UNRESOLVED_SDK]);
+        expect(inspectVersionLine(line)).toEqual([PROBLEM.UNRESOLVED_SDK]);
     });
 
     test('accepts a well-formed SDK half with trailing whitespace or CRLF', () => {
@@ -176,8 +205,8 @@ describe('processFile', () => {
             'a.ts',
             [
                 '/**',
-                ' * A <TBD> in prose stays put.',
-                ' * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl',
+                ' * A %NEXT_SDK_VERSION% in prose stays put.',
+                ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.10.0.cl',
                 ' */',
             ].join('\n'),
         );
@@ -187,7 +216,7 @@ describe('processFile', () => {
         expect(changed).toBe(true);
         expect(hits).toHaveLength(1);
         expect(hits[0].line).toBe(3);
-        expect(updated).toContain(' * A <TBD> in prose stays put.');
+        expect(updated).toContain(' * A %NEXT_SDK_VERSION% in prose stays put.');
         expect(updated).toContain(` * @version SDK: ${SDK_VERSION} | ThoughtSpot Cloud: 26.10.0.cl`);
     });
 
@@ -201,9 +230,9 @@ describe('processFile', () => {
         const filePath = writeSource(
             'c.ts',
             [
-                ' * @version SDK: <TBD> | ThoughtSpot: *',
+                ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: *',
                 'export const a = 1;',
-                ' * @version SDK: <TBD> | ThoughtSpot: *',
+                ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: *',
             ].join('\n'),
         );
 
@@ -211,7 +240,7 @@ describe('processFile', () => {
     });
 
     test('preserves CRLF line endings', () => {
-        const filePath = writeSource('d.ts', '/**\r\n * @version SDK: <TBD> | ThoughtSpot: *\r\n */\r\n');
+        const filePath = writeSource('d.ts', '/**\r\n * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: *\r\n */\r\n');
 
         expect(processFile(filePath, SDK_VERSION).updated).toBe(
             `/**\r\n * @version SDK: ${SDK_VERSION} | ThoughtSpot: *\r\n */\r\n`,
@@ -263,11 +292,11 @@ describe('main', () => {
     const read = (name) => fs.readFileSync(sourcePath(name), 'utf8');
 
     test('writes the resolved SDK version back to disk and is idempotent', () => {
-        write(' * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl');
+        write(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.10.0.cl');
 
         main([], tempDir);
         const afterFirstRun = read();
-        expect(afterFirstRun).not.toContain('<TBD>');
+        expect(afterFirstRun).not.toContain('%NEXT_SDK_VERSION%');
         expect(afterFirstRun).toContain('| ThoughtSpot Cloud: 26.10.0.cl');
 
         main([], tempDir);
@@ -275,7 +304,7 @@ describe('main', () => {
     });
 
     test('--dry-run leaves the file untouched', () => {
-        const original = ' * @version SDK: <TBD> | ThoughtSpot: *';
+        const original = ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: *';
         write(original);
 
         main(['--dry-run'], tempDir);
@@ -283,8 +312,8 @@ describe('main', () => {
         expect(read()).toBe(original);
     });
 
-    test('resolving fails when a ThoughtSpot release is still <TBD>', () => {
-        write(' * @version SDK: <TBD> | ThoughtSpot: <TBD>');
+    test('resolving fails when a ThoughtSpot release is still %NEXT_SDK_VERSION%', () => {
+        write(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: %NEXT_SDK_VERSION%');
 
         main([], tempDir);
 
@@ -293,8 +322,8 @@ describe('main', () => {
     });
 
     test('a failed resolve leaves every file untouched, including resolvable ones', () => {
-        const good = ' * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl';
-        const bad = ' * @version SDK: <TBD> | ThoughtSpot: <TBD>';
+        const good = ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.10.0.cl';
+        const bad = ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: %NEXT_SDK_VERSION%';
         write(good, 'good.ts');
         write(bad, 'bad.ts');
 
@@ -316,7 +345,7 @@ describe('main', () => {
     });
 
     test('--dry-run still fails on a blocking problem', () => {
-        write(' * @version SDK: <TBD> | ');
+        write(' * @version SDK: %NEXT_SDK_VERSION% | ');
 
         main(['--dry-run'], tempDir);
 
@@ -324,7 +353,7 @@ describe('main', () => {
     });
 
     test('--lint passes a PR whose SDK half is the only placeholder', () => {
-        write(' * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl');
+        write(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.10.0.cl');
 
         main(['--lint'], tempDir);
 
@@ -332,17 +361,17 @@ describe('main', () => {
         expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('names a ThoughtSpot release'));
     });
 
-    test('--lint fails a PR that leaves the ThoughtSpot release as <TBD>', () => {
-        write(' * @version SDK: <TBD> | ThoughtSpot: <TBD>');
+    test('--lint fails a PR that leaves the ThoughtSpot release as %NEXT_SDK_VERSION%', () => {
+        write(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: %NEXT_SDK_VERSION%');
 
         main(['--lint'], tempDir);
 
         expect(exitSpy).toHaveBeenCalledWith(1);
-        expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('Only the SDK version may be <TBD>'));
+        expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('Only the SDK version may be %NEXT_SDK_VERSION%'));
     });
 
     test('--lint fails a PR that names no ThoughtSpot release at all', () => {
-        write(' * @version SDK: <TBD>');
+        write(' * @version SDK: %NEXT_SDK_VERSION%');
 
         main(['--lint'], tempDir);
 
@@ -350,8 +379,8 @@ describe('main', () => {
     });
 
     test.each([
-        ['an empty ThoughtSpot half', ' * @version SDK: <TBD> | '],
-        ['a ThoughtSpot label with no version', ' * @version SDK: <TBD> | ThoughtSpot Cloud:'],
+        ['an empty ThoughtSpot half', ' * @version SDK: %NEXT_SDK_VERSION% | '],
+        ['a ThoughtSpot label with no version', ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud:'],
         ['a misspelled placeholder', ' * @version SDK: <TDB> | ThoughtSpot Cloud: 26.10.0.cl'],
     ])('--lint fails a PR with %s', (_, line) => {
         write(line);
@@ -359,6 +388,27 @@ describe('main', () => {
         main(['--lint'], tempDir);
 
         expect(exitSpy).toHaveBeenCalledWith(1);
+    });
+
+    test('--lint fails a PR still using the legacy <TBD> and says what to write instead', () => {
+        write(' * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl');
+
+        main(['--lint'], tempDir);
+
+        expect(exitSpy).toHaveBeenCalledWith(1);
+        expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining(
+            `the <TBD> placeholder was renamed — write ${PLACEHOLDER_TOKEN}`,
+        ));
+    });
+
+    test('resolving never rewrites a legacy <TBD>, and changes no file', () => {
+        const legacy = ' * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl';
+        write(legacy);
+
+        main([], tempDir);
+
+        expect(exitSpy).toHaveBeenCalledWith(1);
+        expect(read()).toBe(legacy);
     });
 
     test('--lint passes legacy annotations it does not enforce on', () => {
@@ -374,7 +424,7 @@ describe('main', () => {
     });
 
     test('--check exits non-zero when a placeholder is unresolved', () => {
-        write(' * @version SDK: <TBD> | ThoughtSpot: *');
+        write(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: *');
 
         main(['--check'], tempDir);
 
@@ -390,9 +440,9 @@ describe('main', () => {
         expect(exitSpy).toHaveBeenCalledWith(1);
     });
 
-    test('--check only warns about <TBD> SDK halves in a pre-release', () => {
+    test('--check only warns about %NEXT_SDK_VERSION% SDK halves in a pre-release', () => {
         const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
-        write(' * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl');
+        write(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.10.0.cl');
 
         main(['--check'], tempDir, '1.53.2-beta.1');
 
@@ -401,7 +451,7 @@ describe('main', () => {
     });
 
     test('--check still fails a pre-release on anything other than a pending SDK half', () => {
-        write(' * @version SDK: <TBD> | ThoughtSpot: <TBD>');
+        write(' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: %NEXT_SDK_VERSION%');
 
         main(['--check'], tempDir, '1.53.2-beta.1');
 

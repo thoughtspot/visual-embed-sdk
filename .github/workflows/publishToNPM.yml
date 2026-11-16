@@ -56,6 +56,16 @@ jobs:
       - name: Run npm install
         run: npm install --legacy-peer-deps
 
+      # Fail before anything is published if a `@version SDK: %NEXT_SDK_VERSION%`
+      # placeholder is still unresolved, or any @version tag is malformed. This
+      # happens when a PR with a placeholder merges after the release bump ran;
+      # re-run bump-version-and-pr to resolve it. Pre-releases only warn about a
+      # pending placeholder (see Contributing.md). `prepublishOnly` runs the same
+      # check inside `npm publish`; this makes it a visible step of its own, so the
+      # run fails on it by name instead of somewhere in the publish log.
+      - name: Block publish on unresolved @version placeholders
+        run: npm run check-versions
+
       # Publish
       - name: Publish
         run: |
