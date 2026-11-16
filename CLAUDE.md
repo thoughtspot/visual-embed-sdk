@@ -21,7 +21,8 @@ doc comment as a defect, not a nit.
 
 Generated — never hand-edit: `static/typedoc/typedoc.json` (`npm run docgen`) and
 `package-lock.json`. The bump-version workflow commits exactly those two plus
-`package.json` and `src` (where it resolves `@version SDK: <TBD>` placeholders).
+`package.json` and `src` (where it resolves `@version SDK: %NEXT_SDK_VERSION%`
+placeholders).
 
 `CHANGELOG.md` is **hand-maintained** — no workflow writes it, and it has drifted
 far behind `package.json`. It is excluded from review by choice, not because a
@@ -92,9 +93,11 @@ at 1.50 and `src/` has moved past it. Extending the sequence is correct; treatin
 `| ThoughtSpot:` without "Cloud" is legacy. It is fine where it already exists;
 use the full form in new tags.
 
-In a new tag, write `SDK: <TBD>` rather than guessing — the release bump fills it
-in (`scripts/resolve-version-placeholders.js`). Only the SDK half may be `<TBD>`;
-the ThoughtSpot half must name a real release or `*`. See `Contributing.md`.
+In a new tag, write `SDK: %NEXT_SDK_VERSION%` rather than guessing — the release
+bump fills it in (`scripts/resolve-version-placeholders.js`). Spell it exactly
+that way, in capitals; nothing else is replaced. Only the SDK half may be the
+placeholder; the ThoughtSpot half must name a real release or `*`. The old
+placeholder `<TBD>` is rejected. See `Contributing.md`.
 
 ### Boolean params — prefer `undefined` over `= false`
 
@@ -133,8 +136,9 @@ Nothing checks the inside of a comment block: `eslint-plugin-jsdoc` is in
 reformat comment interiors. So tag order, tag casing, example validity, and `*`
 alignment within an example are unchecked by tooling — they only get caught by
 review. The one exception is `@version`: the `validate-version-tags` PR check
-(`npm run lint-versions`) requires every SDK half to be `X.Y.Z` or `<TBD>`, and
-every `<TBD>` tag to name a ThoughtSpot release. The rest of its format is still
+(`npm run lint-versions`) requires every SDK half to be `X.Y.Z` or
+`%NEXT_SDK_VERSION%`, every placeholder tag to name a ThoughtSpot release, and no
+tag to use the old `<TBD>`. The rest of its format is still
 review-only.
 
 ## Build and CI

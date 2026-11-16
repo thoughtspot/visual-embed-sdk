@@ -1,22 +1,27 @@
 /**
- * Resolves `<TBD>` placeholders in `@version` JSDoc tags to the real SDK
- * release version.
+ * Resolves `%NEXT_SDK_VERSION%` placeholders in `@version` JSDoc tags to the
+ * real SDK release version.
  *
  * Contributors cannot know which SDK version their PR will ship in — the next
  * published version is only decided when the bump-version-and-pr workflow runs.
  * So they write the placeholder for the SDK half, and the real ThoughtSpot
  * release they are building against for the other:
  *
- *     @version SDK: <TBD> | ThoughtSpot: 26.10.0.cl
+ *     @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot: 26.10.0.cl
  *
  * and this script rewrites it during the release bump, before `npm run docgen`
  * generates the typedoc JSON the docs site is built from:
  *
  *     @version SDK: 1.53.0 | ThoughtSpot: 26.10.0.cl
  *
- * ONLY the SDK half may be `<TBD>`. The ThoughtSpot release is not derivable
- * from this repo, so nothing downstream can fill it in — the author must state
- * it. `--lint` enforces that at PR time.
+ * The token is deliberately one nobody would type by accident, and is matched
+ * exactly (case-sensitive), so the release bump never rewrites anything it was
+ * not meant to. It used to be `<TBD>`; that spelling is now rejected with a
+ * pointer to the new one.
+ *
+ * ONLY the SDK half may be the placeholder. The ThoughtSpot release is not
+ * derivable from this repo, so nothing downstream can fill it in — the author
+ * must state it. `--lint` enforces that at PR time.
  *
  * Only lines containing `@version` are touched. Within such a line, the segment
  * before the first `|` is the SDK version and anything after it is the
@@ -33,42 +38,59 @@ const path = require('path');
 const SOURCE_DIR = path.join(__dirname, '..', 'src');
 const SOURCE_EXTENSIONS = ['.ts', '.tsx'];
 const VERSION_TAG = '@version';
-const PLACEHOLDER = /<TBD>/gi;
+const PLACEHOLDER_TOKEN = '%NEXT_SDK_VERSION%';
+// Exact and case-sensitive on purpose: a near miss must fail, not resolve.
+const PLACEHOLDER = new RegExp(PLACEHOLDER_TOKEN, 'g');
+// The old placeholder spelling. Never resolved, only reported, so a PR written
+// against the old convention fails loudly instead of slipping through.
+const LEGACY_PLACEHOLDER = /<TBD>/i;
 const SEGMENT_SEPARATOR = '|';
 
 const PROBLEM = {
-    // `<TBD>` left in the SDK half. Expected on a feature branch, resolved by
-    // the release bump, and a hard failure by the time we publish.
+    // Placeholder left in the SDK half. Expected on a feature branch, resolved
+    // by the release bump, and a hard failure by the time we publish.
     UNRESOLVED_SDK: 'UNRESOLVED_SDK',
-    // `<TBD>` in the ThoughtSpot half. Never valid: no automation can resolve it.
-    TBD_THOUGHTSPOT: 'TBD_THOUGHTSPOT',
+    // Placeholder in the ThoughtSpot half. Never valid: no automation can resolve it.
+    PLACEHOLDER_THOUGHTSPOT: 'PLACEHOLDER_THOUGHTSPOT',
     // A new annotation that names no ThoughtSpot release at all, or leaves it
     // blank (`| ` or `| ThoughtSpot Cloud:` with no version after it).
     MISSING_THOUGHTSPOT: 'MISSING_THOUGHTSPOT',
-    // An SDK half that is neither a version nor `<TBD>`, e.g. the typo `<TDB>`.
-    // Checked on every `@version` line: nothing else would catch it, and it
-    // would otherwise ship to the docs site verbatim.
+    // An SDK half that is neither a version nor the placeholder, e.g. a typo
+    // such as `%NEXT_SDK_VERSON%`. Checked on every `@version` line: nothing
+    // else would catch it, and it would otherwise ship to the docs verbatim.
     MALFORMED_SDK: 'MALFORMED_SDK',
+    // `<TBD>` anywhere on the line: the placeholder before it was renamed.
+    LEGACY_PLACEHOLDER: 'LEGACY_PLACEHOLDER',
 };
 
-// What a well-formed SDK half looks like: `@version SDK: 1.53.0` or `<TBD>`.
-const SDK_SEGMENT = /@version\s+SDK:\s*(?:<TBD>|\d+\.\d+\.\d+)\s*$/i;
+// A well-formed SDK half: `@version SDK: 1.53.0` or the placeholder.
+const SDK_SEGMENT = new RegExp(`@version\\s+SDK:\\s*(?:${PLACEHOLDER_TOKEN}|\\d+\\.\\d+\\.\\d+)\\s*$`);
 // A ThoughtSpot half names a release when it carries a version or `*`.
 const THOUGHTSPOT_RELEASE = /\*|\d+\.\d+\.\d+/;
 
 // Problems that make a tree unfit to merge, and so unfit to release from.
-const BLOCKING = [PROBLEM.TBD_THOUGHTSPOT, PROBLEM.MISSING_THOUGHTSPOT, PROBLEM.MALFORMED_SDK];
+const BLOCKING = [
+    PROBLEM.PLACEHOLDER_THOUGHTSPOT,
+    PROBLEM.MISSING_THOUGHTSPOT,
+    PROBLEM.MALFORMED_SDK,
+    PROBLEM.LEGACY_PLACEHOLDER,
+];
 
 const PROBLEM_HINT = {
     [PROBLEM.MALFORMED_SDK]:
-        'the SDK version must be a released version (e.g. 1.53.0) or exactly <TBD> — check for a typo',
-    [PROBLEM.TBD_THOUGHTSPOT]:
-        'the ThoughtSpot release cannot be auto-resolved — replace <TBD> with the release you are '
-        + "building against (e.g. 26.10.0.cl), or '*' if the member is not gated on a cluster version",
+        `the SDK version must be a released version (e.g. 1.53.0) or exactly ${PLACEHOLDER_TOKEN} `
+        + '— check for a typo',
+    [PROBLEM.PLACEHOLDER_THOUGHTSPOT]:
+        `the ThoughtSpot release cannot be auto-resolved — replace ${PLACEHOLDER_TOKEN} with the `
+        + "release you are building against (e.g. 26.10.0.cl), or '*' if the member is not gated "
+        + 'on a cluster version',
     [PROBLEM.MISSING_THOUGHTSPOT]:
         'name the ThoughtSpot release this ships in, e.g. '
-        + '`@version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl` '
+        + `\`@version SDK: ${PLACEHOLDER_TOKEN} | ThoughtSpot Cloud: 26.10.0.cl\` `
         + "(use '*' if it is not gated on a cluster version)",
+    [PROBLEM.LEGACY_PLACEHOLDER]:
+        `the <TBD> placeholder was renamed — write ${PLACEHOLDER_TOKEN} for the SDK version, and a `
+        + "real ThoughtSpot release (or '*') for the ThoughtSpot half",
 };
 
 // SDK minor and ThoughtSpot Cloud minor advance in lockstep: SDK 1.N.x ships
@@ -136,7 +158,7 @@ function splitVersionLine(line) {
 }
 
 /**
- * Resolves the SDK placeholder only. A `<TBD>` after the `|` is deliberately
+ * Resolves the SDK placeholder only. A placeholder after the `|` is deliberately
  * left alone so `--lint` / `--check` can report it instead of silently
  * inventing a ThoughtSpot release.
  */
@@ -154,18 +176,34 @@ function inspectVersionLine(line) {
     const { sdkSegment, thoughtSpotSegments } = splitVersionLine(line);
     const problems = [];
 
-    if (!SDK_SEGMENT.test(sdkSegment)) {
+    const isLegacy = (segment) => LEGACY_PLACEHOLDER.test(segment);
+
+    // A legacy `<TBD>` SDK half gets the rename hint instead of the generic
+    // malformed one, so the author is told exactly what to change.
+    if (isLegacy(sdkSegment)) {
+        problems.push(PROBLEM.LEGACY_PLACEHOLDER);
+    } else if (!SDK_SEGMENT.test(sdkSegment)) {
         problems.push(PROBLEM.MALFORMED_SDK);
     }
-    const tbdThoughtSpot = thoughtSpotSegments.some(hasPlaceholder);
-    if (tbdThoughtSpot) {
-        problems.push(PROBLEM.TBD_THOUGHTSPOT);
+    const legacyThoughtSpot = thoughtSpotSegments.some(isLegacy);
+    if (legacyThoughtSpot && !problems.includes(PROBLEM.LEGACY_PLACEHOLDER)) {
+        problems.push(PROBLEM.LEGACY_PLACEHOLDER);
+    }
+    const placeholderThoughtSpot = thoughtSpotSegments.some(hasPlaceholder);
+    if (placeholderThoughtSpot) {
+        problems.push(PROBLEM.PLACEHOLDER_THOUGHTSPOT);
     }
     if (hasPlaceholder(sdkSegment)) {
         problems.push(PROBLEM.UNRESOLVED_SDK);
-        // Only enforced on lines that are still `<TBD>`, i.e. annotations added
-        // since this convention landed. Existing SDK-only lines stay valid.
-        if (!tbdThoughtSpot && !THOUGHTSPOT_RELEASE.test(thoughtSpotSegments.join(SEGMENT_SEPARATOR))) {
+        // Only enforced on lines that still carry the placeholder, i.e.
+        // annotations added since this convention landed. Existing SDK-only
+        // lines stay valid. A ThoughtSpot half already reported above is not
+        // reported a second time as missing.
+        if (
+            !placeholderThoughtSpot
+            && !legacyThoughtSpot
+            && !THOUGHTSPOT_RELEASE.test(thoughtSpotSegments.join(SEGMENT_SEPARATOR))
+        ) {
             problems.push(PROBLEM.MISSING_THOUGHTSPOT);
         }
     }
@@ -231,7 +269,7 @@ function reportProblems(results, wanted) {
 }
 
 /**
- * PR-time gate: `<TBD>` in the SDK half is fine (the release bump resolves it),
+ * PR-time gate: the placeholder in the SDK half is fine (the release bump resolves it),
  * but an unresolvable ThoughtSpot half or a malformed SDK half is not.
  */
 function runLint(results) {
@@ -244,17 +282,17 @@ function runLint(results) {
 
     console.error(
         `✖ ${failures} @version annotation(s) are malformed or missing a usable ThoughtSpot release. `
-            + 'Only the SDK version may be <TBD>.',
+            + `Only the SDK version may be ${PLACEHOLDER_TOKEN}.`,
     );
     reportProblems(results, BLOCKING);
     process.exit(1);
 }
 
 /**
- * Pre-publish gate: nothing may still be `<TBD>` by the time we ship.
+ * Pre-publish gate: no placeholder may be left by the time we ship.
  *
  * Pre-releases (`1.53.2-beta.1`) are published from feature branches that
- * legitimately still carry `<TBD>` — the release bump has not run for them — so
+ * legitimately still carry the placeholder — the release bump has not run for them — so
  * there an unresolved SDK half is only a warning. Everything else still fails.
  */
 function runCheck(results, sdkVersion) {
@@ -266,11 +304,11 @@ function runCheck(results, sdkVersion) {
     if (total === 0) {
         if (pending > 0) {
             console.warn(
-                `⚠ ${pending} <TBD> SDK version placeholder(s) left in pre-release ${sdkVersion}; `
+                `⚠ ${pending} ${PLACEHOLDER_TOKEN} SDK version placeholder(s) left in pre-release ${sdkVersion}; `
                     + 'allowed for pre-releases, resolved by the next release bump.',
             );
         } else {
-            console.log('✓ No unresolved <TBD> version placeholders.');
+            console.log(`✓ No unresolved ${PLACEHOLDER_TOKEN} version placeholders.`);
         }
         return;
     }
@@ -278,7 +316,7 @@ function runCheck(results, sdkVersion) {
     console.error(
         `✖ Found ${total} unresolved or malformed @version annotation(s). `
             + 'Run `npm run resolve-versions` as part of the release bump. If the bump already ran, '
-            + 'a PR with <TBD> was merged after it — re-run the bump-version-and-pr workflow.',
+            + `a PR with ${PLACEHOLDER_TOKEN} was merged after it — re-run the bump-version-and-pr workflow.`,
     );
     reportProblems(results, wanted);
     process.exit(1);
@@ -309,7 +347,7 @@ function runResolve(results, sdkVersion, dryRun) {
 
     const total = resolvable.reduce((count, result) => count + result.hits.length, 0);
     if (total === 0) {
-        console.log('No <TBD> SDK version placeholders to resolve.');
+        console.log(`No ${PLACEHOLDER_TOKEN} SDK version placeholders to resolve.`);
     } else {
         console.log(`Resolving ${total} placeholder(s) → SDK: ${sdkVersion}${dryRun ? ' (dry run)' : ''}`);
         resolvable.forEach(({ filePath, updated, hits }) => {
@@ -348,6 +386,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+    PLACEHOLDER_TOKEN,
     PROBLEM,
     cloudVersionWarning,
     collectSourceFiles,
