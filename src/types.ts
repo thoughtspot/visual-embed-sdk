@@ -1794,6 +1794,23 @@ export type AutoMCPFrameRendererViewConfig = Omit<
      * @version SDK: 1.51.3
      */
     staleAnswerNoticeText?: string;
+    /**
+     * Text shown in place of an answer from a stored conversation that cannot
+     * be loaded, for example because the conversation is no longer available.
+     * The frame is replaced with this text instead of an embed. Override it to
+     * translate the message or match your own product voice.
+     *
+     * Only affects frames carrying {@link Param.TsmcpConversationId}.
+     * @default 'This answer could not be loaded.'
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 26.9.0.cl
+     * @example
+     * ```js
+     * startAutoMCPFrameRenderer({
+     *   unresolvedAnswerNoticeText: 'This answer is no longer available.',
+     * });
+     * ```
+     */
+    unresolvedAnswerNoticeText?: string;
 };
 
 /**
@@ -2324,7 +2341,7 @@ export interface LiveboardAppEmbedViewConfig {
      * your ThoughtSpot instance, which is off by default.
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -2335,6 +2352,37 @@ export interface LiveboardAppEmbedViewConfig {
      * ```
      */
     isPersonalizedViewsSharingEnabled?: boolean;
+    /**
+     * This flag is used to enable or disable the Liveboard Filter and Parameter
+     * Overrides feature in the embed. This feature applies the filter and
+     * Parameter overrides set in {@link LiveboardViewConfig.liveboardOverride}
+     * (`LiveboardEmbed`) or {@link AppViewConfig.liveboardOverrides} (`AppEmbed`)
+     * when a Liveboard loads. An override changes the value of a filter or
+     * Parameter that already exists on the Liveboard; it does not add one.
+     *
+     * Setting this flag to `true` does not apply overrides when the feature is
+     * turned off on your ThoughtSpot instance. If this flag is not set, the
+     * embed follows the setting on your ThoughtSpot instance.
+     *
+     * This flag does not affect runtime filters and Parameters set through
+     * `runtimeFilters`, `runtimeParameters`, or {@link HostEvent.UpdateRuntimeFilters}.
+     *
+     * For more information, see
+     * link:https://developers.thoughtspot.com/docs/liveboard-filter-and-parameter-overrides[Liveboard
+     * Filter and Parameter Overrides].
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isProgrammaticFilterParameterUpdateEnabled: true,
+     * })
+     * ```
+     */
+    isProgrammaticFilterParameterUpdateEnabled?: boolean;
     /**
      * This flag is used to enable or disable the link parameters in liveboard.
      *
@@ -3821,7 +3869,7 @@ export enum EmbedEvent {
      *   console.log(payload.data.previous);        // undefined for a new view
      * })
      * ```
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl
      */
     SharePersonalizedView = 'sharePersonalizedView',
     /**
@@ -6778,7 +6826,7 @@ export enum HostEvent {
      *     viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
      * })
      * ```
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl
      */
     SharePersonalizedView = 'SharePersonalizedView',
     /**
@@ -6804,7 +6852,7 @@ export enum HostEvent {
      *     viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
      * })
      * ```
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl
      */
     DeletePersonalizedView = 'DeletePersonalizedView',
     /**
@@ -6836,7 +6884,7 @@ export enum HostEvent {
      *     isPublic: true,
      * })
      * ```
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl
      */
     SetPersonalizedViewPublic = 'SetPersonalizedViewPublic',
     /**
@@ -7389,14 +7437,22 @@ export enum Param {
      * analytical session (conversation) identifier, from which the renderer
      * resolves the answer's current session parameters. Stripped before the
      * URL reaches the ThoughtSpot application.
+     *
+     * Set it per answer, to the session that produced that answer. One chat in
+     * the host app can span several sessions: a session belongs to the Org it
+     * was created in, so after an Org switch new answers come from a new
+     * session. An answer whose session is not in the current user's Org cannot
+     * be resolved. From the release that adds
+     * {@link AutoMCPFrameRendererViewConfig.unresolvedAnswerNoticeText}, such an
+     * answer is replaced with that notice text.
      * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.9.0.cl
      */
     TsmcpConversationId = 'tsmcpConversationId',
     /**
-     * Zero-based position of the answer within the conversation, counting only
-     * non-thinking answer items in message order. Accompanies
-     * {@link TsmcpConversationId}; defaults to 0 when absent. Stripped before
-     * the URL reaches the ThoughtSpot application.
+     * Zero-based position of the answer within its session (see
+     * {@link TsmcpConversationId}), counting only non-thinking answer items in
+     * message order. Defaults to 0 when absent, malformed, fractional or
+     * negative. Stripped before the URL reaches the ThoughtSpot application.
      * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.9.0.cl
      */
     TsmcpAnswerIndex = 'tsmcpAnswerIndex',
@@ -7538,6 +7594,7 @@ export enum Param {
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isScopedLiveboardFilteringEnabled = 'isScopedLiveboardFilteringEnabled',
     IsPersonalizedViewsSharingEnabled = 'isPersonalizedViewsSharingEnabled',
+    IsProgrammaticFilterParameterUpdateEnabled = 'isProgrammaticFilterParameterUpdateEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
     UpdatedSpotterChatPrompt = 'updatedSpotterChatPrompt',
@@ -10113,7 +10170,7 @@ export enum Action {
      * **Manage views** dialog, and **Specific users or groups** when saving a
      * view. Available when Personalized View sharing is on
      * (`isPersonalizedViewsSharingEnabled`).
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * {
@@ -10128,7 +10185,7 @@ export enum Action {
      * tab in the **Manage views** dialog, which lists the Personalized Views
      * others have shared with the user. Available when Personalized View
      * sharing is on (`isPersonalizedViewsSharingEnabled`).
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * {
@@ -10146,7 +10203,7 @@ export enum Action {
      *
      * These options predate this action, so only `hiddenActions` hides them. A
      * `visibleActions` list that doesn't include this action keeps them.
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * {
@@ -10162,7 +10219,7 @@ export enum Action {
      *
      * This option predates this action, so only `hiddenActions` hides it. A
      * `visibleActions` list that doesn't include this action keeps it.
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 27.1.0.cl
+     * @version SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl
      * @example
      * ```js
      * {
