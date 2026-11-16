@@ -67,7 +67,9 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
  * ```
  */
 export class DataAppEmbed extends TsEmbed {
-    constructor(container: HTMLElement, protected viewConfig: DataAppEmbedViewConfig) {
+    protected viewConfig: DataAppEmbedViewConfig;
+
+    constructor(container: HTMLElement, viewConfig: DataAppEmbedViewConfig) {
         viewConfig = {
             embedComponentType: 'dataApp',
             ...viewConfig,
@@ -95,8 +97,6 @@ export class DataAppEmbed extends TsEmbed {
     }
 
     public async render(): Promise<DataAppEmbed> {
-        await super.render();
-
         if (!this.viewConfig.dataAppId) {
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
@@ -108,6 +108,7 @@ export class DataAppEmbed extends TsEmbed {
             return this;
         }
 
+        await super.render();
         await this.renderIFrame(this.getIframeSrc());
         return this;
     }

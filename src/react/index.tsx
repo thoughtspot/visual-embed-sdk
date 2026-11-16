@@ -346,7 +346,7 @@ interface DataAppEmbedProps extends EmbedProps, DataAppEmbedViewConfig { }
  * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
  * @example
  * ```tsx
- * function App() {
+ * function DataApp() {
  *  return <DataAppEmbed
  *      dataAppId="<app-id>"
  *      enableDataApps={true}

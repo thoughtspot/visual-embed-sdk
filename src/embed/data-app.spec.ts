@@ -81,6 +81,17 @@ describe('DataAppEmbed', () => {
             error: ERROR_MESSAGE.DATA_APP_ID_MISSING,
         });
         expect(getIFrameEl()).toBeNull();
+        expect((embed as any).isRendered).toBeFalsy();
+    });
+
+    it('keeps the view config defaults set by the base class', () => {
+        const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+        expect((embed as any).viewConfig).toMatchObject({
+            embedComponentType: 'dataApp',
+            dataAppId: 'app-1',
+            excludeRuntimeFiltersfromURL: true,
+            excludeRuntimeParametersfromURL: true,
+        });
     });
 
     it('ignores fullHeight with a warning', () => {
