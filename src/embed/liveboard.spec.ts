@@ -1065,6 +1065,32 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test.each([true, false])('should add isProgrammaticFilterParameterUpdateEnabled flag set to %s to the iframe src', async (isEnabled) => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isProgrammaticFilterParameterUpdateEnabled: isEnabled,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isProgrammaticFilterParameterUpdateEnabled=${isEnabled}${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should not add isProgrammaticFilterParameterUpdateEnabled flag to the iframe src when undefined', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isProgrammaticFilterParameterUpdateEnabled');
+        });
+    });
+
     test('should not append runtime filters in URL if excludeRuntimeFiltersfromURL is true', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

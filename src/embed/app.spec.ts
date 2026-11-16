@@ -1435,6 +1435,30 @@ describe('App embed tests', () => {
         });
     });
 
+    test.each([true, false])('should set isProgrammaticFilterParameterUpdateEnabled to %s in url', async (isEnabled) => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            isProgrammaticFilterParameterUpdateEnabled: isEnabled,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true&profileAndHelpInNavBarHidden=false&isProgrammaticFilterParameterUpdateEnabled=${isEnabled}${defaultParamsPost}#/home`,
+            );
+        });
+    });
+
+    test('should not set isProgrammaticFilterParameterUpdateEnabled in url when undefined', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isProgrammaticFilterParameterUpdateEnabled');
+        });
+    });
+
     test('Should add the tag to the iframe src', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,
