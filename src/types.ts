@@ -1794,6 +1794,23 @@ export type AutoMCPFrameRendererViewConfig = Omit<
      * @version SDK: 1.51.3
      */
     staleAnswerNoticeText?: string;
+    /**
+     * Text shown in place of an answer from a stored conversation that cannot
+     * be loaded, for example because the conversation is no longer available.
+     * The frame is replaced with this text instead of an embed. Override it to
+     * translate the message or match your own product voice.
+     *
+     * Only affects frames carrying {@link Param.TsmcpConversationId}.
+     * @default 'This answer could not be loaded.'
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.9.0.cl
+     * @example
+     * ```js
+     * startAutoMCPFrameRenderer({
+     *   unresolvedAnswerNoticeText: 'This answer is no longer available.',
+     * });
+     * ```
+     */
+    unresolvedAnswerNoticeText?: string;
 };
 
 /**
@@ -7389,14 +7406,22 @@ export enum Param {
      * analytical session (conversation) identifier, from which the renderer
      * resolves the answer's current session parameters. Stripped before the
      * URL reaches the ThoughtSpot application.
+     *
+     * Set it per answer, to the session that produced that answer. One chat in
+     * the host app can span several sessions: a session belongs to the Org it
+     * was created in, so after an Org switch new answers come from a new
+     * session. An answer whose session is not in the current user's Org cannot
+     * be resolved. From the release that adds
+     * {@link AutoMCPFrameRendererViewConfig.unresolvedAnswerNoticeText}, such an
+     * answer is replaced with that notice text.
      * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.9.0.cl
      */
     TsmcpConversationId = 'tsmcpConversationId',
     /**
-     * Zero-based position of the answer within the conversation, counting only
-     * non-thinking answer items in message order. Accompanies
-     * {@link TsmcpConversationId}; defaults to 0 when absent. Stripped before
-     * the URL reaches the ThoughtSpot application.
+     * Zero-based position of the answer within its session (see
+     * {@link TsmcpConversationId}), counting only non-thinking answer items in
+     * message order. Defaults to 0 when absent, malformed, fractional or
+     * negative. Stripped before the URL reaches the ThoughtSpot application.
      * @version SDK: 1.52.2 | ThoughtSpot Cloud: 26.9.0.cl
      */
     TsmcpAnswerIndex = 'tsmcpAnswerIndex',
