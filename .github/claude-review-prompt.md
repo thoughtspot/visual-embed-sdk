@@ -42,6 +42,30 @@ only reviewer: a rule you skip is a rule nobody applies. That includes prose in
 `README.md` / `Contributing.md` and the `typedoc-theme/**/*.hbs` docs templates,
 not just `src/`.
 
+## MUST: Theme Builder sync for CSS variable changes
+
+Applies when the PR adds, removes or renames a property of `CustomCssVariables`
+in `src/css-variables.ts`. Check with
+`git diff "$BASE_SHA"...HEAD -- src/css-variables.ts`. Doc-comment-only edits do
+not count.
+
+Every such change MUST have a matching PR in `thoughtspot/Thoughtspot-theme-builder`
+that updates `src/data/sdkVariable.ts` (and `src/data/variablesMetaData.ts` for
+variables shown in the UI), linked in this PR's description or comments. Read
+them with `gh pr view <PR number> --json body,comments`. Only a
+`https://github.com/thoughtspot/Thoughtspot-theme-builder/pull/<number>` link
+counts.
+
+- **No link:** post an inline comment on the first changed property line,
+  starting with exactly `🔴 **MUST: Theme Builder PR required**`, that lists every
+  added and removed variable and asks the author to link the Theme Builder PR.
+  Repeat it as the last item of the summary comment.
+- **Link present:** end the summary comment with `Theme Builder PR: <link>`. You
+  cannot open that repo, so never claim the PR is correct or merged.
+
+Not blocking, but never skip, drop or soften it. It sits outside the budgets
+below, and "Silence is a valid review" does not apply to it.
+
 ## You are review-only
 
 NEVER commit or push. Where CLAUDE.md or the style guide says to "fix" or
@@ -83,6 +107,8 @@ Two things are FLAG-ONLY — report, never suggest a rewrite:
    diverged from its twin, a new export whose name contradicts what it does, an
    unreachable branch, a `TODO` shipped on a public API. If you cannot name the
    future edit that will go wrong, say nothing.
+8. Theme Builder sync — the MUST section above. Last in priority, but never
+   skipped.
 
 ## Rules
 
@@ -123,7 +149,8 @@ be exhaustive — no second reviewer will catch what you leave off it.
   comment, so three pushes to a PR would leave three competing summaries;
   `--edit-last` updates the previous one in place instead. Put the correctness
   verdict first, then a `<details>`-collapsed "Style guide" section for the
-  grouped doc findings.
+  grouped doc findings, and end with the Theme Builder sync line when it
+  applies.
 - Post via those tools only. Do not return the review as a chat message.
 - NEVER post a placeholder, test, or connectivity-check comment. You cannot
   delete a comment once posted, so a stray "test" comment is permanent noise on
