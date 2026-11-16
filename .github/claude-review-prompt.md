@@ -52,7 +52,9 @@ not count.
 Every such change MUST have a matching PR in `thoughtspot/Thoughtspot-theme-builder`
 that updates `src/data/sdkVariable.ts` (and `src/data/variablesMetaData.ts` for
 variables shown in the UI), linked in this PR's description or comments. Read
-them with `gh pr view <PR number> --json body,comments`. Only a
+them with `gh pr view <PR NUMBER> --json body,comments`, using the PR NUMBER
+given at the top of this prompt (the checkout is a detached merge commit, so
+`gh pr view` without a number fails). Only a
 `https://github.com/thoughtspot/Thoughtspot-theme-builder/pull/<number>` link
 counts.
 
