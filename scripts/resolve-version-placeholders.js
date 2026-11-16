@@ -39,8 +39,8 @@ const SOURCE_DIR = path.join(__dirname, '..', 'src');
 const SOURCE_EXTENSIONS = ['.ts', '.tsx'];
 const VERSION_TAG = '@version';
 const PLACEHOLDER_TOKEN = '%NEXT_SDK_VERSION%';
-// Exact and case-sensitive on purpose: a near miss must fail, not resolve.
-const PLACEHOLDER = new RegExp(PLACEHOLDER_TOKEN, 'g');
+// Matched as a plain string (exact, case-sensitive) on purpose: a near miss
+// must fail, not resolve.
 // The old placeholder spelling. Never resolved, only reported, so a PR written
 // against the old convention fails loudly instead of slipping through.
 const LEGACY_PLACEHOLDER = /<TBD>/i;
@@ -64,7 +64,11 @@ const PROBLEM = {
 };
 
 // A well-formed SDK half: `@version SDK: 1.53.0` or the placeholder.
-const SDK_SEGMENT = new RegExp(`@version\\s+SDK:\\s*(?:${PLACEHOLDER_TOKEN}|\\d+\\.\\d+\\.\\d+)\\s*$`);
+// The token is escaped so changing it can never break the pattern.
+const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const SDK_SEGMENT = new RegExp(
+    `@version\\s+SDK:\\s*(?:${escapeRegExp(PLACEHOLDER_TOKEN)}|\\d+\\.\\d+\\.\\d+)\\s*$`,
+);
 // A ThoughtSpot half names a release when it carries a version or `*`.
 const THOUGHTSPOT_RELEASE = /\*|\d+\.\d+\.\d+/;
 
@@ -145,8 +149,7 @@ function collectSourceFiles(dir) {
 }
 
 function hasPlaceholder(text) {
-    PLACEHOLDER.lastIndex = 0;
-    return PLACEHOLDER.test(text);
+    return text.includes(PLACEHOLDER_TOKEN);
 }
 
 /**
@@ -164,7 +167,7 @@ function splitVersionLine(line) {
  */
 function resolveVersionLine(line, sdkVersion) {
     const { sdkSegment, thoughtSpotSegments } = splitVersionLine(line);
-    return [sdkSegment.replace(PLACEHOLDER, sdkVersion), ...thoughtSpotSegments].join(
+    return [sdkSegment.replaceAll(PLACEHOLDER_TOKEN, sdkVersion), ...thoughtSpotSegments].join(
         SEGMENT_SEPARATOR,
     );
 }

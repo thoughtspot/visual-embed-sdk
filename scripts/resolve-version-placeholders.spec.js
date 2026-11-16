@@ -131,6 +131,14 @@ describe('inspectVersionLine', () => {
         ).toEqual([PROBLEM.LEGACY_PLACEHOLDER, PROBLEM.UNRESOLVED_SDK]);
     });
 
+    test('gives the same answer every time it sees the same line', () => {
+        // Guards against stateful matching (a global RegExp's lastIndex), which
+        // would make every second check of a line come back clean.
+        const line = ' * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.10.0.cl';
+        expect(inspectVersionLine(line)).toEqual([PROBLEM.UNRESOLVED_SDK]);
+        expect(inspectVersionLine(line)).toEqual([PROBLEM.UNRESOLVED_SDK]);
+    });
+
     test('accepts a well-formed SDK half with trailing whitespace or CRLF', () => {
         expect(inspectVersionLine(' * @version SDK: 1.53.0 \r')).toEqual([]);
     });

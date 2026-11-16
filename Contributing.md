@@ -149,8 +149,9 @@ sometimes correct.
 
 Locally: `npm run lint-versions` runs the PR check, `npm run resolve-versions` does the release
 rewrite (add `--dry-run` to preview), and `npm run check-versions` fails if any placeholder is left.
-That last one also runs on `prepublishOnly`, so a release can never be published with an
-unresolved placeholder in its public docs. The rewrite checks every annotation first and changes
+That last one also runs as its own step in the `publishToNPM` workflow, before `npm publish`, and
+again on `prepublishOnly`, so a release can never be published with an unresolved placeholder in
+its public docs. The rewrite checks every annotation first and changes
 no file if any of them can't be resolved.
 
 Pre-releases (`X.Y.Z-beta.N`) are published from branches the release bump hasn't run on, so for
