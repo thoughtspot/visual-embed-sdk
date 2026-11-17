@@ -118,24 +118,28 @@ Check [this](https://github.com/thoughtspot/visual-embed-sdk/blob/main/src/embed
 #### `@version` when you don't know the SDK version yet
 
 You can't know which SDK version your PR will ship in — the next published version is only decided
-when the release bump runs. Don't guess. Write `<TBD>` for the SDK half, and the real ThoughtSpot
-release you are building against for the other:
+when the release bump runs. Don't guess. Write `%NEXT_SDK_VERSION%` for the SDK half, and the
+real ThoughtSpot release you are building against for the other:
 
 ```js
 /**
- * @version SDK: <TBD> | ThoughtSpot Cloud: 26.10.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.10.0.cl
  */
 ```
 
-**Only the SDK version may be `<TBD>`.** The ThoughtSpot release is not derivable from this repo,
-so no automation can fill it in — you have to state it. Use `*` if the member isn't gated on a
-cluster version. A `<TBD>` after the `|`, or an annotation with no ThoughtSpot release at all
-(including a blank one such as `| ThoughtSpot Cloud:`), fails the `validate-version-tags` PR check.
-So does any SDK version that is neither `X.Y.Z` nor exactly `<TBD>` — a typo such as `<TDB>` would
-otherwise ship to the docs site as-is.
+Write the placeholder exactly as shown, in capitals. It is matched exactly, so the release bump
+only ever rewrites a tag you deliberately marked. The placeholder used to be `<TBD>`; that spelling
+now fails the PR check with a message telling you what to write instead.
 
-The `bump-version-and-pr` workflow then replaces every `<TBD>` with the version being released,
-before it regenerates the typedoc JSON the docs site is built from, and commits the result as part
+**Only the SDK version may be the placeholder.** The ThoughtSpot release is not derivable from this
+repo, so no automation can fill it in — you have to state it. Use `*` if the member isn't gated on
+a cluster version. A placeholder after the `|`, or an annotation with no ThoughtSpot release at all
+(including a blank one such as `| ThoughtSpot Cloud:`), fails the `validate-version-tags` PR check.
+So does any SDK version that is neither `X.Y.Z` nor exactly `%NEXT_SDK_VERSION%` — a typo such as
+`%NEXT_SDK_VERSON%` would otherwise ship to the docs site as-is.
+
+The `bump-version-and-pr` workflow then replaces every `%NEXT_SDK_VERSION%` with the version being
+released, before it regenerates the typedoc JSON the docs site is built from, and commits the result as part
 of the `chore: release` PR. A version that is already filled in is never overwritten.
 
 SDK minor and ThoughtSpot Cloud minor advance in lockstep — SDK `1.N.x` ships with
@@ -144,14 +148,15 @@ SDK version being cut. It's a warning, not a failure: back-dating to an earlier 
 sometimes correct.
 
 Locally: `npm run lint-versions` runs the PR check, `npm run resolve-versions` does the release
-rewrite (add `--dry-run` to preview), and `npm run check-versions` fails if any `<TBD>` is left.
-That last one also runs on `prepublishOnly`, so a release can never be published with an
-unresolved placeholder in its public docs. The rewrite checks every annotation first and changes
+rewrite (add `--dry-run` to preview), and `npm run check-versions` fails if any placeholder is left.
+That last one also runs as its own step in the `publishToNPM` workflow, before `npm publish`, and
+again on `prepublishOnly`, so a release can never be published with an unresolved placeholder in
+its public docs. The rewrite checks every annotation first and changes
 no file if any of them can't be resolved.
 
 Pre-releases (`X.Y.Z-beta.N`) are published from branches the release bump hasn't run on, so for
-them a leftover SDK `<TBD>` is only a warning; every other problem still fails. If a stable publish
-fails on `<TBD>` after the bump already ran, a PR with a placeholder was merged in between — re-run
+them a leftover SDK placeholder is only a warning; every other problem still fails. If a stable
+publish fails on a placeholder after the bump already ran, a PR with one was merged in between — re-run
 the `bump-version-and-pr` workflow.
 
 

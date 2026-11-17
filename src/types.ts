@@ -2372,7 +2372,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Filter and Parameter Overrides].
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
@@ -2756,7 +2756,7 @@ export interface RuntimeParameter {
 
 export enum EmbedEvent {
     /**
-     * Rendering has initialized.
+     * Emitted when rendering has initialized.
      * @example
      * ```js
      * liveboardEmbed.on(EmbedEvent.Init, showLoader)
@@ -2769,7 +2769,7 @@ export enum EmbedEvent {
      */
     Init = 'init',
     /**
-     * Authentication has either succeeded or failed.
+     * Emitted when authentication has either succeeded or failed.
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
      * ```js
@@ -2782,7 +2782,7 @@ export enum EmbedEvent {
      */
     AuthInit = 'authInit',
     /**
-     * The embed object container has loaded.
+     * Emitted when the embed object container has loaded.
      * @returns timestamp - The timestamp when the event was generated.
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
@@ -2796,7 +2796,8 @@ export enum EmbedEvent {
      */
     Load = 'load',
     /**
-     * Data pertaining to an Answer, Liveboard or Spotter visualization is received.
+     * Emitted when data pertaining to an Answer, Liveboard or Spotter
+     * visualization is received.
      * The event payload includes the raw data of the object.
      * Payload: {@link DataEventPayload}.
      * @return data -  Answer of Liveboard data
@@ -2811,7 +2812,7 @@ export enum EmbedEvent {
      */
     Data = 'data',
     /**
-     * Search query has been updated by the user.
+     * Emitted when the search query has been updated by the user.
      * Payload: {@link QueryChangedPayload} or a string.
      * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 8.4.1.sw
      * @example
@@ -2821,7 +2822,7 @@ export enum EmbedEvent {
      */
     QueryChanged = 'queryChanged',
     /**
-     * A drill-down operation has been performed.
+     * Emitted when a drill-down operation has been performed.
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @returns additionalFilters - Any additional filters applied
      * @returns drillDownColumns - The columns on which drill down was performed
@@ -2859,7 +2860,7 @@ export enum EmbedEvent {
      */
     Drilldown = 'drillDown',
     /**
-     * One or more data sources have been selected.
+     * Emitted when one or more data sources have been selected.
      * @returns dataSourceIds - the list of data sources
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
@@ -2872,7 +2873,7 @@ export enum EmbedEvent {
      */
     DataSourceSelected = 'dataSourceSelected',
     /**
-     * One or more data columns have been selected.
+     * Emitted when one or more data columns have been selected.
      * @returns columnIds - the list of columns
      * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      * @example
@@ -2885,7 +2886,7 @@ export enum EmbedEvent {
      */
     AddRemoveColumns = 'addRemoveColumns',
     /**
-     * A custom action has been triggered.
+     * Emitted when a custom action has been triggered.
      * @returns actionId - ID of the custom action
      * @returns payload {@link CustomActionPayload} - Response payload with the
      * Answer or Liveboard data
@@ -2904,7 +2905,7 @@ export enum EmbedEvent {
      */
     CustomAction = 'customAction',
     /**
-     * Listen to double click actions on a visualization.
+     * Emitted when a user double clicks on a visualization.
      * @return ContextMenuInputPoints - Data point that is double-clicked
      * @version SDK: 1.5.0 | ThoughtSpot: ts7.oct.cl, 7.2.1
      * @example
@@ -2917,7 +2918,8 @@ export enum EmbedEvent {
      */
     VizPointDoubleClick = 'vizPointDoubleClick',
     /**
-     * Listen to clicks on a visualization in a Liveboard or Search result.
+     * Emitted when a user clicks on a visualization in a Liveboard or Search
+     * result.
      * @return viz, clickedPoint - metadata about the point that is clicked
      * @version SDK: 1.11.0 | ThoughtSpot: 8.3.0.cl, 8.4.1.sw
      * @important
@@ -2937,7 +2939,7 @@ export enum EmbedEvent {
      */
     VizPointClick = 'vizPointClick',
     /**
-     * Fired when an error occurs in the embedded component.
+     * Emitted when an error occurs in the embedded component.
      *
      * **Important:** This event fires for many reasons — including internal
      * validation warnings (e.g. `HOST_EVENT_VALIDATION`), configuration issues,
@@ -2990,7 +2992,7 @@ export enum EmbedEvent {
      */
     Error = 'Error',
     /**
-     * The embedded object has sent an alert.
+     * Emitted when the embedded object has sent an alert.
      * @returns alert - An alert object
      * @version SDK: 1.1.0 | ThoughtSpot: ts7.may.cl, 8.4.1.sw
      * @example
@@ -3000,7 +3002,7 @@ export enum EmbedEvent {
      */
     Alert = 'alert',
     /**
-     * The ThoughtSpot authentication session has expired.
+     * Emitted when the ThoughtSpot authentication session has expired.
      * @version SDK: 1.4.0 | ThoughtSpot: ts7.sep.cl, 8.4.1.sw
      * @example
      * ```js
@@ -3056,7 +3058,7 @@ export enum EmbedEvent {
      */
     GetDataClick = 'getDataClick',
     /**
-     * Detects the route change.
+     * Emitted when a route change is detected.
      * @version SDK: 1.7.0 | ThoughtSpot: 8.0.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -3979,7 +3981,7 @@ export enum EmbedEvent {
      */
     ParameterChanged = 'parameterChanged',
     /**
-     * Emits when a table visualization is rendered in
+     * Emitted when a table visualization is rendered in
      * the ThoughtSpot embedded app.
      *
      * You can also use this event as a hook to trigger host events
@@ -4527,7 +4529,8 @@ export enum EmbedEvent {
     RefreshAuthToken = 'RefreshAuthToken',
 
     /**
-     * Triggered whenever the page context changes, returning the current context along with the navigation stack.
+     * Emitted whenever the page context changes, returning the current context
+     * along with the navigation stack.
      * @example
      * ```js
      * embed.on(EmbedEvent.EmbedPageContextChanged, (payload) => {
@@ -4539,7 +4542,7 @@ export enum EmbedEvent {
     EmbedPageContextChanged = 'EmbedPageContextChanged',
 
     /**
-     * Represents a special embed event that is triggered whenever any host event is
+     * Emitted, as a special embed event, whenever any host event is
      * subscribed.
      *
      * You can listen to this event when you need to dispatch a host event during load or
@@ -4788,7 +4791,7 @@ export enum HostEvent {
      */
     Search = 'search',
     /**
-     * Triggers a drill on certain points of the specified column
+     * Drill down on certain points of the specified column.
      * Payload: {@link DrillDownRequest}; in Liveboard context vizId is required
      * ({@link RequiredVizRequest}). trigger() accepts the union now; per-context
      * enforced next release.
@@ -5202,13 +5205,12 @@ export enum HostEvent {
      */
     getExportRequestForCurrentPinboard = 'getExportRequestForCurrentPinboard',
     /**
-     * Trigger **Pin** action on an embedded object.
-     * If no parameters are defined, the pin action is triggered
+     * Add an Answer or visualization to a Liveboard.
+     * If no parameters are defined, the **Pin** action is triggered
      * for the Answer that the user is currently on
      * and a modal opens for Liveboard selection.
-     * To add an Answer or visualization to a Liveboard programmatically without
-     * requiring additional user input via the *Pin to Liveboard* modal, define
-     * the following parameters:
+     * To add it programmatically without requiring additional user input
+     * via the *Pin to Liveboard* modal, define the following parameters:
      *
      * Payload: {@link PinAnswerToLiveboardRequest}.
      * Response: {@link PinAnswerToLiveboardResponse}.
@@ -5309,8 +5311,8 @@ export enum HostEvent {
      */
     Pin = 'pin',
     /**
-     * Trigger the **Show Liveboard details** action
-     * on an embedded Liveboard.
+     * Show the details of an embedded Liveboard, the same as the
+     * **Show Liveboard details** action.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.LiveboardInfo)
@@ -5341,7 +5343,8 @@ export enum HostEvent {
      */
     Schedule = 'subscription',
     /**
-     * Trigger the **Manage schedule** action on an embedded Liveboard
+     * Manage the schedules of an embedded Liveboard, the same as the
+     * **Manage schedule** action.
      * Payload: {@link VizScopedRequest}.
      * @example
      * ```js
@@ -5357,8 +5360,8 @@ export enum HostEvent {
      */
     SchedulesList = 'schedule-list',
     /**
-     * Trigger the **Export TML** action on an embedded Liveboard or
-     * Answer.
+     * Export the TML of an embedded Liveboard or Answer, the same as the
+     * **Export TML** action.
      * Payload: {@link VizScopedRequest}.
      * @example
      * ```js
@@ -5380,8 +5383,8 @@ export enum HostEvent {
      */
     ExportTML = 'exportTSL',
     /**
-     * Trigger the **Edit TML** action on an embedded Liveboard or
-     * saved Answers in the full application embedding.
+     * Edit the TML of an embedded Liveboard or saved Answers in the full
+     * application embedding, the same as the **Edit TML** action.
      * Payload: {@link VizScopedRequest}.
      * @example
      * ```js
@@ -5403,7 +5406,8 @@ export enum HostEvent {
      */
     EditTML = 'editTSL',
     /**
-     * Trigger the **Update TML** action on an embedded Liveboard.
+     * Update the TML of an embedded Liveboard, the same as the
+     * **Update TML** action.
      * Payload: {@link VizScopedRequest}.
      * @example
      * ```js
@@ -5482,8 +5486,8 @@ export enum HostEvent {
      */
     AIHighlights = 'AIHighlights',
     /**
-     * Trigger the **Make a copy** action on a Liveboard,
-     * visualization, or Answer page.
+     * Make a copy of a Liveboard, visualization, or Answer page, the same
+     * as the **Make a copy** action.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.MakeACopy)
@@ -5563,8 +5567,8 @@ export enum HostEvent {
      */
     Explore = 'explore',
     /**
-     * Trigger the **Create alert** action on a KPI chart
-     * in a Liveboard or saved Answer.
+     * Create an alert on a KPI chart in a Liveboard or saved Answer, the
+     * same as the **Create alert** action.
      * Payload: {@link VizScopedRequest}.
      * @param - an object with `vizId` as a key
      * @example
@@ -5595,8 +5599,8 @@ export enum HostEvent {
      */
     CreateMonitor = 'createMonitor',
     /**
-     * Trigger the **Manage alerts** action on a KPI chart
-     * in a visualization or saved Answer.
+     * Manage the alerts on a KPI chart in a visualization or saved Answer,
+     * the same as the **Manage alerts** action.
      * Payload: {@link VizScopedRequest}.
      * @param - an object with `vizId` as a key
      * @example
@@ -5858,8 +5862,8 @@ export enum HostEvent {
      */
     GetTML = 'getTML',
     /**
-     * Trigger the **Show underlying data** action on a
-     * chart or table.
+     * Show the underlying data of a chart or table, the same as the
+     * **Show underlying data** action.
      *
      * Payload: {@link VizScopedRequest}.
      * @param - an object with vizId as a key
@@ -5892,9 +5896,8 @@ export enum HostEvent {
      */
     ShowUnderlyingData = 'showUnderlyingData',
     /**
-     * Trigger the **Delete** action for a visualization
-     * in an embedded Liveboard, or a chart or table
-     * generated from Search.
+     * Delete a visualization in an embedded Liveboard, or a chart or table
+     * generated from Search, the same as the **Delete** action.
      * Payload: {@link VizScopedRequest}.
      * @param - Liveboard embed takes an object with `vizId` as a key.
      * Can be left empty if embedding Search or visualization.
@@ -5922,8 +5925,8 @@ export enum HostEvent {
      */
     Delete = 'onDeleteAnswer',
     /**
-     * Trigger the **SpotIQ analyze** action on a
-     * chart or table.
+     * Analyze a chart or table with SpotIQ, the same as the
+     * **SpotIQ analyze** action.
      * Payload: {@link VizScopedRequest}.
      * @param - Liveboard embed takes `vizId` as a
      * key. Can be left undefined when embedding Search or
@@ -5985,8 +5988,8 @@ export enum HostEvent {
      */
     Download = 'downloadAsPng',
     /**
-     * Trigger the **Download** > **PNG** action on
-     * charts in the embedded view.
+     * Download charts in the embedded view as PNG, the same as the
+     * **Download** > **PNG** action.
      * Payload: {@link VizScopedRequest}.
      * @example
      * ```js
@@ -6017,8 +6020,8 @@ export enum HostEvent {
     // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
     DownloadAsPng = 'downloadAsPng',
     /**
-     * Trigger the **Download** > **CSV**  action on tables in
-     * the embedded view.
+     * Download tables in the embedded view as CSV, the same as the
+     * **Download** > **CSV** action.
      * Payload: {@link VizScopedRequest}.
      * @param - `vizId` refers to the Visualization ID in Spotter embed and is required in Spotter embed.
      * @example
@@ -6057,8 +6060,8 @@ export enum HostEvent {
      */
     DownloadAsCsv = 'downloadAsCSV',
     /**
-     * Trigger the **Download** > **XLSX**  action on tables
-     * in the embedded view.
+     * Download tables in the embedded view as XLSX, the same as the
+     * **Download** > **XLSX** action.
      * Payload: {@link VizScopedRequest}.
      * @param - `vizId` refers to the Visualization ID in Spotter embed and is required in Spotter embed.
      * @example
@@ -6123,8 +6126,8 @@ export enum HostEvent {
      */
     Share = 'share',
     /**
-     * Trigger the **Save** action on a Liveboard, Answer, or Spotter.
-     * Saves the changes.
+     * Save the changes to a Liveboard, Answer, or Spotter, the same as the
+     * **Save** action.
      *
      * Payload: {@link VizScopedRequest}.
      * @param - `vizId` refers to the Spotter Visualization Id used in Spotter embed.
@@ -6176,8 +6179,9 @@ export enum HostEvent {
      */
     Save = 'save',
     /**
-     * Trigger the **Sync to Sheets** action on an embedded visualization or Answer
-     * Sends data from an Answer or Liveboard visualization to a Google sheet.
+     * Send data from an Answer or Liveboard visualization to a Google sheet,
+     * the same as the **Sync to Sheets** action on an embedded visualization
+     * or Answer.
      * Payload: {@link VizScopedRequest}.
      * @param - an object with `vizId` as a key
      * @example
@@ -6206,9 +6210,10 @@ export enum HostEvent {
      */
     SyncToSheets = 'sync-to-sheets',
     /**
-     * Trigger the **Sync to Other Apps** action on an embedded visualization or Answer
-     * Sends data from an Answer or Liveboard visualization to third-party apps such
-     * as Slack, Salesforce, Microsoft Teams, ServiceNow and so on.
+     * Send data from an Answer or Liveboard visualization to third-party apps
+     * such as Slack, Salesforce, Microsoft Teams, ServiceNow and so on, the
+     * same as the **Sync to Other Apps** action on an embedded visualization
+     * or Answer.
      * Payload: {@link VizScopedRequest}.
      * @param - an object with vizId as a key
      * @example
@@ -6237,9 +6242,8 @@ export enum HostEvent {
      */
     SyncToOtherApps = 'sync-to-other-apps',
     /**
-     * Trigger the **Manage pipelines** action on an embedded
-     * visualization or Answer.
-     * Allows users to manage ThoughtSpot Sync pipelines.
+     * Let users manage ThoughtSpot Sync pipelines, the same as the
+     * **Manage pipelines** action on an embedded visualization or Answer.
      * Payload: {@link VizScopedRequest}.
      * @param - an object with `vizId` as a key
      * @example
@@ -6608,7 +6612,7 @@ export enum HostEvent {
      */
     AskSage = 'AskSage',
     /**
-     * Trigger cross filter update action on a Liveboard.
+     * Update the cross filter on a Liveboard.
      *
      * Payload: {@link UpdateCrossFilterRequest}.
      * @example
@@ -6638,7 +6642,7 @@ export enum HostEvent {
      */
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
-     * Trigger reset action for a personalized Liveboard view.
+     * Reset a personalized Liveboard view.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalizedView);
@@ -6647,8 +6651,8 @@ export enum HostEvent {
      */
     ResetLiveboardPersonalizedView = ResetLiveboardPersonalisedView,
     /**
-     * Triggers an action to update Parameter values on embedded
-     * Answers, Liveboard, and Spotter answer in Edit mode.
+     * Update Parameter values on embedded Answers, Liveboard, and Spotter
+     * answer in Edit mode.
      * Payload: {@link RuntimeParameter}[].
      * @param - Includes the following keys for each item:
      * - `name`: Name of the parameter.
@@ -6698,7 +6702,7 @@ export enum HostEvent {
      */
     UpdateParameters = 'UpdateParameters',
     /**
-     * Triggers GetParameters to fetch the runtime Parameters.
+     * Get the runtime Parameters.
      * Each parameter includes an optional `applicability` attribute
      * indicating the scope of the parameter. It contains a `level`
      * (`LIVEBOARD`, `TAB`, or `GROUP`) and, when `level` is `TAB` or
@@ -6773,8 +6777,8 @@ export enum HostEvent {
      */
     UpdatePersonalizedView = UpdatePersonalisedView,
     /**
-     * Triggers selection of a specific Personalized View on a
-     * Liveboard without reloading the embed. Pass either a
+     * Select a specific Personalized View on a Liveboard without
+     * reloading the embed. Pass either a
      * `viewId` (GUID) or `viewName`. If both are provided, `viewId` takes precedence.
      * If neither is provided, the Liveboard resets to the original/default view.
      * When a `viewName` is provided and multiple views share
@@ -6897,7 +6901,7 @@ export enum HostEvent {
      */
     InfoSuccess = 'InfoSuccess',
     /**
-     * Trigger the save action for an Answer.
+     * Save an Answer, the same as the save action.
      * To programmatically save an answer without opening the
      * *Describe your Answer* modal, define the `name` and `description`
      * properties.
@@ -6969,7 +6973,7 @@ export enum HostEvent {
      */
     UIPassthrough = 'UiPassthrough',
     /**
-     * Triggers the table visualization re-render with the updated data.
+     * Re-render the table visualization with the updated data.
      * Includes the following properties:
      * @param - `columnDataLite` - an array of object containing the
      * data value modifications retrieved from the `EmbedEvent.TableVizRendered`
@@ -7225,7 +7229,7 @@ export enum HostEvent {
      */
     DestroyEmbed = 'EmbedDestroyed',
     /**
-     * Triggers a new conversation in Spotter embed.
+     * Start a new conversation in Spotter embed.
      *
      * This feature is available only when chat history is enabled on your ThoughtSpot
      * instance. Contact your admin or ThoughtSpot Support to enable chat history on your
@@ -7290,8 +7294,8 @@ export enum HostEvent {
      */
     GetPageContext = 'GetPageContext',
     /**
-     * Trigger the **Send Test Email** action in the Liveboard schedule modal.
-     * Sends a test schedule email to self or all recipients.
+     * Send a test schedule email to self or all recipients, the same as the
+     * **Send Test Email** action in the Liveboard schedule modal.
      * Requires `isSendNowLiveboardSchedulingEnabled` to be enabled.
      * Payload: {@link ScheduleEmailRequest}.
      * @example
