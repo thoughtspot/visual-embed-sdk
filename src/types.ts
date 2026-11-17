@@ -1732,9 +1732,7 @@ export interface BaseViewConfig extends ApiInterceptFlags {
 
     /**
      * Flag to use host events v2. This is used to enable the new host events v2 API.
-     * The host events v1 API is deprecated; setting this to `false` logs a
-     * deprecation warning.
-     * @default true
+     * @default false
      * @version SDK: 1.45.2 | ThoughtSpot: 26.3.0.cl
      * @example
      * ```js
