@@ -2370,7 +2370,7 @@ export interface LiveboardAppEmbedViewConfig {
      * Filter and Parameter Overrides].
      *
      * Supported embed types: `AppEmbed`, `LiveboardEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.54.2 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
