@@ -68,6 +68,31 @@ describe('ConversationEmbed', () => {
         );
     });
 
+    it('should load a past conversation via conversationId', async () => {
+        const e = new SpotterEmbed(getRootEl(), { conversationId: 'c1' });
+        await e.render();
+        expect(getIFrameSrc()).toContain('#/embed/insights/conv-assist?conversationId=c1');
+    });
+
+    it('should use spotId for analyst conversation on the default experience', async () => {
+        const e = new SpotterEmbed(getRootEl(), {
+            conversationId: 'c1',
+            spotterAnalystConfig: { analystId: 'a1' },
+        });
+        await e.render();
+        expect(getIFrameSrc()).toContain('#/embed/insights/conv-assist?spotId=a1&conversationId=c1');
+    });
+
+    it('should use spotter path and analystId on SPOTTER_2026_11', async () => {
+        const e = new SpotterEmbed(getRootEl(), {
+            conversationId: 'c1',
+            spotterExperienceVersion: SpotterExperienceVersion.SPOTTER_2026_11,
+            spotterAnalystConfig: { analystId: 'a1' },
+        });
+        await e.render();
+        expect(getIFrameSrc()).toContain('#/embed/insights/spotter?analystId=a1&conversationId=c1');
+    });
+
     it('should URL-encode the sharedConversationId in the reader-view path', async () => {
         const viewConfig: SpotterEmbedViewConfig = {
             worksheetId: 'worksheetId',

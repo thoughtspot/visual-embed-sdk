@@ -48,7 +48,7 @@ jobs:
         with:
           node-version: '20.19.4'
 
-      # `@version SDK: <TBD>` is expected on a feature branch — the release bump
+      # `@version SDK: %NEXT_SDK_VERSION%` is expected on a feature branch — the release bump
       # fills it in. The ThoughtSpot release is NOT derivable by any automation,
       # so it has to be written by the author and is checked here, at the last
       # point where the author is still around to fix it.

@@ -951,6 +951,21 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      */
     sharedConversationId?: string;
     /**
+     * The ID of a past conversation to load. If `spotterAnalystConfig.analystId`
+     * is also set, the conversation is opened in the context of that analyst.
+     *
+     * Supported embed types: `SpotterEmbed`
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl
+     * @example
+     * ```js
+     * const embed = new SpotterEmbed('#tsEmbed', {
+     *    ... //other embed view config
+     *    conversationId: 'conversation-id-1234',
+     * })
+     * ```
+     */
+    conversationId?: string;
+    /**
      * updatedSpotterExperience : Controls the updated Spotter experience.
      *
      * Supported embed types: `SpotterEmbed`
@@ -1115,7 +1130,11 @@ export class SpotterEmbed extends TsEmbed {
             sharedConversationId,
             dataSources,
             spotterExperienceVersion,
+            conversationId,
+            spotterAnalystConfig,
         } = this.viewConfig;
+        const isUpdatedSpotterExperience = spotterExperienceVersion === SpotterExperienceVersion.SPOTTER_2026_11;
+        const analystId = spotterAnalystConfig?.analystId;
         // Deep-link into the read-only shared-conversation reader view when a
         // shared conversation id is supplied (e.g. a recipient landing from a
         // host-configured CONVERSATION_URL share link); otherwise the normal
@@ -1123,7 +1142,7 @@ export class SpotterEmbed extends TsEmbed {
         let path = sharedConversationId
             ? `insights/conv-assist/s/${encodeURIComponent(sharedConversationId)}`
             : 'insights/conv-assist';
-        if (spotterExperienceVersion === SpotterExperienceVersion.SPOTTER_2026_11) {
+        if (isUpdatedSpotterExperience) {
             path = path.replace('insights/conv-assist', 'insights/spotter');
         }
         const queryParams = this.getUrlQueryParamsObject();
@@ -1145,6 +1164,9 @@ export class SpotterEmbed extends TsEmbed {
         }
 
         const tsPostHashParams = this.getThoughtSpotPostUrlParams({
+            ...(conversationId && analystId
+                && { [isUpdatedSpotterExperience ? 'analystId' : 'spotId']: analystId }),
+            ...(conversationId && { conversationId }),
             ...(!(Array.isArray(dataSources) && dataSources.length > 0) && worksheetId
                 && { worksheet: worksheetId }),
             ...(searchOptions?.searchQuery && { query: searchOptions.searchQuery }),
