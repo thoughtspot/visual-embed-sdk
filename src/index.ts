@@ -454,3 +454,5 @@ export {
 
 export { resetCachedAuthToken } from './authToken';
 export { startAutoMCPFrameRenderer } from './embed/auto-frame-renderer';
+
+// SCAL-227566 test PR: untested source change. DO NOT MERGE.

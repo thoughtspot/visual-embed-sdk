@@ -2,12 +2,13 @@
 /**
  * SCAL-227566: fail a PR that changes SDK source without adding or updating a test.
  * Rule: if any src/**\/*.ts(x) file changed (not a spec, not a .d.ts), at least
- * one *.spec.(ts|tsx|js) file must change too.
+ * one src/**\/*.spec.ts(x) file must change too.
  */
 const { execSync } = require('child_process');
 
 const SRC_RE = /^src\/.*\.tsx?$/;
-const TEST_RE = /\.spec\.(ts|tsx|js)$/;
+// Only SDK specs count: a spec elsewhere (e.g. scripts/) does not test src/.
+const TEST_RE = /^src\/.*\.spec\.tsx?$/;
 const DTS_RE = /\.d\.ts$/;
 
 function check(files) {
