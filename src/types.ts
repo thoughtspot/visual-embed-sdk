@@ -4681,6 +4681,54 @@ export enum EmbedEvent {
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
     RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
+    /**
+     * Emitted when the user clicks inside a tile of an embedded App.
+     * The tile's own click behavior, such as a cross-filter or a drill,
+     * runs as usual.
+     *
+     * Only tiles that the App wraps in a tile component send tile events;
+     * Apps built before tile support send none.
+     *
+     * Payload: {@link DataAppTilePayload}.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * dataAppEmbed.on(EmbedEvent.TileClick, (payload) => {
+     *     console.log('Tile clicked', payload.tileId);
+     * })
+     * ```
+     */
+    TileClick = 'TileClick',
+    /**
+     * Emitted when a tile of an embedded App has its data and paints it.
+     * Sent once per tile per load, and again when a refresh, a filter
+     * change or an input change re-runs the tile.
+     *
+     * Payload: {@link DataAppTilePayload}.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * dataAppEmbed.on(EmbedEvent.TileLoad, (payload) => {
+     *     console.log('Tile loaded', payload.tileId);
+     * })
+     * ```
+     */
+    TileLoad = 'TileLoad',
+    /**
+     * Emitted when the data of a tile in an embedded App fails to load.
+     * Sent once per tile: a failed step that feeds three tiles sends three
+     * events.
+     *
+     * Payload: {@link DataAppTileErrorPayload}.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * dataAppEmbed.on(EmbedEvent.TileError, (payload) => {
+     *     console.warn('Tile failed', payload.tileId, payload.errorCode);
+     * })
+     * ```
+     */
+    TileError = 'TileError',
 }
 
 /**
@@ -4939,9 +4987,10 @@ export enum HostEvent {
      * attributes passed with this event are appended to the existing runtime
      * filters applied on a Liveboard.
      *
-     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`
-     * and `AppEmbed` only. In full application embedding, this event updates
-     * the runtime filters applied on the Liveboard and saved Answer objects.
+     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`,
+     * `AppEmbed` and `DataAppEmbed` only. In full application embedding, this event
+     * updates the runtime filters applied on the Liveboard and saved Answer objects.
+     * In `DataAppEmbed`, the App re-runs the tiles the filters affect.
      *
      * Payload: {@link RuntimeFilter}[].
      * @param - Array of {@link RuntimeFilter} objects. Each item includes:
@@ -6650,7 +6699,8 @@ export enum HostEvent {
     ResetLiveboardPersonalizedView = ResetLiveboardPersonalisedView,
     /**
      * Update Parameter values on embedded Answers, Liveboard, and Spotter
-     * answer in Edit mode.
+     * answer in Edit mode. In `DataAppEmbed`, the App re-runs the tiles the
+     * Parameters affect; `applicability` does not apply there.
      * Payload: {@link RuntimeParameter}[].
      * @param - Includes the following keys for each item:
      * - `name`: Name of the parameter.
@@ -7629,6 +7679,8 @@ export enum Param {
     IsDarkMode = 'isDarkMode',
     RadiantThemeEnabled = 'radiantThemeEnabled',
     SpotterExperienceVersion = 'spotterExperienceVersion',
+    EnableDataApps = 'enableDataApps',
+    HideDataAppHeader = 'hideDataAppHeader',
 }
 
 /**
@@ -10634,6 +10686,9 @@ export enum EmbedErrorCodes {
     /** Required Liveboard ID is missing from configuration */
     LIVEBOARD_ID_MISSING = 'LIVEBOARD_ID_MISSING',
 
+    /** Required App ID (`dataAppId`) is missing from configuration */
+    DATA_APP_ID_MISSING = 'DATA_APP_ID_MISSING',
+
     /** Conflicting action configuration detected */
     CONFLICTING_ACTIONS_CONFIG = 'CONFLICTING_ACTIONS_CONFIG',
 
@@ -10811,6 +10866,11 @@ export enum ContextType {
      * Other context for any other generic page.
      */
     Other = 'other',
+    /**
+     * App context for the App open in `DataAppEmbed`.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+     */
+    DataApp = 'dataApp',
 }
 
 export interface DefaultAppInitData {
