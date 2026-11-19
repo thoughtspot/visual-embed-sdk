@@ -32,6 +32,7 @@ export const ERROR_MESSAGE = {
     UPDATEFILTERS_INVALID_PAYLOAD: 'UpdateFilters requires a valid filter or filters array. Expected: { filter: { columnName, operator, values } } or { filters: [{ columnName, operator, values }, ...] }',
     DRILLDOWN_INVALID_PAYLOAD: 'DrillDown requires a valid points object. Expected: { points: { clickedPoint?, selectedPoints? }, autoDrillDown?, vizId? }',
     UPDATEPARAMETERS_INVALID_PAYLOAD: 'UpdateParameters received an invalid applicability. Expected: { level: LIVEBOARD | TAB | GROUP, targetId } where targetId is required for TAB and GROUP levels',
+    VIZ_ID_NOT_IN_EMBED: 'The vizId does not match the visualization this embed shows. Omit vizId, or pass the vizId the embed was created with.',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {
