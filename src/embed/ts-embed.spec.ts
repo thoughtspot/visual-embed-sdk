@@ -364,7 +364,6 @@ describe('Unit test case for ts embed', () => {
             const viewConfig: any = {
                 liveboardId,
                 frameParams: { width: 100 },
-                customActions: [{ id: 'a1', name: 'A1', callback: (): void => undefined }],
             };
             const liveboardEmbed = new LiveboardEmbed(getRootEl(), viewConfig);
             liveboardEmbed.render();
@@ -387,11 +386,10 @@ describe('Unit test case for ts embed', () => {
                             authType: AuthType.Basic,
                             customizations: customisations,
                         },
-                        // No excludeRuntimeFiltersfromURL default, no callback.
+                        // No excludeRuntimeFiltersfromURL default.
                         viewConfig: {
                             liveboardId,
                             frameParams: { width: 100 },
-                            customActions: [{ id: 'a1', name: 'A1' }],
                             embedComponentType: 'LiveboardEmbed',
                         },
                     },

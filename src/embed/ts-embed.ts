@@ -377,7 +377,7 @@ export class TsEmbed {
         this.hostElement = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
         this.isError = false;
-        this.rawViewConfig = sanitizeRawConfig(viewConfig ?? {});
+        this.rawViewConfig = sanitizeRawConfig(viewConfig);
         this.viewConfig = {
             excludeRuntimeFiltersfromURL: true,
             excludeRuntimeParametersfromURL: true,
@@ -752,7 +752,7 @@ export class TsEmbed {
 
     /**
      * Sends the raw `init()` config and the raw view config together, with
-     * login information and functions removed.
+     * top-level login information removed.
      * @param _
      * @param responder
      */
