@@ -669,6 +669,21 @@ export interface EmbedConfig {
      * Warning: This option is for advanced use only and is used internally
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
+     *
+     * **`excludeConfigFromURL`**
+     *
+     * Keeps the configuration off the iframe URL. The SDK sends it to the
+     * embedded app over `postMessage` instead. Set it in `init` for every
+     * embed, or in an embed's view config.
+     *
+     * Supported from SDK 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     *
+     * ```js
+     * init({
+     *   ... // other embed config
+     *   additionalFlags: { excludeConfigFromURL: true }
+     * });
+     * ```
      * @version SDK: 1.33.5 | ThoughtSpot: *
      * @example
      * ```js
@@ -1164,7 +1179,23 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`,
+     * `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     *
+     * **`excludeConfigFromURL`**
+     *
+     * Keeps this embed's configuration off the iframe URL. The SDK sends it to
+     * the embedded app over `postMessage` instead. Works with every embed type
+     * and overrides the value set in `init`.
+     *
+     * Supported from SDK 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     *
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *   additionalFlags: { excludeConfigFromURL: true },
+     * });
+     * ```
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
