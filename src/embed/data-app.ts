@@ -58,7 +58,7 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * They are sent in the app init payload, never in the URL.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
@@ -77,7 +77,7 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * the app init payload, never in the URL.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
@@ -93,7 +93,7 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * actions, so the App fills the frame.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @default false
      * @example
      * ```js
@@ -193,7 +193,7 @@ export class DataAppEmbed extends TsEmbed {
      * Like `navigateToLiveboard()`, this changes only the App: the runtime
      * filters and runtime parameters stay as they are.
      * @param dataAppId - ID of the App to open.
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * dataAppEmbed.navigateToDataApp('<app-id>');

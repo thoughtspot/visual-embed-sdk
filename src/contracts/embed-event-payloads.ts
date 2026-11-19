@@ -388,7 +388,7 @@ export interface SpotterUsageLimitUpgradePayload extends EmbedEventPayloadBase {
 /**
  * {@link EmbedEvent.TileClick} and {@link EmbedEvent.TileLoad}: a tile of the App
  * open in `DataAppEmbed`.
- * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
  */
 export interface DataAppTilePayload extends EmbedEventPayloadBase {
     /** ID of the App the tile belongs to. */
@@ -400,7 +400,7 @@ export interface DataAppTilePayload extends EmbedEventPayloadBase {
 /**
  * {@link EmbedEvent.TileError}: a tile whose data failed to load, with what the
  * App knows about the failure.
- * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
  */
 export interface DataAppTileErrorPayload extends DataAppTilePayload {
     /** Error code, for example `connector.not_connected`. */

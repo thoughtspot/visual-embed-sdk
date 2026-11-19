@@ -4690,7 +4690,7 @@ export enum EmbedEvent {
      * Apps built before tile support send none.
      *
      * Payload: {@link DataAppTilePayload}.
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * dataAppEmbed.on(EmbedEvent.TileClick, (payload) => {
@@ -4705,7 +4705,7 @@ export enum EmbedEvent {
      * change or an input change re-runs the tile.
      *
      * Payload: {@link DataAppTilePayload}.
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * dataAppEmbed.on(EmbedEvent.TileLoad, (payload) => {
@@ -4720,7 +4720,7 @@ export enum EmbedEvent {
      * events.
      *
      * Payload: {@link DataAppTileErrorPayload}.
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * dataAppEmbed.on(EmbedEvent.TileError, (payload) => {
@@ -10868,7 +10868,7 @@ export enum ContextType {
     Other = 'other',
     /**
      * App context for the App open in `DataAppEmbed`.
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      */
     DataApp = 'dataApp',
 }
