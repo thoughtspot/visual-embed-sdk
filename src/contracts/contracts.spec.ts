@@ -314,11 +314,9 @@ describe('event contracts (drift guardrails)', () => {
                 EmbedEvent.TileClick,
                 EmbedEvent.TileLoad,
                 EmbedEvent.TileError,
-                EmbedEvent.Darkmode,
             ].map((e) => `${e}`).sort(),
         ).toEqual([
             'AIHighlights',
-            'Darkmode',
             'EmbedIframeCenter',
             'EmbedListenerReady',
             'Error',

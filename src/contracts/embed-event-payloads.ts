@@ -413,15 +413,6 @@ export interface DataAppTileErrorPayload extends DataAppTilePayload {
     connectorName?: string;
 }
 
-/**
- * {@link EmbedEvent.Darkmode}: the color scheme the user picked in the App.
- * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
- */
-export interface DarkmodePayload extends EmbedEventPayloadBase {
-    /** `true` when the App is now dark. */
-    isDarkMode: boolean;
-}
-
 // ============================================================================
 // The map — every typed embed event, grouped by domain.
 // ============================================================================
@@ -524,7 +515,6 @@ export interface EmbedEventDataExtension {
     [EmbedEvent.TileClick]: DataAppTilePayload;
     [EmbedEvent.TileLoad]: DataAppTilePayload;
     [EmbedEvent.TileError]: DataAppTileErrorPayload;
-    [EmbedEvent.Darkmode]: DarkmodePayload;
 }
 
 // ============================================================================

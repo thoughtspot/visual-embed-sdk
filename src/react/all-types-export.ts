@@ -193,7 +193,6 @@ export {
     AuthInitPayload,
     DataAppTilePayload,
     DataAppTileErrorPayload,
-    DarkmodePayload,
     CustomActionEventPayload,
     EmbedEventData,
     EmbedEventPayload,
