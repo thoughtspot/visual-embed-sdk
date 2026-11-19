@@ -369,7 +369,7 @@ export class TsEmbed {
 
     /**
      * Sanitized snapshot of the view config exactly as the developer passed it,
-     * before defaults are merged in. Sent with {@link EmbedEvent.EmbedConfig}.
+     * before defaults are merged in. Sent with {@link EmbedEvent.RawEmbedConfig}.
      */
     private readonly rawViewConfig: Record<string, any>;
 
@@ -756,9 +756,9 @@ export class TsEmbed {
      * @param _
      * @param responder
      */
-    private embedConfigCb = (_: any, responder: any) => {
+    private rawEmbedConfigCb = (_: any, responder: any) => {
         responder({
-            type: EmbedEvent.EmbedConfig,
+            type: EmbedEvent.RawEmbedConfig,
             data: {
                 initConfig: getRawInitConfig() ?? {},
                 viewConfig: this.rawViewConfig,
@@ -864,7 +864,7 @@ export class TsEmbed {
      */
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
-        this.on(EmbedEvent.EmbedConfig, this.embedConfigCb, { start: false }, true);
+        this.on(EmbedEvent.RawEmbedConfig, this.rawEmbedConfigCb, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
         this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
 

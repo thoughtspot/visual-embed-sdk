@@ -3545,7 +3545,7 @@ export enum EmbedEvent {
      * keys (`username`, `password`, `authToken`, `getAuthToken`) are removed.
      * @hidden
      */
-    EmbedConfig = 'embedConfig',
+    RawEmbedConfig = 'rawEmbedConfig',
     /**
      * Internal event to clear the cached info
      * @hidden
