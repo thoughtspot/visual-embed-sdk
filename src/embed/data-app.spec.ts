@@ -7,6 +7,7 @@ import {
     EmbedErrorSeverity,
     EmbedEvent,
     ErrorDetailsTypes,
+    HostEvent,
     RuntimeFilterOp,
 } from '../types';
 import { logger } from '../utils/logger';
@@ -150,5 +151,58 @@ describe('DataAppEmbed', () => {
         expect(warn).toHaveBeenCalledTimes(1);
         expect((embed as any).viewConfig.fullHeight).toBe(false);
         warn.mockRestore();
+    });
+
+    describe('navigateToDataApp', () => {
+        it('replaces the filters and parameters, then navigates to the App', async () => {
+            const embed = new DataAppEmbed(getRootEl(), {
+                dataAppId: 'app-1',
+                runtimeFilters: [{ columnName: 'Region', operator: RuntimeFilterOp.EQ, values: ['West'] }],
+            });
+            await embed.render();
+            const trigger = jest.spyOn(embed as any, 'trigger').mockResolvedValue(undefined);
+
+            await embed.navigateToDataApp('app/2', {
+                runtimeParameters: [{ name: 'Target', value: 1000 }],
+            });
+
+            expect(trigger).toHaveBeenCalledTimes(2);
+            // Filters left out are cleared; '&' is the payload's "none".
+            expect(trigger).toHaveBeenNthCalledWith(
+                1,
+                HostEvent.UpdateEmbedParams,
+                expect.objectContaining({
+                    dataAppId: 'app/2',
+                    runtimeFilterParams: '&',
+                    runtimeParameterParams: 'param1=Target&paramVal1=1000',
+                }),
+            );
+            expect(trigger).toHaveBeenNthCalledWith(
+                2,
+                HostEvent.Navigate,
+                'embed/insights/apps/app%2F2',
+            );
+        });
+
+        it('renders the App when the embed is not rendered yet', async () => {
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            await embed.navigateToDataApp('app-2');
+            expect(getIFrameSrc()).toContain('#/embed/insights/apps/app-2');
+        });
+
+        it('raises a validation error instead of navigating without an App id', async () => {
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            await embed.render();
+            const handleError = jest.spyOn(embed as any, 'handleError').mockImplementation(() => undefined);
+            const trigger = jest.spyOn(embed as any, 'trigger').mockResolvedValue(undefined);
+
+            await embed.navigateToDataApp('');
+
+            expect(handleError).toHaveBeenCalledWith(
+                expect.objectContaining({ code: EmbedErrorCodes.DATA_APP_ID_MISSING }),
+            );
+            expect(trigger).not.toHaveBeenCalled();
+            expect((embed as any).viewConfig.dataAppId).toBe('app-1');
+        });
     });
 });

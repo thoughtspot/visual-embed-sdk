@@ -3,6 +3,7 @@ import {
     EmbedErrorCodes,
     EmbedErrorSeverity,
     ErrorDetailsTypes,
+    HostEvent,
     Param,
     RuntimeFilter,
     RuntimeParameter,
@@ -53,7 +54,7 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * Runtime filters for the App, in the Liveboard shape. They apply from
      * the App's first load; change them later with
-     * `HostEvent.UpdateRuntimeFilters` or `HostEvent.DataAppInit`.
+     * `HostEvent.UpdateRuntimeFilters` or `navigateToDataApp()`.
      * They are sent in the app init payload, never in the URL.
      *
      * Supported embed types: `DataAppEmbed`
@@ -73,7 +74,7 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * Runtime parameters for the App. They apply from the App's first load;
      * change them later with `HostEvent.UpdateParameters` or
-     * `HostEvent.DataAppInit`. They are sent in the app init payload,
+     * `navigateToDataApp()`. They are sent in the app init payload,
      * never in the URL.
      *
      * Supported embed types: `DataAppEmbed`
@@ -154,28 +155,79 @@ export class DataAppEmbed extends TsEmbed {
         return params;
     }
 
+    private getDataAppPath(dataAppId: string): string {
+        return `embed/insights/apps/${encodeURIComponent(dataAppId)}`;
+    }
+
+    private reportMissingDataAppId(): void {
+        this.handleError({
+            errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+            message: ERROR_MESSAGE.DATA_APP_ID_MISSING,
+            code: EmbedErrorCodes.DATA_APP_ID_MISSING,
+            severity: EmbedErrorSeverity.SEV1,
+            error: ERROR_MESSAGE.DATA_APP_ID_MISSING,
+        });
+    }
+
     /**
      * The URL of the App page, on the blink-v2 shell.
      */
     public getIframeSrc(): string {
-        const path = `embed/insights/apps/${encodeURIComponent(this.viewConfig.dataAppId)}`;
+        const path = this.getDataAppPath(this.viewConfig.dataAppId);
         return `${this.getRootIframeSrc()}/${path}${this.getThoughtSpotPostUrlParams()}`;
     }
 
     public async render(): Promise<DataAppEmbed> {
         if (!this.viewConfig.dataAppId) {
-            this.handleError({
-                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                message: ERROR_MESSAGE.DATA_APP_ID_MISSING,
-                code: EmbedErrorCodes.DATA_APP_ID_MISSING,
-                severity: EmbedErrorSeverity.SEV1,
-                error: ERROR_MESSAGE.DATA_APP_ID_MISSING,
-            });
+            this.reportMissingDataAppId();
             return this;
         }
 
         await super.render();
         await this.renderIFrame(this.getIframeSrc());
         return this;
+    }
+
+    /**
+     * Open another App in this embed, without reloading the frame.
+     *
+     * The runtime filters and runtime parameters passed here replace the
+     * ones the embed had; leaving them out clears them. When `dataAppId` is
+     * the App already open, the App re-runs with the new values.
+     * @param dataAppId - ID of the App to open.
+     * @param options - Runtime filters and runtime parameters for the App.
+     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * await dataAppEmbed.navigateToDataApp('<app-id>', {
+     *     runtimeFilters: [
+     *         { columnName: 'Region', operator: RuntimeFilterOp.EQ, values: ['West'] },
+     *     ],
+     * });
+     * ```
+     */
+    public async navigateToDataApp(
+        dataAppId: string,
+        options: Pick<DataAppEmbedViewConfig, 'runtimeFilters' | 'runtimeParameters'> = {},
+    ): Promise<void> {
+        if (!dataAppId) {
+            this.reportMissingDataAppId();
+            return;
+        }
+        this.viewConfig.dataAppId = dataAppId;
+        this.viewConfig.runtimeFilters = options.runtimeFilters;
+        this.viewConfig.runtimeParameters = options.runtimeParameters;
+        if (!this.isRendered) {
+            if (this.getPreRenderConfig().id) {
+                this.preRender(true);
+            } else {
+                await this.render();
+            }
+            return;
+        }
+        // Sent first, so the App opens with the new filters and parameters.
+        await this.triggerUpdateEmbedParams();
+        // Not awaited: the app never acknowledges Navigate.
+        this.trigger(HostEvent.Navigate, this.getDataAppPath(dataAppId));
     }
 }

@@ -116,7 +116,6 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
     // Appearance
     HostEvent.UpdateTheme,
     // Apps
-    HostEvent.DataAppInit,
     HostEvent.RefreshDataApp,
 ];
 
@@ -135,7 +134,6 @@ describe('event contracts (drift guardrails)', () => {
             'AskSpotter',
             'CloseSpotterShareConversation',
             'CloseSpotterVizPanel',
-            'DataAppInit',
             'DeleteLastPrompt',
             'DeletePersonalizedView',
             'EditLastPrompt',
@@ -472,12 +470,6 @@ describe('event contracts (drift guardrails)', () => {
             trigger(HostEvent.SetPersonalizedViewPublic, {
                 viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
                 isPublic: true,
-            }),
-            trigger(HostEvent.DataAppInit, {
-                appId: '<app-id>',
-                runtimeFilters: [
-                    { columnName: 'Region', operator: RuntimeFilterOp.EQ, values: ['West'] },
-                ],
             }),
             trigger(HostEvent.RefreshDataApp, {}),
         ];

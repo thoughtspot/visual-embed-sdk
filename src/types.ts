@@ -7479,28 +7479,6 @@ export enum HostEvent {
     UpdateTheme = 'UpdateTheme',
 
     /**
-     * Load an App in `DataAppEmbed`, or switch the embed to another App,
-     * without reloading the frame.
-     * Payload: {@link DataAppInitRequest}.
-     *
-     * The runtime filters and runtime parameters in the payload replace the
-     * ones the embed had, and apply from the App's first load. Leaving them
-     * out clears them. When `appId` is the App already open, the App re-runs
-     * with the new values.
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
-     * @example
-     * ```js
-     * await dataAppEmbed.trigger(HostEvent.DataAppInit, {
-     *     appId: '<app-id>',
-     *     runtimeFilters: [
-     *         { columnName: 'Region', operator: RuntimeFilterOp.EQ, values: ['West'] },
-     *     ],
-     * });
-     * ```
-     */
-    DataAppInit = 'DataAppInit',
-
-    /**
      * Re-run the steps of the App open in `DataAppEmbed` and repaint every
      * tile on screen with fresh data, without reloading the frame. Each tile
      * sends {@link EmbedEvent.TileLoad} again once its new data paints.
