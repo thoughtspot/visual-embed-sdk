@@ -352,7 +352,7 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
-    describe('RawEmbedConfig event', () => {
+    describe('EmbedConfig event', () => {
         test('responds with the raw init config and raw view config, without login info', async () => {
             init({
                 thoughtSpotHost: 'tshost',
@@ -373,16 +373,16 @@ describe('Unit test case for ts embed', () => {
                 const iframe = getIFrameEl();
                 postMessageToParent(
                     iframe.contentWindow,
-                    { type: EmbedEvent.RawEmbedConfig, data: {} },
+                    { type: EmbedEvent.EmbedConfig, data: {} },
                     mockPort,
                 );
             });
             await executeAfterWait(() => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith({
-                    type: EmbedEvent.RawEmbedConfig,
+                    type: EmbedEvent.EmbedConfig,
                     data: {
                         // No CONFIG_DEFAULTS merged in, and no credentials.
-                        rawInitConfig: {
+                        initConfig: {
                             thoughtSpotHost: 'tshost',
                             authType: AuthType.Basic,
                             customizations: customisations,
