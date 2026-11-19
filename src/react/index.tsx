@@ -343,7 +343,7 @@ interface DataAppEmbedProps extends EmbedProps, DataAppEmbedViewConfig { }
 
 /**
  * React component for embedding a single ThoughtSpot App.
- * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
  * @example
  * ```tsx
  * function DataApp() {

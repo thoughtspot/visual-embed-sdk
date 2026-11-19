@@ -937,7 +937,7 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * instance; this flag cannot turn them on by itself.
      *
      * Supported embed types: `AppEmbed`, `DataAppEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @default false
      * @example
      * ```js

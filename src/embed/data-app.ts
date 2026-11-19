@@ -12,7 +12,7 @@ import { TsEmbed } from './ts-embed';
 
 /**
  * The view configuration for an embedded App.
- * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
  * @group Embed components
  */
 export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction'> {
@@ -20,7 +20,7 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * The ID of the App to embed. The App opens on its published version.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
@@ -36,7 +36,7 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * for the ThoughtSpot instance; this flag cannot turn them on by itself.
      *
      * Supported embed types: `AppEmbed`, `DataAppEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @default false
      * @example
      * ```js
@@ -54,7 +54,7 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
  * Embed a single ThoughtSpot App by its ID.
  *
  * The App renders at a fixed height: `fullHeight` is not supported.
- * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
  * @group Embed components
  * @example
  * ```js
