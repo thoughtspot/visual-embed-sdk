@@ -1160,7 +1160,13 @@ export class LiveboardEmbed extends V1Embed {
             this.setActiveTab(data as { tabId: string });
             return Promise.resolve(null);
         }
-        if (typeof dataWithVizId === 'object' && this.viewConfig.vizId) {
+        // Default only: a host-sent vizId must reach the app, so an unknown one
+        // is rejected there instead of acting on the embedded viz.
+        if (
+            typeof dataWithVizId === 'object'
+            && this.viewConfig.vizId
+            && !dataWithVizId.vizId
+        ) {
             dataWithVizId.vizId = this.viewConfig.vizId;
         }
         return super.trigger(messageType, dataWithVizId, context);

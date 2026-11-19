@@ -2925,6 +2925,25 @@ describe('Liveboard/viz embed tests', () => {
                 );
             });
         });
+
+        test('Host event keeps the vizId the host sent', async () => {
+            const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+                liveboardId: '123',
+                ...defaultViewConfig,
+                vizId: 'testViz',
+            });
+            await liveboardEmbed.render();
+            mockProcessTrigger.mockResolvedValue({ session: 'test' });
+            await executeAfterWait(async () => {
+                await liveboardEmbed.trigger(HostEvent.DownloadAsCsv, { vizId: 'unknownViz' });
+                expect(mockProcessTrigger).toHaveBeenCalledWith(
+                    HostEvent.DownloadAsCsv,
+                    { vizId: 'unknownViz' },
+                    undefined,
+                );
+            });
+        });
     });
 
     describe('Liveboard Embed Container Loading and PreRender', () => {
