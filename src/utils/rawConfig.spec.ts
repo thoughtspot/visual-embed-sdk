@@ -2,10 +2,11 @@ import { resetValueFromWindow } from '../utils';
 import { getRawInitConfig, sanitizeRawConfig, setRawInitConfig } from './rawConfig';
 
 describe('sanitizeRawConfig', () => {
-    test('removes top-level login information and keeps everything else', () => {
+    test('removes top-level auth information and keeps everything else', () => {
         const customizations = { style: { customCSS: { variables: { '--a': '#fff' } } } };
         const input = {
             thoughtSpotHost: 'https://ts.example.com',
+            authType: 'Basic',
             username: 'user',
             password: 'pass',
             authToken: 'tok',

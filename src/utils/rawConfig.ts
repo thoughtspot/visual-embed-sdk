@@ -3,9 +3,10 @@ import { getValueFromWindow, storeValueInWindow } from '../utils';
 const rawInitConfigKey = 'rawInitConfig';
 
 /**
- * Login information that must never leave the host page.
+ * Login and auth information that must never leave the host page.
  */
 export const RAW_CONFIG_STRIPPED_KEYS: readonly string[] = [
+    'authType',
     'username',
     'password',
     'authToken',
@@ -13,7 +14,7 @@ export const RAW_CONFIG_STRIPPED_KEYS: readonly string[] = [
 ];
 
 /**
- * Returns a shallow copy of a config with the top-level login information
+ * Returns a shallow copy of a config with the top-level auth information
  * keys removed.
  * @param config - The config to copy.
  */

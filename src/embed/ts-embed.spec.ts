@@ -380,10 +380,9 @@ describe('Unit test case for ts embed', () => {
                 expect(mockPort.postMessage).toHaveBeenCalledWith({
                     type: EmbedEvent.RawEmbedConfig,
                     data: {
-                        // No CONFIG_DEFAULTS merged in, and no credentials.
+                        // No CONFIG_DEFAULTS merged in, and no auth info.
                         initConfig: {
                             thoughtSpotHost: 'tshost',
-                            authType: AuthType.Basic,
                             customizations: customisations,
                         },
                         // No excludeRuntimeFiltersfromURL default.

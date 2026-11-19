@@ -752,7 +752,7 @@ export class TsEmbed {
 
     /**
      * Sends the raw `init()` config and the raw view config together, with
-     * top-level login information removed.
+     * top-level auth information removed.
      * @param _
      * @param responder
      */
