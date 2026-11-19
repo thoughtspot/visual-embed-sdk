@@ -4729,6 +4729,24 @@ export enum EmbedEvent {
      * ```
      */
     TileError = 'TileError',
+    /**
+     * Emitted when the user switches an embedded App between light and
+     * dark with the App's own color scheme button. Not sent after
+     * {@link HostEvent.UpdateTheme}, so a host that mirrors this event back
+     * does not loop. When the user picks the system scheme, `isDarkMode`
+     * is the operating system's current scheme. Apps with a single color
+     * scheme have no such button and never send it.
+     *
+     * Payload: {@link DarkmodePayload}.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * dataAppEmbed.on(EmbedEvent.Darkmode, ({ isDarkMode }) => {
+     *     document.body.classList.toggle('dark', isDarkMode);
+     * })
+     * ```
+     */
+    Darkmode = 'Darkmode',
 }
 
 /**
@@ -7432,6 +7450,10 @@ export enum HostEvent {
      * The event resolves with the applied value, such as `{ isDarkMode: true }`.
      * When dark appearance is not available in the embed, the embed does not
      * change and the event rejects with an error message instead.
+     *
+     * In `DataAppEmbed`, the App switches along with the ThoughtSpot
+     * header. An App with a single color scheme cannot switch, so the
+     * event rejects and nothing changes.
      * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
      * @param - `isDarkMode` - `true` for dark appearance, `false` for the
      * default appearance.
