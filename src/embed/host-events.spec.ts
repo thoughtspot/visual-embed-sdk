@@ -1874,14 +1874,14 @@ describe('HostEvent.Present — vizId injection on LiveboardEmbed', () => {
 // DownloadAsCsv — additional cases
 // ---------------------------------------------------------------------------
 describe('HostEvent.DownloadAsCsv — additional cases', () => {
-    test('viewConfig.vizId overwrites an explicit payload vizId', async () => {
+    test('an explicit payload vizId is kept over viewConfig.vizId', async () => {
         mockMessageChannel();
         const { lb, iframe } = await renderLiveboard({ vizId });
         await executeAfterWait(() => {
             lb.trigger(HostEvent.DownloadAsCsv, { vizId: 'explicit-id' } as any);
             const call = (iframe.contentWindow.postMessage as jest.Mock).mock.calls[0];
             const sentData = call[0].data;
-            expect(sentData.vizId).toBe(vizId); // viewConfig.vizId wins
+            expect(sentData.vizId).toBe('explicit-id');
         });
     });
 
