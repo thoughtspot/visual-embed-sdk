@@ -446,9 +446,6 @@ export interface HostEventRequestMap {
 
     // ==================== APPEARANCE ====================
     [HostEvent.UpdateTheme]: UpdateThemeRequest;
-
-    // ==================== APPS ====================
-    [HostEvent.RefreshDataApp]: void;
 }
 
 /**

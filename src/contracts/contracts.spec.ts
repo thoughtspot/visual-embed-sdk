@@ -115,8 +115,6 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
     HostEvent.CloseSpotterVizPanel,
     // Appearance
     HostEvent.UpdateTheme,
-    // Apps
-    HostEvent.RefreshDataApp,
 ];
 
 // Type-level assertions: compile failures here mean contract resolution
@@ -143,7 +141,6 @@ describe('event contracts (drift guardrails)', () => {
             'OpenSpotterVizPanel',
             'PinSpotterConversation',
             'PreviewSpotterData',
-            'RefreshDataApp',
             'ResetLiveboardPersonalisedView',
             'ResetSpotterConversation',
             'SelectPersonalisedView',
@@ -471,7 +468,6 @@ describe('event contracts (drift guardrails)', () => {
                 viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
                 isPublic: true,
             }),
-            trigger(HostEvent.RefreshDataApp, {}),
         ];
         expect(ok.every(Boolean)).toBe(true);
     });

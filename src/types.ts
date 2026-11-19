@@ -7477,19 +7477,6 @@ export enum HostEvent {
      * ```
      */
     UpdateTheme = 'UpdateTheme',
-
-    /**
-     * Re-run the steps of the App open in `DataAppEmbed` and repaint every
-     * tile on screen with fresh data, without reloading the frame. Each tile
-     * sends {@link EmbedEvent.TileLoad} again once its new data paints.
-     * Payload: none.
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
-     * @example
-     * ```js
-     * await dataAppEmbed.trigger(HostEvent.RefreshDataApp);
-     * ```
-     */
-    RefreshDataApp = 'RefreshDataApp',
 }
 
 /**

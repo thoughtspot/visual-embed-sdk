@@ -54,7 +54,7 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     /**
      * Runtime filters for the App, in the Liveboard shape. They apply from
      * the App's first load; change them later with
-     * `HostEvent.UpdateRuntimeFilters` or `navigateToDataApp()`.
+     * `HostEvent.UpdateRuntimeFilters`.
      * They are sent in the app init payload, never in the URL.
      *
      * Supported embed types: `DataAppEmbed`
@@ -73,9 +73,8 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
     runtimeFilters?: RuntimeFilter[];
     /**
      * Runtime parameters for the App. They apply from the App's first load;
-     * change them later with `HostEvent.UpdateParameters` or
-     * `navigateToDataApp()`. They are sent in the app init payload,
-     * never in the URL.
+     * change them later with `HostEvent.UpdateParameters`. They are sent in
+     * the app init payload, never in the URL.
      *
      * Supported embed types: `DataAppEmbed`
      * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
@@ -191,43 +190,38 @@ export class DataAppEmbed extends TsEmbed {
     /**
      * Open another App in this embed, without reloading the frame.
      *
-     * The runtime filters and runtime parameters passed here replace the
-     * ones the embed had; leaving them out clears them. When `dataAppId` is
-     * the App already open, the App re-runs with the new values.
+     * Like `navigateToLiveboard()`, this changes only the App: the runtime
+     * filters and runtime parameters stay as they are.
      * @param dataAppId - ID of the App to open.
-     * @param options - Runtime filters and runtime parameters for the App.
      * @version SDK: <TBD> | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
-     * await dataAppEmbed.navigateToDataApp('<app-id>', {
-     *     runtimeFilters: [
-     *         { columnName: 'Region', operator: RuntimeFilterOp.EQ, values: ['West'] },
-     *     ],
-     * });
+     * dataAppEmbed.navigateToDataApp('<app-id>');
      * ```
      */
-    public async navigateToDataApp(
-        dataAppId: string,
-        options: Pick<DataAppEmbedViewConfig, 'runtimeFilters' | 'runtimeParameters'> = {},
-    ): Promise<void> {
+    public async navigateToDataApp(dataAppId: string): Promise<void> {
         if (!dataAppId) {
             this.reportMissingDataAppId();
             return;
         }
         this.viewConfig.dataAppId = dataAppId;
-        this.viewConfig.runtimeFilters = options.runtimeFilters;
-        this.viewConfig.runtimeParameters = options.runtimeParameters;
-        if (!this.isRendered) {
-            if (this.getPreRenderConfig().id) {
-                this.preRender(true);
-            } else {
-                await this.render();
-            }
-            return;
+        if (this.isRendered) {
+            // Not awaited: the app never acknowledges Navigate.
+            this.trigger(HostEvent.Navigate, this.getDataAppPath(dataAppId));
+        } else if (this.getPreRenderConfig().id) {
+            this.preRender(true);
+        } else {
+            await this.render();
         }
-        // Sent first, so the App opens with the new filters and parameters.
-        await this.triggerUpdateEmbedParams();
-        // Not awaited: the app never acknowledges Navigate.
-        this.trigger(HostEvent.Navigate, this.getDataAppPath(dataAppId));
+    }
+
+    protected beforePrerenderVisible(): void {
+        super.beforePrerenderVisible();
+        this.executeAfterEmbedContainerLoaded(async () => {
+            // Wait for this config's filters and parameters to apply, so the
+            // App opens with them.
+            await this.preRenderParamsApplied;
+            this.navigateToDataApp(this.viewConfig.dataAppId);
+        });
     }
 }
