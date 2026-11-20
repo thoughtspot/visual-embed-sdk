@@ -34,21 +34,12 @@ beforeEach(() => {
 });
 
 describe('DataAppEmbed', () => {
-    it('loads the App embed route on the v2 shell', async () => {
+    it('loads the App embed route on the v2 shell, with Apps turned on', async () => {
         const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
         await embed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}#/embed/insights/apps/app-1`,
-        );
-    });
-
-    it.each([true, false])('sends enableDataApps=%s on the URL', async (enableDataApps) => {
-        const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1', enableDataApps });
-        await embed.render();
-        expectUrlMatchesWithParams(
-            getIFrameSrc(),
-            `http://${thoughtSpotHost}/v2/?${defaultParams}&enableDataApps=${enableDataApps}#/embed/insights/apps/app-1`,
+            `http://${thoughtSpotHost}/v2/?${defaultParams}&enableDataApps=true#/embed/insights/apps/app-1`,
         );
     });
 
@@ -56,9 +47,8 @@ describe('DataAppEmbed', () => {
     it('keeps enableDataApps on the URL when the config is excluded from it', async () => {
         const embed = new DataAppEmbed(getRootEl(), {
             dataAppId: 'app-1',
-            enableDataApps: true,
             additionalFlags: { excludeConfigFromURL: true },
-        });
+        } as any);
         await embed.render();
         expect(getIFrameSrc()).toContain('enableDataApps=true');
     });

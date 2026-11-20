@@ -6,7 +6,6 @@ import {
     Param,
 } from '../types';
 import { ERROR_MESSAGE } from '../errors';
-import { setParamIfDefined } from '../utils';
 import { logger } from '../utils/logger';
 import { TsEmbed } from './ts-embed';
 
@@ -15,7 +14,7 @@ import { TsEmbed } from './ts-embed';
  * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
  * @group Embed components
  */
-export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAction'> {
+export interface DataAppEmbedViewConfig {
     /**
      * The ID of the App to embed. The App opens on its published version.
      *
@@ -24,67 +23,48 @@ export interface DataAppEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
-     *    ... // other options
      *    dataAppId: '<app-id>',
      * });
      * ```
      */
     dataAppId: string;
-    /**
-     * Turns Apps on in the embed. Until it is `true`, the frame shows a
-     * not-available message instead of the App. Apps must also be turned on
-     * for the ThoughtSpot instance; this flag cannot turn them on by itself.
-     *
-     * Supported embed types: `AppEmbed`, `DataAppEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
-     * @default false
-     * @example
-     * ```js
-     * const embed = new DataAppEmbed('#tsEmbed', {
-     *    ... // other options
-     *    dataAppId: '<app-id>',
-     *    enableDataApps: true,
-     * });
-     * ```
-     */
-    enableDataApps?: boolean;
 }
 
 /**
  * Embed a single ThoughtSpot App by its ID.
  *
- * The App renders at a fixed height: `fullHeight` is not supported.
+ * The App fills its container element: `fullHeight` is not supported. Apps
+ * must be turned on for the ThoughtSpot instance.
  * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
  * @group Embed components
  * @example
  * ```js
  * const embed = new DataAppEmbed('#tsEmbed', {
  *   dataAppId: '<app-id>',
- *   enableDataApps: true,
- *   frameParams: { height: '800px' },
  * });
  * embed.render();
  * ```
  */
 export class DataAppEmbed extends TsEmbed {
-    protected viewConfig: DataAppEmbedViewConfig;
+    protected viewConfig: DataAppEmbedViewConfig & BaseViewConfig;
 
     constructor(container: HTMLElement, viewConfig: DataAppEmbedViewConfig) {
-        viewConfig = {
+        let config: DataAppEmbedViewConfig & BaseViewConfig = {
             embedComponentType: 'dataApp',
             ...viewConfig,
         };
         // Not in the view config type, but a JS caller can still pass it.
-        if ((viewConfig as { fullHeight?: boolean }).fullHeight) {
+        if ((config as { fullHeight?: boolean }).fullHeight) {
             logger.warn('DataAppEmbed does not support fullHeight; it is ignored.');
-            viewConfig = { ...viewConfig, fullHeight: false } as DataAppEmbedViewConfig;
+            config = { ...config, fullHeight: false } as DataAppEmbedViewConfig;
         }
-        super(container, viewConfig);
+        super(container, config);
     }
 
     protected getEmbedParamsObject() {
         const params = this.getBaseQueryParams();
-        setParamIfDefined(params, Param.EnableDataApps, this.viewConfig.enableDataApps, true);
+        // Embedding an App is the opt-in, so Apps are always on in this embed.
+        params[Param.EnableDataApps] = true;
         return params;
     }
 
