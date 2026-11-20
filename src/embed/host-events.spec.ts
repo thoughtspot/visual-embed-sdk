@@ -10,6 +10,8 @@ import {
     AppEmbed,
     HostEvent,
     EmbedErrorCodes,
+    EmbedEvent,
+    EmbedErrorSeverity,
 } from '../index';
 import {
     executeAfterWait,
@@ -1878,19 +1880,24 @@ describe('HostEvent.DownloadAsCsv — additional cases', () => {
     test('a vizId other than viewConfig.vizId is rejected with an error and not sent', async () => {
         mockMessageChannel();
         const { lb, iframe } = await renderLiveboard({ vizId });
-        const handleError = jest.spyOn(lb as any, 'handleError').mockImplementation(() => {});
+        const onError = jest.fn();
+        lb.on(EmbedEvent.Error, onError);
 
         await expect(
             lb.trigger(HostEvent.DownloadAsCsv, { vizId: 'explicit-id' } as any),
         ).rejects.toThrow(ERROR_MESSAGE.VIZ_ID_NOT_IN_EMBED);
 
-        expect(handleError).toHaveBeenCalledWith(
+        expect(onError).toHaveBeenCalledWith(
             expect.objectContaining({
                 code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
                 message: ERROR_MESSAGE.VIZ_ID_NOT_IN_EMBED,
+                severity: EmbedErrorSeverity.SEV3,
             }),
+            expect.anything(),
         );
         expect(iframe.contentWindow.postMessage).not.toHaveBeenCalled();
+        // Not render-blocking: a later render() still creates the iframe.
+        expect((lb as any).isError).toBe(false);
     });
 
     test('a vizId equal to viewConfig.vizId is sent as is', async () => {

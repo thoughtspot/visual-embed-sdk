@@ -1164,14 +1164,18 @@ export class LiveboardEmbed extends V1Embed {
         if (typeof dataWithVizId === 'object' && embeddedVizId) {
             // A single-viz embed shows only its own viz, so any other vizId
             // cannot be served: fail here rather than act on the embedded viz.
+            // Not handleError: it sets isError, which blocks a later render().
             if (dataWithVizId.vizId && dataWithVizId.vizId !== embeddedVizId) {
                 const message = ERROR_MESSAGE.VIZ_ID_NOT_IN_EMBED;
-                this.handleError({
+                const errorDetails = {
                     errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                     message,
                     code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+                    severity: EmbedErrorSeverity.SEV3,
                     error: `${message} Received "${dataWithVizId.vizId}", embedded "${embeddedVizId}".`,
-                });
+                };
+                this.executeCallbacks(EmbedEvent.Error, errorDetails);
+                logger.warn(errorDetails);
                 return Promise.reject(new Error(message));
             }
             dataWithVizId.vizId = embeddedVizId;
