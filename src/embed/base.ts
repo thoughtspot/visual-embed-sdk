@@ -288,7 +288,54 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter | null => {
     getValueFromWindow<InitFlagStore>(initFlagKey).initPromiseResolve(authEE);
     getValueFromWindow<InitFlagStore>(initFlagKey).isInitCalled = true;
 
+    if (embedConfig.enableDebugAgent) {
+        mountDebugAgent();
+    }
+
     return authEE as AuthEventEmitter;
+};
+
+const DEBUG_AGENT_MOUNT_ID = 'ts-debug-agent-root';
+
+/**
+ * Mounts the `<DebugAgent />` panel onto the page when `enableDebugAgent` is
+ * set, so host apps don't need to render it themselves. React/ReactDOM are
+ * peer dependencies of this package and are only imported here, lazily —
+ * consumers using the vanilla (non-React) embed APIs never pull them in.
+ */
+const mountDebugAgent = (): void => {
+    if (document.getElementById(DEBUG_AGENT_MOUNT_ID)) return;
+
+    const container = document.createElement('div');
+    container.id = DEBUG_AGENT_MOUNT_ID;
+    document.body.appendChild(container);
+
+    // `import()` specifiers must stay string literals so bundlers
+    // (Vite/Rollup/webpack) can statically resolve and chunk them — a
+    // computed specifier falls through to the browser's native ESM
+    // resolver, which cannot resolve a bare module name and throws at
+    // runtime. Since React 18, `createRoot` lives only in the
+    // `react-dom/client` subpath — the `react-dom` package's top-level export
+    // no longer has
+    // `createRoot` (never did) or `render` (removed in React 19) — so that
+    // subpath is tried first, falling back to legacy `react-dom` for React
+    // < 18 peers where `react-dom/client` does not exist.
+    Promise.all([import('react'), import('../react/DebugAgent')])
+        .then(([React, { DebugAgent }]) => {
+            const element = React.createElement(DebugAgent);
+            return import('react-dom/client')
+                .then((ReactDOMClient) => {
+                    ReactDOMClient.createRoot(container).render(element);
+                })
+                .catch(() => import('react-dom').then((ReactDOM) => {
+                    // Fallback for React < 18 peers, which lack createRoot.
+                    // eslint-disable-next-line react/no-deprecated
+                    ReactDOM.render(element, container);
+                }));
+        })
+        .catch((err) => {
+            logger.error('DebugAgent could not be mounted: React/ReactDOM are required (peer dependencies) to use enableDebugAgent.', err);
+        });
 };
 
 /**
