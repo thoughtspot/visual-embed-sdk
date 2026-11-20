@@ -3,7 +3,6 @@ import {
     EmbedErrorCodes,
     EmbedErrorSeverity,
     ErrorDetailsTypes,
-    Param,
 } from '../types';
 import { ERROR_MESSAGE } from '../errors';
 import { logger } from '../utils/logger';
@@ -59,13 +58,6 @@ export class DataAppEmbed extends TsEmbed {
             config = { ...config, fullHeight: false } as DataAppEmbedViewConfig;
         }
         super(container, config);
-    }
-
-    protected getEmbedParamsObject() {
-        const params = this.getBaseQueryParams();
-        // Embedding an App is the opt-in, so Apps are always on in this embed.
-        params[Param.EnableDataApps] = true;
-        return params;
     }
 
     /**
