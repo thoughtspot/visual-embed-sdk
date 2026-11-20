@@ -10,7 +10,7 @@ import { TsEmbed } from './ts-embed';
 
 /**
  * The view configuration for an embedded App.
- * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
  * @group Embed components
  */
 export interface DataAppEmbedViewConfig {
@@ -18,7 +18,7 @@ export interface DataAppEmbedViewConfig {
      * The ID of the App to embed. The App opens on its published version.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
@@ -34,7 +34,7 @@ export interface DataAppEmbedViewConfig {
  *
  * The App fills its container element: `fullHeight` is not supported. Apps
  * must be turned on for the ThoughtSpot instance.
- * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
  * @group Embed components
  * @example
  * ```js

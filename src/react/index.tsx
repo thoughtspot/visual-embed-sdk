@@ -348,7 +348,7 @@ type DataAppEmbedFactoryConfig = DataAppEmbedViewConfig & AllEmbedViewConfig;
 
 /**
  * React component for embedding a single ThoughtSpot App.
- * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
  * @example
  * ```tsx
  * function DataApp() {
