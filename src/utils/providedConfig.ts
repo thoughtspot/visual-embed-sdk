@@ -1,6 +1,6 @@
 import { getValueFromWindow, storeValueInWindow } from '../utils';
 
-const rawInitConfigKey = 'rawInitConfig';
+const providedInitConfigKey = 'providedInitConfig';
 
 /**
  * Login and auth information that must never leave the host page.
@@ -33,12 +33,12 @@ export const sanitizeRawConfig = (config?: Record<string, any>): Record<string, 
  * (for example, separate micro-frontends).
  * @param config - The config exactly as the developer passed it.
  */
-export const setRawInitConfig = (config?: Record<string, any>): void => {
-    storeValueInWindow(rawInitConfigKey, config === undefined ? undefined : sanitizeRawConfig(config));
+export const setProvidedInitConfig = (config?: Record<string, any>): void => {
+    storeValueInWindow(providedInitConfigKey, config === undefined ? undefined : sanitizeRawConfig(config));
 };
 
 /**
- * Returns the sanitized copy stored by {@link setRawInitConfig}.
+ * Returns the sanitized copy stored by {@link setProvidedInitConfig}.
  */
-export const getRawInitConfig = (): Record<string, any> | undefined =>
-    getValueFromWindow(rawInitConfigKey);
+export const getProvidedInitConfig = (): Record<string, any> | undefined =>
+    getValueFromWindow(providedInitConfigKey);

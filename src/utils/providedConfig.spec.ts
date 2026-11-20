@@ -1,5 +1,5 @@
 import { resetValueFromWindow } from '../utils';
-import { getRawInitConfig, sanitizeRawConfig, setRawInitConfig } from './rawConfig';
+import { getProvidedInitConfig, sanitizeRawConfig, setProvidedInitConfig } from './providedConfig';
 
 describe('sanitizeRawConfig', () => {
     test('removes top-level auth information and keeps everything else', () => {
@@ -31,16 +31,16 @@ describe('sanitizeRawConfig', () => {
 });
 
 describe('raw init config store', () => {
-    afterEach(() => resetValueFromWindow('rawInitConfig'));
+    afterEach(() => resetValueFromWindow('providedInitConfig'));
 
     test('stores a sanitized copy', () => {
-        setRawInitConfig({ thoughtSpotHost: 'h', password: 'p' });
-        expect(getRawInitConfig()).toEqual({ thoughtSpotHost: 'h' });
+        setProvidedInitConfig({ thoughtSpotHost: 'h', password: 'p' });
+        expect(getProvidedInitConfig()).toEqual({ thoughtSpotHost: 'h' });
     });
 
     test('clears the copy when set to undefined', () => {
-        setRawInitConfig({ a: 1 });
-        setRawInitConfig(undefined);
-        expect(getRawInitConfig()).toBeUndefined();
+        setProvidedInitConfig({ a: 1 });
+        setProvidedInitConfig(undefined);
+        expect(getProvidedInitConfig()).toBeUndefined();
     });
 });

@@ -81,7 +81,7 @@ import {
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { summarizeRuntimeDataForTelemetry } from '../utils/runtimeTelemetry';
-import { getRawInitConfig, sanitizeRawConfig } from '../utils/rawConfig';
+import { getProvidedInitConfig, sanitizeRawConfig } from '../utils/providedConfig';
 import { reportHostEvent } from '../utils/hostEventTelemetry';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
@@ -371,13 +371,13 @@ export class TsEmbed {
      * Sanitized snapshot of the view config exactly as the developer passed it,
      * before defaults are merged in. Sent with {@link EmbedEvent.GetEmbedConfig}.
      */
-    private readonly rawViewConfig: Record<string, any>;
+    private readonly providedViewConfig: Record<string, any>;
 
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.hostElement = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
         this.isError = false;
-        this.rawViewConfig = sanitizeRawConfig(viewConfig);
+        this.providedViewConfig = sanitizeRawConfig(viewConfig);
         this.viewConfig = {
             excludeRuntimeFiltersfromURL: true,
             excludeRuntimeParametersfromURL: true,
@@ -760,8 +760,8 @@ export class TsEmbed {
         responder({
             type: EmbedEvent.GetEmbedConfig,
             data: {
-                initConfig: getRawInitConfig() ?? {},
-                viewConfig: this.rawViewConfig,
+                initConfig: getProvidedInitConfig() ?? {},
+                viewConfig: this.providedViewConfig,
             },
         });
     };
