@@ -18,7 +18,7 @@ export const RAW_CONFIG_STRIPPED_KEYS: readonly string[] = [
  * keys removed.
  * @param config - The config to copy.
  */
-export const sanitizeRawConfig = (config?: Record<string, any>): Record<string, any> => {
+export const sanitizeProvidedConfig = (config?: Record<string, any>): Record<string, any> => {
     const copy = { ...(config || {}) };
     RAW_CONFIG_STRIPPED_KEYS.forEach((key) => {
         delete copy[key];
@@ -34,7 +34,7 @@ export const sanitizeRawConfig = (config?: Record<string, any>): Record<string, 
  * @param config - The config exactly as the developer passed it.
  */
 export const setProvidedInitConfig = (config?: Record<string, any>): void => {
-    storeValueInWindow(providedInitConfigKey, config === undefined ? undefined : sanitizeRawConfig(config));
+    storeValueInWindow(providedInitConfigKey, config === undefined ? undefined : sanitizeProvidedConfig(config));
 };
 
 /**

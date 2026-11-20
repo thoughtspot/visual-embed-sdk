@@ -1,7 +1,7 @@
 import { resetValueFromWindow } from '../utils';
-import { getProvidedInitConfig, sanitizeRawConfig, setProvidedInitConfig } from './providedConfig';
+import { getProvidedInitConfig, sanitizeProvidedConfig, setProvidedInitConfig } from './providedConfig';
 
-describe('sanitizeRawConfig', () => {
+describe('sanitizeProvidedConfig', () => {
     test('removes top-level auth information and keeps everything else', () => {
         const customizations = { style: { customCSS: { variables: { '--a': '#fff' } } } };
         const input = {
@@ -13,7 +13,7 @@ describe('sanitizeRawConfig', () => {
             getAuthToken: (): Promise<string> => Promise.resolve('tok'),
             customizations,
         };
-        expect(sanitizeRawConfig(input)).toEqual({
+        expect(sanitizeProvidedConfig(input)).toEqual({
             thoughtSpotHost: 'https://ts.example.com',
             customizations,
         });
@@ -21,12 +21,12 @@ describe('sanitizeRawConfig', () => {
 
     test('does not mutate the input', () => {
         const input = { password: 'p', a: 1 };
-        sanitizeRawConfig(input);
+        sanitizeProvidedConfig(input);
         expect(input).toEqual({ password: 'p', a: 1 });
     });
 
     test('returns an empty object for a missing config', () => {
-        expect(sanitizeRawConfig(undefined)).toEqual({});
+        expect(sanitizeProvidedConfig(undefined)).toEqual({});
     });
 });
 

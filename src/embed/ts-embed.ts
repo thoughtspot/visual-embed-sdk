@@ -81,7 +81,7 @@ import {
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { summarizeRuntimeDataForTelemetry } from '../utils/runtimeTelemetry';
-import { getProvidedInitConfig, sanitizeRawConfig } from '../utils/providedConfig';
+import { getProvidedInitConfig, sanitizeProvidedConfig } from '../utils/providedConfig';
 import { reportHostEvent } from '../utils/hostEventTelemetry';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
@@ -377,7 +377,7 @@ export class TsEmbed {
         this.hostElement = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
         this.isError = false;
-        this.providedViewConfig = sanitizeRawConfig(viewConfig);
+        this.providedViewConfig = sanitizeProvidedConfig(viewConfig);
         this.viewConfig = {
             excludeRuntimeFiltersfromURL: true,
             excludeRuntimeParametersfromURL: true,
