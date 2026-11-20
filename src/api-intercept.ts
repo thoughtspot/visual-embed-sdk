@@ -2,7 +2,7 @@ import { getThoughtSpotHost } from "./config";
 import { getEmbedConfig } from "./embed/embedConfig";
 import { ERROR_MESSAGE } from "./errors";
 import { InterceptedApiType, BaseViewConfig, ApiInterceptFlags, EmbedEvent, EmbedErrorCodes, ErrorDetailsTypes, EmbedErrorDetailsEvent, EmbedErrorSeverity } from "./types";
-import { embedEventStatus } from "./utils";
+import { buildErrorEventPayload, embedEventStatus } from "./utils";
 import { logger } from "./utils/logger";
 
 const DefaultInterceptUrlsMap: Record<Exclude<InterceptedApiType, InterceptedApiType.ALL>, string[]> = {
@@ -137,7 +137,7 @@ export const handleInterceptEvent = async (params: {
             severity: EmbedErrorSeverity.SEV3,
             error: ERROR_MESSAGE.ERROR_PARSING_API_INTERCEPT_BODY,
         };
-        executeEvent(EmbedEvent.Error, errorDetails);
+        executeEvent(EmbedEvent.Error, buildErrorEventPayload(errorDetails));
         logger.error('Error parsing request body', bodyParseError);
         return;
     }

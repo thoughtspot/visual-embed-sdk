@@ -1,4 +1,4 @@
-import { resetValueFromWindow } from '../utils';
+import { embedEventStatus, resetValueFromWindow } from '../utils';
 import { ERROR_MESSAGE } from '../errors';
 import { resetCachedAuthToken } from '../authToken';
 import {
@@ -1976,7 +1976,7 @@ describe('Unit test case for ts embed', () => {
             (tsEmbed as any).handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: 'no severity set',
-                code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+                code: EmbedErrorCodes.INIT_ERROR,
             });
 
             expect(errorHandler.mock.calls[0][0]).toEqual(
@@ -1992,12 +1992,51 @@ describe('Unit test case for ts embed', () => {
             (tsEmbed as any).handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
                 message: 'explicitly fatal',
-                code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+                code: EmbedErrorCodes.INIT_ERROR,
                 severity: EmbedErrorSeverity.SEV1,
             });
 
             expect(errorHandler.mock.calls[0][0]).toEqual(
                 expect.objectContaining({ severity: EmbedErrorSeverity.SEV1 }),
+            );
+        });
+
+        test('mirrors the details under data like errors posted by the app', () => {
+            const errorHandler = jest.fn();
+            const tsEmbed = new SearchEmbed(getRootEl(), {});
+            tsEmbed.on(EmbedEvent.Error, errorHandler);
+
+            (tsEmbed as any).handleError({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: 'fatal',
+                code: EmbedErrorCodes.INIT_ERROR,
+                severity: EmbedErrorSeverity.SEV1,
+            });
+
+            const [payload] = errorHandler.mock.calls[0];
+            expect(payload.type).toBe(EmbedEvent.Error);
+            expect(payload.status).toBe(embedEventStatus.END);
+            expect(payload.data).toEqual({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: 'fatal',
+                code: EmbedErrorCodes.INIT_ERROR,
+                severity: EmbedErrorSeverity.SEV1,
+            });
+            expect(payload.data.severity).toBe(payload.severity);
+        });
+
+        test('the offline warning carries SEV2 under data', () => {
+            const errorHandler = jest.fn();
+            const tsEmbed = new SearchEmbed(getRootEl(), {});
+            tsEmbed.on(EmbedEvent.Error, errorHandler);
+            (tsEmbed as any).subscribeToNetworkEvents();
+            window.dispatchEvent(new Event('offline'));
+
+            expect(errorHandler.mock.calls[0][0].data).toEqual(
+                expect.objectContaining({
+                    code: EmbedErrorCodes.NETWORK_ERROR,
+                    severity: EmbedErrorSeverity.SEV2,
+                }),
             );
         });
     });
