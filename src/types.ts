@@ -3546,7 +3546,7 @@ export enum EmbedEvent {
      * removed.
      * @hidden
      */
-    RawEmbedConfig = 'rawEmbedConfig',
+    GetEmbedConfig = 'getEmbedConfig',
     /**
      * Internal event to clear the cached info
      * @hidden

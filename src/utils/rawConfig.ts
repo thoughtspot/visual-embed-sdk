@@ -28,7 +28,9 @@ export const sanitizeRawConfig = (config?: Record<string, any>): Record<string, 
 
 /**
  * Stores a sanitized copy of the config passed to `init()`, before any
- * defaults are merged in.
+ * defaults are merged in. Kept on `window`, like the embed config, so it is
+ * reachable when `init()` runs in a different SDK instance than the embed
+ * (for example, separate micro-frontends).
  * @param config - The config exactly as the developer passed it.
  */
 export const setRawInitConfig = (config?: Record<string, any>): void => {
