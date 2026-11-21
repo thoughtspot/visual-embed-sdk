@@ -1011,6 +1011,54 @@ describe('HostEventClient', () => {
             ).length;
             expect(availableCallsCount).toBe(2);
         });
+
+        const probeCount = () => mockProcessTrigger.mock.calls.filter(
+            (call) => call[3]?.type === UIPassthroughEvent.GetAvailableUIPassthroughs,
+        ).length;
+
+        it('re-asks the app when a cached partial list lacks the key, so SaveAnswer {vizId} goes out as Save (SCAL-354146)', async () => {
+            const { client, mockIframe } = createHostEventClient();
+            mockProcessTrigger.mockReset();
+            // Taken while the app was still registering its handlers.
+            const partialKeys = [{ value: { keys: [UIPassthroughEvent.GetAvailableUIPassthroughs] } }];
+            mockProcessTrigger
+                .mockResolvedValueOnce(partialKeys) // probe from GetFilters
+                .mockResolvedValueOnce({}) // GetFilters, legacy
+                .mockResolvedValueOnce(allKeys()) // re-probe from SaveAnswer
+                .mockResolvedValueOnce({}); // SaveAnswer
+
+            await client.triggerHostEvent(HostEvent.GetFilters, {});
+            await client.triggerHostEvent(HostEvent.SaveAnswer, { vizId: 'v1' } as any);
+
+            expect(probeCount()).toBe(2);
+            expect(mockProcessTrigger).toHaveBeenLastCalledWith(
+                mockIframe, HostEvent.Save, mockThoughtSpotHost, { vizId: 'v1' }, undefined,
+            );
+            expect(mockProcessTrigger).not.toHaveBeenCalledWith(
+                expect.anything(), HostEvent.SaveAnswer, expect.anything(), expect.anything(), undefined,
+            );
+        });
+
+        it('a late probe answer without keys does not replace a list the app reported (SCAL-354146)', async () => {
+            const { client } = createHostEventClient();
+            mockProcessTrigger.mockReset();
+            let answerFirstProbe: (value: unknown) => void;
+            mockProcessTrigger
+                .mockReturnValueOnce(new Promise((resolve) => { answerFirstProbe = resolve; }))
+                .mockResolvedValueOnce([{ value: { keys: [UIPassthroughEvent.GetFilters] } }])
+                .mockResolvedValue([{ value: { liveboardFilters: [] as any[], runtimeFilters: [] as any[] } }]);
+
+            const first = client.triggerHostEvent(HostEvent.GetFilters, {});
+            await client.triggerHostEvent(HostEvent.GetFilters, {});
+            answerFirstProbe(undefined); // the first probe times out last
+            await first;
+            expect(probeCount()).toBe(2);
+
+            // With the reported list kept, a key it lacks is re-checked; had
+            // the timeout cached [] instead, no probe would be sent here.
+            await client.triggerHostEvent(HostEvent.GetTabs, {});
+            expect(probeCount()).toBe(3);
+        });
     });
 
     describe('GetTML edge cases', () => {
