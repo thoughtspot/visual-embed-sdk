@@ -23,7 +23,7 @@ const REFUSED_OPTIONS = [
 ] as const;
 
 // Interim until runtime filters apply to Apps: col1, val1, param1 and so on.
-const RUNTIME_FILTER_FLAG = /^(col|op|val|param|paramVal)\d+$/;
+const RUNTIME_FILTER_FLAG = /^(col|op|val|param|paramVal)\d+$/i;
 
 // Interim until runtime filters apply to Apps.
 const REFUSED_HOST_EVENTS: ReadonlySet<HostEvent> = new Set([
@@ -192,6 +192,8 @@ export class DataAppEmbed extends TsEmbed {
     // Interim until runtime filters apply to Apps: every new frame starts here.
     protected async renderIFrame(url: string): Promise<any> {
         if (this.refuseFrame()) {
+            // super.render() already set it; with no frame, it is not rendered.
+            if (!this.iFrame) this.isRendered = false;
             return null;
         }
         return super.renderIFrame(url);
