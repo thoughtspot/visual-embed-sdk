@@ -8,7 +8,7 @@ export const ERROR_MESSAGE = {
     DATA_APP_OPTION_NOT_SUPPORTED: 'This option does not apply to DataAppEmbed. To restrict what a viewer can see, use row-level security.',
     DATA_APP_OPTION_IGNORED: 'This option does not apply to DataAppEmbed and is ignored.',
     // Interim: the change that adds host-set values removes this.
-    DATA_APP_CONTROLS_NOT_SUPPORTED: 'dataAppControls needs a newer version of the Visual Embed SDK. The App was not opened.',
+    DATA_APP_CONTROLS_NOT_SUPPORTED: 'This version of the Visual Embed SDK cannot set control values. The App was not opened.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'SearchEmbed is in Beta in this release.',
     THIRD_PARTY_COOKIE_BLOCKED_ALERT: 'Third-party cookie access is blocked on this browser. Please allow third-party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',

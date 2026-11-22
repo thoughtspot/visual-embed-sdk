@@ -198,6 +198,9 @@ export class DataAppEmbed extends TsEmbed {
     // render() or showPreRender() passed its checks; init may still be pending.
     private renderRequested = false;
 
+    // Counts Reloads, so a call released in the tick of one is not sent.
+    private reloads = 0;
+
     // App calls held for DataAppReady: an App ID releases, none rejects.
     private heldCalls = new Set<(appId?: string) => void>();
 
@@ -274,9 +277,12 @@ export class DataAppEmbed extends TsEmbed {
         if (this.openFailed || !(this.isRendered || this.renderRequested)) {
             throw new DataAppControlError('APP_NOT_READY');
         }
+        const { reloads } = this;
         const appId = this.readyAppId ?? await this.holdUntilReady(deadline);
-        // A destroy() or failed open in the tick that released the call.
-        if (this.openFailed) throw new DataAppControlError('APP_NOT_READY');
+        // A destroy(), failed open or Reload in the tick of the release.
+        if (this.openFailed || reloads !== this.reloads) {
+            throw new DataAppControlError('APP_NOT_READY');
+        }
         let timer: ReturnType<typeof setTimeout>;
         let stop: (error: DataAppControlError) => void;
         const stopped = new Promise<never>((resolve, reject) => {
@@ -517,7 +523,8 @@ export class DataAppEmbed extends TsEmbed {
         if (this.refuseFrame()) {
             return this;
         }
-        this.renderRequested = true;
+        // With no id the base shows nothing: calls keep rejecting at once.
+        if (this.getPreRenderConfig().id) this.renderRequested = true;
         this.adoptOwnerAppState();
         return super.showPreRender();
     }
@@ -594,6 +601,7 @@ export class DataAppEmbed extends TsEmbed {
         }
         if (messageType === HostEvent.Reload) {
             this.pointFrameAtCurrentApp();
+            this.reloads += 1;
             this.resetAppState(false);
             this.endSentCalls();
         }

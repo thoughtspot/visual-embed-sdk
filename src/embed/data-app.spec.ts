@@ -1598,6 +1598,17 @@ describe('DataAppEmbed', () => {
                 expect(appCalls()).toEqual([]);
             });
 
+            it('rejects at once after showPreRender() with no preRenderId', async () => {
+                const { embed } = createDataApp({ dataAppId: appId });
+                await embed.showPreRender();
+
+                const call = getControls(embed);
+                await flush();
+
+                expectControlError(call, 'APP_NOT_READY');
+                expect(appCalls()).toEqual([]);
+            });
+
             it('rejects a call held by a render that a late refusal stops, at once', async () => {
                 const { embed, errors } = createDataApp({ dataAppId: appId });
 
@@ -1876,6 +1887,26 @@ describe('DataAppEmbed', () => {
             it('does not post a call released in the tick that destroy() runs in', async () => {
                 const { embed } = createDataApp({ dataAppId: appId });
                 embed.on(EmbedEvent.DataAppReady, () => embed.destroy());
+                await embed.render();
+                await flush();
+                const call = getControls(embed);
+                await flush();
+
+                appReady();
+                await flush();
+
+                expectControlError(call, 'APP_NOT_READY');
+                expect(appCalls()).toEqual([]);
+            });
+
+            it('does not post a call released in the tick of a HostEvent.Reload', async () => {
+                const { embed } = createDataApp({ dataAppId: appId });
+                let reloaded = false;
+                embed.on(EmbedEvent.DataAppReady, () => {
+                    if (reloaded) return;
+                    reloaded = true;
+                    embed.trigger(HostEvent.Reload);
+                });
                 await embed.render();
                 await flush();
                 const call = getControls(embed);
@@ -2599,7 +2630,7 @@ describe('DataAppEmbed', () => {
                 (embed as any).beforePrerenderVisible();
                 embed.isEmbedContainerLoaded = true;
                 (embed as any).executeEmbedContainerReadyCallbacks();
-                await resolveAfter(300);
+                await waitFor(() => warn.mock.calls.length > 0);
 
                 expect(warn).toHaveBeenCalledWith(failure);
             });
