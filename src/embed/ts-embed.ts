@@ -99,6 +99,7 @@ import { ERROR_MESSAGE } from '../errors';
 import { PreRenderController, resolvePreRenderConfig } from '../pre-render';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
+import { DATA_APP_HOST_EVENTS, DataAppControlError } from './data-app-control-error';
 import {
     getInterceptInitData,
     handleInterceptEvent,
@@ -537,7 +538,8 @@ export class TsEmbed {
         this.unsubscribeToNetworkEvents();
 
         const onlineEventListener = (e: Event) => {
-            this.trigger(HostEvent.Reload);
+            // No caller awaits it: a rejection must not go unhandled.
+            Promise.resolve(this.trigger(HostEvent.Reload)).catch((error) => logger.warn(error));
         };
         window.addEventListener('online', onlineEventListener);
 
@@ -1626,6 +1628,11 @@ export class TsEmbed {
             context,
             embedComponentType: this.viewConfig?.embedComponentType,
         });
+
+        // DataAppEmbed sends these itself; no App is open in any other embed.
+        if (DATA_APP_HOST_EVENTS.has(messageType)) {
+            throw new DataAppControlError('APP_NOT_READY');
+        }
 
         if (!this.isRendered) {
             this.handleError({

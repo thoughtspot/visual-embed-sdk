@@ -1,4 +1,6 @@
+import isPlainObject from 'lodash/isPlainObject';
 import {
+    Action,
     BaseViewConfig,
     ContextType,
     EmbedErrorCodes,
@@ -6,13 +8,19 @@ import {
     EmbedEvent,
     ErrorDetailsTypes,
     HostEvent,
+    Param,
 } from '../types';
 import { ERROR_MESSAGE } from '../errors';
+import { setParamIfDefined } from '../utils';
 import { logger } from '../utils/logger';
 import { reportHostEvent } from '../utils/hostEventTelemetry';
 import { TsEmbed } from './ts-embed';
-import { DataAppControlError } from './data-app-control-error';
+import { DATA_APP_HOST_EVENTS, DataAppControlError } from './data-app-control-error';
 import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
+import type { DataAppControlResult } from '../contracts/data-app-contracts';
+
+/** The whole time of an App call: waiting for the App, then its reply. */
+export const DATA_APP_CALL_BUDGET_MS = 30000;
 
 // Interim until runtime filters apply to Apps.
 const REFUSED_OPTIONS = [
@@ -34,11 +42,43 @@ const REFUSED_HOST_EVENTS: ReadonlySet<HostEvent> = new Set([
     HostEvent.GetParameters,
 ]);
 
+// Inherited options an App cannot honor: a warning each, and the embed renders.
+const IGNORED_OPTIONS = [
+    'customActions',
+    'linkOverride',
+    'enableLinkOverridesV2',
+    'disabledActions',
+    'visibleActions',
+] as const;
+
+// Codes the Apps page answers with; any other rejection becomes FAILED.
+const APPS_PAGE_CODES: ReadonlySet<string> = new Set([
+    'INVALID_REQUEST', 'LIMIT_EXCEEDED', 'UNSUPPORTED_FIELD', 'APP_MISMATCH',
+    'CONTROLS_NOT_SUPPORTED', 'APP_NOT_READY', 'NOT_SIGNED_IN', 'VALUE_REFUSED',
+    'SUPERSEDED', 'RATE_LIMITED', 'SESSION_LOST', 'TIMEOUT', 'FAILED',
+]);
+
 // Empty arrays and objects, null, undefined and false count as not set.
 const isSet = (value: unknown): boolean => {
     if (Array.isArray(value)) return value.length > 0;
     if (value && typeof value === 'object') return Object.keys(value).length > 0;
     return value !== null && value !== undefined && value !== false;
+};
+
+// Any rejection of an App call, as a DataAppControlError.
+const toControlError = (error: any): DataAppControlError => {
+    if (error instanceof DataAppControlError) return error;
+    // The browser could not copy the payload, so nothing was sent.
+    if (error?.name === 'DataCloneError') return new DataAppControlError('INVALID_REQUEST');
+    // The shell's own replies (HOST_EVENT_VALIDATION) land here too.
+    if (!APPS_PAGE_CODES.has(error?.code)) return new DataAppControlError('FAILED');
+    const results = Array.isArray(error.results)
+        ? error.results.map((entry: DataAppControlResult) => {
+            const { id, status, code } = entry ?? ({} as DataAppControlResult);
+            return code === undefined ? { id, status } : { id, status, code };
+        })
+        : undefined;
+    return new DataAppControlError(error.code, results);
 };
 
 /**
@@ -60,6 +100,39 @@ export interface DataAppEmbedViewConfig {
      * ```
      */
     dataAppId: string;
+    /**
+     * Hides the ThoughtSpot header above the App, with its name and actions,
+     * so the App fills the frame.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    dataAppId: '<app-id>',
+     *    hideDataAppHeader: true,
+     * });
+     * ```
+     */
+    hideDataAppHeader?: boolean;
+    /**
+     * Actions to hide in the App. Only `Action.QueryDetailsButtons` applies:
+     * the App then cannot show the query details of a tile. Any other action
+     * is ignored, and raises a warning with the code
+     * `DATA_APP_OPTION_NOT_SUPPORTED`.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    dataAppId: '<app-id>',
+     *    hiddenActions: [Action.QueryDetailsButtons],
+     * });
+     * ```
+     */
+    hiddenActions?: Action[];
 }
 
 /**
@@ -73,13 +146,22 @@ export interface DataAppEmbedViewConfig {
  * or parameter keys in `additionalFlags` (`col1`, `op1`, `val1`, `param1`,
  * `paramVal1` and so on). If any of them is set, the embed raises an error
  * with the code `DATA_APP_OPTION_NOT_SUPPORTED` for each, and does not render
- * or pre-render.
+ * or pre-render. `customActions`, `linkOverride`, `enableLinkOverridesV2`,
+ * `disabledActions` and `visibleActions` are ignored, with a warning that has
+ * the same code.
+ *
+ * Read the App's controls with `HostEvent.GetDataAppControls`, and follow the
+ * App with `EmbedEvent.DataAppReady`, `EmbedEvent.DataAppLoad` and
+ * `EmbedEvent.DataAppControlsChanged`.
  * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
  * @group Embed components
  * @example
  * ```js
  * const embed = new DataAppEmbed('#tsEmbed', {
  *   dataAppId: '<app-id>',
+ * });
+ * embed.on(EmbedEvent.DataAppReady, (payload) => {
+ *   console.log(payload.data.controls);
  * });
  * embed.render();
  * ```
@@ -89,6 +171,18 @@ export class DataAppEmbed extends TsEmbed {
 
     // Set when render() found no App ID: the base then never creates a frame.
     private stoppedByMissingId = false;
+
+    // The App of the last DataAppReady, while that App is the one open.
+    private readyAppId: string | null = null;
+
+    // No App will answer: its open failed, or the embed was destroyed.
+    private openFailed = false;
+
+    // App calls held for DataAppReady: an App ID releases, none rejects.
+    private heldCalls = new Set<(appId?: string) => void>();
+
+    // App calls sent and not answered yet.
+    private sentCalls = new Set<(error: DataAppControlError) => void>();
 
     constructor(container: HTMLElement, viewConfig: DataAppEmbedViewConfig) {
         let config: DataAppEmbedViewConfig & BaseViewConfig = {
@@ -101,6 +195,111 @@ export class DataAppEmbed extends TsEmbed {
             config = { ...config, fullHeight: false } as DataAppEmbedViewConfig;
         }
         super(container, config);
+        this.on(EmbedEvent.DataAppReady, (payload) => this.onAppReady(payload.data?.appId), { start: false }, true);
+        this.on(EmbedEvent.Error, (payload) => this.onAppError(payload), { start: false }, true);
+    }
+
+    private onAppReady(appId: string | undefined): void {
+        if (!appId || appId !== this.viewConfig.dataAppId) return;
+        this.readyAppId = appId;
+        this.openFailed = false;
+        this.heldCalls.forEach((release) => release(appId));
+    }
+
+    // Errors the SDK raises itself have no data; the frame's do.
+    private onAppError(payload: any): void {
+        const error = payload?.data;
+        if (error?.code !== EmbedErrorCodes.DATA_APP_OPEN_FAILED) return;
+        if (error.appId !== undefined && error.appId !== this.viewConfig.dataAppId) return;
+        this.resetAppState(true);
+    }
+
+    // Held calls reject; later ones wait, or reject at once if openFailed.
+    private resetAppState(openFailed: boolean): void {
+        this.readyAppId = null;
+        this.openFailed = openFailed;
+        this.heldCalls.forEach((release) => release());
+    }
+
+    // Resolves with the App's ID on DataAppReady; rejects at the deadline.
+    private holdUntilReady(deadline: number): Promise<string> {
+        return new Promise((resolve, reject) => {
+            const release = (appId?: string) => {
+                clearTimeout(timer);
+                this.heldCalls.delete(release);
+                if (appId) resolve(appId);
+                else reject(new DataAppControlError('APP_NOT_READY'));
+            };
+            const timer = setTimeout(release, deadline - Date.now());
+            this.heldCalls.add(release);
+        });
+    }
+
+    // One 30 s budget, held and sent; every failure a DataAppControlError.
+    private async sendAppEvent(messageType: HostEvent, data: unknown): Promise<any> {
+        const deadline = Date.now() + DATA_APP_CALL_BUDGET_MS;
+        reportHostEvent({
+            hostEvent: messageType,
+            payload: data,
+            context: ContextType.DataApp,
+            embedComponentType: this.viewConfig.embedComponentType,
+        });
+        if (!this.isRendered || this.openFailed) {
+            throw new DataAppControlError('APP_NOT_READY');
+        }
+        const appId = this.readyAppId ?? await this.holdUntilReady(deadline);
+        let timer: ReturnType<typeof setTimeout>;
+        let stop: (error: DataAppControlError) => void;
+        const stopped = new Promise<never>((resolve, reject) => {
+            stop = reject;
+            timer = setTimeout(() => reject(new DataAppControlError('TIMEOUT')), deadline - Date.now());
+        });
+        this.sentCalls.add(stop);
+        let reply: unknown;
+        try {
+            const payload: any = isPlainObject(data) && (data as any).appId === undefined
+                ? { ...(data as object), appId }
+                : data;
+            // The App's handler is registered under the dataApp page context.
+            const sent = this.hostEventClient.triggerHostEvent(messageType, payload, ContextType.DataApp);
+            reply = await Promise.race([sent, stopped]);
+        } catch (error) {
+            throw toControlError(error);
+        } finally {
+            clearTimeout(timer);
+            this.sentCalls.delete(stop);
+        }
+        // The transport resolves with an Error when no reply came in time.
+        if (reply instanceof Error) throw new DataAppControlError('TIMEOUT');
+        return reply;
+    }
+
+    // Inherited options an App ignores: one warning each, as an Error event.
+    private warnIgnoredOptions(): void {
+        const config = this.viewConfig as Partial<Record<typeof IGNORED_OPTIONS[number], unknown>>;
+        const ignored: string[] = IGNORED_OPTIONS.filter((option) => isSet(config[option]));
+        const hidden: unknown = this.viewConfig.hiddenActions;
+        if (Array.isArray(hidden) && hidden.some((action) => action !== Action.QueryDetailsButtons)) {
+            ignored.push('hiddenActions');
+        }
+        ignored.forEach((option) => {
+            const details = {
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.DATA_APP_OPTION_IGNORED,
+                code: EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
+                severity: EmbedErrorSeverity.SEV3,
+                option,
+                error: ERROR_MESSAGE.DATA_APP_OPTION_IGNORED,
+            };
+            this.executeCallbacks(EmbedEvent.Error, details);
+            logger.warn(details);
+        });
+    }
+
+    protected getEmbedParamsObject() {
+        const params = this.getBaseQueryParams();
+        setParamIfDefined(params, Param.HideDataAppHeader, this.viewConfig.hideDataAppHeader, true);
+        return params;
     }
 
     private getDataAppPath(dataAppId: string): string {
@@ -183,6 +382,7 @@ export class DataAppEmbed extends TsEmbed {
             this.stoppedByMissingId = true;
             return this;
         }
+        this.warnIgnoredOptions();
 
         await super.render();
         await this.renderIFrame(this.getIframeSrc());
@@ -226,6 +426,11 @@ export class DataAppEmbed extends TsEmbed {
      * changes nothing. An embed that was rendered without an App ID cannot
      * render: create a new `DataAppEmbed`. To reload the App open now, use
      * `trigger(HostEvent.Reload)`.
+     *
+     * Opening another App rejects the App calls still waiting with
+     * `APP_NOT_READY`. Navigating to the App already open does not open it
+     * again, even after it failed to open: to retry it, use
+     * `trigger(HostEvent.Reload)`.
      * @param dataAppId - ID of the App to open.
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      * @example
@@ -248,6 +453,8 @@ export class DataAppEmbed extends TsEmbed {
             return;
         }
         const path = this.getDataAppPath(dataAppId);
+        // The same App keeps its state, a failed open included.
+        if (dataAppId !== this.viewConfig.dataAppId) this.resetAppState(false);
         this.viewConfig.dataAppId = dataAppId;
         if (this.isRendered) {
             // Not awaited: the app never acknowledges Navigate.
@@ -273,7 +480,27 @@ export class DataAppEmbed extends TsEmbed {
         if (this.refuseFrame()) {
             return this;
         }
+        this.adoptOwnerAppState();
         return super.showPreRender();
+    }
+
+    // A shown pre-render may hold this App open; its owner saw its events.
+    private adoptOwnerAppState(): void {
+        const owner = this.getPreRenderObj<DataAppEmbed>();
+        if (owner === this || owner?.viewConfig?.dataAppId !== this.viewConfig.dataAppId) return;
+        this.readyAppId = owner.readyAppId;
+        this.openFailed = owner.openFailed;
+    }
+
+    /**
+     * Destroys the embed. App calls still waiting for the App reject with
+     * `APP_NOT_READY`, and calls sent and not answered with `SESSION_LOST`.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    public destroy(): void {
+        this.resetAppState(true);
+        this.sentCalls.forEach((stop) => stop(new DataAppControlError('SESSION_LOST')));
+        super.destroy();
     }
 
     /**
@@ -285,11 +512,16 @@ export class DataAppEmbed extends TsEmbed {
      * with a {@link DataAppControlError} whose `code` is
      * `NOT_SUPPORTED_IN_DATA_APP`, and nothing is sent.
      *
+     * `HostEvent.GetDataAppControls` waits for the App to be ready, within
+     * 30 seconds, and rejects every failure with a {@link DataAppControlError}.
+     *
      * `HostEvent.Reload` reopens the App that is open, including one opened
-     * with `navigateToDataApp()`.
+     * with `navigateToDataApp()` and one that failed to open. App calls still
+     * waiting reject with `APP_NOT_READY`.
      * @param messageType The event type
      * @param data The payload, typed against the event's contract
-     * @param context The page context of the event
+     * @param context The page context of the event. App calls are always sent
+     * with `ContextType.DataApp`.
      * @returns A promise that resolves with the response from the embedded App
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      */
@@ -313,8 +545,12 @@ export class DataAppEmbed extends TsEmbed {
             });
             throw new DataAppControlError('NOT_SUPPORTED_IN_DATA_APP');
         }
+        if (DATA_APP_HOST_EVENTS.has(messageType)) {
+            return this.sendAppEvent(messageType, data);
+        }
         if (messageType === HostEvent.Reload) {
             this.pointFrameAtCurrentApp();
+            this.resetAppState(false);
         }
         return super.trigger(messageType, data, context);
     }
