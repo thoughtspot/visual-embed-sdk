@@ -1,8 +1,11 @@
 import { DataAppEmbed, DataAppEmbedViewConfig } from './data-app';
+import { DataAppControlError } from './data-app-control-error';
 import { AppEmbed } from './app';
 import { TsEmbed } from './ts-embed';
+import { getEmbedConfig } from './embedConfig';
 import type { LiveboardViewConfig } from './liveboard';
 import * as authInstance from '../auth';
+import * as mixpanelInstance from '../mixpanel-service';
 import { init } from '../index';
 import {
     AuthType,
@@ -14,6 +17,7 @@ import {
     RuntimeFilterOp,
 } from '../types';
 import { logger } from '../utils/logger';
+import { getHostEventTelemetryProps } from '../utils/hostEventTelemetry';
 import * as processTriggerService from '../utils/processTrigger';
 import {
     getDocumentBody,
@@ -77,6 +81,25 @@ const mockResizeObserver = () => {
             unobserve: jest.fn(),
         }));
 };
+
+// Each refused source, as a host could set it.
+const refusedSources: [string, object][] = [
+    ['runtimeFilters', { runtimeFilters: depotFilter }],
+    ['runtimeParameters', { runtimeParameters: speedParam }],
+    ['liveboardOverride', { liveboardOverride }],
+    ['liveboardOverrides', { liveboardOverrides }],
+    ['additionalFlags', { additionalFlags: { col1: 'Depot', op1: 'EQ', val1: 'Austin' } }],
+];
+
+let preRenderSeq = 0;
+const nextPreRenderId = () => {
+    preRenderSeq += 1;
+    return `pre-render-${preRenderSeq}`;
+};
+
+const errorKeys = (errors: unknown[]) => errors.map(
+    (error: any) => [error.code, error.option ?? error.message],
+);
 
 beforeAll(() => {
     init({
@@ -362,17 +385,9 @@ describe('DataAppEmbed', () => {
             expect(getIFrameEl()).toBeNull();
         });
 
-        it.each([
-            ['no option', {}],
-            ['empty options sent in the URL', {
-                runtimeFilters: [],
-                runtimeParameters: [],
-                excludeRuntimeFiltersfromURL: false,
-                excludeRuntimeParametersfromURL: false,
-            }],
-        ])('sends no runtime filter or parameter in the URL or APP_INIT with %s', async (_, options) => {
+        it('sends no runtime filter or parameter in the URL or APP_INIT', async () => {
             mockMessageChannel();
-            const { errors } = await renderDataApp({ dataAppId: appId, ...options });
+            const { errors } = await renderDataApp({ dataAppId: appId });
             expect(errors).toEqual([]);
             expect(getIFrameSrc()).not.toMatch(/(col|op|val|param|paramVal)1=/);
 
@@ -396,6 +411,75 @@ describe('DataAppEmbed', () => {
             expect(JSON.stringify(appInit.data)).not.toMatch(/(col|param)1=/);
         });
 
+        describe('no filter value reaches the App', () => {
+            const filterValue = /Austin|Speed(%20| )Limit/;
+            let posted: unknown[];
+            let processTrigger: jest.SpyInstance;
+
+            // Frame URLs, APP_INIT answers and posted events, as one string.
+            const sentToApp = async () => {
+                const frames = Array.from(document.querySelectorAll('iframe'));
+                const ports = frames.map((frame) => {
+                    const port = { postMessage: jest.fn() };
+                    postMessageToParent(
+                        frame.contentWindow,
+                        { type: EmbedEvent.APP_INIT, data: {} },
+                        port,
+                    );
+                    return port;
+                });
+                await resolveAfter(10);
+                const answers = ports.map((port) => port.postMessage.mock.calls);
+                return JSON.stringify([frames.map((frame) => frame.src), answers, posted]);
+            };
+
+            beforeEach(() => {
+                mockMessageChannel();
+                mockResizeObserver();
+                posted = [];
+                processTrigger = jest
+                    .spyOn(processTriggerService, 'processTrigger')
+                    .mockImplementation((_, type, __, data) => {
+                        posted.push([type, data]);
+                        return Promise.resolve(null);
+                    });
+            });
+
+            afterEach(() => {
+                processTrigger.mockRestore();
+            });
+
+            it('sees a filter value where one is sent (AppEmbed control)', async () => {
+                const appEmbed = new AppEmbed(getRootEl(), { runtimeFilters: depotFilter });
+                await appEmbed.render();
+
+                expect(await sentToApp()).toMatch(filterValue);
+            });
+
+            describe.each(refusedSources)('with %s set', (_, source) => {
+                it.each([
+                    ['render()', {}, (embed: DataAppEmbed) => embed.render()],
+                    ['prerenderGeneric() and a navigate', {}, async (embed: DataAppEmbed) => {
+                        await embed.prerenderGeneric();
+                        await embed.navigateToDataApp(appId);
+                    }],
+                    // A shown pre-render sends the config in UpdateEmbedParams.
+                    ['preRender(true) and the frame loading', { preRenderId: 'value-check' }, async (embed: DataAppEmbed) => {
+                        await embed.preRender(true);
+                        embed.isEmbedContainerLoaded = true;
+                        (embed as any).executeEmbedContainerReadyCallbacks();
+                        await resolveAfter(10);
+                    }],
+                ])('sends it nowhere after %s', async (__, extra, enter) => {
+                    const { embed } = createDataApp({ dataAppId: appId, ...source, ...extra });
+
+                    await enter(embed);
+
+                    expect(await sentToApp()).not.toMatch(filterValue);
+                });
+            });
+        });
+
         it('takes none of the refused options or enableDataApps in its type', () => {
             const configs: DataAppEmbedViewConfig[] = [
                 // @ts-expect-error not a DataAppEmbed option
@@ -417,6 +501,312 @@ describe('DataAppEmbed', () => {
                 'This option does not apply to DataAppEmbed. '
                 + 'To restrict what a viewer can see, use row-level security.',
             );
+        });
+    });
+
+    describe('runtime filter keys in additionalFlags', () => {
+        let logError: jest.SpyInstance;
+
+        beforeEach(() => {
+            logError = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+        });
+
+        afterEach(() => {
+            logError.mockRestore();
+            delete getEmbedConfig().additionalFlags;
+        });
+
+        it.each([
+            'col1', 'Col1', 'OP1', 'val1', 'val12', 'param1', 'paramVal1', 'PARAMVAL1', 'paramval2',
+        ])('refuses %s in the view config, once', async (key) => {
+            const { embed, errors } = await renderDataApp({
+                dataAppId: appId,
+                additionalFlags: { [key]: 'Depot' },
+            });
+
+            expect(errors).toEqual([refusal('additionalFlags')]);
+            expect(getIFrameEl()).toBeNull();
+            expect((embed as any).isRendered).toBeFalsy();
+        });
+
+        it.each(['col1', 'Col1', 'PARAMVAL1'])('refuses %s in the init config, once', async (key) => {
+            getEmbedConfig().additionalFlags = { [key]: 'Depot' };
+
+            const { embed, errors } = await renderDataApp({ dataAppId: appId });
+
+            expect(errors).toEqual([refusal('additionalFlags')]);
+            expect(getIFrameEl()).toBeNull();
+            expect((embed as any).isRendered).toBeFalsy();
+        });
+
+        it('raises one error for several keys, after the refused options', async () => {
+            getEmbedConfig().additionalFlags = { PARAM1: 'Speed Limit' };
+
+            const { errors } = await renderDataApp({
+                dataAppId: appId,
+                runtimeParameters: speedParam,
+                additionalFlags: { col1: 'Depot', op1: 'EQ', val1: 'Austin' },
+            });
+
+            expect(errors).toEqual([refusal('runtimeParameters'), refusal('additionalFlags')]);
+        });
+
+        it.each([
+            ['the view config', 'color1'],
+            ['the view config', 'option'],
+            ['the view config', 'column1'],
+            ['the view config', 'valx'],
+            ['the view config', 'paramValue1'],
+            ['the view config', 'xcol1'],
+            ['the init config', 'Color1'],
+        ])('renders with a key in %s that only looks like one: %s', async (where, key) => {
+            const flags = { [key]: 'Depot' };
+            if (where === 'the init config') getEmbedConfig().additionalFlags = flags;
+            const config = where === 'the view config' ? { additionalFlags: flags } : {};
+
+            const { errors } = await renderDataApp({ dataAppId: appId, ...config });
+
+            expect(errors).toEqual([]);
+            expect(getIFrameSrc()).toContain(`#/embed/insights/apps/${appId}`);
+        });
+
+        it('refuses once, with no frame, when the init flags change while render() runs', async () => {
+            const { embed, errors } = createDataApp({ dataAppId: appId });
+
+            const rendering = embed.render();
+            getEmbedConfig().additionalFlags = { col1: 'Depot' };
+            await rendering;
+
+            expect(errors).toEqual([refusal('additionalFlags')]);
+            expect(getIFrameEl()).toBeNull();
+            expect((embed as any).isRendered).toBe(false);
+        });
+
+        it('keeps a shown frame as it was when a later render() is refused late', async () => {
+            const { embed, errors } = await renderDataApp({ dataAppId: appId });
+            const frame = getIFrameEl();
+            const { src } = frame;
+
+            const rendering = embed.render();
+            getEmbedConfig().additionalFlags = { col1: 'Depot' };
+            await rendering;
+
+            expect(errors).toEqual([refusal('additionalFlags')]);
+            expect(getIFrameEl()).toBe(frame);
+            expect(frame.src).toBe(src);
+            expect((embed as any).isRendered).toBe(true);
+        });
+    });
+
+    describe('a missing App id', () => {
+        let logError: jest.SpyInstance;
+        let logWarn: jest.SpyInstance;
+
+        const missingId = (severity: EmbedErrorSeverity, message: string) => ({
+            errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+            message,
+            code: EmbedErrorCodes.DATA_APP_ID_MISSING,
+            severity,
+            error: message,
+        });
+
+        beforeEach(() => {
+            mockResizeObserver();
+            logError = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+            logWarn = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+        });
+
+        afterEach(() => {
+            logError.mockRestore();
+            logWarn.mockRestore();
+        });
+
+        it('reports an empty navigate argument as SEV3 with a warning, and a later valid call renders', async () => {
+            const { embed, errors } = createDataApp({ dataAppId: appId });
+            const expected = missingId(EmbedErrorSeverity.SEV3, ERROR_MESSAGE.DATA_APP_ID_MISSING);
+
+            await embed.navigateToDataApp('');
+
+            expect(errors).toEqual([expected]);
+            expect(logWarn).toHaveBeenCalledWith(expected);
+            expect(logError).not.toHaveBeenCalled();
+            expect(getIFrameEl()).toBeNull();
+
+            await embed.navigateToDataApp('b7c8');
+
+            expect(errors).toHaveLength(1);
+            expect((embed as any).isRendered).toBe(true);
+            expect(getIFrameSrc()).toContain('#/embed/insights/apps/b7c8');
+        });
+
+        it('navigates a rendered embed after an empty navigate argument', async () => {
+            const { embed, errors } = await renderDataApp({ dataAppId: appId });
+            const triggerHostEvent = jest
+                .spyOn((embed as any).hostEventClient, 'triggerHostEvent')
+                .mockResolvedValue(null);
+
+            await embed.navigateToDataApp('');
+            await embed.navigateToDataApp('b7c8');
+
+            expect(errors).toHaveLength(1);
+            expect(triggerHostEvent).toHaveBeenCalledTimes(1);
+            expect(triggerHostEvent).toHaveBeenCalledWith(
+                HostEvent.Navigate,
+                'embed/insights/apps/b7c8',
+                undefined,
+            );
+        });
+
+        it.each([
+            ['render()', false, (embed: DataAppEmbed) => embed.render()],
+            ['navigateToDataApp()', false, (embed: DataAppEmbed) => embed.navigateToDataApp('b7c8')],
+            ['prerenderGeneric()', false, (embed: DataAppEmbed) => embed.prerenderGeneric()],
+            ['preRender()', true, (embed: DataAppEmbed) => embed.preRender()],
+            ['showPreRender()', true, (embed: DataAppEmbed) => embed.showPreRender()],
+            ['navigateToDataApp() with a preRenderId', true, (embed: DataAppEmbed) => embed.navigateToDataApp('b7c8')],
+        ])('stops an embed rendered with no App id: a later %s asks for a new embed', async (_, withPreRender, enter) => {
+            const { embed, errors } = createDataApp(
+                withPreRender ? { preRenderId: nextPreRenderId() } : {},
+            );
+            await embed.render();
+
+            await enter(embed);
+
+            expect(errors).toEqual([
+                missingId(EmbedErrorSeverity.SEV1, ERROR_MESSAGE.DATA_APP_ID_MISSING),
+                missingId(EmbedErrorSeverity.SEV1, ERROR_MESSAGE.DATA_APP_EMBED_STOPPED),
+            ]);
+            expect(getIFrameEl()).toBeNull();
+            expect((embed as any).isRendered).toBeFalsy();
+        });
+    });
+
+    describe('every entry point with a refused config', () => {
+        let logError: jest.SpyInstance;
+        let processTrigger: jest.SpyInstance;
+
+        const entryPoints: [string, boolean, (embed: DataAppEmbed) => Promise<unknown>][] = [
+            ['render()', false, (embed) => embed.render()],
+            ['prerenderGeneric()', false, (embed) => embed.prerenderGeneric()],
+            ['preRender()', true, (embed) => embed.preRender()],
+            ['preRender(true)', true, (embed) => embed.preRender(true)],
+            ['showPreRender()', true, (embed) => embed.showPreRender()],
+            ['navigateToDataApp()', false, (embed) => embed.navigateToDataApp('b7c8')],
+            ['navigateToDataApp() with a preRenderId', true, (embed) => embed.navigateToDataApp('b7c8')],
+        ];
+
+        beforeEach(() => {
+            mockResizeObserver();
+            logError = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+            processTrigger = jest.spyOn(processTriggerService, 'processTrigger');
+        });
+
+        afterEach(() => {
+            logError.mockRestore();
+            processTrigger.mockRestore();
+        });
+
+        describe.each(refusedSources)('with %s set', (option, source) => {
+            it.each(entryPoints)('%s refuses once, and so does a navigate after it', async (_, withPreRender, enter) => {
+                const { embed, errors } = createDataApp({
+                    dataAppId: appId,
+                    ...source,
+                    ...(withPreRender ? { preRenderId: nextPreRenderId() } : {}),
+                });
+                const triggerHostEvent = jest.spyOn((embed as any).hostEventClient, 'triggerHostEvent');
+
+                await enter(embed);
+
+                expect(errors).toEqual([refusal(option)]);
+                expect(getIFrameEl()).toBeNull();
+                expect((embed as any).isRendered).toBeFalsy();
+
+                await embed.navigateToDataApp('c9d0');
+
+                expect(errors).toEqual([refusal(option), refusal(option)]);
+                expect(getIFrameEl()).toBeNull();
+                expect((embed as any).isRendered).toBeFalsy();
+                expect(embed.getUnderlyingFrameElement()).toBeFalsy();
+                expect(triggerHostEvent).not.toHaveBeenCalled();
+                expect(processTrigger).not.toHaveBeenCalled();
+            });
+        });
+
+        it('refuses every set source, each once and in order, from one call', async () => {
+            const { embed, errors } = createDataApp({
+                dataAppId: appId,
+                ...Object.assign({}, ...refusedSources.map(([, source]) => source)),
+            });
+
+            await embed.prerenderGeneric();
+
+            expect(errors).toEqual(refusedSources.map(([option]) => refusal(option)));
+            expect(getIFrameEl()).toBeNull();
+        });
+    });
+
+    describe('a refused embed and a pre-render that already exists', () => {
+        let logError: jest.SpyInstance;
+        let processTrigger: jest.SpyInstance;
+        let posted: [HostEvent, unknown][];
+
+        beforeEach(() => {
+            mockResizeObserver();
+            logError = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+            posted = [];
+            processTrigger = jest
+                .spyOn(processTriggerService, 'processTrigger')
+                .mockImplementation((_, type, __, data) => {
+                    posted.push([type, data]);
+                    return Promise.resolve(null);
+                });
+        });
+
+        afterEach(() => {
+            logError.mockRestore();
+            processTrigger.mockRestore();
+        });
+
+        it.each([
+            ['hidden', false],
+            ['shown', true],
+        ])('does not adopt a %s pre-render, or navigate it', async (_, shown) => {
+            const preRenderId = nextPreRenderId();
+            const owner = new DataAppEmbed(getRootEl(), {
+                dataAppId: appId,
+                preRenderId,
+            } as DataAppEmbedViewConfig);
+            await owner.preRender();
+            await waitFor(() => !!getIFrameEl());
+            if (shown) await owner.showPreRender();
+            const frame = getIFrameEl();
+            const wrapper = document.getElementById(owner.getPreRenderIds().wrapper);
+            const { src } = frame;
+            const { opacity } = wrapper.style;
+            posted = [];
+
+            const { embed, errors } = createDataApp({
+                dataAppId: 'secret',
+                preRenderId,
+                runtimeFilters: depotFilter,
+            });
+            await embed.preRender();
+            await embed.navigateToDataApp('secret');
+            const direct = await embed.trigger(HostEvent.Navigate, 'embed/insights/apps/secret');
+
+            expect(errorKeys(errors)).toEqual([
+                [EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED, 'runtimeFilters'],
+                [EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED, 'runtimeFilters'],
+                [EmbedErrorCodes.RENDER_NOT_CALLED, ERROR_MESSAGE.RENDER_BEFORE_EVENTS_REQUIRED],
+            ]);
+            expect(direct).toBeNull();
+            expect((embed as any).isRendered).toBeFalsy();
+            expect(embed.getUnderlyingFrameElement()).toBeFalsy();
+            expect(posted).toEqual([]);
+            expect(document.querySelectorAll('iframe')).toHaveLength(1);
+            expect(frame.src).toBe(src);
+            expect(wrapper.style.opacity).toBe(opacity);
+            expect(wrapper.style.opacity).toBe(shown ? '' : '0');
         });
     });
 
@@ -503,6 +893,7 @@ describe('DataAppEmbed', () => {
         const expectRefused = async (result: Promise<unknown>) => {
             const error = await result.then(() => 'resolved', (rejection) => rejection);
             expect(error).toBeInstanceOf(Error);
+            expect(error).toBeInstanceOf(DataAppControlError);
             expect(error).toMatchObject({
                 name: 'DataAppControlError',
                 code: 'NOT_SUPPORTED_IN_DATA_APP',
@@ -545,6 +936,75 @@ describe('DataAppEmbed', () => {
             expect(DATA_APP_CONTROL_ERROR_MESSAGE.NOT_SUPPORTED_IN_DATA_APP).toBe(
                 'This host event does not apply to DataAppEmbed.',
             );
+        });
+
+        it.each(refusedEvents)('reports a refused %s to telemetry, with no payload value', async (event, payload) => {
+            const upload = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: appId });
+            const eventId = `${mixpanelInstance.MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${event}`;
+
+            await expectRefused(embed.trigger(event, payload as any));
+
+            const reported = upload.mock.calls.filter(([id]) => id === eventId);
+            upload.mockRestore();
+            expect(reported).toEqual([[eventId, getHostEventTelemetryProps({
+                hostEvent: event,
+                payload: payload ?? {},
+                context: undefined,
+                embedComponentType: 'dataApp',
+            })]]);
+            expect(JSON.stringify(reported)).not.toMatch(/Austin|Depot|Speed Limit/);
+        });
+
+        it('rejects as a promise and never throws', async () => {
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: appId });
+            let result: Promise<unknown>;
+
+            expect(() => {
+                result = embed.trigger(HostEvent.GetFilters);
+            }).not.toThrow();
+
+            expect(result).toBeInstanceOf(Promise);
+            await expect(result).rejects.toBeInstanceOf(DataAppControlError);
+        });
+
+        it('turns a throw while pointing the frame at the App into a rejection', async () => {
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: appId });
+            await embed.render();
+            (embed as any).viewConfig.dataAppId = '\uD800';
+            let result: Promise<unknown>;
+
+            expect(() => {
+                result = embed.trigger(HostEvent.Reload);
+            }).not.toThrow();
+            // Later tests dispatch online, which reloads this embed too.
+            (embed as any).viewConfig.dataAppId = appId;
+
+            await expect(result).rejects.toBeInstanceOf(URIError);
+            expect(processTrigger).not.toHaveBeenCalled();
+        });
+
+        it('leaves the App id unchanged when the new one cannot be encoded', async () => {
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: appId });
+            await embed.render();
+
+            await expect(embed.navigateToDataApp('\uD800')).rejects.toBeInstanceOf(URIError);
+
+            expect((embed as any).viewConfig.dataAppId).toBe(appId);
+        });
+
+        it('builds the error class from a code that has a sentence', () => {
+            const error = new DataAppControlError('NOT_SUPPORTED_IN_DATA_APP');
+            // @ts-expect-error a code with no sentence is not accepted
+            const withoutSentence = () => new DataAppControlError('APP_NOT_READY');
+
+            expect(error).toBeInstanceOf(Error);
+            expect(error).toMatchObject({
+                name: 'DataAppControlError',
+                code: 'NOT_SUPPORTED_IN_DATA_APP',
+                message: DATA_APP_CONTROL_ERROR_MESSAGE.NOT_SUPPORTED_IN_DATA_APP,
+            });
+            expect(withoutSentence).toBeInstanceOf(Function);
         });
 
         it.each(refusedEvents)('still posts %s from an AppEmbed', async (event, payload) => {
@@ -645,6 +1105,47 @@ describe('DataAppEmbed', () => {
             await executeAfterWait(() => undefined);
 
             expect(reloadedSrc).toEqual([firstSrc.replace('/apps/app-1', '/apps/app-2')]);
+        });
+
+        it.each([
+            ['trigger(HostEvent.Reload)', (embed: DataAppEmbed) => embed.trigger(HostEvent.Reload)],
+            ['the browser coming back online', async () => {
+                window.dispatchEvent(new Event('online'));
+                await executeAfterWait(() => undefined);
+            }],
+        ])('reopens the App opened on a generic pre-render, on %s', async (_, reload) => {
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            await embed.prerenderGeneric();
+            const genericSrc = getIFrameSrc();
+            expect(genericSrc).toMatch(/#$/);
+
+            await embed.navigateToDataApp('b7c8');
+            await reload(embed);
+
+            expect(reloadedSrc).toEqual([`${genericSrc}/embed/insights/apps/b7c8`]);
+        });
+
+        it('reopens the App of the embed that showed a shared pre-render, keeping ts- params', async () => {
+            mockResizeObserver();
+            window.history.pushState({}, '', '/host?ts-foo=bar');
+            const preRenderId = nextPreRenderId();
+            const owner = new DataAppEmbed(getRootEl(), {
+                dataAppId: 'app-a',
+                preRenderId,
+            } as DataAppEmbedViewConfig);
+            await owner.preRender();
+            await waitFor(() => !!getIFrameEl());
+            const ownerSrc = getIFrameSrc();
+            expect(ownerSrc).toContain('#/embed/insights/apps/app-a?ts-foo=bar');
+
+            const embed = new DataAppEmbed(getRootEl(), {
+                dataAppId: 'app-b',
+                preRenderId,
+            } as DataAppEmbedViewConfig);
+            await embed.showPreRender();
+            await embed.trigger(HostEvent.Reload);
+
+            expect(reloadedSrc).toEqual([ownerSrc.replace('/apps/app-a', '/apps/app-b')]);
         });
 
         it('does not rewrite a frame URL that has no route', async () => {
