@@ -6,7 +6,9 @@ export const ERROR_MESSAGE = {
     DATA_APP_EMBED_STOPPED: 'This DataAppEmbed was rendered without an App ID and cannot render now. Create a new DataAppEmbed.',
     // Interim until runtime filters apply to Apps.
     DATA_APP_OPTION_NOT_SUPPORTED: 'This option does not apply to DataAppEmbed. To restrict what a viewer can see, use row-level security.',
-    DATA_APP_OPTION_IGNORED: 'This option does not apply to DataAppEmbed and is ignored. Of hiddenActions, only Action.QueryDetailsButtons applies.',
+    DATA_APP_OPTION_IGNORED: 'This option does not apply to DataAppEmbed and is ignored.',
+    // Interim: the change that adds host-set values removes this.
+    DATA_APP_CONTROLS_NOT_SUPPORTED: 'dataAppControls needs a newer version of the Visual Embed SDK. The App was not opened.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'SearchEmbed is in Beta in this release.',
     THIRD_PARTY_COOKIE_BLOCKED_ALERT: 'Third-party cookie access is blocked on this browser. Please allow third-party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
@@ -41,7 +43,7 @@ export const ERROR_MESSAGE = {
 
 // The message of a DataAppControlError, by code; the class takes only these.
 export const DATA_APP_CONTROL_ERROR_MESSAGE = {
-    INVALID_REQUEST: 'One or more controls could not be set. Nothing was changed.',
+    INVALID_REQUEST: 'The call or one of its controls is not valid. Nothing was changed.',
     LIMIT_EXCEEDED: 'The call has too many controls or is too large. Nothing was changed.',
     UNSUPPORTED_FIELD: 'The call has a field this version does not support. Nothing was changed.',
     APP_MISMATCH: 'The call names an App that is not the one open. Nothing was changed.',
@@ -54,7 +56,7 @@ export const DATA_APP_CONTROL_ERROR_MESSAGE = {
     SUPERSEDED: 'A later call replaced this one before it was sent.',
     RATE_LIMITED: 'Too many changes. Try again later.',
     SESSION_LOST: 'The App session has ended.',
-    TIMEOUT: 'The change was sent but not confirmed in time. Its outcome is unknown: send the same call again to settle it.',
+    TIMEOUT: 'The call was sent but not answered in time. Its outcome is unknown: send the same call again to settle it.',
     FAILED: 'The call failed. Its outcome is unknown: send the same call again to settle it.',
 };
 

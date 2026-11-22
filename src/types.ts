@@ -7472,12 +7472,18 @@ export enum HostEvent {
      * Resolves with {@link GetDataAppControlsResponse}.
      *
      * A call made before `EmbedEvent.DataAppReady` waits for it. A call has
-     * 30 seconds in all, waiting included. Every failure rejects with a
-     * {@link DataAppControlError}, whose `code` says why: `APP_NOT_READY`
-     * when no App opened in time, its open failed, or the embed is not
-     * rendered or not a `DataAppEmbed`; `TIMEOUT` when no reply came in time;
-     * `FAILED` when the call could not be handled. The SDK fills in `appId`
-     * and sends the call with `ContextType.DataApp`.
+     * 30 seconds in all, waiting included. The SDK fills in `appId` and sends
+     * the call with `ContextType.DataApp`. Every failure rejects with a
+     * {@link DataAppControlError}, whose `code` says why:
+     * - `APP_NOT_READY`: no App opened in time, its open failed, or the embed
+     *   is not rendered or not a `DataAppEmbed`.
+     * - `SESSION_LOST`: the App session ended, for example on
+     *   `HostEvent.Reload` or `destroy()`, before the reply came.
+     * - `APP_MISMATCH`: `appId` names an App that is not the one open.
+     * - `UNSUPPORTED_FIELD`: the payload has a field other than `appId`.
+     * - `INVALID_REQUEST`: the payload is not an object, or cannot be copied.
+     * - `TIMEOUT`: the call was sent and no reply came in time.
+     * - `FAILED`: the call could not be handled.
      *
      * Compare `revision` only within one `session`. The control values come
      * from the App: validate them before you route or render on them.

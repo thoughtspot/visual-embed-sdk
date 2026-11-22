@@ -4,20 +4,20 @@ import {
     BaseViewConfig,
     ContextType,
     EmbedErrorCodes,
+    EmbedErrorDetailsEvent,
     EmbedErrorSeverity,
     EmbedEvent,
     ErrorDetailsTypes,
     HostEvent,
     Param,
 } from '../types';
-import { ERROR_MESSAGE } from '../errors';
+import { DATA_APP_CONTROL_ERROR_MESSAGE, ERROR_MESSAGE } from '../errors';
 import { setParamIfDefined } from '../utils';
 import { logger } from '../utils/logger';
 import { reportHostEvent } from '../utils/hostEventTelemetry';
 import { TsEmbed } from './ts-embed';
 import { DATA_APP_HOST_EVENTS, DataAppControlError } from './data-app-control-error';
 import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
-import type { DataAppControlResult } from '../contracts/data-app-contracts';
 
 /** The whole time of an App call: waiting for the App, then its reply. */
 export const DATA_APP_CALL_BUDGET_MS = 30000;
@@ -51,13 +51,6 @@ const IGNORED_OPTIONS = [
     'visibleActions',
 ] as const;
 
-// Codes the Apps page answers with; any other rejection becomes FAILED.
-const APPS_PAGE_CODES: ReadonlySet<string> = new Set([
-    'INVALID_REQUEST', 'LIMIT_EXCEEDED', 'UNSUPPORTED_FIELD', 'APP_MISMATCH',
-    'CONTROLS_NOT_SUPPORTED', 'APP_NOT_READY', 'NOT_SIGNED_IN', 'VALUE_REFUSED',
-    'SUPERSEDED', 'RATE_LIMITED', 'SESSION_LOST', 'TIMEOUT', 'FAILED',
-]);
-
 // Empty arrays and objects, null, undefined and false count as not set.
 const isSet = (value: unknown): boolean => {
     if (Array.isArray(value)) return value.length > 0;
@@ -65,20 +58,44 @@ const isSet = (value: unknown): boolean => {
     return value !== null && value !== undefined && value !== false;
 };
 
+// The Error payload of a check this embed makes on the host's own input.
+const inputError = (
+    code: EmbedErrorCodes,
+    message: string,
+    severity: EmbedErrorSeverity,
+    option?: string,
+): EmbedErrorDetailsEvent => ({
+    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+    message,
+    code,
+    severity,
+    ...(option ? { option } : {}),
+    error: message,
+});
+
 // Any rejection of an App call, as a DataAppControlError.
 const toControlError = (error: any): DataAppControlError => {
     if (error instanceof DataAppControlError) return error;
     // The browser could not copy the payload, so nothing was sent.
     if (error?.name === 'DataCloneError') return new DataAppControlError('INVALID_REQUEST');
-    // The shell's own replies (HOST_EVENT_VALIDATION) land here too.
-    if (!APPS_PAGE_CODES.has(error?.code)) return new DataAppControlError('FAILED');
-    const results = Array.isArray(error.results)
-        ? error.results.map((entry: DataAppControlResult) => {
-            const { id, status, code } = entry ?? ({} as DataAppControlResult);
-            return code === undefined ? { id, status } : { id, status, code };
+    // The Apps page sends every call code but NOT_SUPPORTED_IN_DATA_APP.
+    // Anything else, such as the shell's HOST_EVENT_VALIDATION, is FAILED.
+    const { code, results } = error ?? {};
+    if (code === 'NOT_SUPPORTED_IN_DATA_APP'
+        || !Object.prototype.hasOwnProperty.call(DATA_APP_CONTROL_ERROR_MESSAGE, code)) {
+        return new DataAppControlError('FAILED');
+    }
+    // Only id, status and code of each entry, and no empty key.
+    const kept = Array.isArray(results) && results.length
+        ? results.map((entry) => {
+            const result: any = {};
+            ['id', 'status', 'code'].forEach((key) => {
+                if (entry?.[key] != null) result[key] = entry[key];
+            });
+            return result;
         })
         : undefined;
-    return new DataAppControlError(error.code, results);
+    return new DataAppControlError(code, kept);
 };
 
 /**
@@ -178,6 +195,9 @@ export class DataAppEmbed extends TsEmbed {
     // No App will answer: its open failed, or the embed was destroyed.
     private openFailed = false;
 
+    // render() or showPreRender() passed its checks; init may still be pending.
+    private renderRequested = false;
+
     // App calls held for DataAppReady: an App ID releases, none rejects.
     private heldCalls = new Set<(appId?: string) => void>();
 
@@ -221,6 +241,11 @@ export class DataAppEmbed extends TsEmbed {
         this.heldCalls.forEach((release) => release());
     }
 
+    // Calls sent to a frame that is going away: no reply can come.
+    private endSentCalls(): void {
+        this.sentCalls.forEach((stop) => stop(new DataAppControlError('SESSION_LOST')));
+    }
+
     // Resolves with the App's ID on DataAppReady; rejects at the deadline.
     private holdUntilReady(deadline: number): Promise<string> {
         return new Promise((resolve, reject) => {
@@ -236,6 +261,8 @@ export class DataAppEmbed extends TsEmbed {
     }
 
     // One 30 s budget, held and sent; every failure a DataAppControlError.
+    // Posts through hostEventClient, not TsEmbed.trigger: a check added to that
+    // method's post path must be mirrored here.
     private async sendAppEvent(messageType: HostEvent, data: unknown): Promise<any> {
         const deadline = Date.now() + DATA_APP_CALL_BUDGET_MS;
         reportHostEvent({
@@ -244,10 +271,12 @@ export class DataAppEmbed extends TsEmbed {
             context: ContextType.DataApp,
             embedComponentType: this.viewConfig.embedComponentType,
         });
-        if (!this.isRendered || this.openFailed) {
+        if (this.openFailed || !(this.isRendered || this.renderRequested)) {
             throw new DataAppControlError('APP_NOT_READY');
         }
         const appId = this.readyAppId ?? await this.holdUntilReady(deadline);
+        // A destroy() or failed open in the tick that released the call.
+        if (this.openFailed) throw new DataAppControlError('APP_NOT_READY');
         let timer: ReturnType<typeof setTimeout>;
         let stop: (error: DataAppControlError) => void;
         const stopped = new Promise<never>((resolve, reject) => {
@@ -274,26 +303,27 @@ export class DataAppEmbed extends TsEmbed {
         return reply;
     }
 
+    // A problem with the host's input that leaves the embed usable.
+    private raiseWarning(details: EmbedErrorDetailsEvent): void {
+        this.executeCallbacks(EmbedEvent.Error, details);
+        logger.warn(details);
+    }
+
     // Inherited options an App ignores: one warning each, as an Error event.
     private warnIgnoredOptions(): void {
         const config = this.viewConfig as Partial<Record<typeof IGNORED_OPTIONS[number], unknown>>;
         const ignored: string[] = IGNORED_OPTIONS.filter((option) => isSet(config[option]));
         const hidden: unknown = this.viewConfig.hiddenActions;
-        if (Array.isArray(hidden) && hidden.some((action) => action !== Action.QueryDetailsButtons)) {
+        const honored = (action: unknown) => action === Action.QueryDetailsButtons;
+        if (isSet(hidden) && !([] as unknown[]).concat(hidden).every(honored)) {
             ignored.push('hiddenActions');
         }
-        ignored.forEach((option) => {
-            const details = {
-                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                message: ERROR_MESSAGE.DATA_APP_OPTION_IGNORED,
-                code: EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
-                severity: EmbedErrorSeverity.SEV3,
-                option,
-                error: ERROR_MESSAGE.DATA_APP_OPTION_IGNORED,
-            };
-            this.executeCallbacks(EmbedEvent.Error, details);
-            logger.warn(details);
-        });
+        ignored.forEach((option) => this.raiseWarning(inputError(
+            EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
+            ERROR_MESSAGE.DATA_APP_OPTION_IGNORED,
+            EmbedErrorSeverity.SEV3,
+            option,
+        )));
     }
 
     protected getEmbedParamsObject() {
@@ -316,19 +346,19 @@ export class DataAppEmbed extends TsEmbed {
 
     // One SEV1 error per set option, in list order; true if any.
     private refuseUnsupportedOptions(): boolean {
-        const config = this.viewConfig as Partial<Record<typeof REFUSED_OPTIONS[number], unknown>>;
+        const config = this.viewConfig as unknown as Partial<Record<string, unknown>>;
         const refused: string[] = REFUSED_OPTIONS.filter((option) => isSet(config[option]));
         if (this.hasRuntimeFilterFlags()) refused.push('additionalFlags');
-        refused.forEach((option) => {
-            this.handleError({
-                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                message: ERROR_MESSAGE.DATA_APP_OPTION_NOT_SUPPORTED,
-                code: EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
-                severity: EmbedErrorSeverity.SEV1,
-                option,
-                error: ERROR_MESSAGE.DATA_APP_OPTION_NOT_SUPPORTED,
-            });
-        });
+        // Interim: the change that adds host-set values removes this.
+        if (isSet(config.dataAppControls)) refused.push('dataAppControls');
+        refused.forEach((option) => this.handleError(inputError(
+            EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
+            option === 'dataAppControls'
+                ? ERROR_MESSAGE.DATA_APP_CONTROLS_NOT_SUPPORTED
+                : ERROR_MESSAGE.DATA_APP_OPTION_NOT_SUPPORTED,
+            EmbedErrorSeverity.SEV1,
+            option,
+        )));
         return refused.length > 0;
     }
 
@@ -336,13 +366,11 @@ export class DataAppEmbed extends TsEmbed {
     private refuseFrame(): boolean {
         if (this.refuseUnsupportedOptions()) return true;
         if (!this.stoppedByMissingId) return false;
-        this.handleError({
-            errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-            message: ERROR_MESSAGE.DATA_APP_EMBED_STOPPED,
-            code: EmbedErrorCodes.DATA_APP_ID_MISSING,
-            severity: EmbedErrorSeverity.SEV1,
-            error: ERROR_MESSAGE.DATA_APP_EMBED_STOPPED,
-        });
+        this.handleError(inputError(
+            EmbedErrorCodes.DATA_APP_ID_MISSING,
+            ERROR_MESSAGE.DATA_APP_EMBED_STOPPED,
+            EmbedErrorSeverity.SEV1,
+        ));
         return true;
     }
 
@@ -372,16 +400,15 @@ export class DataAppEmbed extends TsEmbed {
             return this;
         }
         if (!this.viewConfig.dataAppId) {
-            this.handleError({
-                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                message: ERROR_MESSAGE.DATA_APP_ID_MISSING,
-                code: EmbedErrorCodes.DATA_APP_ID_MISSING,
-                severity: EmbedErrorSeverity.SEV1,
-                error: ERROR_MESSAGE.DATA_APP_ID_MISSING,
-            });
+            this.handleError(inputError(
+                EmbedErrorCodes.DATA_APP_ID_MISSING,
+                ERROR_MESSAGE.DATA_APP_ID_MISSING,
+                EmbedErrorSeverity.SEV1,
+            ));
             this.stoppedByMissingId = true;
             return this;
         }
+        this.renderRequested = true;
         this.warnIgnoredOptions();
 
         await super.render();
@@ -392,8 +419,11 @@ export class DataAppEmbed extends TsEmbed {
     // Every new frame starts here: refuse a refused config or a stopped embed.
     protected async renderIFrame(url: string): Promise<any> {
         if (this.refuseFrame()) {
-            // super.render() already set it; with no frame, it is not rendered.
-            if (!this.iFrame) this.isRendered = false;
+            // super.render() set it; with no frame, nothing is rendered.
+            if (!this.iFrame) {
+                this.isRendered = false;
+                this.resetAppState(true);
+            }
             return null;
         }
         return super.renderIFrame(url);
@@ -439,17 +469,24 @@ export class DataAppEmbed extends TsEmbed {
      * ```
      */
     public async navigateToDataApp(dataAppId: string): Promise<void> {
+        // Bad arguments: nothing changes and the embed stays usable.
         if (!dataAppId) {
-            // A bad argument: the embed stays usable.
-            const details = {
-                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                message: ERROR_MESSAGE.DATA_APP_ID_MISSING,
-                code: EmbedErrorCodes.DATA_APP_ID_MISSING,
-                severity: EmbedErrorSeverity.SEV3,
-                error: ERROR_MESSAGE.DATA_APP_ID_MISSING,
-            };
-            this.executeCallbacks(EmbedEvent.Error, details);
-            logger.warn(details);
+            this.raiseWarning(inputError(
+                EmbedErrorCodes.DATA_APP_ID_MISSING,
+                ERROR_MESSAGE.DATA_APP_ID_MISSING,
+                EmbedErrorSeverity.SEV3,
+            ));
+            return;
+        }
+        // Interim, as the dataAppControls refusal: options from JavaScript.
+        // eslint-disable-next-line prefer-rest-params
+        if (isSet(arguments[1]?.controls)) {
+            this.raiseWarning(inputError(
+                EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
+                ERROR_MESSAGE.DATA_APP_CONTROLS_NOT_SUPPORTED,
+                EmbedErrorSeverity.SEV3,
+                'controls',
+            ));
             return;
         }
         const path = this.getDataAppPath(dataAppId);
@@ -458,7 +495,7 @@ export class DataAppEmbed extends TsEmbed {
         this.viewConfig.dataAppId = dataAppId;
         if (this.isRendered) {
             // Not awaited: the app never acknowledges Navigate.
-            this.trigger(HostEvent.Navigate, path);
+            this.trigger(HostEvent.Navigate, path).catch((error) => logger.warn(error));
         } else if (this.getPreRenderConfig().id) {
             await this.preRender(true);
         } else {
@@ -471,7 +508,7 @@ export class DataAppEmbed extends TsEmbed {
         this.executeAfterEmbedContainerLoaded(async () => {
             // Open the App only once the shown config's params apply.
             await this.preRenderParamsApplied;
-            this.navigateToDataApp(this.viewConfig.dataAppId);
+            this.navigateToDataApp(this.viewConfig.dataAppId).catch((error) => logger.warn(error));
         });
     }
 
@@ -480,14 +517,20 @@ export class DataAppEmbed extends TsEmbed {
         if (this.refuseFrame()) {
             return this;
         }
+        this.renderRequested = true;
         this.adoptOwnerAppState();
         return super.showPreRender();
     }
 
-    // A shown pre-render may hold this App open; its owner saw its events.
+    // The frame's last owner saw its events: same App, take its state; another
+    // App, showing moves the frame, so start over.
     private adoptOwnerAppState(): void {
         const owner = this.getPreRenderObj<DataAppEmbed>();
-        if (owner === this || owner?.viewConfig?.dataAppId !== this.viewConfig.dataAppId) return;
+        if (!owner || owner === this) return;
+        if (owner.viewConfig?.dataAppId !== this.viewConfig.dataAppId) {
+            this.resetAppState(false);
+            return;
+        }
         this.readyAppId = owner.readyAppId;
         this.openFailed = owner.openFailed;
     }
@@ -499,7 +542,7 @@ export class DataAppEmbed extends TsEmbed {
      */
     public destroy(): void {
         this.resetAppState(true);
-        this.sentCalls.forEach((stop) => stop(new DataAppControlError('SESSION_LOST')));
+        this.endSentCalls();
         super.destroy();
     }
 
@@ -517,7 +560,8 @@ export class DataAppEmbed extends TsEmbed {
      *
      * `HostEvent.Reload` reopens the App that is open, including one opened
      * with `navigateToDataApp()` and one that failed to open. App calls still
-     * waiting reject with `APP_NOT_READY`.
+     * waiting reject with `APP_NOT_READY`, and calls sent and not answered
+     * with `SESSION_LOST`.
      * @param messageType The event type
      * @param data The payload, typed against the event's contract
      * @param context The page context of the event. App calls are always sent
@@ -551,6 +595,7 @@ export class DataAppEmbed extends TsEmbed {
         if (messageType === HostEvent.Reload) {
             this.pointFrameAtCurrentApp();
             this.resetAppState(false);
+            this.endSentCalls();
         }
         return super.trigger(messageType, data, context);
     }
