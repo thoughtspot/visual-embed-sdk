@@ -10815,6 +10815,11 @@ export enum ContextType {
      * Other context for any other generic page.
      */
     Other = 'other',
+    /**
+     * App context for the App open in `DataAppEmbed`.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    DataApp = 'dataApp',
 }
 
 export interface DefaultAppInitData {

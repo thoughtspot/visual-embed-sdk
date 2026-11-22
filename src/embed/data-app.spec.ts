@@ -6,6 +6,7 @@ import {
     EmbedErrorCodes,
     EmbedErrorSeverity,
     ErrorDetailsTypes,
+    HostEvent,
 } from '../types';
 import { logger } from '../utils/logger';
 import {
@@ -83,5 +84,71 @@ describe('DataAppEmbed', () => {
         expect(warn).toHaveBeenCalledTimes(1);
         expect((embed as any).viewConfig.fullHeight).toBe(false);
         warn.mockRestore();
+    });
+
+    describe('navigateToDataApp', () => {
+        it('navigates to the App with Navigate only', async () => {
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            await embed.render();
+            const trigger = jest.spyOn(embed as any, 'trigger').mockResolvedValue(undefined);
+
+            await embed.navigateToDataApp('app/2');
+
+            // Like navigateToLiveboard(): Navigate only, no UpdateEmbedParams.
+            expect(trigger).toHaveBeenCalledTimes(1);
+            expect(trigger).toHaveBeenCalledWith(
+                HostEvent.Navigate,
+                'embed/insights/apps/app%2F2',
+            );
+            expect((embed as any).viewConfig.dataAppId).toBe('app/2');
+        });
+
+        // Showing a pre-render posts UpdateEmbedParams, then waits
+        // UPDATE_EMBED_PARAMS_SETTLE_MS (200ms) for it to apply.
+        it('opens a shown pre-render\'s App once its params apply', async () => {
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-2' });
+            const trigger = jest.spyOn(embed as any, 'trigger').mockResolvedValue(undefined);
+            const navigate = jest.spyOn(embed, 'navigateToDataApp').mockResolvedValue(undefined);
+
+            embed.isEmbedContainerLoaded = false;
+            (embed as any).beforePrerenderVisible();
+            embed.isEmbedContainerLoaded = true;
+            (embed as any).executeEmbedContainerReadyCallbacks();
+            expect(navigate).not.toHaveBeenCalled();
+
+            await new Promise((resolve) => {
+                setTimeout(resolve, 300);
+            });
+
+            expect(trigger).toHaveBeenCalledWith(
+                HostEvent.UpdateEmbedParams,
+                expect.objectContaining({ dataAppId: 'app-2' }),
+            );
+            expect(navigate).toHaveBeenCalledWith('app-2');
+            expect(trigger.mock.invocationCallOrder[0]).toBeLessThan(
+                navigate.mock.invocationCallOrder[0],
+            );
+        });
+
+        it('renders the App when the embed is not rendered yet', async () => {
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            await embed.navigateToDataApp('app-2');
+            expect(getIFrameSrc()).toContain('#/embed/insights/apps/app-2');
+        });
+
+        it('raises a validation error instead of navigating without an App id', async () => {
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            await embed.render();
+            const handleError = jest.spyOn(embed as any, 'handleError').mockImplementation(() => undefined);
+            const trigger = jest.spyOn(embed as any, 'trigger').mockResolvedValue(undefined);
+
+            await embed.navigateToDataApp('');
+
+            expect(handleError).toHaveBeenCalledWith(
+                expect.objectContaining({ code: EmbedErrorCodes.DATA_APP_ID_MISSING }),
+            );
+            expect(trigger).not.toHaveBeenCalled();
+            expect((embed as any).viewConfig.dataAppId).toBe('app-1');
+        });
     });
 });
