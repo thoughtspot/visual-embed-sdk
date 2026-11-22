@@ -17,8 +17,15 @@
  */
 import * as fs from 'fs';
 import * as path from 'path';
-import { HostEvent, EmbedEvent, RuntimeFilterOp } from '../types';
+import {
+    ContextType, HostEvent, EmbedEvent, RuntimeFilterOp,
+} from '../types';
 import { UIPassthroughEvent } from './ui-passthrough-contracts';
+import type {
+    DataAppControlError,
+    DataAppControlErrorCode,
+    DataAppControlResult,
+} from './data-app-contracts';
 import type {
     HostEventRequest,
     HostEventResponse,
@@ -473,6 +480,28 @@ describe('event contracts (drift guardrails)', () => {
         );
         // The default request stays the cross-context superset.
         expectType<OpenFilterRequest>({} as HostEventRequest<HostEvent.OpenFilter>);
+    });
+
+    test('the App context keeps its wire value', () => {
+        expect(ContextType.DataApp).toBe('dataApp');
+    });
+
+    test('App call errors are Errors with an open set of codes', () => {
+        const known: DataAppControlErrorCode = 'NOT_SUPPORTED_IN_DATA_APP';
+        // Codes may be added; an unknown one still type-checks.
+        const added: DataAppControlErrorCode = 'A_CODE_ADDED_LATER';
+        const result: DataAppControlResult = { id: 'depot', status: 'rejected', code: 'VALUE_REFUSED' };
+        const error: DataAppControlError = Object.assign(new Error('sentence'), {
+            name: 'DataAppControlError',
+            code: known,
+            results: [result],
+        });
+        expectType<Error>(error);
+        expect([error.code, added, error.results[0].id]).toEqual([
+            'NOT_SUPPORTED_IN_DATA_APP',
+            'A_CODE_ADDED_LATER',
+            'depot',
+        ]);
     });
 
     test('the /contracts barrel re-exports the public runtime surface', () => {
