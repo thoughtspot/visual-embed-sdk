@@ -1018,7 +1018,7 @@ describe('DataAppEmbed', () => {
             const error = new DataAppControlError('NOT_SUPPORTED_IN_DATA_APP');
             // Compile-time check; ts-jest fails the file if it compiles.
             // @ts-expect-error a code with no sentence is not accepted
-            const withoutSentence = () => new DataAppControlError('APP_NOT_READY');
+            const withoutSentence = () => new DataAppControlError('UNKNOWN_CONTROL');
 
             expect(error).toBeInstanceOf(Error);
             expect(error).toMatchObject({

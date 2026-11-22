@@ -28,6 +28,10 @@ import type {
     UIPassthroughRequest,
     UIPassthroughResponse,
 } from './ui-passthrough-contracts';
+import type {
+    GetDataAppControlsRequest,
+    GetDataAppControlsResponse,
+} from './data-app-contracts';
 
 /**
  * Request for host events that MAY target a specific visualization.
@@ -348,9 +352,9 @@ export interface UpdateThemeRequest {
  * flattened across contexts to the permissive superset (context-specific
  * requirements are validated at runtime).
  *
- * Responses are typed only for UI-passthrough-backed events today (see
- * {@link HostEventResponse}). Add a response map alongside this one when the
- * first explicit response shape is specified; tightening later is additive.
+ * Responses are typed in {@link HostEventResponseMap} and, for
+ * UI-passthrough-backed events, through the passthrough mapping (see
+ * {@link HostEventResponse}); tightening later is additive.
  *
  * Deliberately absent (do not add without an audit):
  * - DrillDown: the runtime schema (object-shaped points) and the UI
@@ -446,6 +450,17 @@ export interface HostEventRequestMap {
 
     // ==================== APPEARANCE ====================
     [HostEvent.UpdateTheme]: UpdateThemeRequest;
+
+    // ==================== APPS ====================
+    [HostEvent.GetDataAppControls]: GetDataAppControlsRequest;
+}
+
+/**
+ * Typed responses for host events outside the UI passthrough pipeline
+ * (`HostEvent` member → response type).
+ */
+export interface HostEventResponseMap {
+    [HostEvent.GetDataAppControls]: GetDataAppControlsResponse;
 }
 
 /**
@@ -469,16 +484,19 @@ export type HostEventRequest<HostEventT extends HostEvent> =
             ? UIPassthroughRequest<EmbedApiHostEventMapping[HostEventT]>
             : any;
 /**
- * Resolves the typed response payload for a host event. Only UI passthrough
- * backed events have typed responses today; everything else resolves to `any`.
+ * Resolves the typed response payload for a host event: first
+ * {@link HostEventResponseMap}, then the UI passthrough mapping; everything
+ * else resolves to `any`.
  */
 export type HostEventResponse<
     HostEventT extends HostEvent,
     // Reserved for context-dependent response shapes (additive change later).
     ContextT extends ContextType = ContextType,
-> = HostEventT extends keyof EmbedApiHostEventMapping
-    ? UIPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
-    : any;
+> = HostEventT extends keyof HostEventResponseMap
+    ? HostEventResponseMap[HostEventT]
+    : HostEventT extends keyof EmbedApiHostEventMapping
+        ? UIPassthroughResponse<EmbedApiHostEventMapping[HostEventT]>
+        : any;
 
 /**
  * Payload type accepted by `embed.trigger()`. Keeps the historical

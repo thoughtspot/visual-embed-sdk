@@ -218,6 +218,15 @@ import type {
     DataAppControlError,
     DataAppControlErrorCode,
     DataAppControlResult,
+    DataAppControlValue,
+    DataAppControl,
+    DataAppControlsState,
+    GetDataAppControlsRequest,
+    GetDataAppControlsResponse,
+    DataAppReadyPayload,
+    DataAppLoadPayload,
+    DataAppControlsChangedPayload,
+    DataAppOpenFailedReason,
 } from './contracts/data-app-contracts';
 import {
     convertFilterChangedToUpdateFiltersPayload,
@@ -461,6 +470,15 @@ export {
     DataAppControlError,
     DataAppControlErrorCode,
     DataAppControlResult,
+    DataAppControlValue,
+    DataAppControl,
+    DataAppControlsState,
+    GetDataAppControlsRequest,
+    GetDataAppControlsResponse,
+    DataAppReadyPayload,
+    DataAppLoadPayload,
+    DataAppControlsChangedPayload,
+    DataAppOpenFailedReason,
 };
 
 export { resetCachedAuthToken } from './authToken';

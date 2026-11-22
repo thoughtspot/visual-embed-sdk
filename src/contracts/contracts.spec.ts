@@ -123,6 +123,8 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
     HostEvent.CloseSpotterVizPanel,
     // Appearance
     HostEvent.UpdateTheme,
+    // Apps
+    HostEvent.GetDataAppControls,
 ];
 
 // Type-level assertions: compile failures here mean contract resolution
@@ -144,6 +146,7 @@ describe('event contracts (drift guardrails)', () => {
             'DeletePersonalizedView',
             'EditLastPrompt',
             'ExitSpotterSharedConversation',
+            'GetDataAppControls',
             'InitSpotterVizConversation',
             'Navigate',
             'OpenSpotterVizPanel',
@@ -274,6 +277,9 @@ describe('event contracts (drift guardrails)', () => {
                 EmbedEvent.CrossFilterChanged,
                 EmbedEvent.CustomAction,
                 EmbedEvent.Data,
+                EmbedEvent.DataAppControlsChanged,
+                EmbedEvent.DataAppLoad,
+                EmbedEvent.DataAppReady,
                 EmbedEvent.DataSourceSelected,
                 EmbedEvent.Delete,
                 EmbedEvent.DialogClose,
@@ -322,6 +328,9 @@ describe('event contracts (drift guardrails)', () => {
             ].map((e) => `${e}`).sort(),
         ).toEqual([
             'AIHighlights',
+            'DataAppControlsChanged',
+            'DataAppLoad',
+            'DataAppReady',
             'EmbedIframeCenter',
             'EmbedListenerReady',
             'Error',

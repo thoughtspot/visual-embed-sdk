@@ -197,4 +197,13 @@ export {
     DataAppControlError,
     DataAppControlErrorCode,
     DataAppControlResult,
+    DataAppControlValue,
+    DataAppControl,
+    DataAppControlsState,
+    GetDataAppControlsRequest,
+    GetDataAppControlsResponse,
+    DataAppReadyPayload,
+    DataAppLoadPayload,
+    DataAppControlsChangedPayload,
+    DataAppOpenFailedReason,
 } from '../index';
