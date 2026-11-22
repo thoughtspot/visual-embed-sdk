@@ -1,10 +1,9 @@
-import type { DataAppControlErrorCode } from './contracts/data-app-contracts';
-
 export const ERROR_MESSAGE = {
     INVALID_THOUGHTSPOT_HOST: 'Error parsing ThoughtSpot host. Please provide a valid URL.',
     SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND: 'Please select a Model to get started',
     LIVEBOARD_VIZ_ID_VALIDATION: 'Please select a Liveboard to embed.',
     DATA_APP_ID_MISSING: 'Please provide the ID of the App to embed.',
+    DATA_APP_EMBED_STOPPED: 'This DataAppEmbed was rendered without an App ID and cannot render now. Create a new DataAppEmbed.',
     // Interim until runtime filters apply to Apps.
     DATA_APP_OPTION_NOT_SUPPORTED: 'This option does not apply to DataAppEmbed. To restrict what a viewer can see, use row-level security.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
@@ -39,8 +38,8 @@ export const ERROR_MESSAGE = {
     UPDATEPARAMETERS_INVALID_PAYLOAD: 'UpdateParameters received an invalid applicability. Expected: { level: LIVEBOARD | TAB | GROUP, targetId } where targetId is required for TAB and GROUP levels',
 };
 
-// The message of a DataAppControlError, by code.
-export const DATA_APP_CONTROL_ERROR_MESSAGE: Partial<Record<DataAppControlErrorCode, string>> = {
+// The message of a DataAppControlError, by code; the class takes only these.
+export const DATA_APP_CONTROL_ERROR_MESSAGE = {
     // Interim until runtime filters apply to Apps.
     NOT_SUPPORTED_IN_DATA_APP: 'This host event does not apply to DataAppEmbed.',
 };

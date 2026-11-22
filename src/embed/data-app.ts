@@ -3,17 +3,16 @@ import {
     ContextType,
     EmbedErrorCodes,
     EmbedErrorSeverity,
+    EmbedEvent,
     ErrorDetailsTypes,
     HostEvent,
 } from '../types';
-import { DATA_APP_CONTROL_ERROR_MESSAGE, ERROR_MESSAGE } from '../errors';
+import { ERROR_MESSAGE } from '../errors';
 import { logger } from '../utils/logger';
+import { reportHostEvent } from '../utils/hostEventTelemetry';
 import { TsEmbed } from './ts-embed';
+import { DataAppControlError } from './data-app-control-error';
 import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
-import type {
-    DataAppControlError as DataAppControlErrorContract,
-    DataAppControlErrorCode,
-} from '../contracts/data-app-contracts';
 
 // Interim until runtime filters apply to Apps.
 const REFUSED_OPTIONS = [
@@ -22,6 +21,9 @@ const REFUSED_OPTIONS = [
     'liveboardOverride',
     'liveboardOverrides',
 ] as const;
+
+// Interim until runtime filters apply to Apps: col1, val1, param1 and so on.
+const RUNTIME_FILTER_FLAG = /^(col|op|val|param|paramVal)\d+$/;
 
 // Interim until runtime filters apply to Apps.
 const REFUSED_HOST_EVENTS: ReadonlySet<HostEvent> = new Set([
@@ -32,27 +34,12 @@ const REFUSED_HOST_EVENTS: ReadonlySet<HostEvent> = new Set([
     HostEvent.GetParameters,
 ]);
 
-// The App's id in the frame URL's route.
-const APP_ROUTE_ID = /(\/embed\/insights\/apps\/)[^/?#]*/;
-
 // Empty arrays and objects, null, undefined and false count as not set.
 const isSet = (value: unknown): boolean => {
     if (Array.isArray(value)) return value.length > 0;
     if (value && typeof value === 'object') return Object.keys(value).length > 0;
     return value !== null && value !== undefined && value !== false;
 };
-
-// Only the interface is public; hosts check `name` and `code`.
-class DataAppControlError extends Error implements DataAppControlErrorContract {
-    public name = 'DataAppControlError';
-
-    public code: DataAppControlErrorCode;
-
-    constructor(code: DataAppControlErrorCode) {
-        super(DATA_APP_CONTROL_ERROR_MESSAGE[code]);
-        this.code = code;
-    }
-}
 
 /**
  * The view configuration for an embedded App.
@@ -82,9 +69,11 @@ export interface DataAppEmbedViewConfig {
  * must be turned on for the ThoughtSpot instance.
  *
  * `runtimeFilters`, `runtimeParameters`, `liveboardOverride` and
- * `liveboardOverrides` do not apply to an App. If any of them is set, the
- * embed raises an error with the code `DATA_APP_OPTION_NOT_SUPPORTED` for
- * each, and does not render.
+ * `liveboardOverrides` do not apply to an App, and neither do runtime filter
+ * or parameter keys in `additionalFlags` (`col1`, `op1`, `val1`, `param1`,
+ * `paramVal1` and so on). If any of them is set, the embed raises an error
+ * with the code `DATA_APP_OPTION_NOT_SUPPORTED` for each, and does not render
+ * or pre-render.
  * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
  * @group Embed components
  * @example
@@ -97,6 +86,9 @@ export interface DataAppEmbedViewConfig {
  */
 export class DataAppEmbed extends TsEmbed {
     protected viewConfig: DataAppEmbedViewConfig & BaseViewConfig;
+
+    // Set when render() found no App ID: the base then never creates a frame.
+    private stoppedByMissingId = false;
 
     constructor(container: HTMLElement, viewConfig: DataAppEmbedViewConfig) {
         let config: DataAppEmbedViewConfig & BaseViewConfig = {
@@ -115,20 +107,19 @@ export class DataAppEmbed extends TsEmbed {
         return `embed/insights/apps/${encodeURIComponent(dataAppId)}`;
     }
 
-    private reportMissingDataAppId(): void {
-        this.handleError({
-            errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-            message: ERROR_MESSAGE.DATA_APP_ID_MISSING,
-            code: EmbedErrorCodes.DATA_APP_ID_MISSING,
-            severity: EmbedErrorSeverity.SEV1,
-            error: ERROR_MESSAGE.DATA_APP_ID_MISSING,
-        });
+    private hasRuntimeFilterFlags(): boolean {
+        const flags = {
+            ...this.embedConfig?.additionalFlags,
+            ...this.viewConfig.additionalFlags,
+        };
+        return Object.keys(flags).some((key) => RUNTIME_FILTER_FLAG.test(key));
     }
 
     // One SEV1 error per set option, in list order; true if any.
     private refuseUnsupportedOptions(): boolean {
         const config = this.viewConfig as Partial<Record<typeof REFUSED_OPTIONS[number], unknown>>;
-        const refused = REFUSED_OPTIONS.filter((option) => isSet(config[option]));
+        const refused: string[] = REFUSED_OPTIONS.filter((option) => isSet(config[option]));
+        if (this.hasRuntimeFilterFlags()) refused.push('additionalFlags');
         refused.forEach((option) => {
             this.handleError({
                 errorType: ErrorDetailsTypes.VALIDATION_ERROR,
@@ -142,14 +133,30 @@ export class DataAppEmbed extends TsEmbed {
         return refused.length > 0;
     }
 
-    // Reload reads iFrame.src, which still names the App first rendered.
+    // The one check before this embed creates or adopts a frame.
+    private refuseFrame(): boolean {
+        if (this.refuseUnsupportedOptions()) return true;
+        if (!this.stoppedByMissingId) return false;
+        this.handleError({
+            errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+            message: ERROR_MESSAGE.DATA_APP_EMBED_STOPPED,
+            code: EmbedErrorCodes.DATA_APP_ID_MISSING,
+            severity: EmbedErrorSeverity.SEV1,
+            error: ERROR_MESSAGE.DATA_APP_EMBED_STOPPED,
+        });
+        return true;
+    }
+
+    // Reload reads iFrame.src: point its route at the App open now.
     private pointFrameAtCurrentApp(): void {
         const src = this.iFrame?.src;
         const hashAt = src ? src.indexOf('#') : -1;
         if (!this.isRendered || hashAt < 0) return;
-        const appId = encodeURIComponent(this.viewConfig.dataAppId);
-        const route = src.slice(hashAt).replace(APP_ROUTE_ID, (_, prefix) => `${prefix}${appId}`);
-        const next = `${src.slice(0, hashAt)}${route}`;
+        const route = src.slice(hashAt + 1);
+        const queryAt = route.indexOf('?');
+        const tsParams = queryAt < 0 ? '' : route.slice(queryAt);
+        const path = this.getDataAppPath(this.viewConfig.dataAppId);
+        const next = `${src.slice(0, hashAt)}#/${path}${tsParams}`;
         if (next !== src) this.iFrame.src = next;
     }
 
@@ -162,11 +169,18 @@ export class DataAppEmbed extends TsEmbed {
     }
 
     public async render(): Promise<DataAppEmbed> {
-        if (this.refuseUnsupportedOptions()) {
+        if (this.refuseFrame()) {
             return this;
         }
         if (!this.viewConfig.dataAppId) {
-            this.reportMissingDataAppId();
+            this.handleError({
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.DATA_APP_ID_MISSING,
+                code: EmbedErrorCodes.DATA_APP_ID_MISSING,
+                severity: EmbedErrorSeverity.SEV1,
+                error: ERROR_MESSAGE.DATA_APP_ID_MISSING,
+            });
+            this.stoppedByMissingId = true;
             return this;
         }
 
@@ -175,9 +189,41 @@ export class DataAppEmbed extends TsEmbed {
         return this;
     }
 
+    // Interim until runtime filters apply to Apps: every new frame starts here.
+    protected async renderIFrame(url: string): Promise<any> {
+        if (this.refuseFrame()) {
+            return null;
+        }
+        return super.renderIFrame(url);
+    }
+
+    // The only path that adopts an existing pre-rendered frame.
+    public async preRender(
+        showPreRenderByDefault = false,
+        replaceExistingPreRender = false,
+    ): Promise<TsEmbed> {
+        if (this.refuseFrame()) {
+            return this;
+        }
+        return super.preRender(showPreRenderByDefault, replaceExistingPreRender);
+    }
+
+    public async prerenderGeneric(): Promise<any> {
+        if (this.refuseFrame()) {
+            return null;
+        }
+        return super.prerenderGeneric();
+    }
+
     /**
      * Open another App in this embed, without reloading the frame. If the
-     * embed is not rendered yet, it renders with that App.
+     * embed is not rendered yet, it renders with that App, and raises the
+     * same errors as `render()`.
+     *
+     * An empty ID raises an error with the code `DATA_APP_ID_MISSING` and
+     * changes nothing. An embed that was rendered without an App ID cannot
+     * render: create a new `DataAppEmbed`. To reload the App open now, use
+     * `trigger(HostEvent.Reload)`.
      * @param dataAppId - ID of the App to open.
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      * @example
@@ -187,13 +233,23 @@ export class DataAppEmbed extends TsEmbed {
      */
     public async navigateToDataApp(dataAppId: string): Promise<void> {
         if (!dataAppId) {
-            this.reportMissingDataAppId();
+            // A bad argument: the embed stays usable.
+            const details = {
+                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                message: ERROR_MESSAGE.DATA_APP_ID_MISSING,
+                code: EmbedErrorCodes.DATA_APP_ID_MISSING,
+                severity: EmbedErrorSeverity.SEV3,
+                error: ERROR_MESSAGE.DATA_APP_ID_MISSING,
+            };
+            this.executeCallbacks(EmbedEvent.Error, details);
+            logger.warn(details);
             return;
         }
+        const path = this.getDataAppPath(dataAppId);
         this.viewConfig.dataAppId = dataAppId;
         if (this.isRendered) {
             // Not awaited: the app never acknowledges Navigate.
-            this.trigger(HostEvent.Navigate, this.getDataAppPath(dataAppId));
+            this.trigger(HostEvent.Navigate, path);
         } else if (this.getPreRenderConfig().id) {
             await this.preRender(true);
         } else {
@@ -212,7 +268,7 @@ export class DataAppEmbed extends TsEmbed {
 
     public async showPreRender(): Promise<TsEmbed> {
         // A connected pre-render is shown without render(), so check here too.
-        if (this.refuseUnsupportedOptions()) {
+        if (this.refuseFrame()) {
             return this;
         }
         return super.showPreRender();
@@ -224,7 +280,7 @@ export class DataAppEmbed extends TsEmbed {
      * `HostEvent.UpdateRuntimeFilters`, `HostEvent.UpdateParameters`,
      * `HostEvent.UpdateFilters`, `HostEvent.GetFilters` and
      * `HostEvent.GetParameters` do not apply to an App. They reject at once
-     * with an `Error` named `DataAppControlError` whose `code` is
+     * with a {@link DataAppControlError} whose `code` is
      * `NOT_SUPPORTED_IN_DATA_APP`, and nothing is sent.
      *
      * `HostEvent.Reload` reopens the App that is open, including one opened
@@ -235,7 +291,7 @@ export class DataAppEmbed extends TsEmbed {
      * @returns A promise that resolves with the response from the embedded App
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      */
-    public trigger<
+    public async trigger<
         HostEventT extends HostEvent,
         // Mirrors TsEmbed.trigger, as LiveboardEmbed.trigger does.
         PayloadT = HostEventRequest<HostEventT>,
@@ -246,7 +302,14 @@ export class DataAppEmbed extends TsEmbed {
         context?: ContextT,
     ): Promise<TriggerResponse<PayloadT, HostEventT, ContextT>> {
         if (REFUSED_HOST_EVENTS.has(messageType)) {
-            return Promise.reject(new DataAppControlError('NOT_SUPPORTED_IN_DATA_APP'));
+            // Reported as TsEmbed.trigger reports every call.
+            reportHostEvent({
+                hostEvent: messageType,
+                payload: data,
+                context,
+                embedComponentType: this.viewConfig?.embedComponentType,
+            });
+            throw new DataAppControlError('NOT_SUPPORTED_IN_DATA_APP');
         }
         if (messageType === HostEvent.Reload) {
             this.pointFrameAtCurrentApp();

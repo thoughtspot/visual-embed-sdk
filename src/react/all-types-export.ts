@@ -194,4 +194,7 @@ export {
     CustomActionEventPayload,
     EmbedEventData,
     EmbedEventPayload,
+    DataAppControlError,
+    DataAppControlErrorCode,
+    DataAppControlResult,
 } from '../index';

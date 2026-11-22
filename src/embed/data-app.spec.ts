@@ -194,30 +194,27 @@ describe('DataAppEmbed', () => {
         });
 
         it('raises a validation error instead of navigating without an App id', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            const { embed, errors } = createDataApp({ dataAppId: 'app-1' });
             await embed.render();
-            const handleError = jest.spyOn(embed as any, 'handleError').mockImplementation(() => undefined);
             const trigger = jest.spyOn(embed as any, 'trigger').mockResolvedValue(undefined);
 
             await embed.navigateToDataApp('');
 
-            expect(handleError).toHaveBeenCalledWith(
+            expect(errors).toEqual([
                 expect.objectContaining({ code: EmbedErrorCodes.DATA_APP_ID_MISSING }),
-            );
+            ]);
             expect(trigger).not.toHaveBeenCalled();
             expect((embed as any).viewConfig.dataAppId).toBe('app-1');
         });
 
         it('raises a validation error and renders no frame without an App id, before render', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
-            const handleError = jest.spyOn(embed as any, 'handleError').mockImplementation(() => undefined);
+            const { embed, errors } = createDataApp({ dataAppId: 'app-1' });
 
             await embed.navigateToDataApp('');
 
-            expect(handleError).toHaveBeenCalledTimes(1);
-            expect(handleError).toHaveBeenCalledWith(
+            expect(errors).toEqual([
                 expect.objectContaining({ code: EmbedErrorCodes.DATA_APP_ID_MISSING }),
-            );
+            ]);
             expect(getIFrameEl()).toBeNull();
         });
 

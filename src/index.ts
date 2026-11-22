@@ -214,6 +214,11 @@ import type {
     EmbedEventData,
     EmbedEventPayload,
 } from './contracts/embed-event-payloads';
+import type {
+    DataAppControlError,
+    DataAppControlErrorCode,
+    DataAppControlResult,
+} from './contracts/data-app-contracts';
 import {
     convertFilterChangedToUpdateFiltersPayload,
     FilterChangedPayload,
@@ -453,6 +458,9 @@ export {
     CustomActionEventPayload,
     EmbedEventData,
     EmbedEventPayload,
+    DataAppControlError,
+    DataAppControlErrorCode,
+    DataAppControlResult,
 };
 
 export { resetCachedAuthToken } from './authToken';
