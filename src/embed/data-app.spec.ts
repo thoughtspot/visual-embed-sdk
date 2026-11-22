@@ -1,6 +1,6 @@
 import { DataAppEmbed, DataAppEmbedViewConfig } from './data-app';
 import { DataAppControlError } from './data-app-control-error';
-import { AppEmbed } from './app';
+import { AppEmbed, AppViewConfig } from './app';
 import { TsEmbed } from './ts-embed';
 import { getEmbedConfig } from './embedConfig';
 import type { LiveboardViewConfig } from './liveboard';
@@ -55,9 +55,18 @@ const refusal = (option: string) => ({
     error: ERROR_MESSAGE.DATA_APP_OPTION_NOT_SUPPORTED,
 });
 
+// Every embed a test creates; the file's afterEach destroys them.
+const embeds: TsEmbed[] = [];
+const track = <T extends TsEmbed>(embed: T): T => {
+    embeds.push(embed);
+    return embed;
+};
+const newDataApp = (config: DataAppEmbedViewConfig) => track(new DataAppEmbed(getRootEl(), config));
+const newAppEmbed = (config: AppViewConfig) => track(new AppEmbed(getRootEl(), config));
+
 // A config a JavaScript caller could pass, past the type.
 const createDataApp = (config: object) => {
-    const embed = new DataAppEmbed(getRootEl(), config as DataAppEmbedViewConfig);
+    const embed = newDataApp(config as DataAppEmbedViewConfig);
     const errors: unknown[] = [];
     embed.on(EmbedEvent.Error, (error) => errors.push(error));
     return { embed, errors };
@@ -114,9 +123,18 @@ beforeEach(() => {
     document.body.innerHTML = getDocumentBody();
 });
 
+// So an online event in one test reloads no embed from another.
+afterEach(() => {
+    embeds.splice(0).forEach((embed) => {
+        // destroy() posts DestroyEmbed, which no test here is about.
+        jest.spyOn(embed, 'trigger').mockResolvedValue(undefined);
+        embed.destroy();
+    });
+});
+
 describe('DataAppEmbed', () => {
     it('loads the App embed route on the v2 shell, without enableDataApps', async () => {
-        const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+        const embed = newDataApp({ dataAppId: 'app-1' });
         await embed.render();
         expectUrlMatchesWithParams(
             getIFrameSrc(),
@@ -125,13 +143,13 @@ describe('DataAppEmbed', () => {
     });
 
     it('URL-encodes the App id in the path', async () => {
-        const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'a/../b' });
+        const embed = newDataApp({ dataAppId: 'a/../b' });
         await embed.render();
         expect(getIFrameSrc()).toContain('#/embed/insights/apps/a%2F..%2Fb');
     });
 
     it('raises a validation error and renders no frame without an App id', async () => {
-        const embed = new DataAppEmbed(getRootEl(), { dataAppId: '' });
+        const embed = newDataApp({ dataAppId: '' });
         const handleError = jest.spyOn(embed as any, 'handleError').mockImplementation(() => undefined);
         await embed.render();
         expect(handleError).toHaveBeenCalledWith({
@@ -146,7 +164,7 @@ describe('DataAppEmbed', () => {
     });
 
     it('keeps the view config defaults set by the base class', () => {
-        const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+        const embed = newDataApp({ dataAppId: 'app-1' });
         expect((embed as any).viewConfig).toMatchObject({
             embedComponentType: 'dataApp',
             dataAppId: 'app-1',
@@ -157,7 +175,7 @@ describe('DataAppEmbed', () => {
 
     it('ignores fullHeight with a warning', () => {
         const warn = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
-        const embed = new DataAppEmbed(getRootEl(), {
+        const embed = newDataApp({
             dataAppId: 'app-1',
             fullHeight: true,
         } as any);
@@ -168,7 +186,7 @@ describe('DataAppEmbed', () => {
 
     describe('navigateToDataApp', () => {
         it('navigates to the App with Navigate only', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            const embed = newDataApp({ dataAppId: 'app-1' });
             await embed.render();
             const trigger = jest.spyOn(embed as any, 'trigger').mockResolvedValue(undefined);
 
@@ -186,7 +204,7 @@ describe('DataAppEmbed', () => {
         // Showing a pre-render posts UpdateEmbedParams, then waits
         // UPDATE_EMBED_PARAMS_SETTLE_MS (200ms) for it to apply.
         it('opens a shown pre-render\'s App once its params apply', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-2' });
+            const embed = newDataApp({ dataAppId: 'app-2' });
             const trigger = jest.spyOn(embed as any, 'trigger').mockResolvedValue(undefined);
             const navigate = jest.spyOn(embed, 'navigateToDataApp').mockResolvedValue(undefined);
 
@@ -211,7 +229,7 @@ describe('DataAppEmbed', () => {
         });
 
         it('renders the App when the embed is not rendered yet', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            const embed = newDataApp({ dataAppId: 'app-1' });
             await embed.navigateToDataApp('app-2');
             expect(getIFrameSrc()).toContain('#/embed/insights/apps/app-2');
         });
@@ -243,7 +261,7 @@ describe('DataAppEmbed', () => {
 
         it('opens the App through the pre-render when the embed has a preRenderId', async () => {
             mockResizeObserver();
-            const embed = new DataAppEmbed(getRootEl(), {
+            const embed = newDataApp({
                 dataAppId: 'app-1',
                 preRenderId: 'navigate-pre-render',
             } as DataAppEmbedViewConfig);
@@ -289,7 +307,7 @@ describe('DataAppEmbed', () => {
             };
             // Compiles: a variable gets no excess property check.
             const config = { ...liveboardViewConfig, dataAppId: appId };
-            const embed = new DataAppEmbed(getRootEl(), config);
+            const embed = newDataApp(config);
             const errors: unknown[] = [];
             embed.on(EmbedEvent.Error, (error) => errors.push(error));
 
@@ -450,27 +468,32 @@ describe('DataAppEmbed', () => {
             });
 
             it('sees a filter value where one is sent (AppEmbed control)', async () => {
-                const appEmbed = new AppEmbed(getRootEl(), { runtimeFilters: depotFilter });
+                const appEmbed = newAppEmbed({ runtimeFilters: depotFilter });
                 await appEmbed.render();
 
                 expect(await sentToApp()).toMatch(filterValue);
             });
 
-            describe.each(refusedSources)('with %s set', (_, source) => {
-                it.each([
-                    ['render()', {}, (embed: DataAppEmbed) => embed.render()],
-                    ['prerenderGeneric() and a navigate', {}, async (embed: DataAppEmbed) => {
-                        await embed.prerenderGeneric();
-                        await embed.navigateToDataApp(appId);
-                    }],
-                    // A shown pre-render sends the config in UpdateEmbedParams.
-                    ['preRender(true) and the frame loading', { preRenderId: 'value-check' }, async (embed: DataAppEmbed) => {
-                        await embed.preRender(true);
-                        embed.isEmbedContainerLoaded = true;
-                        (embed as any).executeEmbedContainerReadyCallbacks();
-                        await resolveAfter(10);
-                    }],
-                ])('sends it nowhere after %s', async (__, extra, enter) => {
+            const entries: [string, object, (embed: DataAppEmbed) => Promise<unknown>][] = [
+                ['render()', {}, (embed) => embed.render()],
+                ['prerenderGeneric() and a navigate', {}, async (embed) => {
+                    await embed.prerenderGeneric();
+                    await embed.navigateToDataApp(appId);
+                }],
+                // A shown pre-render sends the config in UpdateEmbedParams.
+                ['preRender(true) and the frame loading', { preRenderId: 'value-check' }, async (embed) => {
+                    await embed.preRender(true);
+                    embed.isEmbedContainerLoaded = true;
+                    (embed as any).executeEmbedContainerReadyCallbacks();
+                    await resolveAfter(10);
+                }],
+            ];
+            // Liveboard overrides reach the App only in UpdateEmbedParams.
+            const onlyInUpdateEmbedParams = ['liveboardOverride', 'liveboardOverrides'];
+
+            describe.each(refusedSources)('with %s set', (option, source) => {
+                it.each(entries.filter(([name]) => !onlyInUpdateEmbedParams.includes(option)
+                    || name.startsWith('preRender')))('sends it nowhere after %s', async (__, extra, enter) => {
                     const { embed } = createDataApp({ dataAppId: appId, ...source, ...extra });
 
                     await enter(embed);
@@ -772,7 +795,7 @@ describe('DataAppEmbed', () => {
             ['shown', true],
         ])('does not adopt a %s pre-render, or navigate it', async (_, shown) => {
             const preRenderId = nextPreRenderId();
-            const owner = new DataAppEmbed(getRootEl(), {
+            const owner = newDataApp({
                 dataAppId: appId,
                 preRenderId,
             } as DataAppEmbedViewConfig);
@@ -826,7 +849,7 @@ describe('DataAppEmbed', () => {
         });
 
         it('does not show a connected pre-render', async () => {
-            const owner = new DataAppEmbed(getRootEl(), {
+            const owner = newDataApp({
                 dataAppId: appId,
                 preRenderId: 'refused-connected',
             } as DataAppEmbedViewConfig);
@@ -910,7 +933,7 @@ describe('DataAppEmbed', () => {
         });
 
         it.each(refusedEvents)('rejects %s on a rendered App and posts nothing', async (event, payload) => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: appId });
+            const embed = newDataApp({ dataAppId: appId });
             await embed.render();
             const triggerHostEvent = jest.spyOn((embed as any).hostEventClient, 'triggerHostEvent');
             const handleError = jest.spyOn(embed as any, 'handleError');
@@ -923,7 +946,7 @@ describe('DataAppEmbed', () => {
         });
 
         it.each(refusedEvents)('rejects %s before render, with no render error', async (event, payload) => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: appId });
+            const embed = newDataApp({ dataAppId: appId });
             const handleError = jest.spyOn(embed as any, 'handleError');
 
             await expectRefused(embed.trigger(event, payload as any));
@@ -940,7 +963,7 @@ describe('DataAppEmbed', () => {
 
         it.each(refusedEvents)('reports a refused %s to telemetry, with no payload value', async (event, payload) => {
             const upload = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: appId });
+            const embed = newDataApp({ dataAppId: appId });
             const eventId = `${mixpanelInstance.MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${event}`;
 
             await expectRefused(embed.trigger(event, payload as any));
@@ -957,7 +980,7 @@ describe('DataAppEmbed', () => {
         });
 
         it('rejects as a promise and never throws', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: appId });
+            const embed = newDataApp({ dataAppId: appId });
             let result: Promise<unknown>;
 
             expect(() => {
@@ -969,7 +992,7 @@ describe('DataAppEmbed', () => {
         });
 
         it('turns a throw while pointing the frame at the App into a rejection', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: appId });
+            const embed = newDataApp({ dataAppId: appId });
             await embed.render();
             (embed as any).viewConfig.dataAppId = '\uD800';
             let result: Promise<unknown>;
@@ -977,15 +1000,13 @@ describe('DataAppEmbed', () => {
             expect(() => {
                 result = embed.trigger(HostEvent.Reload);
             }).not.toThrow();
-            // Later tests dispatch online, which reloads this embed too.
-            (embed as any).viewConfig.dataAppId = appId;
 
             await expect(result).rejects.toBeInstanceOf(URIError);
             expect(processTrigger).not.toHaveBeenCalled();
         });
 
         it('leaves the App id unchanged when the new one cannot be encoded', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: appId });
+            const embed = newDataApp({ dataAppId: appId });
             await embed.render();
 
             await expect(embed.navigateToDataApp('\uD800')).rejects.toBeInstanceOf(URIError);
@@ -995,6 +1016,7 @@ describe('DataAppEmbed', () => {
 
         it('builds the error class from a code that has a sentence', () => {
             const error = new DataAppControlError('NOT_SUPPORTED_IN_DATA_APP');
+            // Compile-time check; ts-jest fails the file if it compiles.
             // @ts-expect-error a code with no sentence is not accepted
             const withoutSentence = () => new DataAppControlError('APP_NOT_READY');
 
@@ -1004,11 +1026,10 @@ describe('DataAppEmbed', () => {
                 code: 'NOT_SUPPORTED_IN_DATA_APP',
                 message: DATA_APP_CONTROL_ERROR_MESSAGE.NOT_SUPPORTED_IN_DATA_APP,
             });
-            expect(withoutSentence).toBeInstanceOf(Function);
         });
 
         it.each(refusedEvents)('still posts %s from an AppEmbed', async (event, payload) => {
-            const appEmbed = new AppEmbed(getRootEl(), {});
+            const appEmbed = newAppEmbed({});
             await appEmbed.render();
             const triggerHostEvent = jest
                 .spyOn((appEmbed as any).hostEventClient, 'triggerHostEvent')
@@ -1024,7 +1045,7 @@ describe('DataAppEmbed', () => {
             [HostEvent.UpdateEmbedParams, { dataAppId: appId }],
             [HostEvent.Navigate, 'embed/insights/apps/b7c8'],
         ])('passes %s through to the App', async (event, payload) => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: appId });
+            const embed = newDataApp({ dataAppId: appId });
             await embed.render();
             const triggerHostEvent = jest
                 .spyOn((embed as any).hostEventClient, 'triggerHostEvent')
@@ -1060,7 +1081,7 @@ describe('DataAppEmbed', () => {
 
         it('reopens the App opened with navigateToDataApp, keeping the query and ts- params', async () => {
             window.history.pushState({}, '', '/host?ts-foo=bar#/page?ts-baz=1');
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            const embed = newDataApp({ dataAppId: 'app-1' });
             await embed.render();
             const firstSrc = getIFrameSrc();
             expect(firstSrc).toContain('#/embed/insights/apps/app-1?ts-foo=bar&ts-baz=1');
@@ -1075,7 +1096,7 @@ describe('DataAppEmbed', () => {
         });
 
         it('reopens an App whose id needs encoding', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            const embed = newDataApp({ dataAppId: 'app-1' });
             await embed.render();
             const firstSrc = getIFrameSrc();
 
@@ -1086,7 +1107,7 @@ describe('DataAppEmbed', () => {
         });
 
         it('reopens the first App unchanged when no other was opened', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            const embed = newDataApp({ dataAppId: 'app-1' });
             await embed.render();
             const firstSrc = getIFrameSrc();
 
@@ -1096,7 +1117,7 @@ describe('DataAppEmbed', () => {
         });
 
         it('reopens the App open now when the browser comes back online', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            const embed = newDataApp({ dataAppId: 'app-1' });
             await embed.render();
             const firstSrc = getIFrameSrc();
             await embed.navigateToDataApp('app-2');
@@ -1114,7 +1135,7 @@ describe('DataAppEmbed', () => {
                 await executeAfterWait(() => undefined);
             }],
         ])('reopens the App opened on a generic pre-render, on %s', async (_, reload) => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            const embed = newDataApp({ dataAppId: 'app-1' });
             await embed.prerenderGeneric();
             const genericSrc = getIFrameSrc();
             expect(genericSrc).toMatch(/#$/);
@@ -1129,7 +1150,7 @@ describe('DataAppEmbed', () => {
             mockResizeObserver();
             window.history.pushState({}, '', '/host?ts-foo=bar');
             const preRenderId = nextPreRenderId();
-            const owner = new DataAppEmbed(getRootEl(), {
+            const owner = newDataApp({
                 dataAppId: 'app-a',
                 preRenderId,
             } as DataAppEmbedViewConfig);
@@ -1138,7 +1159,7 @@ describe('DataAppEmbed', () => {
             const ownerSrc = getIFrameSrc();
             expect(ownerSrc).toContain('#/embed/insights/apps/app-a?ts-foo=bar');
 
-            const embed = new DataAppEmbed(getRootEl(), {
+            const embed = newDataApp({
                 dataAppId: 'app-b',
                 preRenderId,
             } as DataAppEmbedViewConfig);
@@ -1149,7 +1170,7 @@ describe('DataAppEmbed', () => {
         });
 
         it('does not rewrite a frame URL that has no route', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            const embed = newDataApp({ dataAppId: 'app-1' });
             await embed.render();
             await embed.navigateToDataApp('app-2');
             getIFrameEl().src = `http://${thoughtSpotHost}/v2/?a=b`;
@@ -1160,7 +1181,7 @@ describe('DataAppEmbed', () => {
         });
 
         it('raises the render error as before when the embed is not rendered', async () => {
-            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            const embed = newDataApp({ dataAppId: 'app-1' });
             const handleError = jest.spyOn(embed as any, 'handleError').mockImplementation(() => undefined);
 
             await expect(embed.trigger(HostEvent.Reload)).resolves.toBeNull();

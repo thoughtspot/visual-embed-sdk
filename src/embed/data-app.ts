@@ -189,7 +189,7 @@ export class DataAppEmbed extends TsEmbed {
         return this;
     }
 
-    // Interim until runtime filters apply to Apps: every new frame starts here.
+    // Every new frame starts here: refuse a refused config or a stopped embed.
     protected async renderIFrame(url: string): Promise<any> {
         if (this.refuseFrame()) {
             // super.render() already set it; with no frame, it is not rendered.
