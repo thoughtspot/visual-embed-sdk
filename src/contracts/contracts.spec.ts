@@ -26,7 +26,14 @@ import type {
     DataAppControlError,
     DataAppControlErrorCode,
     DataAppControlResult,
+    DataAppControlsChangedPayload,
+    DataAppControlsState,
+    DataAppControlValue,
+    DataAppLoadPayload,
+    DataAppReadyPayload,
+    GetDataAppControlsRequest,
 } from './index';
+import type { DataAppEmbed } from '../embed/data-app';
 import type {
     HostEventRequest,
     HostEventResponse,
@@ -130,6 +137,11 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
 // Type-level assertions: compile failures here mean contract resolution
 // regressed. `expectType` is erased at runtime.
 const expectType = <T>(value: T): T => value;
+
+// True only when A and B are the same type; `any` is not equal to others.
+type Equals<A, B> = (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2)
+    ? true
+    : false;
 
 describe('event contracts (drift guardrails)', () => {
     // The lists below LOCK the set of typed events. Adding an event is an
@@ -477,8 +489,50 @@ describe('event contracts (drift guardrails)', () => {
                 viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
                 isPublic: true,
             }),
+            trigger(HostEvent.GetDataAppControls, {}),
+            trigger(HostEvent.GetDataAppControls, { appId: 'a1b2' }),
         ];
         expect(ok.every(Boolean)).toBe(true);
+    });
+
+    // Compile-time only: ts-jest fails the file if a line stops compiling.
+    test('the App read and the App events resolve to their contracts (type check)', () => {
+        const request: Equals<HostEventRequest<HostEvent.GetDataAppControls>, GetDataAppControlsRequest> = true;
+        const response: Equals<HostEventResponse<HostEvent.GetDataAppControls>, DataAppControlsState> = true;
+        const ready: Equals<EmbedEventData<EmbedEvent.DataAppReady>, DataAppReadyPayload> = true;
+        const load: Equals<EmbedEventData<EmbedEvent.DataAppLoad>, DataAppLoadPayload> = true;
+        const changed: Equals<
+            EmbedEventData<EmbedEvent.DataAppControlsChanged>,
+            DataAppControlsChangedPayload
+        > = true;
+        // What a host awaits from the read, with no payload.
+        const read = async (embed: DataAppEmbed) => {
+            const state = await embed.trigger(HostEvent.GetDataAppControls);
+            const typed: Equals<typeof state, DataAppControlsState> = true;
+            return typed;
+        };
+        const withField: TriggerData<HostEvent.GetDataAppControls> = {
+            appId: 'a1b2',
+            // @ts-expect-error — a read takes no field but appId
+            include: 'definitions',
+        };
+        expect([request, response, ready, load, changed, read, withField].every(Boolean)).toBe(true);
+    });
+
+    // TC-310. Compile-time only.
+    test('an App control value is opaque in this version (type check)', () => {
+        const state: DataAppControlsState = {
+            appId: 'a1b2',
+            session: 'S1',
+            revision: 1,
+            valueFormat: 2,
+            controls: [{ id: 'depot', value: { op: 'eq', values: ['Austin'] } }],
+        };
+        // @ts-expect-error — not typed: pass it back, do not parse it
+        const op: string = state.controls[0].value.op;
+        // Passing a value back as it is compiles, and so does a clear one.
+        const back: DataAppControlValue[] = [state.controls[0].value, null];
+        expect([op, back]).toHaveLength(2);
     });
 
     // Per-context request interfaces are documentation-only today: exported and
