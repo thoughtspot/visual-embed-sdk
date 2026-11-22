@@ -1,8 +1,12 @@
+import type { DataAppControlErrorCode } from './contracts/data-app-contracts';
+
 export const ERROR_MESSAGE = {
     INVALID_THOUGHTSPOT_HOST: 'Error parsing ThoughtSpot host. Please provide a valid URL.',
     SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND: 'Please select a Model to get started',
     LIVEBOARD_VIZ_ID_VALIDATION: 'Please select a Liveboard to embed.',
     DATA_APP_ID_MISSING: 'Please provide the ID of the App to embed.',
+    // Interim until runtime filters apply to Apps.
+    DATA_APP_OPTION_NOT_SUPPORTED: 'This option does not apply to DataAppEmbed. To restrict what a viewer can see, use row-level security.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'SearchEmbed is in Beta in this release.',
     THIRD_PARTY_COOKIE_BLOCKED_ALERT: 'Third-party cookie access is blocked on this browser. Please allow third-party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
@@ -33,6 +37,12 @@ export const ERROR_MESSAGE = {
     UPDATEFILTERS_INVALID_PAYLOAD: 'UpdateFilters requires a valid filter or filters array. Expected: { filter: { columnName, operator, values } } or { filters: [{ columnName, operator, values }, ...] }',
     DRILLDOWN_INVALID_PAYLOAD: 'DrillDown requires a valid points object. Expected: { points: { clickedPoint?, selectedPoints? }, autoDrillDown?, vizId? }',
     UPDATEPARAMETERS_INVALID_PAYLOAD: 'UpdateParameters received an invalid applicability. Expected: { level: LIVEBOARD | TAB | GROUP, targetId } where targetId is required for TAB and GROUP levels',
+};
+
+// The message of a DataAppControlError, by code.
+export const DATA_APP_CONTROL_ERROR_MESSAGE: Partial<Record<DataAppControlErrorCode, string>> = {
+    // Interim until runtime filters apply to Apps.
+    NOT_SUPPORTED_IN_DATA_APP: 'This host event does not apply to DataAppEmbed.',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {

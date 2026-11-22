@@ -10638,6 +10638,12 @@ export enum EmbedErrorCodes {
     /** Required App ID (`dataAppId`) is missing from configuration */
     DATA_APP_ID_MISSING = 'DATA_APP_ID_MISSING',
 
+    /**
+     * An option set on `DataAppEmbed` does not apply to an App. The error
+     * names it in `option`.
+     */
+    DATA_APP_OPTION_NOT_SUPPORTED = 'DATA_APP_OPTION_NOT_SUPPORTED',
+
     /** Conflicting action configuration detected */
     CONFLICTING_ACTIONS_CONFIG = 'CONFLICTING_ACTIONS_CONFIG',
 
