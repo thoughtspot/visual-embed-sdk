@@ -8836,6 +8836,11 @@ export enum Action {
     /**
      * The Liveboard Personalized Views dropdown.
      * Allows navigating to a personalized Liveboard View.
+     *
+     * Controls every option in the dropdown together. To target one option
+     * only, use {@link Action.SwitchPersonalizedView},
+     * {@link Action.SavePersonalizedView}, {@link Action.ManagePersonalizedViews}
+     * or {@link Action.ResetPersonalizedView}.
      *  @example
      * ```js
      * disabledActions: [Action.PersonalizedViewsDropdown]
@@ -10262,6 +10267,95 @@ export enum Action {
      * ```
      */
     DeletePersonalizedView = 'deletePersonalizedView',
+    /**
+     * Controls the visibility and disabled state of the list of Personalized
+     * Views in the Liveboard **Personalized Views** dropdown, which switches
+     * between views.
+     *
+     * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
+     * `visibleActions` or `hiddenActions` list that includes it covers this
+     * option too.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.SwitchPersonalizedView],
+     *     disabledActions: [Action.SwitchPersonalizedView],
+     * }
+     * ```
+     */
+    SwitchPersonalizedView = 'switchPersonalizedView',
+    /**
+     * Controls the visibility and disabled state of the options that save a
+     * Personalized View: **Save view** in the Liveboard **Personalized Views**
+     * dropdown, the **Save view** button shown before a Liveboard has views, and
+     * **Update** on a view with unsaved changes.
+     *
+     * {@link Action.PersonalizedViewsDropdown} also controls these options, so a
+     * `visibleActions` or `hiddenActions` list that includes it covers them too.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.SavePersonalizedView],
+     *     disabledActions: [Action.SavePersonalizedView],
+     * }
+     * ```
+     */
+    SavePersonalizedView = 'savePersonalizedView',
+    /**
+     * Controls the visibility and disabled state of **Manage views** in the
+     * Liveboard **Personalized Views** dropdown, which opens the
+     * **Manage views** dialog.
+     *
+     * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
+     * `visibleActions` or `hiddenActions` list that includes it covers this
+     * option too.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.ManagePersonalizedViews],
+     *     disabledActions: [Action.ManagePersonalizedViews],
+     * }
+     * ```
+     */
+    ManagePersonalizedViews = 'managePersonalizedViews',
+    /**
+     * Controls the visibility and disabled state of renaming a Personalized
+     * View in the **Manage views** dialog. When hidden, view names are
+     * read-only.
+     *
+     * This option predates this action, so only `hiddenActions` hides it. A
+     * `visibleActions` list that doesn't include this action keeps it.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.RenamePersonalizedView],
+     *     disabledActions: [Action.RenamePersonalizedView],
+     * }
+     * ```
+     */
+    RenamePersonalizedView = 'renamePersonalizedView',
+    /**
+     * Controls the visibility and disabled state of **Reset Liveboard** in the
+     * Liveboard **Personalized Views** dropdown, which returns the Liveboard to
+     * its original view.
+     *
+     * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
+     * `visibleActions` or `hiddenActions` list that includes it covers this
+     * option too.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.ResetPersonalizedView],
+     *     disabledActions: [Action.ResetPersonalizedView],
+     * }
+     * ```
+     */
+    ResetPersonalizedView = 'resetPersonalizedView',
 }
 
 /**
