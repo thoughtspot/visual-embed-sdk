@@ -189,3 +189,29 @@ describe('summarizeRuntimeDataForTelemetry with dataAppControls', () => {
         expect(summarizeRuntimeDataForTelemetry(viewConfig)).toEqual({ liveboardId: 'lb-guid' });
     });
 });
+
+describe('summarizeRuntimeDataForTelemetry with dataAppActions', () => {
+    test.each([
+        ['all', { off: 'all', display: 'disabled' }, { off: 'all' }],
+        ['a list, by its unique ids', { off: ['zz_close', 'zz_reopen', 'zz_close'] }, { off: 2 }],
+        ['an empty list', { off: [] }, { off: 0 }],
+        ['null', null, null],
+        ['a string', 'zz_close', false],
+        ['an id as off', { off: 'zz_close' }, false],
+        ['a getter that throws', Object.defineProperty({}, 'off', {
+            enumerable: true,
+            get() {
+                throw new Error('zz_close');
+            },
+        }), false],
+    ])('reports %s as all or a count, never an id', (_, dataAppActions, summary) => {
+        const props = summarizeRuntimeDataForTelemetry({ dataAppId: 'a1b2', dataAppActions });
+
+        expect(props).toEqual({ dataAppId: 'a1b2', dataAppActions: summary });
+        expect(JSON.stringify(props)).not.toContain('zz_');
+    });
+
+    test('adds no dataAppActions key when it is absent', () => {
+        expect(summarizeRuntimeDataForTelemetry({ dataAppId: 'a1b2' })).toEqual({ dataAppId: 'a1b2' });
+    });
+});

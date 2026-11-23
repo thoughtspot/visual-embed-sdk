@@ -165,7 +165,35 @@ export interface UpdateDataAppControlsResponse extends DataAppControlsState {
  * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
  * @group Events
  */
-export type DataAppReadyPayload = DataAppControlsState;
+export interface DataAppReadyPayload extends DataAppControlsState {
+    /**
+     * The App actions ThoughtSpot switched off in this opening, by
+     * `dataAppActions`: `'all'`, or action IDs in any order. Present only
+     * when `dataAppActions` switches something off. The SDK checks it, and
+     * removes the App when it does not match.
+     */
+    actionsOff?: 'all' | string[];
+}
+
+/**
+ * The App actions `DataAppEmbed` switches off: see `dataAppActions`.
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+ * @group Embed components
+ */
+export interface DataAppActions {
+    /**
+     * `'all'`, or the IDs of the actions to switch off, as the App declares
+     * them: a lowercase letter, then up to 63 lowercase letters, digits or
+     * underscores. An empty list switches nothing off.
+     */
+    off: 'all' | string[];
+    /**
+     * How the App shows a switched-off action, once it can read this rule:
+     * `'hidden'` (the default) or `'disabled'`. Until then, the App shows
+     * the action, and refuses it when the viewer uses it.
+     */
+    display?: 'hidden' | 'disabled';
+}
 
 /**
  * Payload of {@link EmbedEvent.DataAppLoad}.

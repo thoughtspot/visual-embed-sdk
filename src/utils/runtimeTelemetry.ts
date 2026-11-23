@@ -1,5 +1,6 @@
 import { RuntimeFilter, RuntimeFilterOp, RuntimeParameter } from '../types';
 import { ApplicabilityLevel } from '../contracts/ui-passthrough-contracts';
+import { readActionsRule } from './data-app-actions';
 
 // Membership is checked, not just the key: a bare key allowlist would upload an
 // arbitrary customer string sitting under `operator` verbatim.
@@ -33,12 +34,13 @@ export const describeRuntimeParameters = (
 
 // Column names, parameter names and operands are customer data and must never
 // reach Mixpanel; an unrecognized shape is dropped rather than forwarded.
-// App control ids and values likewise: only their count, or the type.
+// App control ids and values likewise: only their count, or the type. App
+// action ids too.
 export const summarizeRuntimeDataForTelemetry = <T extends Record<string, any>>(
     viewConfig: T,
 ): Record<string, any> => {
     const {
-        runtimeFilters, runtimeParameters, dataAppControls, ...rest
+        runtimeFilters, runtimeParameters, dataAppControls, dataAppActions, ...rest
     } = viewConfig ?? ({} as T);
     const telemetryProps: Record<string, any> = { ...rest };
 
@@ -52,6 +54,13 @@ export const summarizeRuntimeDataForTelemetry = <T extends Record<string, any>>(
         telemetryProps.dataAppControls = Array.isArray(dataAppControls)
             ? { count: dataAppControls.length }
             : { type: dataAppControls === null ? 'null' : typeof dataAppControls };
+    }
+    if (dataAppActions !== undefined) {
+        // 'all' or the number of ids; null for none, false if malformed.
+        const rule = readActionsRule(dataAppActions);
+        telemetryProps.dataAppActions = rule
+            ? { off: rule.off === 'all' ? rule.off : rule.off.length }
+            : rule ?? null;
     }
 
     return telemetryProps;

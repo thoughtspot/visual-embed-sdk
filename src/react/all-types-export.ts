@@ -205,6 +205,7 @@ export {
     UpdateDataAppControlsRequest,
     UpdateDataAppControlsResponse,
     DataAppReadyPayload,
+    DataAppActions,
     DataAppLoadPayload,
     DataAppControlsChangedPayload,
     DataAppOpenFailedReason,

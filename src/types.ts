@@ -4692,6 +4692,10 @@ export enum EmbedEvent {
      * `HostEvent.GetDataAppControls` calls made before it wait for it.
      * The control values come from the App: validate them before you route
      * or render on them.
+     *
+     * When `dataAppActions` switches actions off, `actionsOff` names them. A
+     * `DataAppReady` whose `actionsOff` does not match is not passed on: the
+     * embed removes the App and raises `DATA_APP_OPTION_NOT_SUPPORTED`.
      * @example
      * ```js
      * dataAppEmbed.on(EmbedEvent.DataAppReady, (payload) => {
@@ -10795,9 +10799,18 @@ export enum EmbedErrorCodes {
 
     /**
      * An option set on `DataAppEmbed` does not apply to an App. The error
-     * names it in `option`.
+     * names it in `option`. With `option: 'dataAppActions'` and an `appId`,
+     * ThoughtSpot did not confirm the actions switched off, and the embed
+     * removed the App: create a new `DataAppEmbed` to try again.
      */
     DATA_APP_OPTION_NOT_SUPPORTED = 'DATA_APP_OPTION_NOT_SUPPORTED',
+
+    /**
+     * An option set on `DataAppEmbed` has a value the SDK cannot read, such
+     * as a malformed `dataAppActions`. The error names it in `option`, and
+     * the embed does not render.
+     */
+    DATA_APP_OPTION_INVALID = 'DATA_APP_OPTION_INVALID',
 
     /**
      * The App in `DataAppEmbed` could not be opened and is not showing.
