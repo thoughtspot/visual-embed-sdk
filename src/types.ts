@@ -971,6 +971,10 @@ export interface PreRenderConfig {
      * Required by `preRender()`, `showPreRender()`, and `hidePreRender()`, which log
      * and do nothing without it.
      *
+     * Showing a pre-rendered Liveboard always navigates to the configured Liveboard:
+     * the `activeTabId` if set, otherwise the default tab. In-session tab or edit state
+     * is not kept.
+     *
      * @default undefined
      */
     id?: string;
