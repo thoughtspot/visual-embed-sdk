@@ -797,6 +797,9 @@ export class DataAppEmbed extends TsEmbed {
         if (this.showChanges && this.readyAppId) {
             this.waitForValues(this.preRenderParamsApplied);
         }
+        // Calls held before this instance adopted the owner's readiness.
+        const { readyAppId } = this;
+        if (readyAppId) this.heldCalls.forEach((release) => release(readyAppId));
         this.executeAfterEmbedContainerLoaded(async () => {
             // Open the App only once the shown config's params apply.
             await this.preRenderParamsApplied;
@@ -865,8 +868,8 @@ export class DataAppEmbed extends TsEmbed {
     }
 
     /**
-     * Raises `DATA_APP_UPDATE_FAILED` for a refused change of the React
-     * `dataAppControls` prop.
+     * Raises `DATA_APP_UPDATE_FAILED` for a change of the React
+     * `dataAppControls` prop that fails.
      * @param error - The {@link DataAppControlError} of the change.
      * @hidden
      */

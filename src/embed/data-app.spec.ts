@@ -4310,6 +4310,29 @@ describe('DataAppEmbed', () => {
                         expect(second.settled).toBe(false);
                     });
 
+                    it('posts a call held before it adopted another instance\'s readiness on show, then a later call, at once', async () => {
+                        const preRenderId = nextPreRenderId();
+                        const { embed } = await shownPreRender(preRenderId);
+                        const held = updateControls(embed, { controls: depotIs('Austin') });
+                        await flush();
+                        embed.hidePreRender();
+                        const other = createDataApp({ dataAppId: appId, preRenderId });
+                        await other.embed.showPreRender();
+                        await flush();
+                        await signIn();
+                        appReady();
+                        await flush();
+                        other.embed.hidePreRender();
+
+                        await showAgain(embed);
+                        const later = updateControls(embed, { controls: depotIs('Dallas') });
+                        await flush();
+
+                        expect(updateCalls().map(([data]: any) => data.controls))
+                            .toEqual([depotIs('Austin'), depotIs('Dallas')]);
+                        expect([held.settled, later.settled]).toEqual([false, false]);
+                    });
+
                     it('sends several values in one call as one post, answered once', async () => {
                         const { embed } = await readyApp();
                         const controls = [
