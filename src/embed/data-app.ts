@@ -20,7 +20,7 @@ import { offKey, readActionsRule, switchesOff } from '../utils/data-app-actions'
 import { TsEmbed, UPDATE_EMBED_PARAMS_SETTLE_MS } from './ts-embed';
 import { DATA_APP_HOST_EVENTS, DataAppControlError } from './data-app-control-error';
 import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
-import type { DataAppActions, DataAppControl, DataAppReadyPayload } from '../contracts/data-app-contracts';
+import type { DataAppActions, DataAppControl } from '../contracts/data-app-contracts';
 
 /** The whole time of an App call: waiting for the App, then its reply. */
 export const DATA_APP_CALL_BUDGET_MS = 30000;
@@ -458,8 +458,6 @@ export class DataAppEmbed extends TsEmbed {
         this.readyAppId = null;
         this.echoedOff = undefined;
         this.staleOff = undefined;
-        // No App, or a new opening checked as it comes.
-        clearTimeout(this.echoTimer);
         // After destroy() no App answers, whatever resets it.
         this.openFailed = openFailed || this.destroyed;
         this.confirmedKey = undefined;
@@ -471,8 +469,13 @@ export class DataAppEmbed extends TsEmbed {
         this.valuesApplied = Promise.race([applied, sleep(DATA_APP_MIN_UPDATE_BUDGET_MS)]);
     }
 
-    // The values did not reach the frame, so this App is not opened.
+    // The values did not reach the frame, so this App is not opened. With a
+    // rule not confirmed yet, the App it shows must go.
     private refuseOpen(): void {
+        if (this.echoDue) {
+            this.removeUnconfirmedApp();
+            return;
+        }
         this.resetAppState(true);
         this.disarmWatchdog();
         this.raiseWarning(errorEvent(
@@ -594,6 +597,7 @@ export class DataAppEmbed extends TsEmbed {
     private confirmEcho(key: string): void {
         this.echoedOff = key;
         this.echoDue = false;
+        this.staleOff = undefined;
         clearTimeout(this.echoTimer);
     }
 
@@ -920,7 +924,7 @@ export class DataAppEmbed extends TsEmbed {
                     || reloads !== this.reloads || this.openFailed) return;
                 // A rule not confirmed yet: only its echo makes the App ready.
                 if (this.echoDue) {
-                    if (offKey((state as DataAppReadyPayload).actionsOff) !== this.ruleKey) return;
+                    if (offKey(state.actionsOff) !== this.ruleKey) return;
                     this.confirmEcho(this.ruleKey);
                 }
                 if (confirm && key === this.packedKey()) {
@@ -946,9 +950,7 @@ export class DataAppEmbed extends TsEmbed {
             await this.preRenderParamsApplied;
             if (this.destroyed) return;
             if (!this.paramsPosted) {
-                // A rule that cannot reach the frame: its App must go.
-                if (this.echoDue) this.removeUnconfirmedApp();
-                else this.refuseOpen();
+                this.refuseOpen();
                 return;
             }
             this.openCurrentApp();
@@ -973,6 +975,9 @@ export class DataAppEmbed extends TsEmbed {
         this.staleOff = this.echoedOff;
         this.echoDue = this.ruleKey !== undefined && this.echoedOff !== this.ruleKey;
         if (this.echoDue) this.readyAppId = null;
+        // This show sends its own rule: until an echo confirms it, the frame's
+        // App may enforce either, so the next owner must not trust the old one.
+        if ((this.ruleKey ?? offKey(undefined)) !== this.echoedOff) this.echoedOff = undefined;
         const key = this.packedKey();
         // Values the frame does not have restart the App, a failed open too.
         // The same values change nothing: a failure stands.
@@ -1043,6 +1048,7 @@ export class DataAppEmbed extends TsEmbed {
      */
     public destroy(): void {
         this.destroyed = true;
+        clearTimeout(this.echoTimer);
         this.disarmWatchdog();
         this.resetAppState(true);
         this.endSentCalls();

@@ -5953,6 +5953,115 @@ describe('DataAppEmbed', () => {
                     expect(getIFrameEl()).not.toBeNull();
                 });
 
+                it('does not trust an echo handed over by a show that sent another rule (R2-1, Q1)', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, { off: 'all' }, 'all');
+                    // Sends no rule, and hides before the reopen is heard.
+                    const dropped = await show(preRenderId, undefined);
+                    dropped.embed.hidePreRender();
+                    readyWith(undefined);
+                    await flush();
+                    posted = [];
+                    replies = [];
+
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+                    const call = watch(other.embed.trigger(HostEvent.GetDataAppControls));
+                    await flush();
+
+                    expect(appCalls()).toHaveLength(1);
+                    expect(call.settled).toBe(false);
+
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+
+                    expect(other.errors).toStrictEqual([notConfirmed()]);
+                    expect(getIFrameEl()).toBeNull();
+                });
+
+                it.each([
+                    ['the same App', appId],
+                    ['another App', 'b7c8'],
+                ])('removes the App when a navigate to %s cannot send its params while due (R2-2, Q2)', async (_, target) => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+                    jest.spyOn(other.embed as any, 'getUpdateEmbedParamsObject').mockRejectedValue(new Error('no token'));
+                    jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+                    posted = [];
+
+                    const navigate = other.embed.navigateToDataApp(target, { controls: depotControls });
+                    await flush();
+                    await advance(UPDATE_EMBED_PARAMS_SETTLE_MS);
+                    await navigate;
+
+                    expect(other.errors).toStrictEqual([notConfirmed(target)]);
+                    expect(getIFrameEl()).toBeNull();
+                    expect(posted.map(([type]) => type)).not.toContain(HostEvent.Navigate);
+                });
+
+                it.each([
+                    ['the frame\'s DATA_APP_OPEN_FAILED', async () => appOpenFailed()],
+                    ['a navigate to another App that never opens', async (embed: DataAppEmbed) => {
+                        await embed.navigateToDataApp('b7c8');
+                    }],
+                ])('keeps the deadline through %s while due (R2-2)', async (_, step) => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+
+                    await step(other.embed);
+                    await flush();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+
+                    expect(errorKeys(other.errors).map(([code]) => code))
+                        .toContain(EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED);
+                    expect(getIFrameEl()).toBeNull();
+                });
+
+                it('stands down when the App reloaded while due echoes the rule (R2-2)', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+
+                    await other.embed.trigger(HostEvent.Reload);
+                    readyWith('all');
+                    await flush();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS * 2);
+
+                    expect(other.errors).toEqual([]);
+                    expect(other.readies).toHaveLength(1);
+                    expect(getIFrameEl()).not.toBeNull();
+                });
+
+                it('removes the App on an old-rule echo once the new rule was confirmed (R2-3, Q6)', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+                    readyWith('all');
+                    await flush();
+
+                    readyWith(undefined);
+                    await flush();
+
+                    expect(other.readies).toHaveLength(1);
+                    expect(other.errors).toStrictEqual([notConfirmed()]);
+                    expect(getIFrameEl()).toBeNull();
+                });
+
+                it('is not confirmed by a DataAppReady for another App (R2-3)', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+
+                    readyWith('all', 'other-app');
+                    await flush();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+
+                    // Echoes the rule: passed on, but confirms nothing.
+                    expect(other.readies).toHaveLength(1);
+                    expect(other.errors).toStrictEqual([notConfirmed()]);
+                    expect(getIFrameEl()).toBeNull();
+                });
+
                 it('stops the deadline when hidden, and arms it again on the next show', async () => {
                     const preRenderId = nextPreRenderId();
                     await confirmedOwner(preRenderId, undefined, undefined);

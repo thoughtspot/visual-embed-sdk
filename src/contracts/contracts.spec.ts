@@ -32,6 +32,7 @@ import type {
     DataAppLoadPayload,
     DataAppReadyPayload,
     GetDataAppControlsRequest,
+    GetDataAppControlsResponse,
 } from './index';
 import type { DataAppEmbed } from '../embed/data-app';
 import type {
@@ -500,7 +501,7 @@ describe('event contracts (drift guardrails)', () => {
     // Compile-time only: ts-jest fails the file if a line stops compiling.
     test('the App read and the App events resolve to their contracts (type check)', () => {
         const request: Equals<HostEventRequest<HostEvent.GetDataAppControls>, GetDataAppControlsRequest> = true;
-        const response: Equals<HostEventResponse<HostEvent.GetDataAppControls>, DataAppControlsState> = true;
+        const response: Equals<HostEventResponse<HostEvent.GetDataAppControls>, GetDataAppControlsResponse> = true;
         const ready: Equals<EmbedEventData<EmbedEvent.DataAppReady>, DataAppReadyPayload> = true;
         const load: Equals<EmbedEventData<EmbedEvent.DataAppLoad>, DataAppLoadPayload> = true;
         const changed: Equals<
@@ -510,7 +511,7 @@ describe('event contracts (drift guardrails)', () => {
         // What a host awaits from the read, with no payload.
         const read = async (embed: DataAppEmbed) => {
             const state = await embed.trigger(HostEvent.GetDataAppControls);
-            const typed: Equals<typeof state, DataAppControlsState> = true;
+            const typed: Equals<typeof state, GetDataAppControlsResponse> = true;
             return typed;
         };
         const withField: TriggerData<HostEvent.GetDataAppControls> = {

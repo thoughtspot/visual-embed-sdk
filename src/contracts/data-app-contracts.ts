@@ -128,7 +128,14 @@ export interface GetDataAppControlsRequest {
  * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
  * @group Events
  */
-export type GetDataAppControlsResponse = DataAppControlsState;
+export interface GetDataAppControlsResponse extends DataAppControlsState {
+    /**
+     * The App actions ThoughtSpot switched off, by `dataAppActions`, as on
+     * {@link DataAppReadyPayload}: present only when `dataAppActions`
+     * switches something off. For information: the SDK checks it.
+     */
+    actionsOff?: 'all' | string[];
+}
 
 /**
  * Request payload for {@link HostEvent.UpdateDataAppControls}.
