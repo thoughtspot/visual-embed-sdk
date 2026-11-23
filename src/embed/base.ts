@@ -31,6 +31,7 @@ import {
 import '../utils/with-resolvers-polyfill';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { getEmbedConfig, setEmbedConfig } from './embedConfig';
+import { setProvidedInitConfig } from '../utils/providedConfig';
 import { getQueryParamString, getValueFromWindow, isWindowUndefined, storeValueInWindow } from '../utils';
 import { resetAllCachedServices } from '../utils/resetServices';
 import { reload } from '../utils/processTrigger';
@@ -254,6 +255,7 @@ export const init = (embedConfig: EmbedConfig): AuthEventEmitter | null => {
     if (isWindowUndefined()) return null;
     sanity(embedConfig);
     resetAllCachedServices();
+    setProvidedInitConfig(embedConfig);
     embedConfig = setEmbedConfig(
         backwardCompat({
             ...CONFIG_DEFAULTS,
@@ -470,6 +472,7 @@ export const exportTML = async (data: exportTMLInput): Promise<any> => {
  */
 export function reset(): void {
     setEmbedConfig({} as any);
+    setProvidedInitConfig(undefined);
     setAuthEE(null);
     authPromise = null;
 }

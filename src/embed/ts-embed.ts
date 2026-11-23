@@ -81,6 +81,7 @@ import {
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
 import { summarizeRuntimeDataForTelemetry } from '../utils/runtimeTelemetry';
+import { getProvidedInitConfig, sanitizeProvidedConfig } from '../utils/providedConfig';
 import { reportHostEvent } from '../utils/hostEventTelemetry';
 import { processEventData, processAuthFailure } from '../utils/processData';
 import { version } from '../utils/sdk-version';
@@ -366,10 +367,17 @@ export class TsEmbed {
      */
     private fullscreenChangeHandler: (() => void) | null = null;
 
+    /**
+     * Sanitized snapshot of the view config exactly as the developer passed it,
+     * before defaults are merged in. Sent with {@link EmbedEvent.GetEmbedConfig}.
+     */
+    private readonly providedViewConfig: Record<string, any>;
+
     constructor(domSelector: DOMSelector, viewConfig?: ViewConfig) {
         this.hostElement = getDOMNode(domSelector);
         this.eventHandlerMap = new Map();
         this.isError = false;
+        this.providedViewConfig = sanitizeProvidedConfig(viewConfig);
         this.viewConfig = {
             excludeRuntimeFiltersfromURL: true,
             excludeRuntimeParametersfromURL: true,
@@ -743,6 +751,22 @@ export class TsEmbed {
     };
 
     /**
+     * Sends the raw `init()` config and the raw view config together, with
+     * top-level auth information removed.
+     * @param _
+     * @param responder
+     */
+    private getEmbedConfigCb = (_: any, responder: any) => {
+        responder({
+            type: EmbedEvent.GetEmbedConfig,
+            data: {
+                initConfig: getProvidedInitConfig() ?? {},
+                viewConfig: this.providedViewConfig,
+            },
+        });
+    };
+
+    /**
      * Helper method to refresh/update auth token for TrustedAuthTokenCookieless auth type
      * @param responder - Function to send response back
      * @param eventType - The embed event type to send
@@ -840,6 +864,7 @@ export class TsEmbed {
      */
     private registerAppInit = () => {
         this.on(EmbedEvent.APP_INIT, this.appInitCb, { start: false }, true);
+        this.on(EmbedEvent.GetEmbedConfig, this.getEmbedConfigCb, { start: false }, true);
         this.on(EmbedEvent.AuthExpire, this.updateAuthToken, { start: false }, true);
         this.on(EmbedEvent.IdleSessionTimeout, this.idleSessionTimeout, { start: false }, true);
 
