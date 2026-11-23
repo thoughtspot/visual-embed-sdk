@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from '../errors';
 import { ContextType, HostEvent } from '../types';
 import { logger } from '../utils/logger';
 import { handlePresentEvent } from '../utils';
@@ -20,6 +21,9 @@ export const reload = (iFrame: HTMLIFrameElement) => {
 };
 
 export const TRIGGER_TIMEOUT = MESSAGE_RESPONSE_TIMEOUT;
+
+export const isTriggerTimeout = (value: unknown): boolean => value instanceof Error
+    && value.message === ERROR_MESSAGE.TRIGGER_TIMED_OUT;
 
 /**
  * Processes a host event trigger: handles SDK-local events (Reload,
