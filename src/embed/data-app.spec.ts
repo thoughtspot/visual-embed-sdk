@@ -53,19 +53,14 @@ const liveboardOverride = {
 };
 const liveboardOverrides = { 'liveboard-guid': liveboardOverride };
 
-const refusal = (option: string) => {
-    const message = option === 'dataAppControls'
-        ? ERROR_MESSAGE.DATA_APP_CONTROLS_NOT_SUPPORTED
-        : ERROR_MESSAGE.DATA_APP_OPTION_NOT_SUPPORTED;
-    return {
-        errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-        message,
-        code: EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
-        severity: EmbedErrorSeverity.SEV1,
-        option,
-        error: message,
-    };
-};
+const refusal = (option: string) => ({
+    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+    message: ERROR_MESSAGE.DATA_APP_OPTION_NOT_SUPPORTED,
+    code: EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
+    severity: EmbedErrorSeverity.SEV1,
+    option,
+    error: ERROR_MESSAGE.DATA_APP_OPTION_NOT_SUPPORTED,
+});
 const depotControls = [{ id: 'depot', value: { op: 'eq', values: ['Austin'] } }];
 
 // Every embed a test creates; the file's afterEach destroys them.
@@ -111,8 +106,6 @@ const refusedSources: [string, object][] = [
     ['liveboardOverride', { liveboardOverride }],
     ['liveboardOverrides', { liveboardOverrides }],
     ['additionalFlags', { additionalFlags: { col1: 'Depot', op1: 'EQ', val1: 'Austin' } }],
-    // Interim: refused until the SDK packs host-set values.
-    ['dataAppControls', { dataAppControls: depotControls }],
 ];
 
 let preRenderSeq = 0;
@@ -293,25 +286,26 @@ describe('DataAppEmbed', () => {
         it('opens a shown pre-render\'s App once its params apply', async () => {
             const embed = newDataApp({ dataAppId: 'app-2' });
             const trigger = jest.spyOn(embed as any, 'trigger').mockResolvedValue(undefined);
-            const navigate = jest.spyOn(embed, 'navigateToDataApp').mockResolvedValue(undefined);
+            const navigate = () => trigger.mock.calls.filter(([type]) => type === HostEvent.Navigate);
 
             embed.isEmbedContainerLoaded = false;
             (embed as any).beforePrerenderVisible();
             embed.isEmbedContainerLoaded = true;
             (embed as any).executeEmbedContainerReadyCallbacks();
-            expect(navigate).not.toHaveBeenCalled();
+            expect(navigate()).toEqual([]);
 
             await new Promise((resolve) => {
                 setTimeout(resolve, 300);
             });
 
+            expect(trigger.mock.calls.map(([type, data]) => [type, type === HostEvent.Navigate ? data : undefined]))
+                .toEqual([
+                    [HostEvent.UpdateEmbedParams, undefined],
+                    [HostEvent.Navigate, 'embed/insights/apps/app-2'],
+                ]);
             expect(trigger).toHaveBeenCalledWith(
                 HostEvent.UpdateEmbedParams,
                 expect.objectContaining({ dataAppId: 'app-2' }),
-            );
-            expect(navigate).toHaveBeenCalledWith('app-2');
-            expect(trigger.mock.invocationCallOrder[0]).toBeLessThan(
-                navigate.mock.invocationCallOrder[0],
             );
         });
 
@@ -378,7 +372,6 @@ describe('DataAppEmbed', () => {
             ['runtimeParameters', speedParam],
             ['liveboardOverride', liveboardOverride],
             ['liveboardOverrides', liveboardOverrides],
-            ['dataAppControls', [{ id: 'depot', value: null }]],
         ])('refuses %s with one SEV1 error and renders no frame', async (option, value) => {
             const { embed, errors } = await renderDataApp({ dataAppId: appId, [option]: value });
 
@@ -452,7 +445,6 @@ describe('DataAppEmbed', () => {
                 runtimeParameters: value,
                 liveboardOverride: value,
                 liveboardOverrides: value,
-                dataAppControls: value,
             });
 
             expect(errors).toEqual([]);
@@ -466,8 +458,6 @@ describe('DataAppEmbed', () => {
             ['liveboardOverride', true],
             ['liveboardOverride', { dataSourceOverride: [] }],
             ['liveboardOverrides', [liveboardOverride]],
-            ['dataAppControls', { depot: { op: 'eq', values: ['Austin'] } }],
-            ['dataAppControls', 'depot'],
         ])('refuses %s set to %p', async (option, value) => {
             const { errors } = await renderDataApp({ dataAppId: appId, [option]: value });
 
@@ -580,7 +570,7 @@ describe('DataAppEmbed', () => {
                 }],
             ];
             // These reach the App only in UpdateEmbedParams.
-            const onlyInUpdateEmbedParams = ['liveboardOverride', 'liveboardOverrides', 'dataAppControls'];
+            const onlyInUpdateEmbedParams = ['liveboardOverride', 'liveboardOverrides'];
 
             describe.each(refusedSources)('with %s set', (option, source) => {
                 it.each(entries.filter(([name]) => !onlyInUpdateEmbedParams.includes(option)
@@ -610,10 +600,11 @@ describe('DataAppEmbed', () => {
             expect(configs).toHaveLength(5);
         });
 
-        it('uses the sentence without dataAppControls until that option ships', () => {
+        it('names dataAppControls in the refusal sentence', () => {
             expect(ERROR_MESSAGE.DATA_APP_OPTION_NOT_SUPPORTED).toBe(
                 'This option does not apply to DataAppEmbed. '
-                + 'To restrict what a viewer can see, use row-level security.',
+                + 'To restrict what a viewer can see, use row-level security. '
+                + 'To set a starting value the viewer can change, use dataAppControls.',
             );
         });
     });
@@ -963,12 +954,11 @@ describe('DataAppEmbed', () => {
             expect((embed as any).isRendered).toBeFalsy();
         });
 
-        it('does not show a connected pre-render with dataAppControls', async () => {
+        it('shows a connected pre-render with dataAppControls', async () => {
             const preRenderId = nextPreRenderId();
             const owner = newDataApp({ dataAppId: appId, preRenderId } as DataAppEmbedViewConfig);
             await owner.preRender();
             await waitFor(() => !!getIFrameEl());
-            const wrapper = document.getElementById(owner.getPreRenderIds().wrapper);
 
             const { embed, errors } = createDataApp({
                 dataAppId: appId,
@@ -977,10 +967,9 @@ describe('DataAppEmbed', () => {
             });
             await embed.showPreRender();
 
-            expect(errors).toEqual([refusal('dataAppControls')]);
-            expect(baseShowPreRender).not.toHaveBeenCalled();
-            expect(wrapper.style.opacity).toBe('0');
-            expect((embed as any).isRendered).toBeFalsy();
+            expect(errors).toEqual([]);
+            expect(baseShowPreRender).toHaveBeenCalled();
+            expect((embed as any).isRendered).toBe(true);
         });
 
         it('creates no frame for a pre-render that is not there yet', async () => {
@@ -2139,35 +2128,28 @@ describe('DataAppEmbed', () => {
                 expect(appCalls()).toEqual([]);
             });
 
-            // Known limit (CR-8b): a hidden instance misses DataAppReady.
-            it('misses a DataAppReady that came while it was hidden: calls wait 30 s, until a Reload', async () => {
+            // Hidden, it heard no DataAppReady: shown, it asks the App page.
+            it('takes a reply with its App\'s state as DataAppReady when shown after missing it', async () => {
                 const embed = newDataApp({ dataAppId: appId, preRenderId: nextPreRenderId() } as DataAppEmbedViewConfig);
                 await embed.showPreRender();
                 await flush();
                 embed.hidePreRender();
                 appReady();
                 await flush();
+                embed.isEmbedContainerLoaded = true;
                 await embed.showPreRender();
-                jest.useFakeTimers();
 
                 const call = getControls(embed);
-                jest.advanceTimersByTime(budget - 1);
-                await flush();
-
-                expect(call.settled).toBe(false);
-
-                jest.advanceTimersByTime(1);
-                await flush();
-
-                expectControlError(call, 'APP_NOT_READY');
-
-                await embed.trigger(HostEvent.Reload);
-                const retried = getControls(embed);
-                appReady();
-                await flush();
+                // Asked once the shown config's params apply.
+                await waitFor(() => appCalls().length > 0);
 
                 expect(appCalls()).toEqual([sentAs({ appId })]);
-                expect(retried.settled).toBe(false);
+                expect(call.settled).toBe(false);
+
+                replies[0].resolve(appState());
+                await flush();
+
+                expect(appCalls()).toEqual([sentAs({ appId }), sentAs({ appId })]);
             });
         });
 
@@ -2622,9 +2604,10 @@ describe('DataAppEmbed', () => {
 
             it('warns when the navigate of a shown pre-render rejects', async () => {
                 const embed = newDataApp({ dataAppId: 'app-2' });
-                jest.spyOn(embed as any, 'trigger').mockResolvedValue(undefined);
                 const failure = new Error('Navigate failed');
-                jest.spyOn(embed, 'navigateToDataApp').mockRejectedValue(failure);
+                jest.spyOn(embed as any, 'trigger').mockImplementation((type) => (type === HostEvent.Navigate
+                    ? Promise.reject(failure)
+                    : Promise.resolve(undefined)));
 
                 embed.isEmbedContainerLoaded = false;
                 (embed as any).beforePrerenderVisible();
@@ -2637,76 +2620,51 @@ describe('DataAppEmbed', () => {
         });
 
         describe('navigateToDataApp() with controls', () => {
-            let warn: jest.SpyInstance;
-            const controlsRefusal = {
-                errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                message: ERROR_MESSAGE.DATA_APP_CONTROLS_NOT_SUPPORTED,
-                code: EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
-                severity: EmbedErrorSeverity.SEV3,
-                option: 'controls',
-                error: ERROR_MESSAGE.DATA_APP_CONTROLS_NOT_SUPPORTED,
-            };
-            const navigated = () => processTrigger.mock.calls
-                .filter(([, type]) => type === HostEvent.Navigate)
-                .map(([, , , path]) => path);
-
-            beforeEach(() => {
-                warn = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
-            });
-
-            afterEach(() => {
-                warn.mockRestore();
-            });
+            // UpdateEmbedParams (its values) and Navigate (its path), in order.
+            const opened = () => processTrigger.mock.calls
+                .filter(([, type]) => type === HostEvent.UpdateEmbedParams || type === HostEvent.Navigate)
+                .map(([, type, , data]) => [
+                    type,
+                    type === HostEvent.Navigate ? data : data.dataAppInitialControls,
+                ]);
 
             it.each([
-                ['an array', depotControls],
-                ['a map', { depot: { op: 'eq', values: ['Austin'] } }],
-            ])('warns SEV3 for controls as %s, and changes nothing', async (_, controls) => {
+                ['another App', 'b7c8'],
+                ['the App open', appId],
+            ])('sends the values to %s, then navigates', async (_, target) => {
                 const { embed, errors } = await renderedApp();
-                const held = getControls(embed);
 
-                await (embed as any).navigateToDataApp('b7c8', { controls });
-                await flush();
+                await embed.navigateToDataApp(target, { controls: depotControls });
 
-                expect(errors).toStrictEqual([controlsRefusal]);
-                expect(warn).toHaveBeenCalledTimes(1);
-                expect(warn).toHaveBeenCalledWith(controlsRefusal);
-                expect((embed as any).viewConfig.dataAppId).toBe(appId);
-                expect(navigated()).toEqual([]);
-                expect(held.settled).toBe(false);
-                expect((embed as any).isError).toBe(false);
-
-                appReady();
-                await flush();
-
-                expect(appCalls()).toEqual([sentAs({ appId })]);
-
-                await embed.navigateToDataApp('b7c8');
-
-                expect(navigated()).toEqual(['embed/insights/apps/b7c8']);
+                expect(errors).toEqual([]);
+                expect(opened()).toEqual([
+                    [HostEvent.UpdateEmbedParams, { appId: target, controls: depotControls }],
+                    [HostEvent.Navigate, `embed/insights/apps/${target}`],
+                ]);
+                expect((embed as any).viewConfig.dataAppId).toBe(target);
             });
 
-            it('renders nothing for a navigateToDataApp() with controls before render', async () => {
+            it('renders with the values before render, and keeps them out of the URL', async () => {
                 const { embed, errors } = createDataApp({ dataAppId: appId });
 
-                await (embed as any).navigateToDataApp('b7c8', { controls: depotControls });
+                await embed.navigateToDataApp('b7c8', { controls: depotControls });
 
-                expect(errors).toStrictEqual([controlsRefusal]);
-                expect(getIFrameEl()).toBeNull();
-                expect((embed as any).isRendered).toBeFalsy();
+                expect(errors).toEqual([]);
+                expect(getIFrameSrc()).toContain('#/embed/insights/apps/b7c8');
+                expect(getIFrameSrc()).not.toMatch(/depot|Austin/);
             });
 
             it.each([
                 [{ controls: [] }],
                 [{ controls: null }],
                 [{}],
-            ])('navigates with %p', async (options) => {
+            ])('navigates with %p as with no values', async (options) => {
                 const { embed, errors } = await renderedApp();
 
                 await (embed as any).navigateToDataApp('b7c8', options);
 
                 expect(errors).toEqual([]);
-                expect(navigated()).toEqual(['embed/insights/apps/b7c8']);
+                expect(opened()).toEqual([[HostEvent.Navigate, 'embed/insights/apps/b7c8']]);
             });
         });
     });

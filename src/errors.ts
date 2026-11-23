@@ -5,10 +5,10 @@ export const ERROR_MESSAGE = {
     DATA_APP_ID_MISSING: 'Please provide the ID of the App to embed.',
     DATA_APP_EMBED_STOPPED: 'This DataAppEmbed was rendered without an App ID and cannot render now. Create a new DataAppEmbed.',
     // Interim until runtime filters apply to Apps.
-    DATA_APP_OPTION_NOT_SUPPORTED: 'This option does not apply to DataAppEmbed. To restrict what a viewer can see, use row-level security.',
+    DATA_APP_OPTION_NOT_SUPPORTED: 'This option does not apply to DataAppEmbed. To restrict what a viewer can see, use row-level security. To set a starting value the viewer can change, use dataAppControls.',
     DATA_APP_OPTION_IGNORED: 'This option does not apply to DataAppEmbed and is ignored.',
-    // Interim: the change that adds host-set values removes this.
-    DATA_APP_CONTROLS_NOT_SUPPORTED: 'This version of the Visual Embed SDK cannot set control values. The App was not opened.',
+    DATA_APP_OPEN_NOT_CONFIRMED: 'The App has not confirmed the values it was opened with.',
+    DATA_APP_UPDATE_FAILED: 'A change to dataAppControls was refused. See error.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'SearchEmbed is in Beta in this release.',
     THIRD_PARTY_COOKIE_BLOCKED_ALERT: 'Third-party cookie access is blocked on this browser. Please allow third-party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',

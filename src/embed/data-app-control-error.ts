@@ -9,6 +9,7 @@ import type {
 // Host events that act on the App open in a DataAppEmbed.
 export const DATA_APP_HOST_EVENTS: ReadonlySet<HostEvent> = new Set([
     HostEvent.GetDataAppControls,
+    HostEvent.UpdateDataAppControls,
 ]);
 
 // Internal: only the DataAppControlError interface is public.

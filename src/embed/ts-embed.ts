@@ -115,7 +115,7 @@ const TS_EMBED_ID = '_thoughtspot-embed';
 
 // The container applies UpdateEmbedParams through React state, so a delivered
 // post is not the same as the params being in effect.
-const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
+export const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 
 // The container ignores runtimeFilterParams/runtimeParameterParams unless
 // truthy, so null or '' leaves the previous embed's values in place. '&' is
