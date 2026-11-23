@@ -6348,7 +6348,7 @@ describe('DataAppEmbed', () => {
 
                     expect(other.errors).toEqual([]);
                     expect(other.readies).toEqual([]);
-                    // Taken, the reply would confirm the rule and mark it ready.
+                    // A reply taken would confirm the rule.
                     expect((other.embed as any).readyAppId).toBeNull();
                     expect((other.embed as any).openFailed).toBe(true);
                     expect((other.embed as any).echoDue).toBe(true);
