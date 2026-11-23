@@ -5401,6 +5401,59 @@ describe('DataAppEmbed', () => {
 
                 expect(updateParams()[0].dataAppActions).toStrictEqual({ off: 'all' });
             });
+
+            it('posts the normalised rule, once and at the top level, in the UpdateEmbedParams of a show', async () => {
+                const preRenderId = nextPreRenderId();
+                const owner = newDataApp({ dataAppId: appId, preRenderId } as DataAppEmbedViewConfig);
+                await owner.preRender();
+                await waitFor(() => !!getIFrameEl());
+                const { embed } = createDataApp({
+                    dataAppId: appId,
+                    preRenderId,
+                    dataAppActions: { off: ['reopen_ticket', 'close_ticket', 'reopen_ticket'], display: 'disabled' },
+                });
+
+                await embed.showPreRender();
+                await flush();
+                fromFrame(EmbedEvent.EmbedListenerReady);
+                await until(() => updateParams().length > 0);
+
+                expect(updateParams()).toHaveLength(1);
+                expect(updateParams()[0].dataAppActions)
+                    .toStrictEqual({ off: ['close_ticket', 'reopen_ticket'], display: 'disabled' });
+                expect(updateParams()[0].embedParams).toBeUndefined();
+                expect(JSON.stringify(updateParams()[0]).match(/reopen_ticket/g)).toHaveLength(1);
+            });
+
+            it.each([
+                ['with a rule', { off: ['close_ticket'] }, { off: ['close_ticket'] }],
+                ['without one', undefined, undefined],
+            ])('sends its own value %s over a dataAppActions flag in additionalFlags', async (_, dataAppActions, sent) => {
+                const embed = newDataApp({
+                    dataAppId: appId,
+                    dataAppActions,
+                    additionalFlags: { dataAppActions: 'raw' },
+                } as DataAppEmbedViewConfig);
+
+                const params = await (embed as any).getUpdateEmbedParamsObject();
+
+                expect(params.dataAppActions).toStrictEqual(sent);
+                expect('dataAppActions' in params).toBe(sent !== undefined);
+            });
+
+            it('carries the normalised rule in the UpdateEmbedParams of a navigate, beside the new values', async () => {
+                const { embed } = await rendered({ dataAppActions: { off: ['reopen_ticket', 'close_ticket'] } });
+
+                await embed.navigateToDataApp('b7c8', { controls: depotControls });
+
+                expect(updateParams()).toHaveLength(1);
+                expect(updateParams()[0]).toMatchObject({
+                    dataAppActions: { off: ['close_ticket', 'reopen_ticket'] },
+                    dataAppInitialControls: { appId: 'b7c8', controls: depotControls },
+                });
+                expect(posted.map(([type, data]) => [type, type === HostEvent.Navigate ? data : undefined]))
+                    .toContainEqual([HostEvent.Navigate, 'embed/insights/apps/b7c8']);
+            });
         });
 
         describe('the echo in DataAppReady (TA-25)', () => {
@@ -5604,6 +5657,127 @@ describe('DataAppEmbed', () => {
                 } finally {
                     config.waitForCleanupOnDestroy = before;
                 }
+            });
+
+            it('checks a DataAppReady with status start, and no start handler hears a mismatch', async () => {
+                const { embed, errors, readies } = await rendered({ dataAppActions: { off: 'all' } });
+                const started: unknown[] = [];
+                embed.on(EmbedEvent.DataAppReady, (payload) => started.push(payload), { start: true });
+
+                postMessageToParent(getIFrameEl().contentWindow, {
+                    type: EmbedEvent.DataAppReady, data: appState(), status: 'start',
+                });
+                await flush();
+
+                expect(started).toEqual([]);
+                expect(readies).toEqual([]);
+                expect(errors).toStrictEqual([notConfirmed()]);
+                expect(getIFrameEl()).toBeNull();
+            });
+
+            it('passes a matching echo to a start handler', async () => {
+                const { embed, errors } = await rendered({ dataAppActions: { off: ['close_ticket'] } });
+                const started: unknown[] = [];
+                embed.on(EmbedEvent.DataAppReady, (payload) => started.push(payload.data), { start: true });
+
+                postMessageToParent(getIFrameEl().contentWindow, {
+                    type: EmbedEvent.DataAppReady,
+                    data: { ...appState(), actionsOff: ['close_ticket'] },
+                    status: 'start',
+                });
+                await flush();
+
+                expect(started).toEqual([{ ...appState(), actionsOff: ['close_ticket'] }]);
+                expect(errors).toEqual([]);
+            });
+
+            it('gives the error to EmbedEvent.ALL handlers, and logs it once', async () => {
+                const { embed } = await rendered({ dataAppActions: { off: 'all' } });
+                const all: any[] = [];
+                embed.on(EmbedEvent.ALL, (payload) => all.push(payload));
+
+                readyWith(undefined);
+                await flush();
+
+                expect(all).toStrictEqual([notConfirmed()]);
+                expect(logError.mock.calls).toEqual([[notConfirmed()]]);
+            });
+
+            it.each([
+                ['an empty appId', ''],
+                ['a number appId', 42],
+                ['an object appId', { id: 'b7c8' }],
+            ])('names the embed\'s App for a DataAppReady with %s', async (_, id) => {
+                const { errors } = await rendered({ dataAppActions: { off: 'all' } });
+
+                fromFrame(EmbedEvent.DataAppReady, { ...appState(), appId: id });
+                await flush();
+
+                expect(errors).toStrictEqual([notConfirmed()]);
+            });
+
+            it('passes on a matching echo for another App, and keeps checking (X-D3)', async () => {
+                const { errors, readies } = await rendered({ dataAppActions: { off: 'all' } });
+
+                readyWith('all', 'other-app');
+                await flush();
+                readyWith('all');
+                await flush();
+
+                expect(errors).toEqual([]);
+                expect(readies).toEqual([
+                    { ...appState('other-app'), actionsOff: 'all' },
+                    { ...appState(), actionsOff: 'all' },
+                ]);
+                expect(getIFrameEl()).not.toBeNull();
+            });
+
+            it('raises no DATA_APP_OPEN_NOT_CONFIRMED once the App is removed during the open watchdog', async () => {
+                const { errors } = await rendered({ dataAppActions: { off: 'all' }, dataAppControls: depotControls });
+                jest.useFakeTimers();
+                fromFrame(EmbedEvent.AuthInit, {});
+                await flush();
+                expect(jest.getTimerCount()).toBeGreaterThan(0);
+
+                readyWith(undefined);
+                await flush();
+                jest.advanceTimersByTime(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS * 2);
+                await flush();
+
+                expect(errors).toStrictEqual([notConfirmed()]);
+            });
+
+            it('releases the calls held for the App when its DataAppReady echoes the rule', async () => {
+                const { embed } = await rendered({ dataAppActions: { off: ['close_ticket'] } });
+                const held = watch(embed.trigger(HostEvent.GetDataAppControls));
+                await flush();
+                expect(posted.filter(([type]) => APP_CALL_TYPES.has(type))).toEqual([]);
+
+                readyWith(['close_ticket']);
+                await until(() => replies.length > 0);
+                replies[0]({ ...appState(), actionsOff: ['close_ticket'] });
+                await flush();
+
+                expect(held).toMatchObject({ settled: true, value: { ...appState(), actionsOff: ['close_ticket'] } });
+            });
+            it('checks the App a navigate opens: its matching echo passes and releases the calls for it', async () => {
+                const { embed, errors, readies } = await rendered({ dataAppActions: { off: ['close_ticket'] } });
+                readyWith(['close_ticket']);
+                await flush();
+
+                await embed.navigateToDataApp('b7c8');
+                const call = watch(embed.trigger(HostEvent.GetDataAppControls));
+                await flush();
+                expect(posted.filter(([type]) => APP_CALL_TYPES.has(type))).toEqual([]);
+
+                readyWith(['close_ticket'], 'b7c8');
+                await until(() => replies.length > 0);
+
+                expect(errors).toEqual([]);
+                expect(readies).toHaveLength(2);
+                expect(posted.filter(([type]) => APP_CALL_TYPES.has(type)))
+                    .toEqual([[HostEvent.GetDataAppControls, { appId: 'b7c8' }]]);
+                expect(call.settled).toBe(false);
             });
 
             it('passes every other event on as before', async () => {
@@ -6062,6 +6236,271 @@ describe('DataAppEmbed', () => {
                     expect(getIFrameEl()).toBeNull();
                 });
 
+                it('TA-26 end to end: a changed rule is sent, the old echo dropped, the new one releases calls, and the deadline stands down', async () => {
+                    const preRenderId = nextPreRenderId();
+                    const owner = await confirmedOwner(preRenderId, { off: ['close_ticket'] }, ['close_ticket']);
+
+                    const other = await showOnFakeTimers(preRenderId, { off: ['reopen_ticket', 'close_ticket'] });
+                    const call = watch(other.embed.trigger(HostEvent.UpdateDataAppControls, { controls: [] }));
+                    await flush();
+
+                    expect(updateParams().map((params) => params.dataAppActions))
+                        .toEqual([{ off: ['close_ticket', 'reopen_ticket'] }]);
+                    expect(appCalls().map(([type]) => type)).toEqual([HostEvent.GetDataAppControls]);
+
+                    // The App before its reopen: dropped, nothing released.
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS / 2);
+                    readyWith(['close_ticket']);
+                    await flush();
+                    expect(other.readies).toEqual([]);
+                    expect(appCalls()).toHaveLength(1);
+
+                    // The reopened App, within the 30 s.
+                    readyWith(['reopen_ticket', 'close_ticket']);
+                    await flush();
+                    expect(other.readies).toEqual([{ ...appState(), actionsOff: ['reopen_ticket', 'close_ticket'] }]);
+                    expect(appCalls().map(([type]) => type))
+                        .toEqual([HostEvent.GetDataAppControls, HostEvent.UpdateDataAppControls]);
+
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS * 2);
+                    expect([...owner.errors, ...other.errors].filter((error: any) => error.option === 'dataAppActions'))
+                        .toEqual([]);
+                    expect(getIFrameEl()).not.toBeNull();
+                    // Released and posted: it ends on its own budget.
+                    expectControlError(call, 'TIMEOUT');
+                });
+
+                it('TA-32 end to end: the same ids in another order are sent unchanged, need no echo, and stay up past 30 s', async () => {
+                    const preRenderId = nextPreRenderId();
+                    const owner = await confirmedOwner(
+                        preRenderId,
+                        { off: ['reopen_ticket', 'close_ticket'] },
+                        ['reopen_ticket', 'close_ticket'],
+                    );
+                    const given = (await (owner.embed as any).getAppInitData()).embedParams.dataAppActions;
+
+                    const other = await showOnFakeTimers(preRenderId, { off: ['close_ticket', 'reopen_ticket', 'close_ticket'] });
+                    const call = watch(other.embed.trigger(HostEvent.GetDataAppControls));
+                    await flush();
+
+                    expect(updateParams().map((params) => params.dataAppActions)).toEqual([given]);
+                    // Ready as adopted: the call goes with no probe first.
+                    expect(appCalls()).toEqual([[HostEvent.GetDataAppControls, { appId }]]);
+
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS * 2);
+                    readyWith(['close_ticket', 'reopen_ticket']);
+                    await flush();
+
+                    expect([...owner.errors, ...other.errors].filter((error: any) => error.option === 'dataAppActions'))
+                        .toEqual([]);
+                    expect(other.readies).toHaveLength(1);
+                    expect(getIFrameEl()).not.toBeNull();
+                    expectControlError(call, 'TIMEOUT');
+                });
+
+                it('arms the deadline again on a show after a hide while due', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+                    other.embed.hidePreRender();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+
+                    await other.embed.showPreRender();
+                    await flush();
+                    await advance(UPDATE_EMBED_PARAMS_SETTLE_MS);
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS - UPDATE_EMBED_PARAMS_SETTLE_MS - 1);
+                    expect(other.errors).toEqual([]);
+
+                    await advance(UPDATE_EMBED_PARAMS_SETTLE_MS + 1);
+
+                    expect(other.errors).toStrictEqual([notConfirmed()]);
+                    expect(getIFrameEl()).toBeNull();
+                });
+
+                it('keeps one deadline over two shows in a row while due: the echo stands it down', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+
+                    await other.embed.showPreRender();
+                    await flush();
+                    await advance(UPDATE_EMBED_PARAMS_SETTLE_MS);
+                    readyWith('all');
+                    await flush();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS * 2);
+
+                    expect(other.errors).toEqual([]);
+                    expect(getIFrameEl()).not.toBeNull();
+                });
+
+                it('ignores a probe reply that comes after the App was destroyed', async () => {
+                    const preRenderId = nextPreRenderId();
+                    const owner = await show(preRenderId, { off: 'all' });
+                    owner.embed.hidePreRender();
+                    posted = [];
+                    replies = [];
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+
+                    other.embed.destroy();
+                    replies[0]({ ...appState(), actionsOff: 'all' });
+                    await flush();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS * 2);
+
+                    expect(other.errors).toEqual([]);
+                    expect(other.readies).toEqual([]);
+                });
+
+                it('posts DestroyEmbed once, and raises nothing, when destroyed while due', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+                    posted = [];
+
+                    other.embed.destroy();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS * 2);
+
+                    expect(posted.map(([type]) => type)).toEqual([HostEvent.DestroyEmbed]);
+                    expect(other.errors).toEqual([]);
+                });
+
+                it('removes at once an echo of the old rule after a Reload while due', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+
+                    await other.embed.trigger(HostEvent.Reload);
+                    // The reloaded App was given this rule in its APP_INIT.
+                    readyWith(undefined);
+                    await flush();
+
+                    expect(other.errors).toStrictEqual([notConfirmed()]);
+                    expect(getIFrameEl()).toBeNull();
+                });
+
+                it('once confirmed, a navigate whose params fail only refuses the open', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+                    readyWith('all');
+                    await flush();
+                    jest.spyOn(other.embed as any, 'getUpdateEmbedParamsObject').mockRejectedValue(new Error('no token'));
+                    jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+
+                    const navigate = other.embed.navigateToDataApp(appId, { controls: depotControls });
+                    await flush();
+                    await advance(UPDATE_EMBED_PARAMS_SETTLE_MS);
+                    await navigate;
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+
+                    expect(errorKeys(other.errors)).toEqual([[EmbedErrorCodes.DATA_APP_OPEN_FAILED, ERROR_MESSAGE.DATA_APP_OPEN_FAILED]]);
+                    expect(getIFrameEl()).not.toBeNull();
+                });
+
+                it('keeps the frame\'s no-rule echo across a show with no rule, so the old echo is still dropped', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    // Sends no rule either, and hides before any echo.
+                    const same = await show(preRenderId, undefined);
+                    same.embed.hidePreRender();
+                    posted = [];
+                    replies = [];
+
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+                    readyWith(undefined);
+                    await flush();
+
+                    expect(other.errors).toEqual([]);
+                    expect(other.readies).toEqual([]);
+                    expect(getIFrameEl()).not.toBeNull();
+
+                    readyWith('all');
+                    await flush();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+                    expect(other.errors).toEqual([]);
+                    expect(other.readies).toHaveLength(1);
+                });
+
+                it('stands down when a navigate made while due opens another App that echoes the rule', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+
+                    await other.embed.navigateToDataApp('b7c8');
+                    const call = watch(other.embed.trigger(HostEvent.GetDataAppControls));
+                    readyWith('all', 'b7c8');
+                    await flush();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS * 2);
+
+                    expect(other.errors).toEqual([]);
+                    expect(other.readies).toEqual([{ ...appState('b7c8'), actionsOff: 'all' }]);
+                    expect(getIFrameEl()).not.toBeNull();
+                    expect(appCalls()).toContainEqual([HostEvent.GetDataAppControls, { appId: 'b7c8' }]);
+                    expectControlError(call, 'TIMEOUT');
+                });
+
+                it('checks the first DataAppReady of a pre-render created hidden (PA)', async () => {
+                    const preRenderId = nextPreRenderId();
+                    const { embed, errors } = createDataApp({ dataAppId: appId, preRenderId, dataAppActions: { off: 'all' } });
+                    await embed.preRender();
+                    await waitFor(() => !!getIFrameEl());
+                    const wrapperId = embed.getPreRenderIds().wrapper;
+
+                    readyWith(undefined);
+                    await flush();
+
+                    expect(errors).toStrictEqual([notConfirmed()]);
+                    expect(getIFrameEl()).toBeNull();
+                    expect(document.getElementById(wrapperId)).toBeNull();
+                });
+
+                it('needs no probe or deadline when a pre-render created hidden confirmed its rule, then shows itself', async () => {
+                    const preRenderId = nextPreRenderId();
+                    const created = createDataApp({ dataAppId: appId, preRenderId, dataAppActions: { off: ['close_ticket'] } });
+                    await created.embed.preRender();
+                    await waitFor(() => !!getIFrameEl());
+                    readyWith(['close_ticket']);
+                    await flush();
+                    posted = [];
+
+                    jest.useFakeTimers();
+                    await created.embed.showPreRender();
+                    await flush();
+                    fromFrame(EmbedEvent.EmbedListenerReady);
+                    await until(() => posted.some(([type]) => type === HostEvent.Navigate));
+                    await advance(UPDATE_EMBED_PARAMS_SETTLE_MS);
+                    const call = watch(created.embed.trigger(HostEvent.GetDataAppControls));
+                    await flush();
+
+                    expect(appCalls()).toEqual([[HostEvent.GetDataAppControls, { appId }]]);
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS * 2);
+                    expect(created.errors).toEqual([]);
+                    expect(getIFrameEl()).not.toBeNull();
+                    expectControlError(call, 'TIMEOUT');
+                });
+
+                it('probes a pre-render created hidden whose App opened unheard after a hide, and removes it at 30 s without the echo', async () => {
+                    const preRenderId = nextPreRenderId();
+                    const created = createDataApp({ dataAppId: appId, preRenderId, dataAppActions: { off: 'all' } });
+                    await created.embed.preRender();
+                    await waitFor(() => !!getIFrameEl());
+                    created.embed.hidePreRender();
+                    // Unheard: hidden after hidePreRender().
+                    readyWith(undefined);
+                    await flush();
+                    expect(created.errors).toEqual([]);
+                    posted = [];
+                    replies = [];
+
+                    const shown = await showOnFakeTimers(preRenderId, { off: 'all' }, created);
+                    expect(appCalls().map(([type]) => type)).toEqual([HostEvent.GetDataAppControls]);
+                    replies[0](appState());
+                    await flush();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+
+                    expect(shown.errors).toStrictEqual([notConfirmed()]);
+                    expect(getIFrameEl()).toBeNull();
+                });
+
                 it('stops the deadline when hidden, and arms it again on the next show', async () => {
                     const preRenderId = nextPreRenderId();
                     await confirmedOwner(preRenderId, undefined, undefined);
@@ -6073,6 +6512,51 @@ describe('DataAppEmbed', () => {
                     expect(other.errors).toEqual([]);
                     expect(getIFrameEl()).not.toBeNull();
                 });
+            });
+        });
+
+        describe('telemetry', () => {
+            let upload: jest.SpyInstance;
+            const props = (eventId: string) => upload.mock.calls
+                .filter(([id]) => id === eventId)
+                .map(([, eventProps]) => eventProps);
+
+            beforeEach(() => {
+                upload = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
+            });
+
+            afterEach(() => {
+                upload.mockRestore();
+            });
+
+            it('uploads no action id on any path, only all or a count, and types for UpdateEmbedParams', async () => {
+                const rule = { off: ['zz_close', 'zz_reopen', 'zz_close'] };
+                const preRenderId = nextPreRenderId();
+                const owner = newDataApp({ dataAppId: appId, preRenderId, dataAppActions: rule } as DataAppEmbedViewConfig);
+                await owner.preRender();
+                await waitFor(() => !!getIFrameEl());
+                owner.hidePreRender();
+                const { embed } = createDataApp({ dataAppId: appId, preRenderId, dataAppActions: rule });
+                await embed.showPreRender();
+                await flush();
+                fromFrame(EmbedEvent.EmbedListenerReady);
+                await resolveAfter(UPDATE_EMBED_PARAMS_SETTLE_MS + 50);
+                readyWith(['zz_reopen', 'zz_close']);
+                await flush();
+                await embed.navigateToDataApp('b7c8', { controls: depotControls });
+                await embed.trigger(HostEvent.Reload);
+                newDataApp({ dataAppId: appId, dataAppActions: { off: 'all' } });
+                newDataApp({ dataAppId: appId, dataAppActions: { off: ['zz_Bad'] } } as DataAppEmbedViewConfig);
+                await flush();
+
+                expect(JSON.stringify(upload.mock.calls)).not.toContain('zz_');
+                expect(props(mixpanelInstance.MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE)
+                    .map((created) => created.dataAppActions))
+                    .toEqual([{ off: 2 }, { off: 2 }, { off: 'all' }, false]);
+                const sent = props(`${mixpanelInstance.MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${HostEvent.UpdateEmbedParams}`)
+                    .map(({ params }) => params.dataAppActions);
+                expect(sent).toHaveLength(2);
+                sent.forEach((params) => expect(params).toEqual({ off: ['string', 'string'] }));
             });
         });
     });

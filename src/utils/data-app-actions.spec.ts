@@ -17,6 +17,8 @@ describe('readActionsRule', () => {
         ['display undefined, dropped', { off: ['a'], display: undefined }, { off: ['a'] }],
         ['the longest id', { off: [`a${'0'.repeat(63)}`] }, { off: [`a${'0'.repeat(63)}`] }],
         ['an object with no prototype', Object.assign(Object.create(null), { off: 'all' }), { off: 'all' }],
+        ['ids that start with all', { off: ['allx', 'all_tickets'] }, { off: ['all_tickets', 'allx'] }],
+        ['ids with digits and underscores after the first letter', { off: ['a_1', 'b2_'] }, { off: ['a_1', 'b2_'] }],
     ])('reads %s', (_, value, rule) => {
         expect(readActionsRule(value)).toStrictEqual(rule);
     });
@@ -44,6 +46,12 @@ describe('readActionsRule', () => {
         ['all inside a list', { off: ['all'] }],
         ['all among ids', { off: ['close', 'all'] }],
         ['an id with a dot', { off: ['close.ticket'] }],
+        ['an id with a hyphen', { off: ['close-ticket'] }],
+        ['an id starting with a digit', { off: ['1close'] }],
+        ['an id starting with an underscore', { off: ['_close'] }],
+        ['an id with a space', { off: ['close ticket'] }],
+        ['an empty id', { off: [''] }],
+        ['an id with a leading newline', { off: ['\nclose'] }],
         ['an id with a trailing newline', { off: ['close\n'] }],
         ['an id too long', { off: [`a${'0'.repeat(64)}`] }],
         ['an id that is a String object', { off: [new String('close')] }],
@@ -52,6 +60,8 @@ describe('readActionsRule', () => {
         ['display a number', { off: 'all', display: 0 }],
         ['an extra key', { off: 'all', reason: 'x' }],
         ['a Date', new Date()],
+        ['a class instance', new (class { off = 'all'; })()],
+        ['a list with a hole', { off: Object.assign(new Array(2), { 1: 'a' }) }],
         ['a Map', new Map([['off', 'all']])],
         ['a getter that throws', Object.defineProperty({}, 'off', {
             enumerable: true,

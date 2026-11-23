@@ -479,6 +479,45 @@ describe('React Components', () => {
 
                 expect(onDataAppReady).toHaveBeenCalledTimes(1);
             });
+
+            it.each([
+                ['display: undefined for no display', { off: ['a'], display: undefined }, { off: ['a'] }],
+                ['null for no prop', null, undefined],
+                ['repeated ids', { off: ['a', 'a'] }, { off: ['a'] }],
+            ])('rebuilds nothing for %s', async (_, before, after) => {
+                const ref = React.createRef<any>();
+                const { update } = await mount({ dataAppActions: before, ref });
+
+                await update({ dataAppActions: after, ref });
+
+                expect(builds).toHaveBeenCalledTimes(1);
+                expect(destroys).not.toHaveBeenCalled();
+            });
+
+            it('rebuilds, and refuses again, when one malformed rule is replaced by another', async () => {
+                const onError = jest.fn();
+                const { update, container } = await mount({ dataAppActions: { off: 'none' }, onError });
+
+                await update({ dataAppActions: { off: 'some' }, onError });
+
+                expect(errorCodes(onError)).toEqual([
+                    EmbedErrorCodes.DATA_APP_OPTION_INVALID,
+                    EmbedErrorCodes.DATA_APP_OPTION_INVALID,
+                ]);
+                expect(container.querySelector('iframe')).toBeNull();
+            });
+
+            it('rebuilds with a rule once a malformed one is fixed', async () => {
+                const ref = React.createRef<any>();
+                const onError = jest.fn();
+                const { update, container } = await mount({ dataAppActions: { off: 'none' }, onError, ref });
+
+                await update({ dataAppActions: { off: 'all' }, onError, ref });
+
+                expect(errorCodes(onError)).toEqual([EmbedErrorCodes.DATA_APP_OPTION_INVALID]);
+                expect(container.querySelector('iframe')).not.toBeNull();
+                expect(await sentRule(ref)).toStrictEqual({ off: 'all' });
+            });
         });
 
         it('drops the old build\'s pending call and its error on a rebuild', async () => {
