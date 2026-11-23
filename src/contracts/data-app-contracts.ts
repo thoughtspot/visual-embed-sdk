@@ -22,8 +22,6 @@ export type DataAppControlErrorCode =
     | 'APP_NOT_READY'
     | 'NOT_SIGNED_IN'
     | 'VALUE_REFUSED'
-    | 'SUPERSEDED'
-    | 'RATE_LIMITED'
     | 'SESSION_LOST'
     | 'TIMEOUT'
     | 'FAILED'
