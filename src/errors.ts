@@ -7,6 +7,7 @@ export const ERROR_MESSAGE = {
     // Interim until runtime filters apply to Apps.
     DATA_APP_OPTION_NOT_SUPPORTED: 'This option does not apply to DataAppEmbed. To restrict what a viewer can see, use row-level security. To set a starting value the viewer can change, use dataAppControls.',
     DATA_APP_OPTION_IGNORED: 'This option does not apply to DataAppEmbed and is ignored.',
+    DATA_APP_OPEN_FAILED: 'The App could not be opened.',
     DATA_APP_OPEN_NOT_CONFIRMED: 'The App has not confirmed the values it was opened with.',
     DATA_APP_UPDATE_FAILED: 'A change to dataAppControls was refused. See error.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',

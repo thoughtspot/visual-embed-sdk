@@ -66,6 +66,10 @@ const isSet = (value: unknown): boolean => {
     return value !== null && value !== undefined && value !== false;
 };
 
+const sleep = (ms: number) => new Promise((resolve) => {
+    setTimeout(resolve, ms);
+});
+
 // The payload of an Error event this embed raises itself.
 const errorEvent = (
     errorType: ErrorDetailsTypes,
@@ -187,8 +191,10 @@ export interface DataAppEmbedViewConfig {
      *
      * The values are a starting state: each open, and `HostEvent.Reload`,
      * starts the App from the author's defaults with them laid on. Pass values
-     * read from the App, as they are. To change values once the App is open,
-     * use `HostEvent.UpdateDataAppControls`.
+     * read from the App, as they are, in plain objects and arrays: values the
+     * browser cannot copy, such as a framework's reactive proxy, fail the open.
+     * To change values once the App is open, use
+     * `HostEvent.UpdateDataAppControls`.
      *
      * Supported embed types: `DataAppEmbed`
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
@@ -201,7 +207,7 @@ export interface DataAppEmbedViewConfig {
      * });
      * ```
      */
-    dataAppControls?: DataAppControl[];
+    dataAppControls?: DataAppControl[] | null;
 }
 
 /**
@@ -272,6 +278,21 @@ export class DataAppEmbed extends TsEmbed {
     // The packed values the last DataAppReady of the App confirmed.
     private confirmedKey: string;
 
+    // The packed values the frame last received; none at first.
+    private givenKey = canonicalJson(undefined);
+
+    // Hears nothing from the frame: a hidden pre-render, or destroyed.
+    private hidden = false;
+
+    // The last show sends values the frame does not have.
+    private showChanges = false;
+
+    // The params of the last open were built and posted.
+    private paramsPosted = false;
+
+    // Settles once values posted for an in-place restart can apply.
+    private valuesApplied: Promise<unknown> = Promise.resolve();
+
     constructor(container: HTMLElement, viewConfig: DataAppEmbedViewConfig) {
         let config: DataAppEmbedViewConfig & BaseViewConfig = {
             embedComponentType: 'dataApp',
@@ -325,7 +346,8 @@ export class DataAppEmbed extends TsEmbed {
     // An open with values: DataAppReady must confirm them within the timeout.
     private armWatchdog(): void {
         this.disarmWatchdog();
-        this.watchArmed = !!this.packedControls();
+        // Hidden, it could not hear the DataAppReady that settles it.
+        this.watchArmed = !this.hidden && !!this.packedControls();
         this.startWatchdog();
     }
 
@@ -356,7 +378,21 @@ export class DataAppEmbed extends TsEmbed {
     private resetAppState(openFailed: boolean): void {
         this.readyAppId = null;
         this.openFailed = openFailed;
+        this.confirmedKey = undefined;
         this.heldCalls.forEach((release) => release());
+    }
+
+    // The values did not reach the frame, so this App is not opened.
+    private refuseOpen(): void {
+        this.resetAppState(true);
+        this.disarmWatchdog();
+        this.raiseWarning(errorEvent(
+            ErrorDetailsTypes.API,
+            EmbedErrorCodes.DATA_APP_OPEN_FAILED,
+            ERROR_MESSAGE.DATA_APP_OPEN_FAILED,
+            EmbedErrorSeverity.SEV1,
+            { appId: this.viewConfig.dataAppId, reason: 'FAILED' },
+        ));
     }
 
     // Calls sent to a frame that is going away: no reply can come.
@@ -394,6 +430,8 @@ export class DataAppEmbed extends TsEmbed {
         }
         const { reloads } = this;
         const appId = this.readyAppId ?? await this.holdUntilReady(deadline);
+        // Values just posted for an in-place restart apply first.
+        await this.valuesApplied;
         // A destroy(), failed open or Reload in the tick of the release.
         if (this.openFailed || reloads !== this.reloads) {
             throw new DataAppControlError('APP_NOT_READY');
@@ -460,6 +498,7 @@ export class DataAppEmbed extends TsEmbed {
     protected async getAppInitData() {
         const base = await super.getAppInitData();
         const packed = this.packedControls();
+        this.givenKey = canonicalJson(packed);
         return packed
             ? { ...base, embedParams: { ...(base as any).embedParams, dataAppInitialControls: packed } }
             : base;
@@ -473,6 +512,22 @@ export class DataAppEmbed extends TsEmbed {
         const packed = this.packedControls();
         if (packed) params.dataAppInitialControls = packed;
         return params;
+    }
+
+    // As the base's, but a post the browser refuses is caught, and either
+    // failure leaves paramsPosted false: the open that needs them is refused.
+    protected async triggerUpdateEmbedParams(): Promise<void> {
+        this.paramsPosted = false;
+        try {
+            const params = await this.getUpdateEmbedParamsObject();
+            this.paramsPosted = true;
+            this.trigger(HostEvent.UpdateEmbedParams, params).catch((error) => {
+                this.paramsPosted = false;
+                logger.warn(error);
+            });
+        } catch (error) {
+            logger.warn(error);
+        }
     }
 
     protected getEmbedParamsObject() {
@@ -605,6 +660,8 @@ export class DataAppEmbed extends TsEmbed {
      * already open, values that differ from the last ones given restart it in
      * place, from the author's defaults, and the same values change nothing.
      * A control a host may not set keeps the viewer's value on such a restart.
+     * If the values cannot be sent to the App, it is not opened, and the embed
+     * raises an error with the code `DATA_APP_OPEN_FAILED`.
      *
      * An empty ID raises an error with the code `DATA_APP_ID_MISSING` and
      * changes nothing. An embed that was rendered without an App ID cannot
@@ -627,7 +684,7 @@ export class DataAppEmbed extends TsEmbed {
      */
     public async navigateToDataApp(
         dataAppId: string,
-        options?: { controls?: DataAppControl[] },
+        options?: { controls?: DataAppControl[] | null },
     ): Promise<void> {
         // Bad arguments: nothing changes and the embed stays usable.
         if (!dataAppId) {
@@ -655,10 +712,15 @@ export class DataAppEmbed extends TsEmbed {
         if (switching || changed) this.armWatchdog();
         if (changed) {
             // The App page reads the values before it opens the App.
-            await this.triggerUpdateEmbedParams();
-            await new Promise((resolve) => {
-                setTimeout(resolve, UPDATE_EMBED_PARAMS_SETTLE_MS);
-            });
+            const applied = this.triggerUpdateEmbedParams()
+                .then(() => sleep(UPDATE_EMBED_PARAMS_SETTLE_MS));
+            if (!switching && this.readyAppId) this.valuesApplied = applied;
+            await applied;
+            // Never open the App without the values the host asked for.
+            if (!this.paramsPosted) {
+                this.refuseOpen();
+                return;
+            }
         }
         this.openCurrentApp();
     }
@@ -669,29 +731,46 @@ export class DataAppEmbed extends TsEmbed {
             .catch((error) => logger.warn(error));
     }
 
-    // Hidden, this instance heard no DataAppReady: ask the App page, and take
-    // a reply with this App's state as one. Never reported to the host.
-    private probeReadiness(): void {
+    // A hidden instance hears no DataAppReady: ask the App page. A reply with
+    // this App's state counts as one for held calls, and also confirms the
+    // values when this show sent none the frame did not have. Never reported.
+    private probeReadiness(confirm: boolean): void {
         const appId = this.viewConfig.dataAppId;
+        const key = this.packedKey();
         const { reloads } = this;
-        if (this.readyAppId || this.openFailed || !this.iFrame) return;
+        if (this.openFailed || !this.iFrame || (!confirm && this.readyAppId)) return;
         this.hostEventClient
             .triggerHostEvent(HostEvent.GetDataAppControls, { appId }, ContextType.DataApp)
             .then((state) => {
-                if (state?.appId === appId && appId === this.viewConfig.dataAppId
-                    && reloads === this.reloads && !this.openFailed) {
-                    this.markReady(appId);
+                if (state?.appId !== appId || appId !== this.viewConfig.dataAppId
+                    || reloads !== this.reloads || this.openFailed) return;
+                if (confirm && key === this.packedKey()) {
+                    this.confirmedKey = key;
+                    this.disarmWatchdog();
                 }
+                this.markReady(appId);
             }, () => undefined);
     }
 
     protected beforePrerenderVisible(): void {
         super.beforePrerenderVisible();
+        const confirm = !this.showChanges && this.packedKey() !== this.confirmedKey;
+        // An in-place restart: calls wait for its values, at most 2 s.
+        if (this.showChanges && this.readyAppId) {
+            this.valuesApplied = Promise.race([
+                this.preRenderParamsApplied,
+                sleep(DATA_APP_MIN_UPDATE_BUDGET_MS),
+            ]);
+        }
         this.executeAfterEmbedContainerLoaded(async () => {
             // Open the App only once the shown config's params apply.
             await this.preRenderParamsApplied;
+            if (!this.paramsPosted) {
+                this.refuseOpen();
+                return;
+            }
             this.openCurrentApp();
-            this.probeReadiness();
+            this.probeReadiness(confirm);
         });
     }
 
@@ -703,8 +782,13 @@ export class DataAppEmbed extends TsEmbed {
         // With no id the base shows nothing: calls keep rejecting at once.
         if (this.getPreRenderConfig().id) this.renderRequested = true;
         this.adoptOwnerAppState();
-        // Values not yet confirmed restart the App: watch for DataAppReady.
-        if (this.packedKey() !== this.confirmedKey) this.armWatchdog();
+        this.hidden = false;
+        const key = this.packedKey();
+        // Values the frame does not have restart the App, a failed open too.
+        // The same values change nothing: a failure stands.
+        this.showChanges = key !== this.givenKey;
+        if (this.showChanges) this.openFailed = false;
+        if (!this.openFailed && key !== this.confirmedKey) this.armWatchdog();
         return super.showPreRender();
     }
 
@@ -716,6 +800,7 @@ export class DataAppEmbed extends TsEmbed {
         // The frame has signed in, unless its owner knows it has not.
         this.authInitSeen = owner.authInitSeen !== false;
         this.confirmedKey = owner.confirmedKey;
+        this.givenKey = owner.givenKey;
         if (owner.viewConfig?.dataAppId !== this.viewConfig.dataAppId) {
             this.resetAppState(false);
             return;
@@ -724,7 +809,14 @@ export class DataAppEmbed extends TsEmbed {
         this.openFailed = owner.openFailed;
     }
 
+    /**
+     * Hides the pre-rendered App. Hidden, the embed hears nothing from the
+     * App, so no `DATA_APP_OPEN_NOT_CONFIRMED` is raised until it is shown
+     * again.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
     public hidePreRender(): void {
+        this.hidden = true;
         this.disarmWatchdog();
         super.hidePreRender();
     }
@@ -741,7 +833,7 @@ export class DataAppEmbed extends TsEmbed {
             EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
             ERROR_MESSAGE.DATA_APP_UPDATE_FAILED,
             EmbedErrorSeverity.SEV3,
-            { error },
+            error === undefined ? undefined : { error },
         ));
     }
 
@@ -751,6 +843,8 @@ export class DataAppEmbed extends TsEmbed {
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      */
     public destroy(): void {
+        // Like a hidden one, it hears nothing now: no watchdog arms again.
+        this.hidden = true;
         this.disarmWatchdog();
         this.resetAppState(true);
         this.endSentCalls();
