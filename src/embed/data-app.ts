@@ -281,8 +281,11 @@ export class DataAppEmbed extends TsEmbed {
     // The packed values the frame last received; none at first.
     private givenKey = canonicalJson(undefined);
 
-    // Hears nothing from the frame: a hidden pre-render, or destroyed.
+    // A hidden pre-render hears nothing from its frame.
     private hidden = false;
+
+    // destroy() ran: nothing opens, arms or is posted again.
+    private destroyed = false;
 
     // The last show sends values the frame does not have.
     private showChanges = false;
@@ -346,8 +349,8 @@ export class DataAppEmbed extends TsEmbed {
     // An open with values: DataAppReady must confirm them within the timeout.
     private armWatchdog(): void {
         this.disarmWatchdog();
-        // Hidden, it could not hear the DataAppReady that settles it.
-        this.watchArmed = !this.hidden && !!this.packedControls();
+        // Hidden or destroyed, it cannot hear the DataAppReady to settle it.
+        this.watchArmed = !this.hidden && !this.destroyed && !!this.packedControls();
         this.startWatchdog();
     }
 
@@ -377,7 +380,8 @@ export class DataAppEmbed extends TsEmbed {
     // Held calls reject; later ones wait, or reject at once if openFailed.
     private resetAppState(openFailed: boolean): void {
         this.readyAppId = null;
-        this.openFailed = openFailed;
+        // After destroy() no App answers, whatever resets it.
+        this.openFailed = openFailed || this.destroyed;
         this.confirmedKey = undefined;
         this.heldCalls.forEach((release) => release());
     }
@@ -454,8 +458,14 @@ export class DataAppEmbed extends TsEmbed {
             let payload: any = data;
             if (isPlainObject(data)) {
                 if (payload.appId === undefined) payload = { ...payload, appId };
-                // Internal: what is left of the budget, whatever the host sent.
-                if (isUpdate) payload = { ...payload, budgetMs };
+                // Internal: an update's budget left, never the host's.
+                if (isUpdate) {
+                    payload = { ...payload, budgetMs };
+                } else if ('budgetMs' in payload) {
+                    // Never on a read: the App page refuses the field there.
+                    payload = { ...payload };
+                    delete payload.budgetMs;
+                }
             }
             // The App's handler is registered under the dataApp page context.
             const sent = this.hostEventClient.triggerHostEvent(messageType, payload, ContextType.DataApp);
@@ -686,6 +696,7 @@ export class DataAppEmbed extends TsEmbed {
         dataAppId: string,
         options?: { controls?: DataAppControl[] | null },
     ): Promise<void> {
+        if (this.destroyed) return;
         // Bad arguments: nothing changes and the embed stays usable.
         if (!dataAppId) {
             this.raiseWarning(inputError(
@@ -716,6 +727,7 @@ export class DataAppEmbed extends TsEmbed {
                 .then(() => sleep(UPDATE_EMBED_PARAMS_SETTLE_MS));
             if (!switching && this.readyAppId) this.valuesApplied = applied;
             await applied;
+            if (this.destroyed) return;
             // Never open the App without the values the host asked for.
             if (!this.paramsPosted) {
                 this.refuseOpen();
@@ -765,6 +777,7 @@ export class DataAppEmbed extends TsEmbed {
         this.executeAfterEmbedContainerLoaded(async () => {
             // Open the App only once the shown config's params apply.
             await this.preRenderParamsApplied;
+            if (this.destroyed) return;
             if (!this.paramsPosted) {
                 this.refuseOpen();
                 return;
@@ -776,7 +789,7 @@ export class DataAppEmbed extends TsEmbed {
 
     public async showPreRender(): Promise<TsEmbed> {
         // A connected pre-render is shown without render(), so check here too.
-        if (this.refuseFrame()) {
+        if (this.destroyed || this.refuseFrame()) {
             return this;
         }
         // With no id the base shows nothing: calls keep rejecting at once.
@@ -843,8 +856,7 @@ export class DataAppEmbed extends TsEmbed {
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      */
     public destroy(): void {
-        // Like a hidden one, it hears nothing now: no watchdog arms again.
-        this.hidden = true;
+        this.destroyed = true;
         this.disarmWatchdog();
         this.resetAppState(true);
         this.endSentCalls();

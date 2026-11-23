@@ -14,8 +14,11 @@ export const canonicalJson = (value: unknown): string => {
     }
 };
 
+// Entry by entry, so a value JSON cannot hold hides no change to another.
 // undefined, null and [] all mean no controls.
-export const controlsKey = (controls: unknown): string => canonicalJson(controls ?? []);
+export const controlsKey = (controls: unknown): string => (Array.isArray(controls)
+    ? JSON.stringify(controls.map((control) => canonicalJson(control)))
+    : canonicalJson(controls ?? []));
 
 // Sent in place of values the browser cannot post to the frame. Not an array,
 // so every App page refuses the open.

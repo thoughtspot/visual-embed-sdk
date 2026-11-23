@@ -765,6 +765,30 @@ describe('React Components', () => {
             expect(updates()).toHaveLength(1);
         });
 
+        it('still sends the other entries of a prop holding a value JSON cannot hold, refused again', async () => {
+            const onError = jest.fn();
+            const big = { id: 'depot', value: { op: 'eq', values: [BigInt(1)] } };
+            const route = (value: unknown) => ({ id: 'route', value });
+            const r12 = { op: 'eq', values: ['R-12'] };
+            const r7 = { op: 'eq', values: ['R-7'] };
+            const { update } = await mount({ dataAppControls: austin, onError });
+            await ready([...austin, route(null)]);
+
+            await update({ dataAppControls: [big], onError });
+            updateReplies()[0].reject({ code: 'INVALID_REQUEST' });
+            await settle();
+            await update({ dataAppControls: [big, route(r12)], onError });
+            updateReplies()[1].reject({ code: 'INVALID_REQUEST' });
+            await settle();
+            await update({ dataAppControls: [big, route(r7)], onError });
+
+            expect(updates()).toEqual([[big], [big, route(r12)], [big, route(r7)]]);
+            expect(errorCodes(onError)).toEqual([
+                EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
+                EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
+            ]);
+        });
+
         it('reports its own listeners as the SDK\'s (CR-9)', async () => {
             const upload = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
             await mount({ dataAppControls: austin, onError: jest.fn() });

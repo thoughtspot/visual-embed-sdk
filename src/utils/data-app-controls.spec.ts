@@ -65,6 +65,13 @@ describe('controlsKey', () => {
 
         expect(controlsKey(big())).toBe(controlsKey(big()));
     });
+
+    test('keys each entry, so such a value hides no change to another', () => {
+        const big = { id: 'depot', value: { n: BigInt(1) } };
+
+        expect(controlsKey([big, { id: 'route', value: null }]))
+            .not.toBe(controlsKey([big, { id: 'route', value: { op: 'eq', values: ['R-12'] } }]));
+    });
 });
 
 describe('packInitialControls', () => {

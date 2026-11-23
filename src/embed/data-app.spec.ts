@@ -3440,8 +3440,7 @@ describe('DataAppEmbed', () => {
                     expect(notConfirmed(errors)).toEqual([]);
                 });
 
-                // Fails today: show clears destroy()'s flag. Test notes B1.
-                it.failing('never fires after destroy(), on showPreRender() (CR-10)', async () => {
+                it('never fires after destroy(), on showPreRender() (CR-10)', async () => {
                     const { embed, errors } = await opened({
                         dataAppId: appId,
                         dataAppControls: depotControls,
@@ -4020,6 +4019,16 @@ describe('DataAppEmbed', () => {
                     expect(updateCalls()[0][0]).toBe(data);
                 });
 
+                it('strips a budgetMs the host passed on a read (TC-378)', async () => {
+                    const { embed } = await readyApp();
+
+                    getControls(embed, { budgetMs: 5 });
+                    getControls(embed, { appId, budgetMs: 5 });
+                    await flush();
+
+                    expect(appCalls()).toStrictEqual([sentAs({ appId }), sentAs({ appId })]);
+                });
+
                 it('never adds budgetMs to a read, held 29.5 s or not (TC-378, TC-414)', async () => {
                     const { embed } = await renderedApp();
                     jest.useFakeTimers();
@@ -4519,8 +4528,7 @@ describe('DataAppEmbed', () => {
                         expect(errors).toEqual([]);
                     });
 
-                    // Fails today: Navigate after destroy(). Test notes B2.
-                    it.failing('posts no Navigate after destroy() in the settle', async () => {
+                    it('posts no Navigate after destroy() in the settle', async () => {
                         const { embed } = await readyApp();
                         jest.useFakeTimers();
 
