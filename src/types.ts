@@ -4695,7 +4695,9 @@ export enum EmbedEvent {
      *
      * When `dataAppActions` switches actions off, `actionsOff` names them. A
      * `DataAppReady` whose `actionsOff` does not match is not passed on: the
-     * embed removes the App and raises `DATA_APP_OPTION_NOT_SUPPORTED`.
+     * embed removes the App and raises `DATA_APP_OPTION_NOT_SUPPORTED`. On a
+     * pre-render shown with a new rule, one that still names the old rule is
+     * dropped while the embed waits for the new one.
      * @example
      * ```js
      * dataAppEmbed.on(EmbedEvent.DataAppReady, (payload) => {

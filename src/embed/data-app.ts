@@ -16,11 +16,11 @@ import { setParamIfDefined } from '../utils';
 import { logger } from '../utils/logger';
 import { reportHostEvent } from '../utils/hostEventTelemetry';
 import { canonicalJson, packInitialControls } from '../utils/data-app-controls';
-import { readActionsRule, sameActionsOff, switchesOff } from '../utils/data-app-actions';
+import { offKey, readActionsRule, switchesOff } from '../utils/data-app-actions';
 import { TsEmbed, UPDATE_EMBED_PARAMS_SETTLE_MS } from './ts-embed';
 import { DATA_APP_HOST_EVENTS, DataAppControlError } from './data-app-control-error';
 import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
-import type { DataAppActions, DataAppControl } from '../contracts/data-app-contracts';
+import type { DataAppActions, DataAppControl, DataAppReadyPayload } from '../contracts/data-app-contracts';
 
 /** The whole time of an App call: waiting for the App, then its reply. */
 export const DATA_APP_CALL_BUDGET_MS = 30000;
@@ -214,9 +214,9 @@ export interface DataAppEmbedViewConfig {
     dataAppControls?: DataAppControl[] | null;
     /**
      * Switches off the App's own actions: the writes a viewer starts from a
-     * button in the App, after ThoughtSpot's confirmation dialog. A
-     * switched-off action never runs from this embed: ThoughtSpot refuses it
-     * before its dialog, and the App says it is turned off here. The option
+     * button in the App, after ThoughtSpot's confirmation dialog. ThoughtSpot
+     * refuses a switched-off action before its dialog, so it does not run
+     * from this embed, and the App says it is turned off here. The option
      * applies to every App this embed opens.
      *
      * It does not stop what the App's own steps do while it loads, and it is
@@ -225,17 +225,20 @@ export interface DataAppEmbedViewConfig {
      * A viewer who must never write must lack the connection the action uses.
      *
      * `off` is `'all'`, or the IDs of the actions as the App declares them;
-     * `[]` switches nothing off. An ID the App does not declare switches
-     * nothing off. `display` says how an App that can read this rule shows a
-     * switched-off action: `'hidden'` (the default) or `'disabled'`; until
-     * then the App shows it, and refuses it when the viewer uses it.
+     * `[]` switches nothing off, and `'all'` inside a list is refused. An ID
+     * the App does not declare switches nothing off. `display` says how an
+     * App that can read this rule shows a switched-off action: `'hidden'`
+     * (the default) or `'disabled'`; until then the App shows it, and
+     * ThoughtSpot refuses it when the viewer uses it.
      *
      * Any other value raises an error with the code
-     * `DATA_APP_OPTION_INVALID`, and the embed does not render. When the
-     * option switches something off and ThoughtSpot does not confirm it as
-     * the App opens, the embed removes the App and raises
-     * `DATA_APP_OPTION_NOT_SUPPORTED`. `hiddenActions` names ThoughtSpot's
-     * own actions, not the App's.
+     * `DATA_APP_OPTION_INVALID`, and the embed does not render. The App must
+     * confirm the actions switched off each time it opens, and within 30
+     * seconds when a pre-render is shown with a rule it has not confirmed;
+     * calls wait for that. If it does not, the embed removes the App and
+     * raises `DATA_APP_OPTION_NOT_SUPPORTED`; create a new `DataAppEmbed` to
+     * try again. `hiddenActions` names ThoughtSpot's own actions, not the
+     * App's.
      *
      * Supported embed types: `DataAppEmbed`
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
@@ -351,6 +354,20 @@ export class DataAppEmbed extends TsEmbed {
 
     private actionsInvalid: boolean;
 
+    // offKey of the actions the rule switches off; undefined if none.
+    private ruleKey: string | undefined;
+
+    // offKey of the last echo the frame's App confirmed; undefined: unknown.
+    private echoedOff: string | undefined;
+
+    // A shown frame has not confirmed this rule: calls wait for its echo.
+    private echoDue = false;
+
+    // The frame's echo before the show; while due, its App may still say so.
+    private staleOff: string | undefined;
+
+    private echoTimer: ReturnType<typeof setTimeout>;
+
     constructor(container: HTMLElement, viewConfig: DataAppEmbedViewConfig) {
         let config: DataAppEmbedViewConfig & BaseViewConfig = {
             embedComponentType: 'dataApp',
@@ -365,6 +382,7 @@ export class DataAppEmbed extends TsEmbed {
         const rule = readActionsRule(config.dataAppActions);
         this.actionsInvalid = rule === false;
         this.actionsRule = rule === false ? { off: 'all' } : rule;
+        if (switchesOff(this.actionsRule)) this.ruleKey = offKey(this.actionsRule.off);
         this.on(EmbedEvent.DataAppReady, (payload) => this.onAppReady(payload.data?.appId), { start: false }, true);
         this.on(EmbedEvent.Error, (payload) => this.onAppError(payload), { start: false }, true);
         this.on(EmbedEvent.AuthInit, () => {
@@ -438,6 +456,10 @@ export class DataAppEmbed extends TsEmbed {
     // Held calls reject; later ones wait, or reject at once if openFailed.
     private resetAppState(openFailed: boolean): void {
         this.readyAppId = null;
+        this.echoedOff = undefined;
+        this.staleOff = undefined;
+        // No App, or a new opening checked as it comes.
+        clearTimeout(this.echoTimer);
         // After destroy() no App answers, whatever resets it.
         this.openFailed = openFailed || this.destroyed;
         this.confirmedKey = undefined;
@@ -554,27 +576,39 @@ export class DataAppEmbed extends TsEmbed {
     }
 
     // A DataAppReady that does not echo the actions switched off reaches no
-    // handler, and the App is removed: the rule may not be in force.
+    // handler, and the App is removed: the rule may not be in force. While a
+    // changed rule is due, one still echoing the frame's old rule is dropped.
     protected executeCallbacks(eventType: EmbedEvent, data: any, eventPort?: MessagePort | void): void {
-        const rule = this.actionsRule;
-        if (eventType === EmbedEvent.DataAppReady && switchesOff(rule)
-            && !sameActionsOff(rule.off, data?.data?.actionsOff)) {
-            this.removeUnconfirmedApp();
-            return;
+        if (eventType === EmbedEvent.DataAppReady) {
+            const ready = data?.data;
+            const key = offKey(ready?.actionsOff);
+            if (this.ruleKey !== undefined && key !== this.ruleKey) {
+                if (!this.echoDue || key !== this.staleOff) this.removeUnconfirmedApp(ready?.appId);
+                return;
+            }
+            if (ready?.appId === this.viewConfig.dataAppId) this.confirmEcho(key);
         }
         super.executeCallbacks(eventType, data, eventPort);
     }
 
-    private removeUnconfirmedApp(): void {
+    private confirmEcho(key: string): void {
+        this.echoedOff = key;
+        this.echoDue = false;
+        clearTimeout(this.echoTimer);
+    }
+
+    // The frame goes at once, before the host hears why.
+    private removeUnconfirmedApp(appId?: unknown): void {
         const removed = this.destroyed;
         this.destroy();
+        this.insertedDomEl?.parentNode?.removeChild(this.insertedDomEl);
         if (removed) return;
         this.handleError(errorEvent(
             ErrorDetailsTypes.VALIDATION_ERROR,
             EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
             ERROR_MESSAGE.DATA_APP_ACTIONS_NOT_CONFIRMED,
             EmbedErrorSeverity.SEV1,
-            { option: 'dataAppActions', appId: this.viewConfig.dataAppId },
+            { option: 'dataAppActions', appId: typeof appId === 'string' && appId ? appId : this.viewConfig.dataAppId },
         ));
     }
 
@@ -884,6 +918,11 @@ export class DataAppEmbed extends TsEmbed {
             .then((state) => {
                 if (state?.appId !== appId || appId !== this.viewConfig.dataAppId
                     || reloads !== this.reloads || this.openFailed) return;
+                // A rule not confirmed yet: only its echo makes the App ready.
+                if (this.echoDue) {
+                    if (offKey((state as DataAppReadyPayload).actionsOff) !== this.ruleKey) return;
+                    this.confirmEcho(this.ruleKey);
+                }
                 if (confirm && key === this.packedKey()) {
                     this.confirmedKey = key;
                     this.disarmWatchdog();
@@ -907,11 +946,17 @@ export class DataAppEmbed extends TsEmbed {
             await this.preRenderParamsApplied;
             if (this.destroyed) return;
             if (!this.paramsPosted) {
-                this.refuseOpen();
+                // A rule that cannot reach the frame: its App must go.
+                if (this.echoDue) this.removeUnconfirmedApp();
+                else this.refuseOpen();
                 return;
             }
             this.openCurrentApp();
             this.probeReadiness(confirm);
+            clearTimeout(this.echoTimer);
+            if (this.echoDue) {
+                this.echoTimer = setTimeout(() => this.removeUnconfirmedApp(), DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+            }
         });
     }
 
@@ -924,6 +969,10 @@ export class DataAppEmbed extends TsEmbed {
         if (this.getPreRenderConfig().id) this.renderRequested = true;
         this.adoptOwnerAppState();
         this.hidden = false;
+        // The frame's App has not confirmed this rule: wait for its echo.
+        this.staleOff = this.echoedOff;
+        this.echoDue = this.ruleKey !== undefined && this.echoedOff !== this.ruleKey;
+        if (this.echoDue) this.readyAppId = null;
         const key = this.packedKey();
         // Values the frame does not have restart the App, a failed open too.
         // The same values change nothing: a failure stands.
@@ -948,6 +997,7 @@ export class DataAppEmbed extends TsEmbed {
         // The frame has signed in, unless its owner knows it has not.
         this.authInitSeen = owner.authInitSeen !== false;
         this.confirmedKey = owner.confirmedKey;
+        this.echoedOff = owner.echoedOff;
         this.givenKey = owner.givenKey;
         if (owner.viewConfig?.dataAppId !== this.viewConfig.dataAppId) {
             this.resetAppState(false);
@@ -965,6 +1015,7 @@ export class DataAppEmbed extends TsEmbed {
      */
     public hidePreRender(): void {
         this.hidden = true;
+        clearTimeout(this.echoTimer);
         this.disarmWatchdog();
         super.hidePreRender();
     }

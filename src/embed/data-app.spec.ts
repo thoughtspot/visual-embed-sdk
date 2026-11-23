@@ -5072,8 +5072,8 @@ describe('DataAppEmbed', () => {
 
         it('names dataAppActions in the warning for an App action in an action list (TC-523)', () => {
             expect(ERROR_MESSAGE.DATA_APP_ACTIONS_IGNORED).toBe(
-                'This option is ignored, except Action.QueryDetailsButtons in hiddenActions. '
-                + 'To switch off App actions, use dataAppActions.',
+                'Only Action.QueryDetailsButtons in hiddenActions applies to an App; other actions are ignored. '
+                + 'To switch off the App\'s own actions, use dataAppActions.',
             );
             expect(ERROR_MESSAGE.DATA_APP_OPTION_IGNORED).not.toContain('dataAppActions');
         });
@@ -5112,6 +5112,8 @@ describe('DataAppEmbed', () => {
         let processTrigger: jest.SpyInstance;
         // Every host event posted to the frame, as [type, data].
         let posted: [string, any][];
+        // The resolve of each App call posted, in post order.
+        let replies: ((value: unknown) => void)[] = [];
 
         const invalid = {
             errorType: ErrorDetailsTypes.VALIDATION_ERROR,
@@ -5157,12 +5159,18 @@ describe('DataAppEmbed', () => {
                 .spyOn(processTriggerService, 'processTrigger')
                 .mockImplementation((_, type, __, data) => {
                     posted.push([type, data]);
-                    // App calls stay unanswered; nothing here is about replies.
-                    return APP_CALL_TYPES.has(type) ? new Promise(() => undefined) : Promise.resolve(null);
+                    // An App call settles only when a test answers it.
+                    return APP_CALL_TYPES.has(type)
+                        ? new Promise((resolve) => {
+                            replies.push(resolve);
+                        })
+                        : Promise.resolve(null);
                 });
         });
 
         afterEach(() => {
+            jest.useRealTimers();
+            replies = [];
             logError.mockRestore();
             processTrigger.mockRestore();
         });
@@ -5198,6 +5206,7 @@ describe('DataAppEmbed', () => {
                 ['a null id', { off: [null] }],
                 ['a sparse list', { off: sparse }],
                 ['a Set of ids', { off: new Set(['close_ticket']) }],
+                ['all inside a list (F4)', { off: ['all'] }],
                 ['one bad id among good ones', { off: ['close_ticket', 'Reopen'] }],
                 ['display: \'grey\'', { off: 'all', display: 'grey' }],
                 ['display: \'Hidden\'', { off: 'all', display: 'Hidden' }],
@@ -5224,7 +5233,7 @@ describe('DataAppEmbed', () => {
                 ['one id', { off: ['close_ticket'] }],
                 ['a one-letter id', { off: ['a'] }],
                 ['an id of 64 characters', { off: [`a${'b'.repeat(63)}`] }],
-                ['the id \'all\' in a list', { off: ['all'] }],
+                ['ids that start with all', { off: ['all_tickets', 'allx'] }],
                 ['repeated ids', { off: ['close_ticket', 'close_ticket'] }],
                 ['display: \'hidden\'', { off: 'all', display: 'hidden' }],
                 ['display: \'disabled\'', { off: ['close_ticket'], display: 'disabled' }],
@@ -5489,14 +5498,14 @@ describe('DataAppEmbed', () => {
                 expect(getIFrameEl()).toBeNull();
             });
 
-            it('checks a DataAppReady for another App too: the rule applies to every App', async () => {
+            it('checks a DataAppReady for another App too, and names that App (F8)', async () => {
                 const { errors, readies } = await rendered({ dataAppActions: { off: 'all' } });
 
                 readyWith(undefined, 'other-app');
                 await flush();
 
                 expect(readies).toEqual([]);
-                expect(errors).toStrictEqual([notConfirmed()]);
+                expect(errors).toStrictEqual([notConfirmed('other-app')]);
                 expect(getIFrameEl()).toBeNull();
             });
 
@@ -5550,6 +5559,51 @@ describe('DataAppEmbed', () => {
                 expect(errors).toStrictEqual([notConfirmed()]);
                 expect(readies).toEqual([]);
                 expect(getIFrameEl()).toBeNull();
+            });
+
+            it.each([
+                ['a frame', false],
+                ['a pre-render', true],
+            ])('removes %s before the host hears the error (F6)', async (_, preRendered) => {
+                const preRenderId = nextPreRenderId();
+                const { embed } = createDataApp({
+                    dataAppId: appId,
+                    dataAppActions: { off: 'all' },
+                    ...(preRendered ? { preRenderId } : {}),
+                });
+                const seen: [boolean, boolean][] = [];
+                embed.on(EmbedEvent.Error, () => seen.push([
+                    !!getIFrameEl(),
+                    !!document.getElementById(embed.getPreRenderIds().wrapper),
+                ]));
+                await (preRendered ? embed.preRender(true) : embed.render());
+                await waitFor(() => !!getIFrameEl());
+
+                readyWith(undefined);
+                await flush();
+
+                expect(seen).toEqual([[false, false]]);
+            });
+
+            it('removes the frame at once with waitForCleanupOnDestroy (F5)', async () => {
+                const config = getEmbedConfig();
+                const before = config.waitForCleanupOnDestroy;
+                config.waitForCleanupOnDestroy = true;
+                try {
+                    const { embed, errors } = await rendered({ dataAppActions: { off: 'all' } });
+                    const frame = getIFrameEl();
+                    const connected: boolean[] = [];
+                    embed.on(EmbedEvent.Error, () => connected.push(frame.isConnected));
+
+                    readyWith(undefined);
+                    await flush();
+
+                    expect(errors).toStrictEqual([notConfirmed()]);
+                    // Gone before the shell answers DestroyEmbed.
+                    expect(connected).toEqual([false]);
+                } finally {
+                    config.waitForCleanupOnDestroy = before;
+                }
             });
 
             it('passes every other event on as before', async () => {
@@ -5645,7 +5699,7 @@ describe('DataAppEmbed', () => {
                 expect(other.readies).toHaveLength(1);
             });
 
-            // Known limit: hidden, it hears nothing, so it cannot check.
+            // Hidden, it hears nothing; the next show checks (F3).
             it('does not check while hidden', async () => {
                 const preRenderId = nextPreRenderId();
                 const owner = await show(preRenderId, { off: 'all' });
@@ -5656,6 +5710,260 @@ describe('DataAppEmbed', () => {
 
                 expect(owner.errors).toEqual([]);
                 expect(getIFrameEl()).not.toBeNull();
+            });
+
+            describe('a rule the frame has not confirmed (F1, F2, F3)', () => {
+                const appCalls = () => posted.filter(([type]) => APP_CALL_TYPES.has(type));
+                const advance = async (ms: number) => {
+                    jest.advanceTimersByTime(ms);
+                    await flush();
+                };
+                // Shown on fake timers, loaded and past the params' settle:
+                // Navigate, the probe and the deadline are posted or armed.
+                const showOnFakeTimers = async (
+                    preRenderId: string,
+                    dataAppActions: unknown,
+                    existing?: { embed: DataAppEmbed; errors: unknown[] },
+                ) => {
+                    const created = existing ?? createDataApp({ dataAppId: appId, preRenderId, dataAppActions });
+                    const readies: unknown[] = [];
+                    created.embed.on(EmbedEvent.DataAppReady, (payload) => readies.push(payload.data));
+                    // Before the show: a loaded frame posts its params at once.
+                    jest.useFakeTimers();
+                    await created.embed.showPreRender();
+                    await flush();
+                    fromFrame(EmbedEvent.EmbedListenerReady);
+                    // The settle timer starts once the params are posted.
+                    await until(() => updateParams().length > 0);
+                    await flush();
+                    await advance(UPDATE_EMBED_PARAMS_SETTLE_MS);
+                    await until(() => appCalls().length > 0);
+                    return { ...created, readies };
+                };
+                // An owner whose App echoed `echo`, then hidden.
+                const confirmedOwner = async (preRenderId: string, rule: unknown, echo: unknown) => {
+                    const owner = await show(preRenderId, rule);
+                    readyWith(echo);
+                    await flush();
+                    owner.embed.hidePreRender();
+                    posted = [];
+                    replies = [];
+                    return owner;
+                };
+
+                it('removes the App 30 s after a changed-rule show that no reopen confirms (F1)', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+                    const call = watch(other.embed.trigger(HostEvent.UpdateDataAppControls, { controls: [] }));
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS - 1);
+
+                    expect(updateParams().map((params) => params.dataAppActions)).toEqual([{ off: 'all' }]);
+                    expect(other.errors).toEqual([]);
+                    // Only the probe: the call waits for the echo.
+                    expect(appCalls().map(([type]) => type)).toEqual([HostEvent.GetDataAppControls]);
+                    expect(call.settled).toBe(false);
+
+                    await advance(1);
+
+                    expect(other.errors).toStrictEqual([notConfirmed()]);
+                    expect(getIFrameEl()).toBeNull();
+                    expectControlError(call, 'APP_NOT_READY');
+                });
+
+                it('holds calls until the reopened App echoes the new rule, then stands down (F1)', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, { off: ['close_ticket'] }, ['close_ticket']);
+
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+                    const call = watch(other.embed.trigger(HostEvent.GetDataAppControls));
+                    await flush();
+                    expect(appCalls()).toHaveLength(1);
+
+                    readyWith('all');
+                    await flush();
+
+                    expect(other.readies).toEqual([{ ...appState(), actionsOff: 'all' }]);
+                    expect(appCalls()).toHaveLength(2);
+                    expect(call.settled).toBe(false);
+
+                    // The deadline stood down; the call ends on its own budget.
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+                    expectControlError(call, 'TIMEOUT');
+                    expect(other.errors).toEqual([]);
+                    expect(getIFrameEl()).not.toBeNull();
+                });
+
+                it('drops a DataAppReady still echoing the frame\'s old rule, and waits for the new one (ruling 2)', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+
+                    const other = await showOnFakeTimers(preRenderId, { off: ['close_ticket'] });
+                    readyWith(undefined);
+                    await flush();
+
+                    expect(other.readies).toEqual([]);
+                    expect(other.errors).toEqual([]);
+                    expect(getIFrameEl()).not.toBeNull();
+
+                    readyWith(['close_ticket']);
+                    await flush();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+
+                    expect(other.readies).toHaveLength(1);
+                    expect(other.errors).toEqual([]);
+                });
+
+                it('still removes the App on an echo that is neither the old rule nor the new one', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+
+                    const other = await showOnFakeTimers(preRenderId, { off: ['close_ticket'] });
+                    readyWith(['reopen_ticket']);
+                    await flush();
+
+                    expect(other.errors).toStrictEqual([notConfirmed()]);
+                    expect(getIFrameEl()).toBeNull();
+                });
+
+                it('removes the App when a changed-rule show cannot build its params (F2)', async () => {
+                    const preRenderId = nextPreRenderId();
+                    const owner = await confirmedOwner(preRenderId, undefined, undefined);
+                    const wrapperId = owner.embed.getPreRenderIds().wrapper;
+                    const { embed, errors } = createDataApp({ dataAppId: appId, preRenderId, dataAppActions: { off: 'all' } });
+                    jest.spyOn(embed as any, 'getUpdateEmbedParamsObject').mockRejectedValue(new Error('no token'));
+                    jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+
+                    await embed.showPreRender();
+                    await flush();
+                    fromFrame(EmbedEvent.EmbedListenerReady);
+                    await resolveAfter(UPDATE_EMBED_PARAMS_SETTLE_MS + 50);
+
+                    expect(errors).toStrictEqual([notConfirmed()]);
+                    expect(document.getElementById(wrapperId)).toBeNull();
+                    expect(getIFrameEl()).toBeNull();
+                    expect(posted.map(([type]) => type)).not.toContain(HostEvent.Navigate);
+                });
+
+                it('without a rule, a show whose params cannot be built only refuses the open', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const { embed, errors } = createDataApp({ dataAppId: appId, preRenderId });
+                    jest.spyOn(embed as any, 'getUpdateEmbedParamsObject').mockRejectedValue(new Error('no token'));
+                    jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+
+                    await embed.showPreRender();
+                    await flush();
+                    fromFrame(EmbedEvent.EmbedListenerReady);
+                    await resolveAfter(UPDATE_EMBED_PARAMS_SETTLE_MS + 50);
+
+                    expect(errorKeys(errors)).toEqual([[EmbedErrorCodes.DATA_APP_OPEN_FAILED, ERROR_MESSAGE.DATA_APP_OPEN_FAILED]]);
+                    expect(getIFrameEl()).not.toBeNull();
+                });
+
+                it.each([
+                    ['by a second instance', false],
+                    ['by itself', true],
+                ])('confirms by the probe an App opened while hidden, shown %s (F3)', async (_, itself) => {
+                    const preRenderId = nextPreRenderId();
+                    const owner = await show(preRenderId, { off: 'all' });
+                    owner.embed.hidePreRender();
+                    // Opened unheard.
+                    readyWith('all');
+                    await flush();
+                    posted = [];
+                    replies = [];
+
+                    const shown = await showOnFakeTimers(preRenderId, { off: 'all' }, itself ? owner : undefined);
+                    const call = watch(shown.embed.trigger(HostEvent.GetDataAppControls));
+                    await flush();
+                    expect(appCalls()).toHaveLength(1);
+
+                    replies[0]({ ...appState(), actionsOff: 'all' });
+                    await until(() => appCalls().length > 1);
+
+                    expect(appCalls()).toHaveLength(2);
+                    expect(call.settled).toBe(false);
+
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+                    expect([...owner.errors, ...shown.errors]).toEqual([]);
+                    expect(getIFrameEl()).not.toBeNull();
+                });
+
+                it.each([
+                    ['no actionsOff', undefined],
+                    ['another set', ['close_ticket']],
+                ])('takes no probe reply with %s as ready, and removes the App at 30 s (F3)', async (_, echo) => {
+                    const preRenderId = nextPreRenderId();
+                    const owner = await show(preRenderId, { off: 'all' });
+                    owner.embed.hidePreRender();
+                    posted = [];
+                    replies = [];
+
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+                    const call = watch(other.embed.trigger(HostEvent.GetDataAppControls));
+                    replies[0](echo === undefined ? appState() : { ...appState(), actionsOff: echo });
+                    await flush();
+                    await flush();
+
+                    expect(appCalls()).toHaveLength(1);
+                    expect(other.errors).toEqual([]);
+
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+
+                    expect(other.errors).toStrictEqual([notConfirmed()]);
+                    expectControlError(call, 'APP_NOT_READY');
+                });
+
+                it('checks again after a navigate made while hidden (F3)', async () => {
+                    const preRenderId = nextPreRenderId();
+                    const owner = await confirmedOwner(preRenderId, { off: 'all' }, 'all');
+                    await owner.embed.navigateToDataApp('b7c8');
+                    posted = [];
+
+                    const shown = await showOnFakeTimers(preRenderId, undefined, owner);
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
+
+                    expect(shown.errors).toStrictEqual([notConfirmed('b7c8')]);
+                    expect(getIFrameEl()).toBeNull();
+                });
+
+                it('needs nothing more for a same-rule show of a frame that confirmed it', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, { off: ['close_ticket'] }, ['close_ticket']);
+
+                    const other = createDataApp({ dataAppId: appId, preRenderId, dataAppActions: { off: ['close_ticket'] } });
+                    jest.useFakeTimers();
+                    await other.embed.showPreRender();
+                    await flush();
+                    fromFrame(EmbedEvent.EmbedListenerReady);
+                    await until(() => updateParams().length > 0);
+                    await flush();
+                    await advance(UPDATE_EMBED_PARAMS_SETTLE_MS);
+                    const call = watch(other.embed.trigger(HostEvent.GetDataAppControls));
+                    await flush();
+
+                    // Ready as adopted: the call is posted with no probe first.
+                    expect(appCalls()).toEqual([[HostEvent.GetDataAppControls, { appId }]]);
+                    expect(call.settled).toBe(false);
+
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS + 1000);
+                    expect(other.errors).toEqual([]);
+                    expect(getIFrameEl()).not.toBeNull();
+                });
+
+                it('stops the deadline when hidden, and arms it again on the next show', async () => {
+                    const preRenderId = nextPreRenderId();
+                    await confirmedOwner(preRenderId, undefined, undefined);
+                    const other = await showOnFakeTimers(preRenderId, { off: 'all' });
+
+                    other.embed.hidePreRender();
+                    await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS * 2);
+
+                    expect(other.errors).toEqual([]);
+                    expect(getIFrameEl()).not.toBeNull();
+                });
             });
         });
     });

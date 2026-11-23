@@ -1,8 +1,9 @@
 import isPlainObject from 'lodash/isPlainObject';
 import type { DataAppActions } from '../contracts/data-app-contracts';
 
-// An action ID as the App spec declares it.
-const ACTION_ID = /^[a-z][a-z0-9_]{0,63}$/;
+// An action ID as the App spec declares it. 'all' is not one: in a list it
+// is a mistake for off: 'all', which would switch nothing off.
+const ACTION_ID = /^(?!all$)[a-z][a-z0-9_]{0,63}$/;
 
 const RULE_KEYS = ['off', 'display'];
 
@@ -42,12 +43,8 @@ export const switchesOff = (rule: DataAppActions | undefined): boolean => !!rule
     && (rule.off === 'all' || rule.off.length > 0);
 
 /**
- * True when an App's `actionsOff` names the same actions as `off`, compared
- * as a set. `off` is a rule's normalised value.
+ * A key for the actions an `off` or an App's `actionsOff` names, as a set:
+ * equal keys name the same actions. Anything not 'all' or a list names none.
  */
-export const sameActionsOff = (off: DataAppActions['off'], echo: unknown): boolean => {
-    if (off === 'all' || echo === 'all') return off === echo;
-    if (!Array.isArray(echo) || !echo.every((id) => typeof id === 'string')) return false;
-    const echoed = new Set(echo);
-    return echoed.size === off.length && off.every((id) => echoed.has(id));
-};
+export const offKey = (off: unknown): string => (off === 'all' ? off
+    : JSON.stringify(Array.isArray(off) ? Array.from(new Set(off)).sort() : []));

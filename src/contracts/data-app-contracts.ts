@@ -184,13 +184,14 @@ export interface DataAppActions {
     /**
      * `'all'`, or the IDs of the actions to switch off, as the App declares
      * them: a lowercase letter, then up to 63 lowercase letters, digits or
-     * underscores. An empty list switches nothing off.
+     * underscores. An empty list switches nothing off. `'all'` inside a list
+     * is refused: write `off: 'all'`.
      */
     off: 'all' | string[];
     /**
      * How the App shows a switched-off action, once it can read this rule:
      * `'hidden'` (the default) or `'disabled'`. Until then, the App shows
-     * the action, and refuses it when the viewer uses it.
+     * the action, and ThoughtSpot refuses it when the viewer uses it.
      */
     display?: 'hidden' | 'disabled';
 }
