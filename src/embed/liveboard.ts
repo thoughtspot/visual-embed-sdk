@@ -1161,7 +1161,7 @@ export class LiveboardEmbed extends V1Embed {
             return Promise.resolve(null);
         }
         const embeddedVizId = this.viewConfig.vizId;
-        if (typeof dataWithVizId === 'object' && embeddedVizId) {
+        if (dataWithVizId && typeof dataWithVizId === 'object' && embeddedVizId) {
             // A single-viz embed shows only its own viz, so any other vizId
             // cannot be served: fail here rather than act on the embedded viz.
             // Not handleError: it sets isError, which blocks a later render().
