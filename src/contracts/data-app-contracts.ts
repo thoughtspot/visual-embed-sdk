@@ -70,7 +70,11 @@ export interface DataAppControlError extends Error {
 }
 
 /**
- * The value of an App control, or `null` when the control is clear.
+ * The value of an App control, or `null` when the control is empty.
+ * Setting `null` empties the control, so it filters nothing; it does not bring
+ * back the author's default (only `reset: 'defaults'` does). A mandatory
+ * control with a default cannot be emptied: set to `null`, it stays at its
+ * default.
  *
  * Pass it back as it is, and do not parse it: its fields are not described
  * in this version.
