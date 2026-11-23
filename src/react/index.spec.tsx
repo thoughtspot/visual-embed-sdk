@@ -157,7 +157,6 @@ describe('React Components', () => {
             appId,
             session: 'S1',
             revision: 1,
-            valueFormat: 2,
             controls,
             ...extra,
         });
