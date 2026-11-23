@@ -353,6 +353,13 @@ interface DataAppEmbedBuild {
     key: string;
     // Control id to the canonical JSON of its value.
     told: Map<string, string>;
+    // The controls key of the last state the App reported; '' before one.
+    toldKey: string;
+    // Counts the states told, and the count when the prop was last acted on.
+    toldCount: number;
+    actedCount: number;
+    // Entries sent and not settled: control id to the canonical JSON sent.
+    pending: Map<string, string>;
     session?: string;
     revision?: number;
     openFailed: boolean;
@@ -369,6 +376,8 @@ const tell = (build: DataAppEmbedBuild, state: DataAppControlsState, baseline = 
     build.session = state.session;
     build.revision = state.revision;
     build.told = toldFrom(state.controls);
+    build.toldKey = controlsKey(state.controls);
+    build.toldCount += 1;
 };
 
 /**
@@ -431,22 +440,28 @@ export const DataAppEmbed = React.forwardRef<_DataAppEmbed, DataAppEmbedProps>(
                 embed,
                 key: controlsKey(dataAppControls),
                 told: toldFrom(dataAppControls),
+                toldKey: '',
+                toldCount: 0,
+                actedCount: 0,
+                pending: new Map(),
                 openFailed: false,
             };
             buildRef.current = build;
             // Before the host's handlers, so the state is known when they run.
+            const own = { start: false };
             embed.on(EmbedEvent.DataAppReady, (payload) => {
                 build.openFailed = false;
                 tell(build, payload.data, true);
-            });
-            embed.on(EmbedEvent.DataAppControlsChanged, (payload) => tell(build, payload.data));
+            }, own, true);
+            embed.on(EmbedEvent.DataAppControlsChanged, (payload) => tell(build, payload.data), own, true);
             embed.on(EmbedEvent.Error, (payload) => {
-                const { code, appId } = (payload?.data ?? {}) as { code?: string; appId?: string };
+                // The frame's errors carry data; the SDK's are the details.
+                const { code, appId } = (payload?.data ?? payload ?? {}) as { code?: string; appId?: string };
                 if (code === EmbedErrorCodes.DATA_APP_OPEN_FAILED
                     && (appId === undefined || appId === viewConfig.dataAppId)) {
                     build.openFailed = true;
                 }
-            });
+            }, own, true);
             Object.keys(listeners).forEach((eventName) => {
                 embed.on(eventName as EmbedEvent, (...args) => (listenersRef.current as any)[eventName]?.(...args));
             });
@@ -470,20 +485,42 @@ export const DataAppEmbed = React.forwardRef<_DataAppEmbed, DataAppEmbedProps>(
             const { embed } = build;
             const controls: unknown = dataAppControls ?? [];
             if (build.openFailed) {
-                // Retry the open with the new values.
+                // Retry the open with the new values, even when none differs.
                 build.openFailed = false;
                 build.told = toldFrom(controls);
+                build.toldKey = '';
+                build.pending.clear();
                 embed.navigateToDataApp(rest.dataAppId, { controls: controls as any })
                     .catch((error) => logger.warn(error));
                 return;
             }
+            // A value sent and not settled counts as known, so changing it
+            // back is sent too. A prop that became the state told since the
+            // last change mirrors the App's events: compare with that alone.
+            const mirror = key === build.toldKey && build.toldCount !== build.actedCount;
+            build.actedCount = build.toldCount;
+            const known = (id: string) => (!mirror && build.pending.has(id)
+                ? build.pending.get(id)
+                : build.told.get(id));
             const changed = Array.isArray(controls)
-                ? controls.filter((control) => canonicalJson(control?.value) !== build.told.get(control?.id))
+                ? controls.filter((control) => canonicalJson(control?.value) !== known(control?.id))
                 : controls;
             if (Array.isArray(changed) && !changed.length) return;
+            const sent: [string, string][] = Array.isArray(changed)
+                ? changed.map((control) => [control?.id, canonicalJson(control?.value)])
+                : [];
+            sent.forEach(([id, json]) => build.pending.set(id, json));
+            // Settled: no longer pending, unless a later call sent it.
+            const settle = () => sent.forEach(([id, json]) => {
+                if (build.pending.get(id) === json) build.pending.delete(id);
+            });
             embed.trigger(HostEvent.UpdateDataAppControls, { controls: changed as any })
-                .then((state) => tell(build, state))
+                .then((state) => {
+                    settle();
+                    tell(build, state);
+                })
                 .catch((error) => {
+                    settle();
                     // SUPERSEDED: a later change of the prop replaced this one.
                     if (buildRef.current === build && error?.code !== 'SUPERSEDED') {
                         embed.reportUpdateFailed(error);
