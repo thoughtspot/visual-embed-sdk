@@ -202,7 +202,8 @@ export interface DataAppControlsChangedPayload extends DataAppControlsState {
 
 /**
  * Why an App could not be opened: the `reason` of an error with the code
- * `DATA_APP_OPEN_FAILED`. More reasons may be added.
+ * `DATA_APP_OPEN_FAILED`. `'FAILED'` also comes from the SDK when it cannot
+ * send the values to the App. More reasons may be added.
  * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
  * @group Error Handling
  */

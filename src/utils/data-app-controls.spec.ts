@@ -164,15 +164,66 @@ describe('packInitialControls', () => {
 
     test.each([
         ['a TypeError', new TypeError('Not supported')],
+        ['an Error of its own', new Error('getter')],
         ['a string', 'failed'],
         ['null', null],
-    ])('counts only DataCloneError: values are packed as given when the check throws %s', (_, thrown) => {
+    ])('packs the marker whenever structuredClone throws, here %s (R2-3)', (_, thrown) => {
         (window as any).structuredClone = () => {
             throw thrown;
         };
+
+        expect(packInitialControls('a1b2', depot).controls).toBe(UNSENDABLE_CONTROLS);
+    });
+
+    test('packs the marker for a value whose getter throws (R2-3)', () => {
+        (window as any).structuredClone = browserCopy;
+        const controls = [{
+            id: 'depot',
+            get value(): unknown {
+                throw new Error('getter');
+            },
+        }];
+
+        expect(packInitialControls('a1b2', controls).controls).toBe(UNSENDABLE_CONTROLS);
+    });
+
+    // A stand-in channel whose post throws what it is given.
+    const throwingChannel = (thrown: unknown) => {
+        const ports = {
+            port1: {
+                postMessage: jest.fn((): void => {
+                    if (thrown) throw thrown;
+                }),
+                close: jest.fn(),
+            },
+            port2: { close: jest.fn() },
+        };
+        window.MessageChannel = function Channel() {
+            return ports;
+        } as any;
+        return ports;
+    };
+
+    test.each([
+        ['a TypeError', new TypeError('Not supported')],
+        ['a string', 'failed'],
+    ])('counts only DataCloneError with the MessageChannel check: packs as given when it throws %s (D19)', (_, thrown) => {
+        throwingChannel(thrown);
         const proxy = new Proxy(depot, {});
 
         expect(packInitialControls('a1b2', proxy).controls).toBe(proxy);
+    });
+
+    test.each([
+        ['a check that passes', null],
+        ['a check that refuses', Object.assign(new Error('x'), { name: 'DataCloneError' })],
+    ])('closes both ports of the MessageChannel after %s (R2-8)', (_, thrown) => {
+        const ports = throwingChannel(thrown);
+
+        packInitialControls('a1b2', depot);
+
+        expect(ports.port1.close).toHaveBeenCalledTimes(1);
+        expect(ports.port2.close).toHaveBeenCalledTimes(1);
     });
 
     test('packs values as given when no check can run: the setup\'s MessageChannel cannot post (D19)', () => {

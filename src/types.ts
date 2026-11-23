@@ -10799,7 +10799,9 @@ export enum EmbedErrorCodes {
     /**
      * The App in `DataAppEmbed` could not be opened and is not showing.
      * `reason` says why: see {@link DataAppOpenFailedReason}. With
-     * `CONTROLS_REFUSED`, `results` names the values at fault. Until it opens,
+     * `CONTROLS_REFUSED`, `results` names the values at fault. The SDK raises
+     * it too, with `reason: 'FAILED'`, when it cannot send the values to the
+     * App; the frame then keeps what it showed before. Until it opens,
      * App calls reject with `APP_NOT_READY`. `HostEvent.Reload` tries again, and
      * so does `navigateToDataApp()` with other `controls`.
      * Two failed opens within 100 ms can reach the host as one error when

@@ -287,6 +287,9 @@ export class DataAppEmbed extends TsEmbed {
     // destroy() ran: nothing opens, arms or is posted again.
     private destroyed = false;
 
+    // A Reload asked for while hidden, run on the next show.
+    private reloadOnShow = false;
+
     // The last show sends values the frame does not have.
     private showChanges = false;
 
@@ -384,6 +387,11 @@ export class DataAppEmbed extends TsEmbed {
         this.openFailed = openFailed || this.destroyed;
         this.confirmedKey = undefined;
         this.heldCalls.forEach((release) => release());
+    }
+
+    // Calls wait for an in-place restart's values, at most 2 s of their budget.
+    private waitForValues(applied: Promise<unknown>): void {
+        this.valuesApplied = Promise.race([applied, sleep(DATA_APP_MIN_UPDATE_BUDGET_MS)]);
     }
 
     // The values did not reach the frame, so this App is not opened.
@@ -528,15 +536,19 @@ export class DataAppEmbed extends TsEmbed {
     // failure leaves paramsPosted false: the open that needs them is refused.
     protected async triggerUpdateEmbedParams(): Promise<void> {
         this.paramsPosted = false;
+        // The frame keeps the values it had unless these are posted.
+        const { givenKey } = this;
+        const notPosted = (error: unknown) => {
+            this.paramsPosted = false;
+            this.givenKey = givenKey;
+            logger.warn(error);
+        };
         try {
             const params = await this.getUpdateEmbedParamsObject();
             this.paramsPosted = true;
-            this.trigger(HostEvent.UpdateEmbedParams, params).catch((error) => {
-                this.paramsPosted = false;
-                logger.warn(error);
-            });
+            this.trigger(HostEvent.UpdateEmbedParams, params).catch(notPosted);
         } catch (error) {
-            logger.warn(error);
+            notPosted(error);
         }
     }
 
@@ -709,10 +721,11 @@ export class DataAppEmbed extends TsEmbed {
         // An ID that cannot be encoded throws here, before anything changes.
         this.getDataAppPath(dataAppId);
         const switching = dataAppId !== this.viewConfig.dataAppId;
-        const lastGiven = this.packedKey();
         this.viewConfig.dataAppId = dataAppId;
         this.viewConfig.dataAppControls = options?.controls;
-        const changed = this.packedKey() !== lastGiven;
+        // Compared with what the frame received, so a retry after values that
+        // were never sent is an open attempt.
+        const changed = this.packedKey() !== this.givenKey;
         if (switching) this.resetAppState(false);
         // New values reopen the App, after a failed open too; the same do not.
         else if (changed) this.openFailed = false;
@@ -725,7 +738,7 @@ export class DataAppEmbed extends TsEmbed {
             // The App page reads the values before it opens the App.
             const applied = this.triggerUpdateEmbedParams()
                 .then(() => sleep(UPDATE_EMBED_PARAMS_SETTLE_MS));
-            if (!switching && this.readyAppId) this.valuesApplied = applied;
+            if (!switching && this.readyAppId) this.waitForValues(applied);
             await applied;
             if (this.destroyed) return;
             // Never open the App without the values the host asked for.
@@ -767,12 +780,9 @@ export class DataAppEmbed extends TsEmbed {
     protected beforePrerenderVisible(): void {
         super.beforePrerenderVisible();
         const confirm = !this.showChanges && this.packedKey() !== this.confirmedKey;
-        // An in-place restart: calls wait for its values, at most 2 s.
+        // An in-place restart: calls wait for its values.
         if (this.showChanges && this.readyAppId) {
-            this.valuesApplied = Promise.race([
-                this.preRenderParamsApplied,
-                sleep(DATA_APP_MIN_UPDATE_BUDGET_MS),
-            ]);
+            this.waitForValues(this.preRenderParamsApplied);
         }
         this.executeAfterEmbedContainerLoaded(async () => {
             // Open the App only once the shown config's params apply.
@@ -802,7 +812,14 @@ export class DataAppEmbed extends TsEmbed {
         this.showChanges = key !== this.givenKey;
         if (this.showChanges) this.openFailed = false;
         if (!this.openFailed && key !== this.confirmedKey) this.armWatchdog();
-        return super.showPreRender();
+        await super.showPreRender();
+        // Listening again, the embed answers the reloaded frame's APP_INIT.
+        if (this.reloadOnShow) {
+            this.reloadOnShow = false;
+            this.pointFrameAtCurrentApp();
+            super.trigger(HostEvent.Reload).catch((error) => logger.warn(error));
+        }
+        return this;
     }
 
     // The frame's last owner saw its events: same App, take its state; another
@@ -879,7 +896,8 @@ export class DataAppEmbed extends TsEmbed {
      * `HostEvent.Reload` reopens the App that is open, including one opened
      * with `navigateToDataApp()` and one that failed to open, with its
      * `dataAppControls`. App calls still waiting reject with `APP_NOT_READY`,
-     * and calls sent and not answered with `SESSION_LOST`.
+     * and calls sent and not answered with `SESSION_LOST`. On a hidden
+     * pre-render, the frame reloads when it is shown again.
      * @param messageType The event type
      * @param data The payload, typed against the event's contract
      * @param context The page context of the event. App calls are always sent
@@ -911,13 +929,19 @@ export class DataAppEmbed extends TsEmbed {
             return this.sendAppEvent(messageType, data);
         }
         if (messageType === HostEvent.Reload) {
-            this.pointFrameAtCurrentApp();
             this.reloads += 1;
             this.resetAppState(false);
             this.endSentCalls();
-            // The reloaded frame signs in again before the watchdog runs.
+            // The reloaded frame asks for the values and signs in again.
+            this.givenKey = canonicalJson(undefined);
             this.authInitSeen = false;
+            // Hidden, the frame's APP_INIT would go unanswered: reload on show.
+            if (this.hidden) {
+                this.reloadOnShow = true;
+                return null;
+            }
             this.armWatchdog();
+            this.pointFrameAtCurrentApp();
         }
         return super.trigger(messageType, data, context);
     }

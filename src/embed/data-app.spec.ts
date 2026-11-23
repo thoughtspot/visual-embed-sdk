@@ -1342,6 +1342,8 @@ describe('DataAppEmbed', () => {
         const renderedApp = async (config: object = { dataAppId: appId }) => {
             const created = createDataApp(config);
             await created.embed.render();
+            // As the frame does once loaded: it asks for its init data.
+            await (created.embed as any).getAppInitData();
             await flush();
             return created;
         };
@@ -3440,6 +3442,33 @@ describe('DataAppEmbed', () => {
                     expect(notConfirmed(errors)).toEqual([]);
                 });
 
+                it('keeps rejecting calls at once after destroy(), even after a Reload (R2-7)', async () => {
+                    const { embed } = await opened({ dataAppId: appId });
+                    appReady();
+                    await flush();
+                    embed.destroy();
+
+                    await embed.trigger(HostEvent.Reload);
+                    const call = getControls(embed);
+                    await flush();
+
+                    expectControlError(call, 'APP_NOT_READY');
+                });
+
+                it('posts no Navigate when destroy() comes during a show\'s settle (R2-7)', async () => {
+                    const { embed } = await shownPreRender(nextPreRenderId(), { dataAppControls: depotControls });
+                    embed.hidePreRender();
+                    const before = sentTypes().length;
+
+                    await embed.showPreRender();
+                    await flush();
+                    embed.destroy();
+                    await advance(UPDATE_EMBED_PARAMS_SETTLE_MS);
+
+                    expect(sentTypes().slice(before)).not.toContain(HostEvent.Navigate);
+                    expect(sentTypes().slice(before)).not.toContain(HostEvent.GetDataAppControls);
+                });
+
                 it('never fires after destroy(), on showPreRender() (CR-10)', async () => {
                     const { embed, errors } = await opened({
                         dataAppId: appId,
@@ -3707,9 +3736,9 @@ describe('DataAppEmbed', () => {
                     });
 
                     it.each([
-                        ['answered: no warning', true, 0],
-                        ['unanswered: it warns 30 s after AuthInit', false, 1],
-                    ])('arms nothing for a Reload while hidden; shown, it asks again, %s (CR-2)', async (_, answer, warnings) => {
+                        ['the reloaded App confirms: no warning', true, 0],
+                        ['only the probe answers: it warns 30 s after AuthInit', false, 1],
+                    ])('defers a Reload made while hidden to the next show; %s (R2-2)', async (_, confirm, warnings) => {
                         const { embed, errors } = await shownPreRender(nextPreRenderId(), {
                             dataAppControls: depotControls,
                         });
@@ -3717,23 +3746,49 @@ describe('DataAppEmbed', () => {
                         appReady();
                         await flush();
                         embed.hidePreRender();
+                        const reloads = () => sentTypes().filter((type) => type === HostEvent.Reload);
 
                         await embed.trigger(HostEvent.Reload);
                         await advance(60000);
 
+                        expect(reloads()).toEqual([]);
                         expect(notConfirmed(errors)).toEqual([]);
 
                         const before = appCalls().length;
                         await showAgain(embed);
-                        await signIn();
 
+                        expect(reloads()).toEqual([HostEvent.Reload]);
+                        // The probe only releases calls: the reloaded frame
+                        // has not confirmed the values yet.
                         expect(appCalls().slice(before)).toEqual([sentAs({ appId })]);
-
-                        if (answer) replies[replies.length - 1].resolve({ ...appState(), session: 'S2' });
+                        replies[replies.length - 1].resolve({ ...appState(), session: 'S2' });
                         await flush();
+                        // Listening again, it answers the frame's APP_INIT.
+                        expect((await (embed as any).getAppInitData()).embedParams.dataAppInitialControls)
+                            .toStrictEqual({ appId, controls: depotControls });
+                        await signIn();
+                        if (confirm) {
+                            appReady();
+                            await flush();
+                        }
                         await advance(DATA_APP_OPEN_CONFIRM_TIMEOUT_MS);
 
                         expect(notConfirmed(errors)).toHaveLength(warnings);
+                    });
+
+                    it('forgets on a Reload the values the frame had: the same values are sent again (R2-2)', async () => {
+                        const { embed } = await opened();
+                        appReady();
+                        await flush();
+
+                        await embed.trigger(HostEvent.Reload);
+                        const navigating = embed.navigateToDataApp(appId, { controls: depotControls });
+                        await flush();
+                        await advance(UPDATE_EMBED_PARAMS_SETTLE_MS);
+                        await navigating;
+
+                        expect(posted(HostEvent.UpdateEmbedParams).map((params) => params.dataAppInitialControls))
+                            .toEqual([{ appId, controls: depotControls }]);
                     });
 
                     it('lets a probe reply release calls but not confirm values the show sent (D8)', async () => {
@@ -4239,6 +4294,29 @@ describe('DataAppEmbed', () => {
                     }
                 });
 
+                it('posts a call after 2 s when an in-place restart\'s params never build, and ends it by 30 s (R2-1)', async () => {
+                    const { embed } = await readyApp();
+                    jest.spyOn(embed as any, 'getUpdateEmbedParamsObject').mockImplementation(() => new Promise(() => undefined));
+                    jest.useFakeTimers();
+
+                    embed.navigateToDataApp(appId, { controls: depotControls });
+                    const read = getControls(embed);
+                    const update = updateControls(embed, { controls: otherControls });
+                    await flush();
+                    await advance(DATA_APP_MIN_UPDATE_BUDGET_MS - 1);
+
+                    expect(sentTypes()).toEqual([]);
+
+                    await advance(1);
+
+                    expect(sentTypes()).toEqual([HostEvent.GetDataAppControls, HostEvent.UpdateDataAppControls]);
+
+                    await advance(DATA_APP_CALL_BUDGET_MS - DATA_APP_MIN_UPDATE_BUDGET_MS);
+
+                    expectControlError(read, 'TIMEOUT');
+                    expectControlError(update, 'TIMEOUT');
+                });
+
                 it('holds a call made while a ready pre-render is shown with new values until its params apply (CR-5)', async () => {
                     const preRenderId = nextPreRenderId();
                     const { embed } = await shownPreRender(preRenderId);
@@ -4437,6 +4515,42 @@ describe('DataAppEmbed', () => {
                     await embed.navigateToDataApp('b7c8', { controls: null });
 
                     expect(sentTypes()).toEqual([HostEvent.Navigate]);
+                });
+
+                it.each([
+                    ['could not be built', (embed: DataAppEmbed) => {
+                        jest.spyOn(embed as any, 'getUpdateEmbedParamsObject').mockRejectedValueOnce(new Error('token'));
+                    }],
+                    ['could not be posted', () => {
+                        processTrigger.mockImplementationOnce(() => Promise.reject(
+                            Object.assign(new Error('could not be cloned'), { name: 'DataCloneError' }),
+                        ));
+                    }],
+                ])('opens the App on a retry with the same values after their params %s (R2-4)', async (_, fail) => {
+                    const { embed, errors } = await opened({ dataAppId: appId });
+                    appReady();
+                    await flush();
+                    fail(embed);
+                    const navigate = async () => {
+                        const navigating = embed.navigateToDataApp(appId, { controls: depotControls });
+                        await flush();
+                        await advance(UPDATE_EMBED_PARAMS_SETTLE_MS);
+                        await navigating;
+                    };
+
+                    await navigate();
+
+                    expect(errors.map((error: any) => error.code)).toEqual([EmbedErrorCodes.DATA_APP_OPEN_FAILED]);
+                    expect(navigated()).toEqual([]);
+                    const tried = posted(HostEvent.UpdateEmbedParams).length;
+
+                    await navigate();
+
+                    // The retry sends the values again, then opens the App.
+                    expect(posted(HostEvent.UpdateEmbedParams)).toHaveLength(tried + 1);
+                    expect(posted(HostEvent.UpdateEmbedParams).pop().dataAppInitialControls)
+                        .toStrictEqual({ appId, controls: depotControls });
+                    expect(navigated()).toEqual([`embed/insights/apps/${appId}`]);
                 });
 
                 describe('after a failed open (D2)', () => {

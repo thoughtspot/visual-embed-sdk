@@ -24,13 +24,27 @@ export const controlsKey = (controls: unknown): string => (Array.isArray(control
 // so every App page refuses the open.
 export const UNSENDABLE_CONTROLS = 'UNSENDABLE';
 
-// False only when the browser refuses to copy the value (a Proxy, a function).
+// False when the browser cannot copy the value (a Proxy, a function, a
+// getter that throws). The fallback counts only DataCloneError: a real post
+// throws it.
 const canPost = (value: unknown): boolean => {
+    if (typeof structuredClone === 'function') {
+        try {
+            structuredClone(value);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+    let channel: MessageChannel;
     try {
-        if (typeof structuredClone === 'function') structuredClone(value);
-        else new MessageChannel().port1.postMessage(value);
+        channel = new MessageChannel();
+        channel.port1.postMessage(value);
     } catch (error) {
         return error?.name !== 'DataCloneError';
+    } finally {
+        channel?.port1.close?.();
+        channel?.port2.close?.();
     }
     return true;
 };

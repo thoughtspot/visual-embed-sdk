@@ -393,6 +393,13 @@ const tell = (build: DataAppEmbedBuild, state: DataAppControlsState, baseline = 
  * After the App failed to open, a change of the prop opens it again with the
  * new values.
  *
+ * The prop is what you want in force. An entry you keep at an old value is
+ * sent again with your next change, and reverts a change the viewer made to
+ * that control: list only the controls you set, or mirror every event in
+ * full. A value you change back while your earlier change is still in flight
+ * is sent. A mirror of only part of the App's state can undo your own change
+ * while it is in flight.
+ *
  * A change of any other prop, or adding or removing a handler prop, rebuilds
  * the embed: the App opens anew with the current `dataAppControls`. To keep the
  * viewer's changes across a rebuild, mirror the App's events into the prop, as
