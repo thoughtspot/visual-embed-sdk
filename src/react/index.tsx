@@ -528,10 +528,7 @@ export const DataAppEmbed = React.forwardRef<_DataAppEmbed, DataAppEmbedProps>(
                 })
                 .catch((error) => {
                     settle();
-                    // SUPERSEDED: a later change of the prop replaced this one.
-                    if (buildRef.current === build && error?.code !== 'SUPERSEDED') {
-                        embed.reportUpdateFailed(error);
-                    }
+                    if (buildRef.current === build) embed.reportUpdateFailed(error);
                 });
         }, [key]);
 

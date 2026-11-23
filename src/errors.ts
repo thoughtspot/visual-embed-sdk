@@ -54,8 +54,6 @@ export const DATA_APP_CONTROL_ERROR_MESSAGE = {
     APP_NOT_READY: 'The App is not open yet.',
     NOT_SIGNED_IN: 'The viewer is not signed in. Nothing was changed. Send the call again once signed in.',
     VALUE_REFUSED: 'The App refused one or more values. Nothing was changed.',
-    SUPERSEDED: 'A later call replaced this one before it was sent.',
-    RATE_LIMITED: 'Too many changes. Try again later.',
     SESSION_LOST: 'The App session has ended.',
     TIMEOUT: 'The call was sent but not answered in time. Its outcome is unknown: send the same call again to settle it.',
     FAILED: 'The call failed. Its outcome is unknown: send the same call again to settle it.',

@@ -2231,8 +2231,6 @@ describe('DataAppEmbed', () => {
                 'APP_NOT_READY',
                 'NOT_SIGNED_IN',
                 'VALUE_REFUSED',
-                'SUPERSEDED',
-                'RATE_LIMITED',
                 'SESSION_LOST',
                 'TIMEOUT',
                 'FAILED',
@@ -2263,6 +2261,8 @@ describe('DataAppEmbed', () => {
                 ['a string', 'Invalid payload'],
                 ['NOT_SUPPORTED_IN_DATA_APP from the wire', { code: 'NOT_SUPPORTED_IN_DATA_APP' }],
                 ['a per-entry code', { code: 'UNKNOWN_CONTROL' }],
+                ['SUPERSEDED, a code an older App page sent', { code: 'SUPERSEDED' }],
+                ['RATE_LIMITED, a code an older App page sent', { code: 'RATE_LIMITED' }],
                 ['the code toString', { code: 'toString' }],
                 ['the code hasOwnProperty', { code: 'hasOwnProperty' }],
                 ['the code __proto__', { code: '__proto__' }],
@@ -4184,6 +4184,155 @@ describe('DataAppEmbed', () => {
                     expect(updateCalls().map(([data]: any) => data.controls)).toEqual([first, second]);
                 });
 
+                describe('calls made back to back', () => {
+                    const depotIs = (depot: string) => [{ id: 'depot', value: { op: 'eq', values: [depot] } }];
+                    const depots = ['Austin', 'Dallas', 'Houston', 'El Paso', 'Waco'];
+
+                    it('posts every update at once, in the order made, each with its whole budget and no timer run', async () => {
+                        const { embed } = await readyApp();
+                        jest.useFakeTimers();
+
+                        const calls = depots.map((depot) => updateControls(embed, { controls: depotIs(depot) }));
+                        await flush();
+
+                        expect(updateCalls()).toEqual(depots.map((depot) => [
+                            { controls: depotIs(depot), appId, budgetMs: DATA_APP_CALL_BUDGET_MS },
+                            ContextType.DataApp,
+                        ]));
+                        expect(calls.map(({ settled }) => settled)).toEqual(depots.map(() => false));
+                    });
+
+                    it('posts the same update made twice twice', async () => {
+                        const { embed } = await readyApp();
+                        jest.useFakeTimers();
+
+                        updateControls(embed, { controls: depotControls });
+                        updateControls(embed, { controls: depotControls });
+                        await flush();
+
+                        expect(updateCalls().map(([data]: any) => data.controls)).toEqual([depotControls, depotControls]);
+                    });
+
+                    it('answers each call with its own reply, in any order, and drops none', async () => {
+                        const { embed } = await readyApp();
+                        jest.useFakeTimers();
+                        const calls = depots.slice(0, 4).map((depot) => updateControls(embed, { controls: depotIs(depot) }));
+                        await flush();
+                        const refused = [{ id: 'depot', status: 'rejected', code: 'VALUE_REFUSED' }];
+                        const answers = [
+                            { ...updated(depotIs('Austin')), revision: 2 },
+                            { code: 'VALUE_REFUSED', results: refused },
+                            { ...updated(depotIs('Houston')), revision: 3 },
+                            { ...updated(depotIs('El Paso')), revision: 4 },
+                        ];
+
+                        replies[2].resolve(answers[2]);
+                        replies[0].resolve(answers[0]);
+                        replies[3].resolve(answers[3]);
+                        replies[1].reject(answers[1]);
+                        await flush();
+
+                        expect(calls[0].value).toBe(answers[0]);
+                        expectControlError(calls[1], 'VALUE_REFUSED', refused);
+                        expect(calls[2].value).toBe(answers[2]);
+                        expect(calls[3].value).toBe(answers[3]);
+                        expect(updateCalls()).toHaveLength(4);
+                    });
+
+                    it('ends each unanswered call TIMEOUT on its own budget only', async () => {
+                        const { embed } = await readyApp();
+                        jest.useFakeTimers();
+                        const first = updateControls(embed, { controls: depotIs('Austin') });
+                        await advance(10000);
+                        const second = updateControls(embed, { controls: depotIs('Dallas') });
+                        await flush();
+
+                        expect(updateCalls()).toHaveLength(2);
+
+                        await advance(DATA_APP_CALL_BUDGET_MS - 10000);
+
+                        expectControlError(first, 'TIMEOUT');
+                        expect(second.settled).toBe(false);
+
+                        replies[1].resolve(updated(depotIs('Dallas')));
+                        await flush();
+
+                        expect(second.value).toEqual(updated(depotIs('Dallas')));
+                    });
+
+                    it('keeps reads and updates in the order made', async () => {
+                        const { embed } = await readyApp();
+                        jest.useFakeTimers();
+
+                        updateControls(embed, { controls: depotIs('Austin') });
+                        getControls(embed);
+                        updateControls(embed, { controls: depotIs('Dallas') });
+                        await flush();
+
+                        expect(sentTypes().filter((type) => APP_CALL_TYPES.has(type))).toEqual([
+                            HostEvent.UpdateDataAppControls,
+                            HostEvent.GetDataAppControls,
+                            HostEvent.UpdateDataAppControls,
+                        ]);
+                        expect(updateCalls().map(([data]: any) => data.controls))
+                            .toEqual([depotIs('Austin'), depotIs('Dallas')]);
+                    });
+
+                    it('posts an update made in a DataAppReady handler after the updates held for it', async () => {
+                        const { embed } = await renderedApp();
+                        updateControls(embed, { controls: depotIs('Austin') });
+                        updateControls(embed, { controls: depotIs('Dallas') });
+                        await flush();
+                        embed.on(EmbedEvent.DataAppReady, () => {
+                            updateControls(embed, { controls: depotIs('Houston') });
+                        });
+
+                        appReady();
+                        await flush();
+
+                        expect(updateCalls().map(([data]: any) => data.controls))
+                            .toEqual([depotIs('Austin'), depotIs('Dallas'), depotIs('Houston')]);
+                    });
+
+                    it('does not hold back a call behind one that failed before it was posted', async () => {
+                        const { embed } = await renderedApp();
+                        jest.useFakeTimers();
+                        const first = updateControls(embed, { controls: depotIs('Austin') });
+                        await advance(28500);
+                        const second = updateControls(embed, { controls: depotIs('Dallas') });
+                        await flush();
+
+                        appReady();
+                        await flush();
+
+                        expectControlError(first, 'APP_NOT_READY');
+                        expect(updateCalls().map(([data]: any) => data.controls)).toEqual([depotIs('Dallas')]);
+                        expect(second.settled).toBe(false);
+                    });
+
+                    it('sends several values in one call as one post, answered once', async () => {
+                        const { embed } = await readyApp();
+                        const controls = [
+                            ...depotIs('Austin'),
+                            { id: 'risk_score', value: { op: 'ge', values: [80] } },
+                            { id: 'route', value: null as null },
+                        ];
+                        const call = updateControls(embed, { controls });
+                        await flush();
+
+                        expect(updateCalls()).toEqual([[
+                            { controls, appId, budgetMs: DATA_APP_CALL_BUDGET_MS },
+                            ContextType.DataApp,
+                        ]]);
+
+                        replies[0].resolve(updated(controls));
+                        await flush();
+
+                        expect(call.value).toEqual(updated(controls));
+                        expect(replies).toHaveLength(1);
+                    });
+                });
+
                 it('resolves with the App page\'s state and results as given', async () => {
                     const { embed } = await readyApp();
                     const call = updateControls(embed, { controls: depotControls });
@@ -4213,8 +4362,6 @@ describe('DataAppEmbed', () => {
                     ['APP_MISMATCH', undefined, undefined],
                     ['APP_NOT_READY', undefined, undefined],
                     ['NOT_SIGNED_IN', undefined, undefined],
-                    ['SUPERSEDED', undefined, undefined],
-                    ['RATE_LIMITED', undefined, undefined],
                     ['SESSION_LOST', undefined, undefined],
                     ['TIMEOUT', undefined, undefined],
                     ['FAILED', undefined, undefined],

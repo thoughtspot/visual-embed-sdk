@@ -343,18 +343,39 @@ describe('React Components', () => {
             expect(JSON.stringify(details)).not.toContain('SECRET-1');
         });
 
-        it('stays silent when its own call is SUPERSEDED (TC-639)', async () => {
+        it('sends each change at once, in order, and reports each refusal on its own', async () => {
             const onError = jest.fn();
             const { update } = await mount({ dataAppControls: austin, onError });
             await ready(austin);
             await update({ dataAppControls: dallas, onError });
             await update({ dataAppControls: houston, onError });
+            await update({ dataAppControls: austin, onError });
+
+            expect(updates()).toEqual([dallas, houston, austin]);
+
+            updateReplies()[0].reject({ code: 'VALUE_REFUSED' });
+            updateReplies()[1].resolve(accepted(houston, 3));
+            updateReplies()[2].reject({ code: 'APP_MISMATCH' });
+            await settle();
+
+            expect(errorCodes(onError)).toEqual([
+                EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
+                EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
+            ]);
+            expect(onError.mock.calls.map(([details]) => details.error.code)).toEqual(['VALUE_REFUSED', 'APP_MISMATCH']);
+        });
+
+        it('reports a code an older App page sends, such as SUPERSEDED, as FAILED', async () => {
+            const onError = jest.fn();
+            const { update } = await mount({ dataAppControls: austin, onError });
+            await ready(austin);
+            await update({ dataAppControls: dallas, onError });
 
             updateReplies()[0].reject({ code: 'SUPERSEDED' });
             await settle();
 
-            expect(updates()).toEqual([dallas, houston]);
-            expect(onError).not.toHaveBeenCalled();
+            expect(onError).toHaveBeenCalledTimes(1);
+            expect(onError.mock.calls[0][0].error).toMatchObject({ name: 'DataAppControlError', code: 'FAILED' });
         });
 
         it('calls the newest inline handler without a rebuild; adding or removing one rebuilds (TC-640)', async () => {
@@ -661,13 +682,13 @@ describe('React Components', () => {
                 expect(updates()).toEqual([dallas, austin]);
             });
 
-            it('keeps a later call\'s entry pending when an earlier call is SUPERSEDED', async () => {
+            it('keeps a later call\'s entry pending when an earlier call is refused', async () => {
                 const { update } = await mount({ dataAppControls: austin });
                 await ready(austin);
                 await update({ dataAppControls: dallas });
                 await update({ dataAppControls: houston });
 
-                updateReplies()[0].reject({ code: 'SUPERSEDED' });
+                updateReplies()[0].reject({ code: 'VALUE_REFUSED' });
                 await settle();
                 await update({ dataAppControls: austin });
 

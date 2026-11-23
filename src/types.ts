@@ -7508,6 +7508,10 @@ export enum HostEvent {
      * force: read the values from `controls`, as they can differ from what you
      * sent. Tiles reload after that; `EmbedEvent.DataAppLoad` says when.
      *
+     * Calls are sent in the order you make them, with no delay, and the App
+     * applies them one after another. None is dropped: each call gets its own
+     * answer.
+     *
      * `reset: 'defaults'` first puts every control a host may set back to the
      * author's default. A control a host may not set keeps the viewer's value,
      * here and when new `dataAppControls` restart the App in place, so after a
@@ -7519,8 +7523,6 @@ export enum HostEvent {
      * {@link DataAppControlError}, whose `code` says why. With `TIMEOUT` or
      * `FAILED` the outcome is unknown: send the same call again to settle it.
      * With any other code nothing was changed:
-     * - `SUPERSEDED`: a later call named every control of this one before it
-     *   was sent. Expected when calls come fast; not a failure to report.
      * - `APP_NOT_READY`: no App opened in time, its open failed, or the embed
      *   is not rendered or not a `DataAppEmbed`.
      * - `CONTROLS_NOT_SUPPORTED`: the App does not take values from the host.
@@ -7532,7 +7534,6 @@ export enum HostEvent {
      * - `UNSUPPORTED_FIELD`: the payload or an entry has a field this version
      *   does not take.
      * - `APP_MISMATCH`: `appId` names an App that is not the one open.
-     * - `RATE_LIMITED`: too many changes; try again later.
      * - `NOT_SIGNED_IN`: the viewer's sign-in ended; send the call again once
      *   signed in.
      * - `SESSION_LOST`: the App session ended, for example on
@@ -7550,7 +7551,7 @@ export enum HostEvent {
      * }).then((state) => {
      *     console.log(state.revision, state.results);
      * }).catch((error) => {
-     *     if (error.code !== 'SUPERSEDED') console.warn(error.code, error.results);
+     *     console.warn(error.code, error.results);
      * });
      * ```
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl

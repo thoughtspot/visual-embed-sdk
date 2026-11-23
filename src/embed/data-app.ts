@@ -267,6 +267,10 @@ export class DataAppEmbed extends TsEmbed {
     // App calls sent and not answered yet.
     private sentCalls = new Set<(error: DataAppControlError) => void>();
 
+    // Settles once the last call made is posted or has failed: calls are
+    // posted in the order made, at once, and none waits for another's reply.
+    private lastPosted: Promise<void> = Promise.resolve();
+
     // The frame has signed in (AuthInit): the watchdog's clock can run.
     private authInitSeen = false;
 
@@ -441,28 +445,35 @@ export class DataAppEmbed extends TsEmbed {
             throw new DataAppControlError('APP_NOT_READY');
         }
         const { reloads } = this;
-        const appId = this.readyAppId ?? await this.holdUntilReady(deadline);
-        // Values just posted for an in-place restart apply first.
-        await this.valuesApplied;
-        // A destroy(), failed open or Reload in the tick of the release.
-        if (this.openFailed || reloads !== this.reloads) {
-            throw new DataAppControlError('APP_NOT_READY');
-        }
-        // An update is sent only with time left for the App page to answer.
-        const budgetMs = deadline - Date.now();
-        const isUpdate = messageType === HostEvent.UpdateDataAppControls;
-        if (isUpdate && budgetMs < DATA_APP_MIN_UPDATE_BUDGET_MS) {
-            throw new DataAppControlError('APP_NOT_READY');
-        }
+        const previous = this.lastPosted;
+        let posted: () => void;
+        this.lastPosted = new Promise((resolve) => {
+            posted = resolve;
+        });
         let timer: ReturnType<typeof setTimeout>;
         let stop: (error: DataAppControlError) => void;
-        const stopped = new Promise<never>((resolve, reject) => {
-            stop = reject;
-            timer = setTimeout(() => reject(new DataAppControlError('TIMEOUT')), deadline - Date.now());
-        });
-        this.sentCalls.add(stop);
         let reply: unknown;
         try {
+            const appId = this.readyAppId ?? await this.holdUntilReady(deadline);
+            // Values just posted for an in-place restart apply first.
+            await this.valuesApplied;
+            // A call made earlier, such as a held one, is posted first.
+            await previous;
+            // A destroy(), failed open or Reload in the tick of the release.
+            if (this.openFailed || reloads !== this.reloads) {
+                throw new DataAppControlError('APP_NOT_READY');
+            }
+            // An update is sent only with time left for the App page to answer.
+            const budgetMs = deadline - Date.now();
+            const isUpdate = messageType === HostEvent.UpdateDataAppControls;
+            if (isUpdate && budgetMs < DATA_APP_MIN_UPDATE_BUDGET_MS) {
+                throw new DataAppControlError('APP_NOT_READY');
+            }
+            const stopped = new Promise<never>((resolve, reject) => {
+                stop = reject;
+                timer = setTimeout(() => reject(new DataAppControlError('TIMEOUT')), deadline - Date.now());
+            });
+            this.sentCalls.add(stop);
             let payload: any = data;
             if (isPlainObject(data)) {
                 if (payload.appId === undefined) payload = { ...payload, appId };
@@ -477,10 +488,12 @@ export class DataAppEmbed extends TsEmbed {
             }
             // The App's handler is registered under the dataApp page context.
             const sent = this.hostEventClient.triggerHostEvent(messageType, payload, ContextType.DataApp);
+            posted();
             reply = await Promise.race([sent, stopped]);
         } catch (error) {
             throw toControlError(error);
         } finally {
+            posted();
             clearTimeout(timer);
             this.sentCalls.delete(stop);
         }
