@@ -387,9 +387,13 @@ const tell = (build: DataAppEmbedBuild, state: DataAppControlsState, baseline = 
  * the prop does not rebuild the embed: the entries whose value differs from
  * the last state the component was told are sent with
  * `HostEvent.UpdateDataAppControls`. The prop is merge-only: removing an
- * entry does not clear its control; set `value: null` to clear it. A refused
- * change raises an error with the code `DATA_APP_UPDATE_FAILED`, and the
- * refused entry is sent again with the next change until your state drops it.
+ * entry does not empty its control; set `value: null` to empty it (it does
+ * not bring back the author's default). A mandatory control with a default
+ * cannot be emptied. An entry that keeps `value: null` for one is sent again
+ * with each later change; drop it once applied, or mirror the App's state. A
+ * change that fails raises an error with the code `DATA_APP_UPDATE_FAILED`,
+ * and the failed entry is sent again with the next change until your state
+ * drops it.
  * After the App failed to open, a change of the prop opens it again with the
  * new values.
  *

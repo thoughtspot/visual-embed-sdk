@@ -7497,8 +7497,10 @@ export enum HostEvent {
     GetDataAppControls = 'GetDataAppControls',
 
     /**
-     * Sets, clears or resets controls of the App open in `DataAppEmbed`.
-     * A control you do not name keeps its value; `value: null` clears one.
+     * Sets, empties or resets controls of the App open in `DataAppEmbed`.
+     * A control you do not name keeps its value. `value: null` empties a
+     * control and does not bring back the author's default; a mandatory
+     * control with a default stays at its default.
      * Pass values read from the App, as they are.
      * Payload: {@link UpdateDataAppControlsRequest}.
      * Resolves with {@link UpdateDataAppControlsResponse}.
@@ -7508,9 +7510,9 @@ export enum HostEvent {
      * force: read the values from `controls`, as they can differ from what you
      * sent. Tiles reload after that; `EmbedEvent.DataAppLoad` says when.
      *
-     * Calls are sent in the order you make them, with no delay, and the App
-     * applies them one after another. None is dropped: each call gets its own
-     * answer.
+     * Calls are sent in the order you make them, never paced, merged or
+     * dropped, and the App applies them one after another; each gets its own
+     * answer. Debounce fast changes, such as typing, on your page.
      *
      * `reset: 'defaults'` first puts every control a host may set back to the
      * author's default. A control a host may not set keeps the viewer's value,
@@ -7544,7 +7546,7 @@ export enum HostEvent {
      * validate them before you route or render on them.
      * @example
      * ```js
-     * // The author's defaults, with the depot control cleared
+     * // The author's defaults, with the depot control emptied
      * dataAppEmbed.trigger(HostEvent.UpdateDataAppControls, {
      *     reset: 'defaults',
      *     controls: [{ id: 'depot', value: null }],
