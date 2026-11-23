@@ -525,7 +525,6 @@ describe('event contracts (drift guardrails)', () => {
             appId: 'a1b2',
             session: 'S1',
             revision: 1,
-            valueFormat: 2,
             controls: [{ id: 'depot', value: { op: 'eq', values: ['Austin'] } }],
         };
         // @ts-expect-error — not typed: pass it back, do not parse it
