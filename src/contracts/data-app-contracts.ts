@@ -131,6 +131,36 @@ export interface GetDataAppControlsRequest {
 export type GetDataAppControlsResponse = DataAppControlsState;
 
 /**
+ * Request payload for {@link HostEvent.UpdateDataAppControls}.
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+ * @group Events
+ */
+export interface UpdateDataAppControlsRequest {
+    /** The controls to change. A control not named keeps its value. */
+    controls?: DataAppControl[];
+    /**
+     * `'defaults'` first puts every control a host may set back to the
+     * author's default, in the same change. A control a host may not set
+     * keeps the viewer's value, here and when new load-time values restart the
+     * App in place: after a reset the state is not always the author's default.
+     */
+    reset?: 'defaults' | (string & {});
+    /** The App the call is meant for. The SDK fills it in when it is left out. */
+    appId?: string;
+}
+
+/**
+ * Response of {@link HostEvent.UpdateDataAppControls}: the state once the App
+ * confirmed the change.
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+ * @group Events
+ */
+export interface UpdateDataAppControlsResponse extends DataAppControlsState {
+    /** One result per entry of the request, in its order. All `'accepted'`. */
+    results: DataAppControlResult[];
+}
+
+/**
  * Payload of {@link EmbedEvent.DataAppReady}.
  * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
  * @group Events

@@ -31,6 +31,8 @@ import type {
 import type {
     GetDataAppControlsRequest,
     GetDataAppControlsResponse,
+    UpdateDataAppControlsRequest,
+    UpdateDataAppControlsResponse,
 } from './data-app-contracts';
 
 /**
@@ -453,6 +455,7 @@ export interface HostEventRequestMap {
 
     // ==================== APPS ====================
     [HostEvent.GetDataAppControls]: GetDataAppControlsRequest;
+    [HostEvent.UpdateDataAppControls]: UpdateDataAppControlsRequest;
 }
 
 /**
@@ -461,6 +464,7 @@ export interface HostEventRequestMap {
  */
 export interface HostEventResponseMap {
     [HostEvent.GetDataAppControls]: GetDataAppControlsResponse;
+    [HostEvent.UpdateDataAppControls]: UpdateDataAppControlsResponse;
 }
 
 /**

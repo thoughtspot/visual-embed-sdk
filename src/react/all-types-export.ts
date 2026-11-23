@@ -202,6 +202,8 @@ export {
     DataAppControlsState,
     GetDataAppControlsRequest,
     GetDataAppControlsResponse,
+    UpdateDataAppControlsRequest,
+    UpdateDataAppControlsResponse,
     DataAppReadyPayload,
     DataAppLoadPayload,
     DataAppControlsChangedPayload,

@@ -132,6 +132,7 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
     HostEvent.UpdateTheme,
     // Apps
     HostEvent.GetDataAppControls,
+    HostEvent.UpdateDataAppControls,
 ];
 
 // Type-level assertions: compile failures here mean contract resolution
@@ -178,6 +179,7 @@ describe('event contracts (drift guardrails)', () => {
             'SpotterVizSendUserMessage',
             'UnpinSpotterConversation',
             'UpdateCrossFilter',
+            'UpdateDataAppControls',
             'UpdateParameters',
             'UpdatePersonalisedView',
             'UpdateRuntimeFilters',
