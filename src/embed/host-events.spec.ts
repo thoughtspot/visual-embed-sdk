@@ -10,6 +10,8 @@ import {
     AppEmbed,
     HostEvent,
     EmbedErrorCodes,
+    EmbedEvent,
+    EmbedErrorSeverity,
 } from '../index';
 import {
     executeAfterWait,
@@ -20,6 +22,7 @@ import {
     messageChannelMock,
 } from '../test/test-utils';
 import * as authInstance from '../auth';
+import { ERROR_MESSAGE } from '../errors';
 
 const thoughtSpotHost = 'https://tshost';
 const liveboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
@@ -1874,14 +1877,36 @@ describe('HostEvent.Present — vizId injection on LiveboardEmbed', () => {
 // DownloadAsCsv — additional cases
 // ---------------------------------------------------------------------------
 describe('HostEvent.DownloadAsCsv — additional cases', () => {
-    test('viewConfig.vizId overwrites an explicit payload vizId', async () => {
+    test('a vizId other than viewConfig.vizId is rejected with an error and not sent', async () => {
+        mockMessageChannel();
+        const { lb, iframe } = await renderLiveboard({ vizId });
+        const onError = jest.fn();
+        lb.on(EmbedEvent.Error, onError);
+
+        await expect(
+            lb.trigger(HostEvent.DownloadAsCsv, { vizId: 'explicit-id' } as any),
+        ).rejects.toThrow(ERROR_MESSAGE.VIZ_ID_NOT_IN_EMBED);
+
+        expect(onError).toHaveBeenCalledWith(
+            expect.objectContaining({
+                code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+                message: ERROR_MESSAGE.VIZ_ID_NOT_IN_EMBED,
+                severity: EmbedErrorSeverity.SEV3,
+            }),
+            expect.anything(),
+        );
+        expect(iframe.contentWindow.postMessage).not.toHaveBeenCalled();
+        // Not render-blocking: a later render() still creates the iframe.
+        expect((lb as any).isError).toBe(false);
+    });
+
+    test('a vizId equal to viewConfig.vizId is sent as is', async () => {
         mockMessageChannel();
         const { lb, iframe } = await renderLiveboard({ vizId });
         await executeAfterWait(() => {
-            lb.trigger(HostEvent.DownloadAsCsv, { vizId: 'explicit-id' } as any);
+            lb.trigger(HostEvent.DownloadAsCsv, { vizId } as any);
             const call = (iframe.contentWindow.postMessage as jest.Mock).mock.calls[0];
-            const sentData = call[0].data;
-            expect(sentData.vizId).toBe(vizId); // viewConfig.vizId wins
+            expect(call[0].data.vizId).toBe(vizId);
         });
     });
 
