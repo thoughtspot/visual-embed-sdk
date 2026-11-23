@@ -106,8 +106,6 @@ export interface DataAppControlsState {
     session: string;
     /** Counts the changes within one `session`. Compare it only within one `session`. */
     revision: number;
-    /** The format of the control values. It changes only on an incompatible change. */
-    valueFormat: number;
     /** Every control the App declares, with its value. Read them by `id`. */
     controls: DataAppControl[];
 }

@@ -199,7 +199,6 @@ const appState = (id = appId) => ({
     appId: id,
     session: 'S1',
     revision: 1,
-    valueFormat: 2,
     controls: depotControls,
 });
 
