@@ -669,6 +669,21 @@ export interface EmbedConfig {
      * Warning: This option is for advanced use only and is used internally
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
+     *
+     * **`excludeConfigFromURL`**
+     *
+     * Keeps the configuration off the iframe URL. The SDK sends it to the
+     * embedded app over `postMessage` instead. Set it in `init` for every
+     * embed, or in an embed's view config.
+     *
+     * Supported from SDK 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     *
+     * ```js
+     * init({
+     *   ... // other embed config
+     *   additionalFlags: { excludeConfigFromURL: true }
+     * });
+     * ```
      * @version SDK: 1.33.5 | ThoughtSpot: *
      * @example
      * ```js
@@ -1164,7 +1179,23 @@ export interface BaseViewConfig extends ApiInterceptFlags {
      * to control embed behavior in non-regular ways. We do not publish the
      * list of supported keys and values associated with each.
      *
-     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`, `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`, `SearchEmbed`,
+     * `SpotterAgentEmbed`, `SpotterEmbed`, `SearchBarEmbed`
+     *
+     * **`excludeConfigFromURL`**
+     *
+     * Keeps this embed's configuration off the iframe URL. The SDK sends it to
+     * the embedded app over `postMessage` instead. Works with every embed type
+     * and overrides the value set in `init`.
+     *
+     * Supported from SDK 1.55.0 | ThoughtSpot Cloud: 26.12.0.cl
+     *
+     * ```js
+     * const embed = new LiveboardEmbed('#tsEmbed', {
+     *    ... // other embed view config
+     *   additionalFlags: { excludeConfigFromURL: true },
+     * });
+     * ```
      * @version SDK: 1.9.0 | ThoughtSpot: 8.1.0.cl, 8.4.1.sw
      * @example
      * ```js
@@ -3536,6 +3567,17 @@ export enum EmbedEvent {
      * @hidden
      */
     APP_INIT = 'appInit',
+    /**
+     * Internal event the ThoughtSpot app sends to request the config the
+     * embed was created with. The SDK responds with
+     * `{ initConfig, viewConfig }`: the config passed to `init()` and the
+     * view config passed to the embed constructor, both as the developer wrote
+     * them, before defaults are merged in. The top-level auth keys
+     * (`authType`, `username`, `password`, `authToken`, `getAuthToken`) are
+     * removed.
+     * @hidden
+     */
+    GetEmbedConfig = 'getEmbedConfig',
     /**
      * Internal event to clear the cached info
      * @hidden
@@ -8805,6 +8847,11 @@ export enum Action {
     /**
      * The Liveboard Personalized Views dropdown.
      * Allows navigating to a personalized Liveboard View.
+     *
+     * Controls every option in the dropdown together. To target one option
+     * only, use {@link Action.SwitchPersonalizedView},
+     * {@link Action.SavePersonalizedView}, {@link Action.ManagePersonalizedViews}
+     * or {@link Action.ResetPersonalizedView}.
      *  @example
      * ```js
      * disabledActions: [Action.PersonalizedViewsDropdown]
@@ -10231,6 +10278,95 @@ export enum Action {
      * ```
      */
     DeletePersonalizedView = 'deletePersonalizedView',
+    /**
+     * Controls the visibility and disabled state of the list of Personalized
+     * Views in the Liveboard **Personalized Views** dropdown, which switches
+     * between views.
+     *
+     * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
+     * `visibleActions` or `hiddenActions` list that includes it covers this
+     * option too.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.SwitchPersonalizedView],
+     *     disabledActions: [Action.SwitchPersonalizedView],
+     * }
+     * ```
+     */
+    SwitchPersonalizedView = 'switchPersonalizedView',
+    /**
+     * Controls the visibility and disabled state of the options that save a
+     * Personalized View: **Save view** in the Liveboard **Personalized Views**
+     * dropdown, the **Save view** button shown before a Liveboard has views, and
+     * **Update** on a view with unsaved changes.
+     *
+     * {@link Action.PersonalizedViewsDropdown} also controls these options, so a
+     * `visibleActions` or `hiddenActions` list that includes it covers them too.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.SavePersonalizedView],
+     *     disabledActions: [Action.SavePersonalizedView],
+     * }
+     * ```
+     */
+    SavePersonalizedView = 'savePersonalizedView',
+    /**
+     * Controls the visibility and disabled state of **Manage views** in the
+     * Liveboard **Personalized Views** dropdown, which opens the
+     * **Manage views** dialog.
+     *
+     * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
+     * `visibleActions` or `hiddenActions` list that includes it covers this
+     * option too.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.ManagePersonalizedViews],
+     *     disabledActions: [Action.ManagePersonalizedViews],
+     * }
+     * ```
+     */
+    ManagePersonalizedViews = 'managePersonalizedViews',
+    /**
+     * Controls the visibility and disabled state of renaming a Personalized
+     * View in the **Manage views** dialog. When hidden, view names are
+     * read-only.
+     *
+     * This option predates this action, so only `hiddenActions` hides it. A
+     * `visibleActions` list that doesn't include this action keeps it.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.RenamePersonalizedView],
+     *     disabledActions: [Action.RenamePersonalizedView],
+     * }
+     * ```
+     */
+    RenamePersonalizedView = 'renamePersonalizedView',
+    /**
+     * Controls the visibility and disabled state of **Reset Liveboard** in the
+     * Liveboard **Personalized Views** dropdown, which returns the Liveboard to
+     * its original view.
+     *
+     * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
+     * `visibleActions` or `hiddenActions` list that includes it covers this
+     * option too.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * {
+     *     hiddenActions: [Action.ResetPersonalizedView],
+     *     disabledActions: [Action.ResetPersonalizedView],
+     * }
+     * ```
+     */
+    ResetPersonalizedView = 'resetPersonalizedView',
 }
 
 /**

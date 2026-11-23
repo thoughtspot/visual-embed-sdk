@@ -352,6 +352,51 @@ describe('Unit test case for ts embed', () => {
         });
     });
 
+    describe('GetEmbedConfig event', () => {
+        test('responds with the raw init config and raw view config, without login info', async () => {
+            init({
+                thoughtSpotHost: 'tshost',
+                authType: AuthType.Basic,
+                username: 'tsuser',
+                password: 'tspass',
+                customizations: customisations,
+            });
+            const viewConfig: any = {
+                liveboardId,
+                frameParams: { width: 100 },
+            };
+            const liveboardEmbed = new LiveboardEmbed(getRootEl(), viewConfig);
+            liveboardEmbed.render();
+            const mockPort: any = { postMessage: jest.fn() };
+            await executeAfterWait(() => {
+                const iframe = getIFrameEl();
+                postMessageToParent(
+                    iframe.contentWindow,
+                    { type: EmbedEvent.GetEmbedConfig, data: {} },
+                    mockPort,
+                );
+            });
+            await executeAfterWait(() => {
+                expect(mockPort.postMessage).toHaveBeenCalledWith({
+                    type: EmbedEvent.GetEmbedConfig,
+                    data: {
+                        // No CONFIG_DEFAULTS merged in, and no auth info.
+                        initConfig: {
+                            thoughtSpotHost: 'tshost',
+                            customizations: customisations,
+                        },
+                        // No excludeRuntimeFiltersfromURL default.
+                        viewConfig: {
+                            liveboardId,
+                            frameParams: { width: 100 },
+                            embedComponentType: 'LiveboardEmbed',
+                        },
+                    },
+                });
+            });
+        });
+    });
+
     describe('Called Embed event status for start and end', () => {
         beforeAll(() => {
             init({
