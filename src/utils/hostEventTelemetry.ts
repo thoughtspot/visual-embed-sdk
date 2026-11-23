@@ -21,6 +21,9 @@ const ENUM_PARAMS: Record<string, readonly string[]> = {
 
 export const MAX_ARRAY_TYPES = 10;
 
+// Lists of App controls: the type of each entry only, never an id or a value.
+const CONTROL_LIST_PARAMS = ['controls', 'dataAppControls'];
+
 export type ParamTypes = string | ParamTypes[] | { [key: string]: ParamTypes };
 
 const isParamObject = (value: unknown): value is Record<string, unknown> =>
@@ -43,6 +46,12 @@ const serialiseBigInt = (_key: string, value: unknown): unknown =>
 const describeValue = (value: unknown, key: string): ParamTypes => {
     if (value === null) {
         return 'null';
+    }
+
+    if (CONTROL_LIST_PARAMS.includes(key)) {
+        return Array.isArray(value)
+            ? value.slice(0, MAX_ARRAY_TYPES).map((entry) => (entry === null ? 'null' : typeof entry))
+            : typeof value;
     }
 
     if (value === BIGINT_MARKER) {

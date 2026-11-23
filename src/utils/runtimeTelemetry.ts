@@ -33,10 +33,13 @@ export const describeRuntimeParameters = (
 
 // Column names, parameter names and operands are customer data and must never
 // reach Mixpanel; an unrecognized shape is dropped rather than forwarded.
+// App control ids and values likewise: only their count, or the type.
 export const summarizeRuntimeDataForTelemetry = <T extends Record<string, any>>(
     viewConfig: T,
 ): Record<string, any> => {
-    const { runtimeFilters, runtimeParameters, ...rest } = viewConfig ?? ({} as T);
+    const {
+        runtimeFilters, runtimeParameters, dataAppControls, ...rest
+    } = viewConfig ?? ({} as T);
     const telemetryProps: Record<string, any> = { ...rest };
 
     if (Array.isArray(runtimeFilters)) {
@@ -44,6 +47,11 @@ export const summarizeRuntimeDataForTelemetry = <T extends Record<string, any>>(
     }
     if (Array.isArray(runtimeParameters)) {
         telemetryProps.runtimeParameters = describeRuntimeParameters(runtimeParameters);
+    }
+    if (dataAppControls !== undefined) {
+        telemetryProps.dataAppControls = Array.isArray(dataAppControls)
+            ? { count: dataAppControls.length }
+            : { type: dataAppControls === null ? 'null' : typeof dataAppControls };
     }
 
     return telemetryProps;
