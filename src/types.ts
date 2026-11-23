@@ -3568,6 +3568,17 @@ export enum EmbedEvent {
      */
     APP_INIT = 'appInit',
     /**
+     * Internal event the ThoughtSpot app sends to request the config the
+     * embed was created with. The SDK responds with
+     * `{ initConfig, viewConfig }`: the config passed to `init()` and the
+     * view config passed to the embed constructor, both as the developer wrote
+     * them, before defaults are merged in. The top-level auth keys
+     * (`authType`, `username`, `password`, `authToken`, `getAuthToken`) are
+     * removed.
+     * @hidden
+     */
+    GetEmbedConfig = 'getEmbedConfig',
+    /**
      * Internal event to clear the cached info
      * @hidden
      */
