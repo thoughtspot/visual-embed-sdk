@@ -19,6 +19,7 @@ import { EmbedProps, getViewPropsAndListeners } from './util';
 import { canonicalJson, controlsKey } from '../utils/data-app-controls';
 import { logger } from '../utils/logger';
 import type { DataAppControlsState } from '../contracts/data-app-contracts';
+import { readActionsRule } from '../utils/data-app-actions';
 import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
 import { ERROR_MESSAGE } from '../errors';
@@ -409,6 +410,7 @@ const tell = (build: DataAppEmbedBuild, state: DataAppControlsState, baseline = 
  * viewer's changes across a rebuild, mirror the App's events into the prop, as
  * below. On an App where the viewer can change a control a host may not set,
  * mirror only the controls you set yourself, or the rebuilt App is refused.
+ * The same `dataAppActions` IDs in another order rebuild nothing.
  * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
  * @example
  * ```tsx
@@ -437,6 +439,9 @@ export const DataAppEmbed = React.forwardRef<_DataAppEmbed, DataAppEmbedProps>(
         const listenersRef = useRef(listeners);
         listenersRef.current = listeners;
         const buildRef = useRef<DataAppEmbedBuild>(null);
+        // Compared as read: the same action IDs in another order are no change.
+        const actionsRule = readActionsRule(rest.dataAppActions);
+        const deps = actionsRule === false ? rest : { ...rest, dataAppActions: actionsRule };
 
         useDeepCompareEffect(() => {
             const config: DataAppEmbedPropsConfig = {
@@ -486,7 +491,7 @@ export const DataAppEmbed = React.forwardRef<_DataAppEmbed, DataAppEmbedProps>(
                 if (preRenderId) embed.hidePreRender();
                 else embed.destroy();
             };
-        }, [rest, Object.keys(listeners).sort()]);
+        }, [deps, Object.keys(listeners).sort()]);
 
         const key = controlsKey(dataAppControls);
         useEffect(() => {

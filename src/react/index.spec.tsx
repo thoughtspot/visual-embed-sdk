@@ -419,6 +419,68 @@ describe('React Components', () => {
             expect(updates()).toEqual([dallas, [routeNone]]);
         });
 
+        describe('dataAppActions', () => {
+            const sentRule = async (ref: React.RefObject<any>) => (
+                await (embedOf(ref) as any).getAppInitData()).embedParams.dataAppActions;
+
+            it('opens with the prop as its rule', async () => {
+                const ref = React.createRef<any>();
+                await mount({ dataAppActions: { off: ['reopen_ticket', 'close_ticket'] }, ref });
+
+                expect(await sentRule(ref)).toStrictEqual({ off: ['close_ticket', 'reopen_ticket'] });
+            });
+
+            it('rebuilds nothing for the same ids in another order (TA-32)', async () => {
+                const ref = React.createRef<any>();
+                const { update } = await mount({ dataAppActions: { off: ['a', 'b'] }, ref });
+
+                await update({ dataAppActions: { off: ['b', 'a', 'b'] }, ref });
+
+                expect(builds).toHaveBeenCalledTimes(1);
+                expect(destroys).not.toHaveBeenCalled();
+            });
+
+            it('rebuilds with another rule (TA-26)', async () => {
+                const ref = React.createRef<any>();
+                const { update } = await mount({ dataAppActions: { off: ['a'] }, ref });
+
+                await update({ dataAppActions: { off: 'all' }, ref });
+
+                expect(builds).toHaveBeenCalledTimes(2);
+                expect(await sentRule(ref)).toStrictEqual({ off: 'all' });
+            });
+
+            it('renders nothing for a malformed rule', async () => {
+                const onError = jest.fn();
+                const { container } = await mount({ dataAppActions: { off: 'none' }, onError });
+
+                expect(errorCodes(onError)).toEqual([EmbedErrorCodes.DATA_APP_OPTION_INVALID]);
+                expect(container.querySelector('iframe')).toBeNull();
+            });
+
+            it('removes the App when DataAppReady does not echo the rule (TA-25)', async () => {
+                const onError = jest.fn();
+                const onDataAppReady = jest.fn();
+                const { container } = await mount({ dataAppActions: { off: 'all' }, onError, onDataAppReady });
+
+                await ready(austin);
+
+                expect(onDataAppReady).not.toHaveBeenCalled();
+                expect(onError.mock.calls.map(([error]) => [error.code, error.option, error.severity]))
+                    .toEqual([[EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED, 'dataAppActions', 1]]);
+                expect(container.querySelector('iframe')).toBeNull();
+            });
+
+            it('passes on a DataAppReady that echoes the rule', async () => {
+                const onDataAppReady = jest.fn();
+                await mount({ dataAppActions: { off: ['a', 'b'] }, onDataAppReady });
+
+                await ready(austin, { actionsOff: ['b', 'a'] });
+
+                expect(onDataAppReady).toHaveBeenCalledTimes(1);
+            });
+        });
+
         it('drops the old build\'s pending call and its error on a rebuild', async () => {
             const onError = jest.fn();
             const { update } = await mount({ dataAppControls: austin, onError });

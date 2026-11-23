@@ -16,10 +16,11 @@ import { setParamIfDefined } from '../utils';
 import { logger } from '../utils/logger';
 import { reportHostEvent } from '../utils/hostEventTelemetry';
 import { canonicalJson, packInitialControls } from '../utils/data-app-controls';
+import { readActionsRule, sameActionsOff, switchesOff } from '../utils/data-app-actions';
 import { TsEmbed, UPDATE_EMBED_PARAMS_SETTLE_MS } from './ts-embed';
 import { DATA_APP_HOST_EVENTS, DataAppControlError } from './data-app-control-error';
 import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
-import type { DataAppControl } from '../contracts/data-app-contracts';
+import type { DataAppActions, DataAppControl } from '../contracts/data-app-contracts';
 
 /** The whole time of an App call: waiting for the App, then its reply. */
 export const DATA_APP_CALL_BUDGET_MS = 30000;
@@ -51,6 +52,8 @@ const REFUSED_HOST_EVENTS: ReadonlySet<HostEvent> = new Set([
 ]);
 
 // Inherited options an App cannot honor: a warning each, and the embed renders.
+// The action lists' warning points to dataAppActions.
+const ACTION_LIST_OPTIONS = ['hiddenActions', 'disabledActions', 'visibleActions'];
 const IGNORED_OPTIONS = [
     'customActions',
     'linkOverride',
@@ -164,7 +167,8 @@ export interface DataAppEmbedViewConfig {
      * Actions to hide in the App. Only `Action.QueryDetailsButtons` applies:
      * the App then cannot show the query details of a tile. Any other action
      * is ignored, and raises a warning with the code
-     * `DATA_APP_OPTION_NOT_SUPPORTED`.
+     * `DATA_APP_OPTION_NOT_SUPPORTED`. To switch off the App's own actions,
+     * use `dataAppActions`.
      *
      * Supported embed types: `DataAppEmbed`
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
@@ -208,6 +212,42 @@ export interface DataAppEmbedViewConfig {
      * ```
      */
     dataAppControls?: DataAppControl[] | null;
+    /**
+     * Switches off the App's own actions: the writes a viewer starts from a
+     * button in the App, after ThoughtSpot's confirmation dialog. A
+     * switched-off action never runs from this embed: ThoughtSpot refuses it
+     * before its dialog, and the App says it is turned off here. The option
+     * applies to every App this embed opens.
+     *
+     * It does not stop what the App's own steps do while it loads, and it is
+     * not a permission: the same viewer can run the action where this option
+     * is not set, in ThoughtSpot or with the same login outside this embed.
+     * A viewer who must never write must lack the connection the action uses.
+     *
+     * `off` is `'all'`, or the IDs of the actions as the App declares them;
+     * `[]` switches nothing off. An ID the App does not declare switches
+     * nothing off. `display` says how an App that can read this rule shows a
+     * switched-off action: `'hidden'` (the default) or `'disabled'`; until
+     * then the App shows it, and refuses it when the viewer uses it.
+     *
+     * Any other value raises an error with the code
+     * `DATA_APP_OPTION_INVALID`, and the embed does not render. When the
+     * option switches something off and ThoughtSpot does not confirm it as
+     * the App opens, the embed removes the App and raises
+     * `DATA_APP_OPTION_NOT_SUPPORTED`. `hiddenActions` names ThoughtSpot's
+     * own actions, not the App's.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    dataAppId: '<app-id>',
+     *    dataAppActions: { off: 'all' }, // or { off: ['close_ticket'] }
+     * });
+     * ```
+     */
+    dataAppActions?: DataAppActions | null;
 }
 
 /**
@@ -224,6 +264,8 @@ export interface DataAppEmbedViewConfig {
  * or pre-render. `customActions`, `linkOverride`, `enableLinkOverridesV2`,
  * `disabledActions` and `visibleActions` are ignored, with a warning that has
  * the same code.
+ *
+ * Switch the App's own actions off with `dataAppActions`.
  *
  * Open the App with values for its controls with `dataAppControls`. Read and
  * set the App's controls with `HostEvent.GetDataAppControls` and
@@ -303,6 +345,12 @@ export class DataAppEmbed extends TsEmbed {
     // Settles once values posted for an in-place restart can apply.
     private valuesApplied: Promise<unknown> = Promise.resolve();
 
+    // The dataAppActions rule as read at construction. A malformed one is
+    // never sent (the embed does not render), but would switch all off.
+    private actionsRule: DataAppActions | undefined;
+
+    private actionsInvalid: boolean;
+
     constructor(container: HTMLElement, viewConfig: DataAppEmbedViewConfig) {
         let config: DataAppEmbedViewConfig & BaseViewConfig = {
             embedComponentType: 'dataApp',
@@ -314,6 +362,9 @@ export class DataAppEmbed extends TsEmbed {
             config = { ...config, fullHeight: false } as DataAppEmbedViewConfig;
         }
         super(container, config);
+        const rule = readActionsRule(config.dataAppActions);
+        this.actionsInvalid = rule === false;
+        this.actionsRule = rule === false ? { off: 'all' } : rule;
         this.on(EmbedEvent.DataAppReady, (payload) => this.onAppReady(payload.data?.appId), { start: false }, true);
         this.on(EmbedEvent.Error, (payload) => this.onAppError(payload), { start: false }, true);
         this.on(EmbedEvent.AuthInit, () => {
@@ -502,6 +553,31 @@ export class DataAppEmbed extends TsEmbed {
         return reply;
     }
 
+    // A DataAppReady that does not echo the actions switched off reaches no
+    // handler, and the App is removed: the rule may not be in force.
+    protected executeCallbacks(eventType: EmbedEvent, data: any, eventPort?: MessagePort | void): void {
+        const rule = this.actionsRule;
+        if (eventType === EmbedEvent.DataAppReady && switchesOff(rule)
+            && !sameActionsOff(rule.off, data?.data?.actionsOff)) {
+            this.removeUnconfirmedApp();
+            return;
+        }
+        super.executeCallbacks(eventType, data, eventPort);
+    }
+
+    private removeUnconfirmedApp(): void {
+        const removed = this.destroyed;
+        this.destroy();
+        if (removed) return;
+        this.handleError(errorEvent(
+            ErrorDetailsTypes.VALIDATION_ERROR,
+            EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
+            ERROR_MESSAGE.DATA_APP_ACTIONS_NOT_CONFIRMED,
+            EmbedErrorSeverity.SEV1,
+            { option: 'dataAppActions', appId: this.viewConfig.dataAppId },
+        ));
+    }
+
     // An Error event that leaves the embed usable, and a log line.
     private raiseWarning(details: EmbedErrorDetailsEvent): void {
         this.executeCallbacks(EmbedEvent.Error, details);
@@ -519,30 +595,42 @@ export class DataAppEmbed extends TsEmbed {
         }
         ignored.forEach((option) => this.raiseWarning(inputError(
             EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
-            ERROR_MESSAGE.DATA_APP_OPTION_IGNORED,
+            ACTION_LIST_OPTIONS.includes(option)
+                ? ERROR_MESSAGE.DATA_APP_ACTIONS_IGNORED
+                : ERROR_MESSAGE.DATA_APP_OPTION_IGNORED,
             EmbedErrorSeverity.SEV3,
             option,
         )));
     }
 
-    // APP_INIT carries the load-time values; the URL never does.
+    // What APP_INIT adds to embedParams, and UpdateEmbedParams to its top
+    // level: absent means none.
+    private appParams(packed: ReturnType<typeof packInitialControls>) {
+        const params: { dataAppInitialControls?: object; dataAppActions?: DataAppActions } = {};
+        if (packed) params.dataAppInitialControls = packed;
+        if (this.actionsRule) params.dataAppActions = this.actionsRule;
+        return params;
+    }
+
+    // APP_INIT carries the load-time values and the actions rule; the URL
+    // never does.
     protected async getAppInitData() {
         const base = await super.getAppInitData();
         const packed = this.packedControls();
         this.givenKey = canonicalJson(packed);
-        return packed
-            ? { ...base, embedParams: { ...(base as any).embedParams, dataAppInitialControls: packed } }
+        const params = this.appParams(packed);
+        return isSet(params)
+            ? { ...base, embedParams: { ...(base as any).embedParams, ...params } }
             : base;
     }
 
-    // One copy of the values, at the top level: absent means none.
+    // One copy of each, at the top level, as APP_INIT has them.
     protected async getUpdateEmbedParamsObject() {
         const params: any = await super.getUpdateEmbedParamsObject();
         delete params.dataAppControls;
+        delete params.dataAppActions;
         delete params.embedParams;
-        const packed = this.packedControls();
-        if (packed) params.dataAppInitialControls = packed;
-        return params;
+        return { ...params, ...this.appParams(this.packedControls()) };
     }
 
     // As the base's, but a post the browser refuses is caught, and either
@@ -597,9 +685,23 @@ export class DataAppEmbed extends TsEmbed {
         return refused.length > 0;
     }
 
+    // One SEV1 error for a malformed dataAppActions; true if raised.
+    private refuseInvalidOptions(): boolean {
+        if (!this.actionsInvalid) return false;
+        this.handleError(inputError(
+            EmbedErrorCodes.DATA_APP_OPTION_INVALID,
+            ERROR_MESSAGE.DATA_APP_OPTION_INVALID,
+            EmbedErrorSeverity.SEV1,
+            'dataAppActions',
+        ));
+        return true;
+    }
+
     // The one check before this embed creates or adopts a frame.
     private refuseFrame(): boolean {
-        if (this.refuseUnsupportedOptions()) return true;
+        // Both run, so every bad option is named.
+        const unsupported = this.refuseUnsupportedOptions();
+        if (this.refuseInvalidOptions() || unsupported) return true;
         if (!this.stoppedByMissingId) return false;
         this.handleError(inputError(
             EmbedErrorCodes.DATA_APP_ID_MISSING,

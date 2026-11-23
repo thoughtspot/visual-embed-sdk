@@ -5003,13 +5003,18 @@ describe('DataAppEmbed', () => {
     describe('inherited options an App ignores', () => {
         let warn: jest.SpyInstance;
 
+        // The action lists' warning points to dataAppActions.
+        const ignoredMessage = (option: string) => (
+            ['hiddenActions', 'disabledActions', 'visibleActions'].includes(option)
+                ? ERROR_MESSAGE.DATA_APP_ACTIONS_IGNORED
+                : ERROR_MESSAGE.DATA_APP_OPTION_IGNORED);
         const ignored = (option: string) => ({
             errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-            message: ERROR_MESSAGE.DATA_APP_OPTION_IGNORED,
+            message: ignoredMessage(option),
             code: EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
             severity: EmbedErrorSeverity.SEV3,
             option,
-            error: ERROR_MESSAGE.DATA_APP_OPTION_IGNORED,
+            error: ignoredMessage(option),
         });
         const warnings = () => warn.mock.calls
             .filter(([details]) => details?.code === EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED);
@@ -5064,6 +5069,14 @@ describe('DataAppEmbed', () => {
             );
             expect(getIFrameEl()).not.toBeNull();
         });
+
+        it('names dataAppActions in the warning for an App action in an action list (TC-523)', () => {
+            expect(ERROR_MESSAGE.DATA_APP_ACTIONS_IGNORED).toBe(
+                'This option is ignored, except Action.QueryDetailsButtons in hiddenActions. '
+                + 'To switch off App actions, use dataAppActions.',
+            );
+            expect(ERROR_MESSAGE.DATA_APP_OPTION_IGNORED).not.toContain('dataAppActions');
+        });
     });
 
     describe('hideDataAppHeader', () => {
@@ -5091,6 +5104,559 @@ describe('DataAppEmbed', () => {
 
             expect(params.hideDataAppHeader).toBe(true);
             expect('hideDataAppHeader' in unsetParams).toBe(false);
+        });
+    });
+
+    describe('dataAppActions', () => {
+        let logError: jest.SpyInstance;
+        let processTrigger: jest.SpyInstance;
+        // Every host event posted to the frame, as [type, data].
+        let posted: [string, any][];
+
+        const invalid = {
+            errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+            message: ERROR_MESSAGE.DATA_APP_OPTION_INVALID,
+            code: EmbedErrorCodes.DATA_APP_OPTION_INVALID,
+            severity: EmbedErrorSeverity.SEV1,
+            option: 'dataAppActions',
+            error: ERROR_MESSAGE.DATA_APP_OPTION_INVALID,
+        };
+        const notConfirmed = (id = appId) => ({
+            errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+            message: ERROR_MESSAGE.DATA_APP_ACTIONS_NOT_CONFIRMED,
+            code: EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED,
+            severity: EmbedErrorSeverity.SEV1,
+            option: 'dataAppActions',
+            appId: id,
+            error: ERROR_MESSAGE.DATA_APP_ACTIONS_NOT_CONFIRMED,
+        });
+        // DataAppReady with actionsOff, or without the key when undefined.
+        const readyWith = (actionsOff?: unknown, id = appId) => fromFrame(
+            EmbedEvent.DataAppReady,
+            actionsOff === undefined ? appState(id) : { ...appState(id), actionsOff },
+        );
+        const updateParams = () => posted
+            .filter(([type]) => type === HostEvent.UpdateEmbedParams)
+            .map(([, data]) => data);
+        // Rendered, with the DataAppReady payloads and the event types its
+        // handlers were given.
+        const rendered = async (config: object) => {
+            const created = await renderDataApp({ dataAppId: appId, ...config });
+            const readies: unknown[] = [];
+            const seen: string[] = [];
+            created.embed.on(EmbedEvent.DataAppReady, (payload) => readies.push(payload.data));
+            created.embed.on(EmbedEvent.ALL, (payload) => seen.push(payload.type));
+            return { ...created, readies, seen };
+        };
+
+        beforeEach(() => {
+            mockResizeObserver();
+            logError = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+            posted = [];
+            processTrigger = jest
+                .spyOn(processTriggerService, 'processTrigger')
+                .mockImplementation((_, type, __, data) => {
+                    posted.push([type, data]);
+                    // App calls stay unanswered; nothing here is about replies.
+                    return APP_CALL_TYPES.has(type) ? new Promise(() => undefined) : Promise.resolve(null);
+                });
+        });
+
+        afterEach(() => {
+            logError.mockRestore();
+            processTrigger.mockRestore();
+        });
+
+        describe('a malformed value', () => {
+            const sparse: string[] = new Array(2);
+            sparse[1] = 'close_ticket';
+            const throwing = new Proxy({}, {
+                ownKeys() {
+                    throw new Error('no keys');
+                },
+            });
+
+            it.each([
+                ['a string', 'all'],
+                ['an array', ['close_ticket']],
+                ['true', true],
+                ['a number', 1],
+                ['an empty object', {}],
+                ['display without off', { display: 'hidden' }],
+                ['off: null', { off: null }],
+                ['off: \'ALL\'', { off: 'ALL' }],
+                ['off: \'none\'', { off: 'none' }],
+                ['off as one bare id', { off: 'close_ticket' }],
+                ['an upper-case id', { off: ['Close_ticket'] }],
+                ['an id starting with a digit', { off: ['1st_ticket'] }],
+                ['an id starting with an underscore', { off: ['_close'] }],
+                ['an id with a hyphen', { off: ['close-ticket'] }],
+                ['an id with a space', { off: ['close ticket'] }],
+                ['an id of 65 characters', { off: [`a${'b'.repeat(64)}`] }],
+                ['an empty id', { off: [''] }],
+                ['a number id', { off: [7] }],
+                ['a null id', { off: [null] }],
+                ['a sparse list', { off: sparse }],
+                ['a Set of ids', { off: new Set(['close_ticket']) }],
+                ['one bad id among good ones', { off: ['close_ticket', 'Reopen'] }],
+                ['display: \'grey\'', { off: 'all', display: 'grey' }],
+                ['display: \'Hidden\'', { off: 'all', display: 'Hidden' }],
+                ['display: null', { off: 'all', display: null }],
+                ['an unknown key', { off: 'all', mode: 'strict' }],
+                ['a misspelt display', { off: 'all', dispaly: 'disabled' }],
+                ['a class instance', new (class { off = 'all'; })()],
+                ['a Proxy that throws', throwing],
+            ])('refuses %s with one SEV1 error, and renders no frame', async (_, dataAppActions) => {
+                const { embed, errors } = await renderDataApp({ dataAppId: appId, dataAppActions });
+
+                expect(errors).toStrictEqual([invalid]);
+                expect(getIFrameEl()).toBeNull();
+                expect((embed as any).isRendered).toBeFalsy();
+                expect(posted).toEqual([]);
+                expect(logError).toHaveBeenCalledWith(invalid);
+            });
+
+            it.each([
+                ['undefined', undefined],
+                ['null', null],
+                ['off: []', { off: [] }],
+                ['off: \'all\'', { off: 'all' }],
+                ['one id', { off: ['close_ticket'] }],
+                ['a one-letter id', { off: ['a'] }],
+                ['an id of 64 characters', { off: [`a${'b'.repeat(63)}`] }],
+                ['the id \'all\' in a list', { off: ['all'] }],
+                ['repeated ids', { off: ['close_ticket', 'close_ticket'] }],
+                ['display: \'hidden\'', { off: 'all', display: 'hidden' }],
+                ['display: \'disabled\'', { off: ['close_ticket'], display: 'disabled' }],
+                ['display: undefined', { off: 'all', display: undefined }],
+            ])('renders with %s', async (_, dataAppActions) => {
+                const { embed, errors } = await renderDataApp({ dataAppId: appId, dataAppActions });
+
+                expect(errors).toEqual([]);
+                expect(getIFrameEl()).not.toBeNull();
+                expect((embed as any).isRendered).toBe(true);
+            });
+
+            it('raises a refused option and the malformed one, in that order', async () => {
+                const { errors } = await renderDataApp({
+                    dataAppActions: { off: 'none' },
+                    dataAppId: appId,
+                    runtimeFilters: depotFilter,
+                });
+
+                expect(errors).toStrictEqual([refusal('runtimeFilters'), invalid]);
+                expect(getIFrameEl()).toBeNull();
+            });
+
+            it.each([
+                ['render()', false, (embed: DataAppEmbed) => embed.render()],
+                ['prerenderGeneric()', false, (embed: DataAppEmbed) => embed.prerenderGeneric()],
+                ['preRender()', true, (embed: DataAppEmbed) => embed.preRender()],
+                ['preRender(true)', true, (embed: DataAppEmbed) => embed.preRender(true)],
+                ['showPreRender()', true, (embed: DataAppEmbed) => embed.showPreRender()],
+                ['navigateToDataApp()', false, (embed: DataAppEmbed) => embed.navigateToDataApp('b7c8')],
+            ])('%s refuses it, and so does a navigate after it', async (_, withPreRender, enter) => {
+                const { embed, errors } = createDataApp({
+                    dataAppId: appId,
+                    dataAppActions: { off: ['Close'] },
+                    ...(withPreRender ? { preRenderId: nextPreRenderId() } : {}),
+                });
+
+                await enter(embed);
+                await embed.navigateToDataApp('c9d0');
+
+                expect(errors).toStrictEqual([invalid, invalid]);
+                expect(getIFrameEl()).toBeNull();
+                expect(embed.getUnderlyingFrameElement()).toBeFalsy();
+                expect(posted).toEqual([]);
+            });
+
+            it('does not show a connected pre-render', async () => {
+                const preRenderId = nextPreRenderId();
+                const owner = newDataApp({ dataAppId: appId, preRenderId } as DataAppEmbedViewConfig);
+                await owner.preRender();
+                await waitFor(() => !!getIFrameEl());
+                const wrapper = document.getElementById(owner.getPreRenderIds().wrapper);
+                posted = [];
+
+                const { embed, errors } = createDataApp({
+                    dataAppId: appId,
+                    preRenderId,
+                    dataAppActions: { off: 'all', display: 'grey' },
+                });
+                await embed.showPreRender();
+
+                expect(errors).toStrictEqual([invalid]);
+                expect(wrapper.style.opacity).toBe('0');
+                expect((embed as any).isRendered).toBeFalsy();
+                expect(posted).toEqual([]);
+            });
+
+            it('takes DataAppActions in its type, and refuses other shapes at compile time', () => {
+                const configs: DataAppEmbedViewConfig[] = [
+                    { dataAppId: appId, dataAppActions: { off: 'all' } },
+                    { dataAppId: appId, dataAppActions: { off: ['close_ticket'], display: 'disabled' } },
+                    { dataAppId: appId, dataAppActions: null },
+                    // @ts-expect-error off is required
+                    { dataAppId: appId, dataAppActions: { display: 'hidden' } },
+                    // @ts-expect-error display is one of two words
+                    { dataAppId: appId, dataAppActions: { off: 'all', display: 'grey' } },
+                    // @ts-expect-error off is 'all' or a list
+                    { dataAppId: appId, dataAppActions: { off: 'none' } },
+                ];
+                expect(configs).toHaveLength(6);
+            });
+        });
+
+        describe('the carrier', () => {
+            it.each([
+                ['unique ids, sorted', { off: ['reopen_ticket', 'close_ticket', 'reopen_ticket'] },
+                    { off: ['close_ticket', 'reopen_ticket'] }],
+                ['all', { off: 'all' }, { off: 'all' }],
+                ['an empty list', { off: [] }, { off: [] }],
+                ['display', { off: 'all', display: 'disabled' }, { off: 'all', display: 'disabled' }],
+                ['no display key for display: undefined', { off: ['b'], display: undefined }, { off: ['b'] }],
+            ])('sends %s the same in APP_INIT and UpdateEmbedParams', async (_, dataAppActions, sent) => {
+                const embed = newDataApp({ dataAppId: appId, dataAppActions } as DataAppEmbedViewConfig);
+
+                const initData = await (embed as any).getAppInitData();
+                const params = await (embed as any).getUpdateEmbedParamsObject();
+
+                expect(initData.embedParams.dataAppActions).toStrictEqual(sent);
+                expect(params.dataAppActions).toStrictEqual(sent);
+                expect(params.embedParams).toBeUndefined();
+            });
+
+            it.each([
+                ['undefined', undefined],
+                ['null', null],
+            ])('sends no rule for %s', async (_, dataAppActions) => {
+                const embed = newDataApp({ dataAppId: appId, dataAppActions } as DataAppEmbedViewConfig);
+
+                const initData = await (embed as any).getAppInitData();
+                const params = await (embed as any).getUpdateEmbedParamsObject();
+
+                expect('dataAppActions' in (initData.embedParams ?? {})).toBe(false);
+                expect('dataAppActions' in params).toBe(false);
+            });
+
+            it('sends the rule beside the load-time values', async () => {
+                const embed = newDataApp({
+                    dataAppId: appId,
+                    dataAppControls: depotControls,
+                    dataAppActions: { off: ['close_ticket'] },
+                });
+
+                const initData = await (embed as any).getAppInitData();
+                const params = await (embed as any).getUpdateEmbedParamsObject();
+
+                expect(initData.embedParams).toMatchObject({
+                    dataAppInitialControls: { appId, controls: depotControls },
+                    dataAppActions: { off: ['close_ticket'] },
+                });
+                expect(params).toMatchObject({
+                    dataAppInitialControls: { appId, controls: depotControls },
+                    dataAppActions: { off: ['close_ticket'] },
+                });
+            });
+
+            it('answers the frame\'s APP_INIT with the rule, and keeps it out of the URL', async () => {
+                await renderDataApp({ dataAppId: appId, dataAppActions: { off: ['close_ticket'] } });
+                const port = { postMessage: jest.fn() };
+
+                postMessageToParent(getIFrameEl().contentWindow, { type: EmbedEvent.APP_INIT, data: {} }, port);
+                await until(() => port.postMessage.mock.calls.length > 0);
+
+                expect(port.postMessage.mock.calls[0][0].data.embedParams.dataAppActions)
+                    .toStrictEqual({ off: ['close_ticket'] });
+                expect(getIFrameSrc()).not.toContain('dataAppActions');
+                expect(getIFrameSrc()).not.toContain('close_ticket');
+            });
+
+            it('keeps the rule it read at construction, whatever the host changes later', async () => {
+                const rule = { off: ['close_ticket'] };
+                const embed = newDataApp({ dataAppId: appId, dataAppActions: rule });
+                rule.off.push('Not An Id');
+                rule.off = ['reopen_ticket'];
+
+                const params = await (embed as any).getUpdateEmbedParamsObject();
+
+                expect(params.dataAppActions).toStrictEqual({ off: ['close_ticket'] });
+            });
+
+            it('keeps the rule across navigateToDataApp, which reopens with it', async () => {
+                const { embed } = await rendered({ dataAppActions: { off: 'all' } });
+
+                await embed.navigateToDataApp('b7c8', { controls: depotControls });
+                await until(() => updateParams().length > 0);
+
+                expect(updateParams()[0].dataAppActions).toStrictEqual({ off: 'all' });
+            });
+        });
+
+        describe('the echo in DataAppReady (TA-25)', () => {
+            it.each([
+                ['all', undefined],
+                ['all', ['close_ticket']],
+                ['all', 'ALL'],
+                ['all', []],
+                [['a', 'b'], undefined],
+                [['a', 'b'], ['a']],
+                [['a', 'b'], ['a', 'b', 'c']],
+                [['a', 'b'], ['a', 'c']],
+                [['a', 'b'], 'all'],
+                [['a', 'b'], 'a'],
+                [['a', 'b'], null],
+                [['a', 'b'], [1, 2]],
+                [['a', 'b'], { 0: 'a', 1: 'b' }],
+                [['a'], []],
+            ])('with off %p, removes the App on an echo of %p: SEV1, and no handler hears it', async (off, echo) => {
+                const { embed, errors, readies, seen } = await rendered({ dataAppActions: { off } });
+                const wrapperless = getIFrameEl();
+
+                readyWith(echo);
+                await flush();
+
+                expect(errors).toStrictEqual([notConfirmed()]);
+                expect(logError).toHaveBeenCalledWith(notConfirmed());
+                expect(readies).toEqual([]);
+                expect(seen).not.toContain(EmbedEvent.DataAppReady);
+                expect(getIFrameEl()).toBeNull();
+                expect(wrapperless.isConnected).toBe(false);
+                expect(posted.map(([type]) => type)).toContain(HostEvent.DestroyEmbed);
+                expect((embed as any).destroyed).toBe(true);
+            });
+
+            it.each([
+                ['all', 'all'],
+                [['a', 'b'], ['a', 'b']],
+                [['a', 'b'], ['b', 'a']],
+                [['a', 'b'], ['b', 'a', 'b']],
+                [['b', 'a', 'b'], ['a', 'b']],
+            ])('with off %p, passes on a DataAppReady echoing %p', async (off, echo) => {
+                const { errors, readies } = await rendered({ dataAppActions: { off } });
+
+                readyWith(echo);
+                await flush();
+
+                expect(errors).toEqual([]);
+                expect(readies).toEqual([{ ...appState(), actionsOff: echo }]);
+                expect(getIFrameEl()).not.toBeNull();
+            });
+
+            it.each([
+                ['no rule', undefined, undefined],
+                ['null', null, undefined],
+                ['off: []', { off: [] }, undefined],
+                ['off: [] and an echo of all', { off: [] }, 'all'],
+                ['no rule and an echo', undefined, ['close_ticket']],
+            ])('checks nothing with %s', async (_, dataAppActions, echo) => {
+                const { errors, readies } = await rendered({ dataAppActions });
+
+                readyWith(echo);
+                await flush();
+
+                expect(errors).toEqual([]);
+                expect(readies).toHaveLength(1);
+                expect(getIFrameEl()).not.toBeNull();
+            });
+
+            it('rejects the calls held for the App, and every later one at once', async () => {
+                const { embed } = await rendered({ dataAppActions: { off: 'all' } });
+                const held = watch(embed.trigger(HostEvent.GetDataAppControls));
+                await flush();
+
+                readyWith(undefined);
+                await flush();
+                const later = watch(embed.trigger(HostEvent.GetDataAppControls));
+                await flush();
+
+                expectControlError(held, 'APP_NOT_READY');
+                expectControlError(later, 'APP_NOT_READY');
+                expect(posted.filter(([type]) => APP_CALL_TYPES.has(type))).toEqual([]);
+            });
+
+            it('checks every DataAppReady: a later opening without the echo removes the App', async () => {
+                const { errors, readies } = await rendered({ dataAppActions: { off: ['close_ticket'] } });
+                readyWith(['close_ticket']);
+                await flush();
+
+                readyWith(undefined);
+                await flush();
+
+                expect(readies).toHaveLength(1);
+                expect(errors).toStrictEqual([notConfirmed()]);
+                expect(getIFrameEl()).toBeNull();
+            });
+
+            it('checks a DataAppReady for another App too: the rule applies to every App', async () => {
+                const { errors, readies } = await rendered({ dataAppActions: { off: 'all' } });
+
+                readyWith(undefined, 'other-app');
+                await flush();
+
+                expect(readies).toEqual([]);
+                expect(errors).toStrictEqual([notConfirmed()]);
+                expect(getIFrameEl()).toBeNull();
+            });
+
+            it('checks the App opened by navigateToDataApp, and names it', async () => {
+                const { embed, errors } = await rendered({ dataAppActions: { off: 'all' } });
+                readyWith('all');
+                await flush();
+
+                await embed.navigateToDataApp('b7c8');
+                readyWith(undefined, 'b7c8');
+                await flush();
+
+                expect(errors).toStrictEqual([notConfirmed('b7c8')]);
+                expect(getIFrameEl()).toBeNull();
+            });
+
+            it('checks the App reopened by a Reload', async () => {
+                const { embed, errors } = await rendered({ dataAppActions: { off: 'all' } });
+                readyWith('all');
+                await flush();
+
+                await embed.trigger(HostEvent.Reload);
+                readyWith(undefined);
+                await flush();
+
+                expect(errors).toStrictEqual([notConfirmed()]);
+            });
+
+            it('raises once, and does nothing more once removed', async () => {
+                const { embed, errors } = await rendered({ dataAppActions: { off: 'all' } });
+                readyWith(undefined);
+                await flush();
+                const frameEvent = { type: EmbedEvent.DataAppReady, data: appState(), status: 'end' };
+
+                (embed as any).executeCallbacks(EmbedEvent.DataAppReady, frameEvent);
+                await embed.navigateToDataApp('b7c8');
+                await embed.render();
+
+                expect(errors).toStrictEqual([notConfirmed()]);
+                expect(getIFrameEl()).toBeNull();
+            });
+
+            it.each([
+                ['no data', { type: EmbedEvent.DataAppReady, status: 'end' }],
+                ['no payload at all', undefined],
+            ])('removes the App on a DataAppReady with %s', async (_, frameEvent) => {
+                const { embed, errors, readies } = await rendered({ dataAppActions: { off: ['close_ticket'] } });
+
+                (embed as any).executeCallbacks(EmbedEvent.DataAppReady, frameEvent);
+
+                expect(errors).toStrictEqual([notConfirmed()]);
+                expect(readies).toEqual([]);
+                expect(getIFrameEl()).toBeNull();
+            });
+
+            it('passes every other event on as before', async () => {
+                const { errors, seen } = await rendered({ dataAppActions: { off: 'all' } });
+
+                fromFrame(EmbedEvent.DataAppLoad, { appId, session: 'S1', revision: 1, first: true });
+                await flush();
+
+                expect(seen).toContain(EmbedEvent.DataAppLoad);
+                expect(errors).toEqual([]);
+            });
+        });
+
+        describe('a pre-render shown with a rule (TA-26, TA-32)', () => {
+            // Shown, loaded, and past the params' settle.
+            const show = async (preRenderId: string, dataAppActions: unknown) => {
+                const created = createDataApp({ dataAppId: appId, preRenderId, dataAppActions });
+                const readies: unknown[] = [];
+                created.embed.on(EmbedEvent.DataAppReady, (payload) => readies.push(payload.data));
+                await created.embed.showPreRender();
+                await flush();
+                fromFrame(EmbedEvent.EmbedListenerReady);
+                await resolveAfter(UPDATE_EMBED_PARAMS_SETTLE_MS + 50);
+                return { ...created, readies };
+            };
+
+            it('sends the same rule written in another order unchanged, and its echo passes (TA-32)', async () => {
+                const preRenderId = nextPreRenderId();
+                const owner = await show(preRenderId, { off: ['reopen_ticket', 'close_ticket'] });
+                readyWith(['close_ticket', 'reopen_ticket']);
+                await flush();
+                const given = (await (owner.embed as any).getAppInitData()).embedParams.dataAppActions;
+                owner.embed.hidePreRender();
+                posted = [];
+
+                const other = await show(preRenderId, { off: ['close_ticket', 'reopen_ticket', 'close_ticket'] });
+                readyWith(['reopen_ticket', 'close_ticket']);
+                await flush();
+
+                expect(updateParams()).toHaveLength(1);
+                expect(updateParams()[0].dataAppActions).toStrictEqual(given);
+                expect(given).toStrictEqual({ off: ['close_ticket', 'reopen_ticket'] });
+                expect([...owner.errors, ...other.errors]).toEqual([]);
+                expect(other.readies).toHaveLength(1);
+                expect(getIFrameEl()).not.toBeNull();
+            });
+
+            it('sends a different rule, and checks the reopened App against it (TA-26)', async () => {
+                const preRenderId = nextPreRenderId();
+                const owner = await show(preRenderId, { off: ['close_ticket'] });
+                readyWith(['close_ticket']);
+                await flush();
+                owner.embed.hidePreRender();
+                posted = [];
+
+                const other = await show(preRenderId, { off: 'all' });
+                readyWith('all');
+                await flush();
+
+                expect(updateParams().map((params) => params.dataAppActions)).toEqual([{ off: 'all' }]);
+                expect(other.errors).toEqual([]);
+                expect(other.readies).toEqual([{ ...appState(), actionsOff: 'all' }]);
+            });
+
+            it('removes the frame on a DataAppReady still echoing the old rule (TA-26)', async () => {
+                const preRenderId = nextPreRenderId();
+                const owner = await show(preRenderId, { off: ['close_ticket'] });
+                const wrapperId = owner.embed.getPreRenderIds().wrapper;
+                owner.embed.hidePreRender();
+
+                const other = await show(preRenderId, { off: 'all' });
+                readyWith(['close_ticket']);
+                await flush();
+
+                expect(other.errors).toStrictEqual([notConfirmed()]);
+                expect(other.readies).toEqual([]);
+                expect(getIFrameEl()).toBeNull();
+                expect(document.getElementById(wrapperId)).toBeNull();
+            });
+
+            it('a rule dropped on show sends none, and checks nothing', async () => {
+                const preRenderId = nextPreRenderId();
+                const owner = await show(preRenderId, { off: 'all' });
+                owner.embed.hidePreRender();
+                posted = [];
+
+                const other = await show(preRenderId, undefined);
+                readyWith(undefined);
+                await flush();
+
+                expect('dataAppActions' in updateParams()[0]).toBe(false);
+                expect(other.errors).toEqual([]);
+                expect(other.readies).toHaveLength(1);
+            });
+
+            // Known limit: hidden, it hears nothing, so it cannot check.
+            it('does not check while hidden', async () => {
+                const preRenderId = nextPreRenderId();
+                const owner = await show(preRenderId, { off: 'all' });
+                owner.embed.hidePreRender();
+
+                readyWith(undefined);
+                await flush();
+
+                expect(owner.errors).toEqual([]);
+                expect(getIFrameEl()).not.toBeNull();
+            });
         });
     });
 
