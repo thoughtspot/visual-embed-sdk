@@ -23980,7 +23980,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 641,
+							"line": 646,
 							"character": 4
 						}
 					],
@@ -24044,7 +24044,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1189,
+							"line": 1194,
 							"character": 11
 						}
 					],
@@ -24255,7 +24255,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1239,
+							"line": 1244,
 							"character": 11
 						}
 					],
@@ -24587,7 +24587,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1214,
+							"line": 1219,
 							"character": 11
 						}
 					],
@@ -25062,7 +25062,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1203,
+							"line": 1208,
 							"character": 17
 						}
 					],
@@ -25276,7 +25276,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 1145,
+							"line": 1150,
 							"character": 11
 						}
 					],
@@ -25571,7 +25571,7 @@
 			"sources": [
 				{
 					"fileName": "embed/liveboard.ts",
-					"line": 636,
+					"line": 641,
 					"character": 13
 				}
 			],
@@ -59758,7 +59758,7 @@
 					},
 					"comment": {
 						"shortText": "Filters and Parameters to apply to the Liveboard when it loads.",
-						"text": "In an embedded Liveboard, this is the only way to set these overrides.\nThe `filter` and `parameter` URL query params are ignored.\nClauses without a query token are dropped.\n\nSupported embed types: `LiveboardEmbed`",
+						"text": "In an embedded Liveboard, this is the only way to set these overrides.\nThe `filter` and `parameter` URL query params are ignored.\nClauses without a query token are dropped.\n\nSupported embed types: `LiveboardEmbed`\n\nFor more information, see\nlink:https://developers.thoughtspot.com/docs/liveboard-filter-and-parameter-overrides[Liveboard\nFilter and Parameter Overrides].\n",
 						"tags": [
 							{
 								"tag": "version",
@@ -59773,7 +59773,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 597,
+							"line": 602,
 							"character": 4
 						}
 					],
@@ -60828,7 +60828,7 @@
 					"sources": [
 						{
 							"fileName": "embed/liveboard.ts",
-							"line": 610,
+							"line": 615,
 							"character": 4
 						}
 					],
