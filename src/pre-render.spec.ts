@@ -226,6 +226,17 @@ describe('PreRenderController', () => {
             expect(frame.style.width).toBe('100%');
         });
 
+        it('clears the frameParams min-height so the wrapper alone sizes the iframe', () => {
+            const controller = createController();
+            const frame = document.createElement('iframe');
+            frame.style.height = '700px';
+            frame.style.minHeight = '700px';
+
+            controller.insertIntoDOM(frame);
+
+            expect(frame.style.minHeight).toBe('100%');
+        });
+
         it('hides the fresh shell by default', () => {
             const controller = createController();
 
