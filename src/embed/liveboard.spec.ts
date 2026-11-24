@@ -2363,19 +2363,18 @@ describe('Liveboard/viz embed tests', () => {
             const newWrapper = document.getElementById(ids.wrapper);
             const newChild = document.getElementById(ids.child);
 
-            // Should have called prerenderGeneric for the new embed instance
-            expect(prerenderGenericSpy).toHaveBeenCalledTimes(1);
-
-            // Wrapper should be replaced (new wrapper element), child iframe
-            // may be reused
-            expect(newWrapper).not.toBe(oldWrapper);
+            // The existing pre-render is reused, not rebuilt
+            expect(prerenderGenericSpy).not.toHaveBeenCalled();
+            expect(newWrapper).toBe(oldWrapper);
+            expect(newChild).toBe(oldChild);
 
             // __tsEmbed on wrapper should now point to the new embed instance
             expect((newWrapper as any)[tsKey]).toBe(embedB);
         });
 
-        test('should render a new iframe with the new Liveboard when replacing a preRender', async () => {
-            const testPreRenderId = 'testReplacePreRenderNewIframe';
+        test('should navigate the existing iframe to the new Liveboard when replacing a preRender', async () => {
+            mockMessageChannel();
+            const testPreRenderId = 'testReplacePreRenderNavigate';
             (window as any).ResizeObserver = (window as any).ResizeObserver
                 || jest.fn().mockImplementation(() => ({
                     disconnect: jest.fn(),
@@ -2390,22 +2389,29 @@ describe('Liveboard/viz embed tests', () => {
             await embedA.preRender();
             const ids = embedA.getPreRenderIds();
             await waitFor(() => !!document.getElementById(ids.child));
-            const oldIframe = document.getElementById(ids.child) as HTMLIFrameElement;
-            expect(oldIframe.src).toContain('liveboard-A');
+            const iframe = document.getElementById(ids.child) as HTMLIFrameElement;
 
             const embedB = new LiveboardEmbed(getRootEl(), {
                 preRenderId: testPreRenderId,
                 liveboardId: 'liveboard-B',
             });
+            const renderSpy = jest.spyOn(embedB, 'render');
+            const navigateSpy = jest.spyOn(embedB, 'navigateToLiveboard');
             await embedB.preRender(false, true);
-            await waitFor(() => document.getElementById(ids.child) !== oldIframe);
 
-            const newIframe = document.getElementById(ids.child) as HTMLIFrameElement;
-            expect(newIframe).not.toBe(oldIframe);
-            expect(newIframe.src).toContain('liveboard-B');
-            expect(newIframe.src).not.toContain('liveboard-A');
-            expect(embedB.getUnderlyingFrameElement()).toBe(newIframe);
-            expect(document.contains(oldIframe)).toBe(false);
+            // The ThoughtSpot app in the existing iframe signals it is ready
+            postMessageToParent(iframe.contentWindow, { type: EmbedEvent.AuthInit });
+            await waitFor(() => navigateSpy.mock.calls.length > 0);
+
+            // No cold start: same iframe, no re-render, routed to B in place
+            expect(renderSpy).not.toHaveBeenCalled();
+            expect(document.getElementById(ids.child)).toBe(iframe);
+            expect(embedB.getUnderlyingFrameElement()).toBe(iframe);
+            expect(navigateSpy).toHaveBeenCalledWith(
+                'liveboard-B', undefined, undefined, undefined,
+            );
+            // Stays hidden, since showPreRenderByDefault is false
+            expect(document.getElementById(ids.wrapper).style.opacity).toBe('0');
         });
     });
 
