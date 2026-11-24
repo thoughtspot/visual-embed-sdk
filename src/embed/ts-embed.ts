@@ -1828,14 +1828,30 @@ export class TsEmbed {
         this.preRenderController.markPreRendering(showPreRenderByDefault);
 
         const isAlreadyRendered = this.preRenderController.connect();
-        if (isAlreadyRendered && !replaceExistingPreRender) {
-            if (showPreRenderByDefault) {
-                this.showPreRender();
+        if (isAlreadyRendered) {
+            if (replaceExistingPreRender) {
+                this.discardExistingPreRender();
+            } else {
+                if (showPreRenderByDefault) {
+                    this.showPreRender();
+                }
+                return this;
             }
-            return this;
         }
 
         return this.handleRenderForPrerender();
+    }
+
+    private discardExistingPreRender(): void {
+        const previousOwner = this.getPreRenderObj<TsEmbed>();
+        if (previousOwner && previousOwner !== this) {
+            previousOwner.removeFullscreenChangeHandler();
+            previousOwner.unsubscribeToEvents();
+            previousOwner.setIframeElement(undefined);
+        }
+        this.preRenderController.discard();
+        this.setIframeElement(undefined);
+        this.isRendered = false;
     }
 
     /**

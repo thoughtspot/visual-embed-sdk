@@ -340,6 +340,12 @@ export class PreRenderController {
         this.restoreContainerPosition();
     }
 
+    public discard(): void {
+        this.destroy();
+        this.wrapperEl = undefined;
+        this.childEl = undefined;
+    }
+
     public createWrapper(): HTMLDivElement {
         const ids = this.getIds();
         document.getElementById(ids.wrapper)?.remove();

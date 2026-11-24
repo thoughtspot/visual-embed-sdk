@@ -5820,6 +5820,39 @@ describe('PreRender replaceExistingPreRender scenarios', () => {
         const iframe = getIFrameEl();
         expect(iframe.src).toContain('lb1');
     });
+
+    test('should render a new iframe for the new config when replaceExistingPreRender is true', async () => {
+        createRootEleForEmbed();
+        const embed1 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderConfig: { id: 'replace-test' },
+            liveboardId: 'lb1',
+        });
+        await embed1.preRender();
+        await waitFor(() => !!document.getElementById(embed1.getPreRenderIds().child));
+
+        const ids = embed1.getPreRenderIds();
+        const oldChild = document.getElementById(ids.child) as HTMLIFrameElement;
+        expect(oldChild.src).toContain('lb1');
+        const unsubscribeSpy = jest.spyOn(embed1 as any, 'unsubscribeToEvents');
+
+        const embed2 = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderConfig: { id: 'replace-test' },
+            liveboardId: 'lb2',
+        });
+        await embed2.preRender(false, true);
+        await waitFor(() => document.getElementById(ids.child) !== oldChild
+            && !!document.getElementById(ids.child));
+
+        const newChild = document.getElementById(ids.child) as HTMLIFrameElement;
+        expect(newChild).not.toBe(oldChild);
+        expect(oldChild.isConnected).toBe(false);
+        expect(newChild.src).toContain('lb2');
+        expect(newChild.src).not.toContain('lb1');
+        expect(embed2.getUnderlyingFrameElement()).toBe(newChild);
+        expect(document.querySelectorAll(`[id="${ids.wrapper}"]`)).toHaveLength(1);
+        expect(unsubscribeSpy).toHaveBeenCalledTimes(1);
+        expect(embed1.getUnderlyingFrameElement()).toBeUndefined();
+    });
 });
 
 describe('Destroy error handling', () => {
