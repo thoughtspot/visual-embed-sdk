@@ -1810,7 +1810,13 @@ export class TsEmbed {
 
     /**
      * Creates the preRender shell
+     * or connects to the one already rendered
+     * with the same `preRenderId`.
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
+     * @param replaceExistingPreRender - Replace a preRender that already exists
+     * with the same `preRenderId`. For a Liveboard with a `liveboardId`, the
+     * existing iframe is switched in place, as with `showPreRender()`, rather
+     * than reloaded.
      */
 
     public async preRender(
@@ -1828,15 +1834,19 @@ export class TsEmbed {
         this.preRenderController.markPreRendering(showPreRenderByDefault);
 
         const isAlreadyRendered = this.preRenderController.connect();
-        if (isAlreadyRendered) {
-            if (replaceExistingPreRender) {
-                this.preRenderController.destroy();
+        if (isAlreadyRendered && replaceExistingPreRender) {
+            if (showPreRenderByDefault) {
+                this.showPreRender();
             } else {
-                if (showPreRenderByDefault) {
-                    this.showPreRender();
-                }
-                return this;
+                await this.applyConfigToPreRender();
             }
+            return this;
+        }
+        if (isAlreadyRendered && !replaceExistingPreRender) {
+            if (showPreRenderByDefault) {
+                this.showPreRender();
+            }
+            return this;
         }
 
         return this.handleRenderForPrerender();
@@ -2022,6 +2032,13 @@ export class TsEmbed {
         this.preRenderController.takeOver();
 
         return this;
+    }
+
+    private async applyConfigToPreRender(): Promise<void> {
+        if (this.shouldWaitForRenderPromise) await this.isReadyForRenderPromise;
+        this.isRendered = true;
+        this.beforePrerenderVisible();
+        this.preRenderController.takeOver();
     }
 
     protected getPreRenderPlaceHolderElement() {
