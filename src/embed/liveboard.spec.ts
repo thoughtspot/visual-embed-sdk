@@ -2373,6 +2373,40 @@ describe('Liveboard/viz embed tests', () => {
             // __tsEmbed on wrapper should now point to the new embed instance
             expect((newWrapper as any)[tsKey]).toBe(embedB);
         });
+
+        test('should render a new iframe with the new Liveboard when replacing a preRender', async () => {
+            const testPreRenderId = 'testReplacePreRenderNewIframe';
+            (window as any).ResizeObserver = (window as any).ResizeObserver
+                || jest.fn().mockImplementation(() => ({
+                    disconnect: jest.fn(),
+                    observe: jest.fn(),
+                    unobserve: jest.fn(),
+                }));
+
+            const embedA = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+                liveboardId: 'liveboard-A',
+            });
+            await embedA.preRender();
+            const ids = embedA.getPreRenderIds();
+            await waitFor(() => !!document.getElementById(ids.child));
+            const oldIframe = document.getElementById(ids.child) as HTMLIFrameElement;
+            expect(oldIframe.src).toContain('liveboard-A');
+
+            const embedB = new LiveboardEmbed(getRootEl(), {
+                preRenderId: testPreRenderId,
+                liveboardId: 'liveboard-B',
+            });
+            await embedB.preRender(false, true);
+            await waitFor(() => document.getElementById(ids.child) !== oldIframe);
+
+            const newIframe = document.getElementById(ids.child) as HTMLIFrameElement;
+            expect(newIframe).not.toBe(oldIframe);
+            expect(newIframe.src).toContain('liveboard-B');
+            expect(newIframe.src).not.toContain('liveboard-A');
+            expect(embedB.getUnderlyingFrameElement()).toBe(newIframe);
+            expect(document.contains(oldIframe)).toBe(false);
+        });
     });
 
     describe('LazyLoadingForFullHeight functionality', () => {
