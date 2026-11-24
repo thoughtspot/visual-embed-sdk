@@ -1830,7 +1830,7 @@ export class TsEmbed {
         const isAlreadyRendered = this.preRenderController.connect();
         if (isAlreadyRendered) {
             if (replaceExistingPreRender) {
-                this.discardExistingPreRender();
+                this.preRenderController.destroy();
             } else {
                 if (showPreRenderByDefault) {
                     this.showPreRender();
@@ -1840,18 +1840,6 @@ export class TsEmbed {
         }
 
         return this.handleRenderForPrerender();
-    }
-
-    private discardExistingPreRender(): void {
-        const previousOwner = this.getPreRenderObj<TsEmbed>();
-        if (previousOwner && previousOwner !== this) {
-            previousOwner.removeFullscreenChangeHandler();
-            previousOwner.unsubscribeToEvents();
-            previousOwner.setIframeElement(undefined);
-        }
-        this.preRenderController.discard();
-        this.setIframeElement(undefined);
-        this.isRendered = false;
     }
 
     /**
