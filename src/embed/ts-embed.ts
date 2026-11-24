@@ -1831,12 +1831,9 @@ export class TsEmbed {
         this.preRenderController.markPreRendering(showPreRenderByDefault);
 
         const isAlreadyRendered = this.preRenderController.connect();
-        // A pre-render that only holds the login-failed message has no app to
-        // update, so a replace falls through to a full render.
         const canReuseIframe = this.preRenderController.child instanceof HTMLIFrameElement;
         if (isAlreadyRendered && (!replaceExistingPreRender || canReuseIframe)) {
             if (showPreRenderByDefault) {
-                // Sends UpdateEmbedParams and Navigate to the reused iframe.
                 this.showPreRender();
             } else if (replaceExistingPreRender) {
                 this.syncPreRenderInBackground();
@@ -1847,18 +1844,10 @@ export class TsEmbed {
         return this.handleRenderForPrerender();
     }
 
-    /**
-     * Points a hidden, already loaded pre-render at this embed's configuration
-     * without reloading its iframe: the same UpdateEmbedParams and Navigate
-     * that showPreRender() sends, minus revealing it.
-     */
     private syncPreRenderInBackground(): void {
         this.isRendered = true;
-        // Before takeOver(): subclasses read the previous owner's state here.
         this.beforePrerenderVisible();
         this.preRenderController.conceal();
-        // Not hidePreRender(): that unsubscribes, and the sync above waits on
-        // the container-ready event when the iframe has not finished loading.
         this.subscribeToEvents();
         this.preRenderController.takeOver();
     }
