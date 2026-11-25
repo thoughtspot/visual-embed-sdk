@@ -266,6 +266,7 @@ describe('event contracts (drift guardrails)', () => {
                 EmbedEvent.CrossFilterChanged,
                 EmbedEvent.CustomAction,
                 EmbedEvent.Data,
+                EmbedEvent.DataAppRendered,
                 EmbedEvent.DataSourceSelected,
                 EmbedEvent.Delete,
                 EmbedEvent.DialogClose,
@@ -314,6 +315,7 @@ describe('event contracts (drift guardrails)', () => {
             ].map((e) => `${e}`).sort(),
         ).toEqual([
             'AIHighlights',
+            'DataAppRendered',
             'EmbedIframeCenter',
             'EmbedListenerReady',
             'Error',

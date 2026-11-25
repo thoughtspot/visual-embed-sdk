@@ -3205,6 +3205,27 @@ export enum EmbedEvent {
      */
     LiveboardTopUsersLoaded = 'LiveboardTopUsersLoaded',
     /**
+     * Emitted when the embedded App's frame has rendered.
+     * You can use this event as a hook to hide your own loading indicator.
+     *
+     * This event does not wait for the App's tiles or their data to load.
+     * Payload: {@link DataAppRenderedData}.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    dataAppId: '<app-id>',
+     * });
+     * embed.on(EmbedEvent.DataAppRendered, payload => {
+     *    console.log('App is rendered', payload.data.dataAppId);
+     * });
+     * embed.render();
+     * ```
+     */
+    DataAppRendered = 'DataAppRendered',
+    /**
      * Emits all events.
      * @version SDK: 1.10.0 | ThoughtSpot: 8.2.0.cl, 8.4.1.sw
      * @example

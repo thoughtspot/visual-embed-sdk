@@ -151,6 +151,7 @@ export {
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
     LiveboardRenderedData,
+    DataAppRenderedData,
     LiveboardVizInfo,
     LiveboardGroupInfo,
     LiveboardRenderedTabInfo,
