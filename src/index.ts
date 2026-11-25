@@ -35,6 +35,7 @@ import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, B
 import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterAnalystConfig, SpotterUsageLimitConfig, SpotterUsageLimitStatus, SpotterUsageCounterDisplayMode, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, StarterPromptCategory, StarterPreviewDataCategory, StarterPromptQuestion, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import { SpotterVizConfig, SpotterVizStarterPrompt, SpotterVizLoaderTip } from './embed/spotter-viz-utils';
 import { SpotterExperienceVersion } from './embed/spotter-utils';
+import { DataAppEmbed, DataAppEmbedViewConfig } from './embed/data-app';
 import {
     LiveboardOverride,
     LiveboardDataSourceOverride,
@@ -209,6 +210,9 @@ import type {
     LiveboardParameterInfo,
     LiveboardHeaderLoadedPayload,
     AuthInitPayload,
+    DataAppTilePayload,
+    DataAppTileErrorPayload,
+    DarkmodePayload,
     CustomActionEventPayload,
     EmbedEventData,
     EmbedEventPayload,
@@ -239,6 +243,8 @@ export {
     PinboardEmbed,
     LiveboardEmbed,
     AppEmbed,
+    DataAppEmbed,
+    DataAppEmbedViewConfig,
     SpotterAgentEmbed,
     SpotterAgentEmbedViewConfig,
     BodylessConversationViewConfig,
@@ -447,6 +453,9 @@ export {
     LiveboardParameterInfo,
     LiveboardHeaderLoadedPayload,
     AuthInitPayload,
+    DataAppTilePayload,
+    DataAppTileErrorPayload,
+    DarkmodePayload,
     CustomActionEventPayload,
     EmbedEventData,
     EmbedEventPayload,
