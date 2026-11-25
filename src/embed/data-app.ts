@@ -133,6 +133,24 @@ export interface DataAppEmbedViewConfig {
      * ```
      */
     visibleActions?: Action[];
+    /**
+     * Uses host events v2. With it set, a host event the App rejects, such as
+     * `HostEvent.UpdateDataAppName` with an empty name, emits
+     * `EmbedEvent.Error`; without it, the rejection is only logged as a
+     * warning.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    dataAppId: '<app-id>',
+     *    useHostEventsV2: true,
+     * });
+     * ```
+     */
+    useHostEventsV2?: boolean;
 }
 
 /**

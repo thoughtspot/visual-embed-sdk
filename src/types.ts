@@ -7458,16 +7458,28 @@ export enum HostEvent {
      *
      * The event has no result: do not wait on the promise returned by
      * `trigger` to learn whether the name was set. When the name can't be
-     * set, the header does not change and {@link EmbedEvent.Error} is emitted
-     * with the `errorType` `VALIDATION_ERROR`, the `code`
-     * `HOST_EVENT_VALIDATION` and a `message` that gives the reason: `name`
-     * is not a string, is empty or only white space, or no App is open yet.
+     * set, the header does not change. The reason is a host event validation
+     * error, with the `errorType` `VALIDATION_ERROR`, the `code`
+     * `HOST_EVENT_VALIDATION` and a `message`: `name` is not a string, is
+     * empty or only white space, or no App is open yet.
+     *
+     * As for other host events, the embed emits {@link EmbedEvent.Error} with
+     * that error only when the view config sets `useHostEventsV2: true` and
+     * does not set `shouldBypassPayloadValidation: true`. Otherwise the error
+     * is only logged to the console as a warning.
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      * @param - Object parameter. Includes the following keys:
      * - `name`: **Required.** The name to show in the App header.
      * Payload: {@link UpdateDataAppNameRequest}.
      * @example
      * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *     dataAppId: '<app-id>',
+     *     // Needed to receive host event validation errors
+     *     useHostEventsV2: true,
+     * });
+     * embed.render();
+     *
      * embed.on(EmbedEvent.Error, (error) => {
      *     if (error.data?.code === 'HOST_EVENT_VALIDATION') {
      *         console.warn(error.data.message);

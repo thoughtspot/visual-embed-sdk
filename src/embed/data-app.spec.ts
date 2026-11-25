@@ -126,19 +126,29 @@ describe('DataAppEmbed', () => {
             expect('hideDataAppHeader' in params).toBe(expected !== undefined);
         });
 
-        it('sends the header actions to the App page', async () => {
-            const embed = new DataAppEmbed(getRootEl(), {
-                dataAppId: 'app-1',
-                hiddenActions: [Action.Remove, Action.MakeACopy],
-                disabledActions: [Action.Share],
-                disabledActionReason: 'Not here',
-            });
+        it.each([
+            [
+                'hidden and disabled',
+                {
+                    hiddenActions: [Action.Remove, Action.MakeACopy],
+                    disabledActions: [Action.Share],
+                    disabledActionReason: 'Not here',
+                },
+                {
+                    hideAction: JSON.stringify([Action.ReportError, Action.Remove, Action.MakeACopy]),
+                    disableAction: JSON.stringify([Action.Share]),
+                    disableHint: 'Not here',
+                },
+            ],
+            [
+                'visible',
+                { visibleActions: [Action.Share, Action.Present] },
+                { visibleAction: JSON.stringify([Action.Share, Action.Present]) },
+            ],
+        ])('sends the %s header actions to the App page as JSON', async (_, options, expected) => {
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1', ...options });
             await embed.render();
-            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
-                hideAction: JSON.stringify([Action.ReportError, Action.Remove, Action.MakeACopy]),
-                disableAction: JSON.stringify([Action.Share]),
-                disableHint: 'Not here',
-            });
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), expected);
         });
 
         it('raises CONFLICTING_ACTIONS_CONFIG and loads no App with hidden and visible actions', async () => {
@@ -151,28 +161,45 @@ describe('DataAppEmbed', () => {
             });
             embed.on(EmbedEvent.Error, onError);
 
-            await embed.render();
+            try {
+                await embed.render();
 
-            expect(onError).toHaveBeenCalledWith(
-                expect.objectContaining({
-                    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
-                    code: EmbedErrorCodes.CONFLICTING_ACTIONS_CONFIG,
-                }),
-                expect.anything(),
-            );
-            expect(getIFrameEl()).toBeNull();
-            loggerError.mockRestore();
+                expect(onError).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                        code: EmbedErrorCodes.CONFLICTING_ACTIONS_CONFIG,
+                    }),
+                    expect.anything(),
+                );
+                expect(getIFrameEl()).toBeNull();
+            } finally {
+                loggerError.mockRestore();
+            }
         });
 
-        it('sends visibleActions to the App page', async () => {
-            const embed = new DataAppEmbed(getRootEl(), {
-                dataAppId: 'app-1',
-                visibleActions: [Action.Share, Action.Present],
-            });
-            await embed.render();
-            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
-                visibleAction: JSON.stringify([Action.Share, Action.Present]),
-            });
+        it.each([
+            ['not set', {}, 0],
+            ['useHostEventsV2', { useHostEventsV2: true }, 1],
+        ])('passes a rejected UpdateDataAppName on as Error only with useHostEventsV2 (%s)', (_, options, calls) => {
+            const warn = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+            try {
+                const onError = jest.fn();
+                const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1', ...options });
+                embed.on(EmbedEvent.Error, onError);
+
+                (embed as any).executeCallbacks(EmbedEvent.Error, {
+                    type: EmbedEvent.Error,
+                    data: {
+                        errorType: 'VALIDATION_ERROR',
+                        code: 'HOST_EVENT_VALIDATION',
+                        message: 'UpdateDataAppName needs a name that is not empty.',
+                    },
+                });
+
+                expect(onError).toHaveBeenCalledTimes(calls);
+            } finally {
+                warn.mockRestore();
+            }
         });
 
         it('sends UpdateDataAppName with the name only, and no App id', async () => {
