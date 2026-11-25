@@ -3293,6 +3293,26 @@ describe('AppEmbed getEmbedParamsObject', () => {
 
         expect(params.isFullHeightPinboard).toBeUndefined();
     });
+
+    test('getUpdateEmbedParamsObject should send the Spotter embedParams at the top level', async () => {
+        const spotterViz = { brandName: 'MyBrand' };
+        const starterPrompts = { enable: true };
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            spotterViz,
+            spotterChatConfig: { starterPrompts },
+            spotterSidebarConfig: { enableSpotterInstructionAndMoreSettings: true },
+            enablePastConversationsSidebar: false,
+        } as AppViewConfig);
+
+        const params = await (appEmbed as any).getUpdateEmbedParamsObject();
+
+        expect(params.embedParams).toBeUndefined();
+        expect(params.spotterVizConfig).toEqual(spotterViz);
+        expect(params.starterPrompts).toEqual(starterPrompts);
+        expect(params.enableSpotterInstructionAndMoreSettings).toBe(true);
+        expect(params.spotterSidebarConfig).toEqual({ enablePastConversationsSidebar: false });
+    });
 });
 
 describe('AppEmbed updatedSpotterExperience tests', () => {
