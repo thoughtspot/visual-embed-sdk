@@ -6,6 +6,7 @@ import {
     AuthType,
     EmbedErrorCodes,
     EmbedErrorSeverity,
+    EmbedEvent,
     ErrorDetailsTypes,
     HostEvent,
 } from '../types';
@@ -109,15 +110,20 @@ describe('DataAppEmbed', () => {
 
         // The payload also spreads the view config; a non-boolean value
         // shows that the param handling, which sends a boolean, ran.
-        it('sends hideDataAppHeader in UpdateEmbedParams as a boolean', async () => {
+        it.each([
+            ['yes', true],
+            [false, false],
+            [undefined, undefined],
+        ])('sends hideDataAppHeader=%p in UpdateEmbedParams as %p', async (value, expected) => {
             const embed = new DataAppEmbed(getRootEl(), {
                 dataAppId: 'app-1',
-                hideDataAppHeader: 'yes' as any,
+                ...(value === undefined ? {} : { hideDataAppHeader: value as any }),
             });
 
             const params = await (embed as any).getUpdateEmbedParamsObject();
 
-            expect(params.hideDataAppHeader).toBe(true);
+            expect(params.hideDataAppHeader).toBe(expected);
+            expect('hideDataAppHeader' in params).toBe(expected !== undefined);
         });
 
         it('sends the header actions to the App page', async () => {
@@ -133,6 +139,29 @@ describe('DataAppEmbed', () => {
                 disableAction: JSON.stringify([Action.Share]),
                 disableHint: 'Not here',
             });
+        });
+
+        it('raises CONFLICTING_ACTIONS_CONFIG and loads no App with hidden and visible actions', async () => {
+            const loggerError = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+            const onError = jest.fn();
+            const embed = new DataAppEmbed(getRootEl(), {
+                dataAppId: 'app-1',
+                hiddenActions: [Action.Remove],
+                visibleActions: [Action.Share],
+            });
+            embed.on(EmbedEvent.Error, onError);
+
+            await embed.render();
+
+            expect(onError).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                    code: EmbedErrorCodes.CONFLICTING_ACTIONS_CONFIG,
+                }),
+                expect.anything(),
+            );
+            expect(getIFrameEl()).toBeNull();
+            loggerError.mockRestore();
         });
 
         it('sends visibleActions to the App page', async () => {
