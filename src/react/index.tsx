@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import { AuthEventEmitter } from '../auth';
 import { deepMerge } from '../utils';
@@ -8,13 +8,18 @@ import { SearchBarEmbed as _SearchBarEmbed, SearchBarViewConfig } from '../embed
 import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
+import { DataAppEmbed as _DataAppEmbed, DataAppEmbedViewConfig } from '../embed/data-app';
 import { TsEmbed } from '../embed/ts-embed';
 import { SpotterAgentEmbed as _SpotterAgentEmbed, SpotterAgentEmbedViewConfig, ConversationMessage as _ConversationMessage, SpotterAgentMessageViewConfig } from '../embed/bodyless-conversation';
 
 import {
-    EmbedConfig, EmbedEvent, AllEmbedViewConfig, PreRenderConfig,
+    EmbedConfig, EmbedEvent, AllEmbedViewConfig, PreRenderConfig, EmbedErrorCodes, HostEvent,
 } from '../types';
 import { EmbedProps, getViewPropsAndListeners } from './util';
+import { canonicalJson, controlsKey } from '../utils/data-app-controls';
+import { logger } from '../utils/logger';
+import type { DataAppControlsState } from '../contracts/data-app-contracts';
+import { readActionsRule } from '../utils/data-app-actions';
 import { SpotterEmbed as _SpotterEmbed, SpotterEmbedViewConfig, ConversationEmbed as _ConversationEmbed, ConversationViewConfig } from '../embed/conversation';
 import { init } from '../embed/base';
 import { ERROR_MESSAGE } from '../errors';
@@ -337,6 +342,213 @@ export const PreRenderedSearchBarEmbed = componentFactory<
     SearchBarEmbedProps & PreRenderProps,
     SearchBarViewConfig
 >(_SearchBarEmbed, true);
+
+interface DataAppEmbedProps extends EmbedProps, DataAppEmbedViewConfig { }
+// DataAppEmbedViewConfig shares no option with the other view configs.
+type DataAppEmbedPropsConfig = DataAppEmbedViewConfig & AllEmbedViewConfig;
+
+// What one built embed was last told of its App's controls.
+interface DataAppEmbedBuild {
+    embed: _DataAppEmbed;
+    // The dataAppControls prop last acted on.
+    key: string;
+    // Control id to the canonical JSON of its value.
+    told: Map<string, string>;
+    // The controls key of the last state the App reported; '' before one.
+    toldKey: string;
+    // Counts the states told, and the count when the prop was last acted on.
+    toldCount: number;
+    actedCount: number;
+    // Entries sent and not settled: control id to the canonical JSON sent.
+    pending: Map<string, string>;
+    session?: string;
+    revision?: number;
+    openFailed: boolean;
+}
+
+const toldFrom = (controls: unknown): Map<string, string> => new Map(
+    (Array.isArray(controls) ? controls : []).map((control) => [control?.id, canonicalJson(control?.value)]),
+);
+
+// A state from an event or a result. Within one session, never an older one.
+const tell = (build: DataAppEmbedBuild, state: DataAppControlsState, baseline = false) => {
+    if (!Array.isArray(state?.controls)) return;
+    if (!baseline && state.session === build.session && state.revision < build.revision) return;
+    build.session = state.session;
+    build.revision = state.revision;
+    build.told = toldFrom(state.controls);
+    build.toldKey = controlsKey(state.controls);
+    build.toldCount += 1;
+};
+
+/**
+ * React component for embedding a single ThoughtSpot App.
+ *
+ * `dataAppControls` gives the values the App opens with. A later change of
+ * the prop does not rebuild the embed: the entries whose value differs from
+ * the last state the component was told are sent with
+ * `HostEvent.UpdateDataAppControls`. The prop is merge-only: removing an
+ * entry does not empty its control; set `value: null` to empty it (it does
+ * not bring back the author's default). A mandatory control with a default
+ * cannot be emptied. An entry that keeps `value: null` for one is sent again
+ * with each later change; drop it once applied, or mirror the App's state. A
+ * change that fails raises an error with the code `DATA_APP_UPDATE_FAILED`,
+ * and the failed entry is sent again with the next change until your state
+ * drops it.
+ * After the App failed to open, a change of the prop opens it again with the
+ * new values.
+ *
+ * The prop is what you want in force. An entry you keep at an old value is
+ * sent again with your next change, and reverts a change the viewer made to
+ * that control: list only the controls you set, or mirror every event in
+ * full. A value you change back while your earlier change is still in flight
+ * is sent. A mirror of only part of the App's state can undo your own change
+ * while it is in flight.
+ *
+ * A change of any other prop, or adding or removing a handler prop, rebuilds
+ * the embed: the App opens anew with the current `dataAppControls`. To keep the
+ * viewer's changes across a rebuild, mirror the App's events into the prop, as
+ * below. On an App where the viewer can change a control a host may not set,
+ * mirror only the controls you set yourself, or the rebuilt App is refused.
+ * The same `dataAppActions` IDs in another order rebuild nothing.
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+ * @example
+ * ```tsx
+ * function DataApp() {
+ *  const [controls, setControls] = useState(savedControls);
+ *  return <DataAppEmbed
+ *      dataAppId="<app-id>"
+ *      dataAppControls={controls}
+ *      onDataAppReady={(e) => setControls(e.data.controls)}
+ *      onDataAppControlsChanged={(e) => setControls(e.data.controls)}
+ *  />
+ * }
+ * ```
+ */
+export const DataAppEmbed = React.forwardRef<_DataAppEmbed, DataAppEmbedProps>(
+    (props: DataAppEmbedProps, forwardedRef: React.MutableRefObject<_DataAppEmbed>) => {
+        const ref = React.useRef<HTMLDivElement>(null);
+        const { className, style, ...embedProps } = props;
+        const { viewConfig, listeners } = getViewPropsAndListeners<
+            Omit<DataAppEmbedProps, 'className' | 'style'>,
+            DataAppEmbedPropsConfig
+        >(embedProps);
+        const { dataAppControls, ...rest } = viewConfig;
+        const preRenderId = props.preRenderConfig?.id ?? props.preRenderId;
+        // Handlers are called through this ref: new identities rebuild nothing.
+        const listenersRef = useRef(listeners);
+        listenersRef.current = listeners;
+        const buildRef = useRef<DataAppEmbedBuild>(null);
+        // Compared as read: the same action IDs in another order are no change.
+        const actionsRule = readActionsRule(rest.dataAppActions);
+        const deps = actionsRule === false ? rest : { ...rest, dataAppActions: actionsRule };
+
+        useDeepCompareEffect(() => {
+            const config: DataAppEmbedPropsConfig = {
+                ...viewConfig,
+                frameParams: {
+                    class: viewConfig.insertAsSibling ? className || '' : '',
+                    ...viewConfig.frameParams,
+                },
+            };
+            const embed = new _DataAppEmbed(ref.current, config);
+            const build: DataAppEmbedBuild = {
+                embed,
+                key: controlsKey(dataAppControls),
+                told: toldFrom(dataAppControls),
+                toldKey: '',
+                toldCount: 0,
+                actedCount: 0,
+                pending: new Map(),
+                openFailed: false,
+            };
+            buildRef.current = build;
+            // Before the host's handlers, so the state is known when they run.
+            const own = { start: false };
+            embed.on(EmbedEvent.DataAppReady, (payload) => {
+                build.openFailed = false;
+                tell(build, payload.data, true);
+            }, own, true);
+            embed.on(EmbedEvent.DataAppControlsChanged, (payload) => tell(build, payload.data), own, true);
+            embed.on(EmbedEvent.Error, (payload) => {
+                // The frame's errors carry data; the SDK's are the details.
+                const { code, appId } = (payload?.data ?? payload ?? {}) as { code?: string; appId?: string };
+                if (code === EmbedErrorCodes.DATA_APP_OPEN_FAILED
+                    && (appId === undefined || appId === viewConfig.dataAppId)) {
+                    build.openFailed = true;
+                }
+            }, own, true);
+            Object.keys(listeners).forEach((eventName) => {
+                embed.on(eventName as EmbedEvent, (...args) => (listenersRef.current as any)[eventName]?.(...args));
+            });
+            if (preRenderId) embed.showPreRender();
+            else embed.render();
+            if (forwardedRef) {
+                forwardedRef.current = embed;
+            }
+            return () => {
+                buildRef.current = null;
+                if (preRenderId) embed.hidePreRender();
+                else embed.destroy();
+            };
+        }, [deps, Object.keys(listeners).sort()]);
+
+        const key = controlsKey(dataAppControls);
+        useEffect(() => {
+            const build = buildRef.current;
+            if (!build || build.key === key) return;
+            build.key = key;
+            const { embed } = build;
+            const controls: unknown = dataAppControls ?? [];
+            if (build.openFailed) {
+                // Retry the open with the new values, even when none differs.
+                build.openFailed = false;
+                build.told = toldFrom(controls);
+                build.toldKey = '';
+                build.pending.clear();
+                embed.navigateToDataApp(rest.dataAppId, { controls: controls as any })
+                    .catch((error) => logger.warn(error));
+                return;
+            }
+            // A value sent and not settled counts as known, so changing it
+            // back is sent too. A prop that became the state told since the
+            // last change mirrors the App's events: compare with that alone.
+            const mirror = key === build.toldKey && build.toldCount !== build.actedCount;
+            build.actedCount = build.toldCount;
+            const known = (id: string) => (!mirror && build.pending.has(id)
+                ? build.pending.get(id)
+                : build.told.get(id));
+            const changed = Array.isArray(controls)
+                ? controls.filter((control) => canonicalJson(control?.value) !== known(control?.id))
+                : controls;
+            if (Array.isArray(changed) && !changed.length) return;
+            const sent: [string, string][] = Array.isArray(changed)
+                ? changed.map((control) => [control?.id, canonicalJson(control?.value)])
+                : [];
+            sent.forEach(([id, json]) => build.pending.set(id, json));
+            // Settled: no longer pending, unless a later call sent it.
+            const settle = () => sent.forEach(([id, json]) => {
+                if (build.pending.get(id) === json) build.pending.delete(id);
+            });
+            embed.trigger(HostEvent.UpdateDataAppControls, { controls: changed as any })
+                .then((state) => {
+                    settle();
+                    tell(build, state);
+                })
+                .catch((error) => {
+                    settle();
+                    if (buildRef.current === build) embed.reportUpdateFailed(error);
+                });
+        }, [key]);
+
+        return rest.insertAsSibling ? (
+            <span data-testid="tsEmbed" ref={ref} style={{ position: 'absolute' }}></span>
+        ) : (
+            <div data-testid="tsEmbed" ref={ref} style={style} className={`ts-embed-container ${className}`}></div>
+        );
+    },
+);
+DataAppEmbed.displayName = 'DataAppEmbed';
 
 interface SpotterEmbedProps extends EmbedProps, SpotterEmbedViewConfig { }
 interface ConversationEmbedProps extends EmbedProps, ConversationViewConfig { }

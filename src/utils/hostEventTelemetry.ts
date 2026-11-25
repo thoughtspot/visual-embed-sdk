@@ -21,10 +21,25 @@ const ENUM_PARAMS: Record<string, readonly string[]> = {
 
 export const MAX_ARRAY_TYPES = 10;
 
+// Lists of App controls: the type of each entry only, never an id or a value.
+const CONTROL_LIST_PARAMS = ['controls', 'dataAppControls'];
+
+// App calls report only these keys, so a payload in another shape cannot
+// carry an id, a value or a key from inside one.
+const APP_CALLS: string[] = [HostEvent.GetDataAppControls, HostEvent.UpdateDataAppControls];
+const APP_CALL_KEYS = ['controls', 'reset', 'appId'];
+
 export type ParamTypes = string | ParamTypes[] | { [key: string]: ParamTypes };
 
 const isParamObject = (value: unknown): value is Record<string, unknown> =>
     typeof value === 'object' && value !== null && !Array.isArray(value);
+
+const typeOf = (value: unknown): string => (value === null ? 'null' : typeof value);
+
+// The type of a value, or of each entry of a list; never what is inside.
+const describeTypes = (value: unknown): ParamTypes => (Array.isArray(value)
+    ? value.slice(0, MAX_ARRAY_TYPES).map(typeOf)
+    : typeOf(value));
 
 /*
  * RuntimeFilter.values accepts bigint, which JSON.stringify throws on. Without
@@ -43,6 +58,10 @@ const serialiseBigInt = (_key: string, value: unknown): unknown =>
 const describeValue = (value: unknown, key: string): ParamTypes => {
     if (value === null) {
         return 'null';
+    }
+
+    if (CONTROL_LIST_PARAMS.includes(key)) {
+        return describeTypes(value);
     }
 
     if (value === BIGINT_MARKER) {
@@ -102,7 +121,14 @@ export const getHostEventTelemetryProps = ({
     context,
     embedComponentType,
 }: HostEventTelemetryParams) => {
-    const params = describeParams(payload);
+    const params: Record<string, ParamTypes> = {};
+    if (!APP_CALLS.includes(hostEvent)) {
+        Object.assign(params, describeParams(payload));
+    } else if (isParamObject(payload)) {
+        APP_CALL_KEYS.filter((key) => payload[key] !== undefined).forEach((key) => {
+            params[key] = describeTypes(payload[key]);
+        });
+    }
     return {
         hostEvent: String(hostEvent),
         contextType: context ? String(context) : 'none',

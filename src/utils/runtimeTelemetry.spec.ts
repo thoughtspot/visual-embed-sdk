@@ -146,3 +146,72 @@ describe('summarizeRuntimeDataForTelemetry', () => {
         expect(summarizeRuntimeDataForTelemetry(undefined as any)).toEqual({});
     });
 });
+
+describe('summarizeRuntimeDataForTelemetry with dataAppControls', () => {
+    const controls = [
+        { id: 'zz_depot', value: { zzInner: ['ZZ-Austin'] } },
+        { id: 'zz_route', value: null },
+    ];
+
+    test.each([
+        ['a list', controls, { count: 2 }],
+        ['an empty list', [], { count: 0 }],
+        ['null', null, { type: 'null' }],
+        ['a map', { zz_depot: { zzInner: ['ZZ-Austin'] } }, { type: 'object' }],
+        ['a string', 'zz_depot', { type: 'string' }],
+    ])('reports %s by its count or its type only', (_, dataAppControls, summary) => {
+        const props = summarizeRuntimeDataForTelemetry({ dataAppId: 'a1b2', dataAppControls });
+
+        expect(props).toEqual({ dataAppId: 'a1b2', dataAppControls: summary });
+        ['zz_depot', 'zzInner', 'ZZ-Austin', 'zz_route'].forEach((text) => {
+            expect(JSON.stringify(props)).not.toContain(text);
+        });
+    });
+
+    test('keeps every other view config key, and summarises the runtime arrays as before', () => {
+        expect(summarizeRuntimeDataForTelemetry({
+            dataAppId: 'a1b2',
+            hideDataAppHeader: true,
+            dataAppControls: controls,
+            runtimeFilters: customerFilters,
+        })).toEqual({
+            dataAppId: 'a1b2',
+            hideDataAppHeader: true,
+            dataAppControls: { count: 2 },
+            runtimeFilters: { count: 2, operators: ['EQ', 'BW'] },
+        });
+    });
+
+    test.each([
+        ['absent', { liveboardId: 'lb-guid' }],
+        ['undefined', { liveboardId: 'lb-guid', dataAppControls: undefined }],
+    ])('adds no dataAppControls key when it is %s', (_, viewConfig) => {
+        expect(summarizeRuntimeDataForTelemetry(viewConfig)).toEqual({ liveboardId: 'lb-guid' });
+    });
+});
+
+describe('summarizeRuntimeDataForTelemetry with dataAppActions', () => {
+    test.each([
+        ['all', { off: 'all', display: 'disabled' }, { off: 'all' }],
+        ['a list, by its unique ids', { off: ['zz_close', 'zz_reopen', 'zz_close'] }, { off: 2 }],
+        ['an empty list', { off: [] }, { off: 0 }],
+        ['null', null, null],
+        ['a string', 'zz_close', false],
+        ['an id as off', { off: 'zz_close' }, false],
+        ['a getter that throws', Object.defineProperty({}, 'off', {
+            enumerable: true,
+            get() {
+                throw new Error('zz_close');
+            },
+        }), false],
+    ])('reports %s as all or a count, never an id', (_, dataAppActions, summary) => {
+        const props = summarizeRuntimeDataForTelemetry({ dataAppId: 'a1b2', dataAppActions });
+
+        expect(props).toEqual({ dataAppId: 'a1b2', dataAppActions: summary });
+        expect(JSON.stringify(props)).not.toContain('zz_');
+    });
+
+    test('adds no dataAppActions key when it is absent', () => {
+        expect(summarizeRuntimeDataForTelemetry({ dataAppId: 'a1b2' })).toEqual({ dataAppId: 'a1b2' });
+    });
+});

@@ -24,6 +24,11 @@ import type { SpotterUsageLimitStatus } from '../embed/conversation';
 // EmbedEventEnvelopeExtension). Type-only import keeps the contracts subpath
 // free of any runtime dependency on the answer-service implementation.
 import type { AnswerService } from '../utils/graphql/answerService/answerService';
+import type {
+    DataAppControlsChangedPayload,
+    DataAppLoadPayload,
+    DataAppReadyPayload,
+} from './data-app-contracts';
 
 export interface LiveboardRenderedTabInfo {
     id: string;
@@ -482,6 +487,11 @@ export interface EmbedEventDataExtension {
 
     // --- Spotter usage ---
     [EmbedEvent.SpotterUsageLimitUpgrade]: SpotterUsageLimitUpgradePayload;
+
+    // --- Apps ---
+    [EmbedEvent.DataAppReady]: DataAppReadyPayload;
+    [EmbedEvent.DataAppLoad]: DataAppLoadPayload;
+    [EmbedEvent.DataAppControlsChanged]: DataAppControlsChangedPayload;
 }
 
 // ============================================================================

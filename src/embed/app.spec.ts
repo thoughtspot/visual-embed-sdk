@@ -638,6 +638,36 @@ describe('App embed tests', () => {
         });
     });
 
+    test('should set enableDataApps in url', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableDataApps: true,
+            path: 'insights/home/apps',
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                enableDataApps: 'true',
+            });
+        });
+    });
+
+    // The app's route guards read it at boot, before APP_INIT arrives.
+    test('should keep enableDataApps in url when the config is excluded from it', async () => {
+        const appEmbed = new AppEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            enableDataApps: true,
+            path: 'insights/home/apps',
+            additionalFlags: { excludeConfigFromURL: true },
+        } as AppViewConfig);
+        appEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                enableDataApps: 'true',
+            });
+        });
+    });
+
     test('should set showSpotterLimitations to true in url', async () => {
         const appEmbed = new AppEmbed(getRootEl(), {
             ...defaultViewConfig,

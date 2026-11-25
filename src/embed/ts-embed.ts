@@ -100,6 +100,7 @@ import { ERROR_MESSAGE } from '../errors';
 import { PreRenderController, resolvePreRenderConfig } from '../pre-render';
 import { getPreauthInfo } from '../utils/sessionInfoService';
 import { HostEventClient } from './hostEventClient/host-event-client';
+import { DATA_APP_HOST_EVENTS, DataAppControlError } from './data-app-control-error';
 import {
     getInterceptInitData,
     handleInterceptEvent,
@@ -115,7 +116,7 @@ const TS_EMBED_ID = '_thoughtspot-embed';
 
 // The container applies UpdateEmbedParams through React state, so a delivered
 // post is not the same as the params being in effect.
-const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
+export const UPDATE_EMBED_PARAMS_SETTLE_MS = 200;
 
 // The container ignores runtimeFilterParams/runtimeParameterParams unless
 // truthy, so null or '' leaves the previous embed's values in place. '&' is
@@ -212,6 +213,8 @@ export const BOOTSTRAP_URL_PARAMS: ReadonlySet<string> = new Set<string>([
     Param.DefaultQueryMode,
     // The initial search query. Omitted with excludeSearchTokenStringFromURL.
     Param.searchTokenString,
+    // Turns Apps on in the embed. The app reads it at boot, for its routes.
+    Param.EnableDataApps,
 ]);
 
 /**
@@ -543,7 +546,8 @@ export class TsEmbed {
         this.unsubscribeToNetworkEvents();
 
         const onlineEventListener = (e: Event) => {
-            this.trigger(HostEvent.Reload);
+            // No caller awaits it: a rejection must not go unhandled.
+            Promise.resolve(this.trigger(HostEvent.Reload)).catch((error) => logger.warn(error));
         };
         window.addEventListener('online', onlineEventListener);
 
@@ -1649,6 +1653,11 @@ export class TsEmbed {
             context,
             embedComponentType: this.viewConfig?.embedComponentType,
         });
+
+        // DataAppEmbed sends these itself; no App is open in any other embed.
+        if (DATA_APP_HOST_EVENTS.has(messageType)) {
+            throw new DataAppControlError('APP_NOT_READY');
+        }
 
         if (!this.isRendered) {
             this.handleError({

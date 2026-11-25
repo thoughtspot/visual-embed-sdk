@@ -17,8 +17,24 @@
  */
 import * as fs from 'fs';
 import * as path from 'path';
-import { HostEvent, EmbedEvent, RuntimeFilterOp } from '../types';
+import {
+    ContextType, HostEvent, EmbedEvent, RuntimeFilterOp,
+} from '../types';
 import { UIPassthroughEvent } from './ui-passthrough-contracts';
+// From the contracts entry point, so a missing export fails to compile.
+import type {
+    DataAppControlError,
+    DataAppControlErrorCode,
+    DataAppControlResult,
+    DataAppControlsChangedPayload,
+    DataAppControlsState,
+    DataAppControlValue,
+    DataAppLoadPayload,
+    DataAppReadyPayload,
+    GetDataAppControlsRequest,
+    GetDataAppControlsResponse,
+} from './index';
+import type { DataAppEmbed } from '../embed/data-app';
 import type {
     HostEventRequest,
     HostEventResponse,
@@ -115,11 +131,19 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
     HostEvent.CloseSpotterVizPanel,
     // Appearance
     HostEvent.UpdateTheme,
+    // Apps
+    HostEvent.GetDataAppControls,
+    HostEvent.UpdateDataAppControls,
 ];
 
 // Type-level assertions: compile failures here mean contract resolution
 // regressed. `expectType` is erased at runtime.
 const expectType = <T>(value: T): T => value;
+
+// True only when A and B are the same type; `any` is not equal to others.
+type Equals<A, B> = (<T>() => T extends A ? 1 : 2) extends (<T>() => T extends B ? 1 : 2)
+    ? true
+    : false;
 
 describe('event contracts (drift guardrails)', () => {
     // The lists below LOCK the set of typed events. Adding an event is an
@@ -136,6 +160,7 @@ describe('event contracts (drift guardrails)', () => {
             'DeletePersonalizedView',
             'EditLastPrompt',
             'ExitSpotterSharedConversation',
+            'GetDataAppControls',
             'InitSpotterVizConversation',
             'Navigate',
             'OpenSpotterVizPanel',
@@ -155,6 +180,7 @@ describe('event contracts (drift guardrails)', () => {
             'SpotterVizSendUserMessage',
             'UnpinSpotterConversation',
             'UpdateCrossFilter',
+            'UpdateDataAppControls',
             'UpdateParameters',
             'UpdatePersonalisedView',
             'UpdateRuntimeFilters',
@@ -266,6 +292,9 @@ describe('event contracts (drift guardrails)', () => {
                 EmbedEvent.CrossFilterChanged,
                 EmbedEvent.CustomAction,
                 EmbedEvent.Data,
+                EmbedEvent.DataAppControlsChanged,
+                EmbedEvent.DataAppLoad,
+                EmbedEvent.DataAppReady,
                 EmbedEvent.DataSourceSelected,
                 EmbedEvent.Delete,
                 EmbedEvent.DialogClose,
@@ -314,6 +343,9 @@ describe('event contracts (drift guardrails)', () => {
             ].map((e) => `${e}`).sort(),
         ).toEqual([
             'AIHighlights',
+            'DataAppControlsChanged',
+            'DataAppLoad',
+            'DataAppReady',
             'EmbedIframeCenter',
             'EmbedListenerReady',
             'Error',
@@ -460,8 +492,49 @@ describe('event contracts (drift guardrails)', () => {
                 viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
                 isPublic: true,
             }),
+            trigger(HostEvent.GetDataAppControls, {}),
+            trigger(HostEvent.GetDataAppControls, { appId: 'a1b2' }),
         ];
         expect(ok.every(Boolean)).toBe(true);
+    });
+
+    // Compile-time only: ts-jest fails the file if a line stops compiling.
+    test('the App read and the App events resolve to their contracts (type check)', () => {
+        const request: Equals<HostEventRequest<HostEvent.GetDataAppControls>, GetDataAppControlsRequest> = true;
+        const response: Equals<HostEventResponse<HostEvent.GetDataAppControls>, GetDataAppControlsResponse> = true;
+        const ready: Equals<EmbedEventData<EmbedEvent.DataAppReady>, DataAppReadyPayload> = true;
+        const load: Equals<EmbedEventData<EmbedEvent.DataAppLoad>, DataAppLoadPayload> = true;
+        const changed: Equals<
+            EmbedEventData<EmbedEvent.DataAppControlsChanged>,
+            DataAppControlsChangedPayload
+        > = true;
+        // What a host awaits from the read, with no payload.
+        const read = async (embed: DataAppEmbed) => {
+            const state = await embed.trigger(HostEvent.GetDataAppControls);
+            const typed: Equals<typeof state, GetDataAppControlsResponse> = true;
+            return typed;
+        };
+        const withField: TriggerData<HostEvent.GetDataAppControls> = {
+            appId: 'a1b2',
+            // @ts-expect-error — a read takes no field but appId
+            include: 'definitions',
+        };
+        expect([request, response, ready, load, changed, read, withField].every(Boolean)).toBe(true);
+    });
+
+    // TC-310. Compile-time only.
+    test('an App control value is opaque in this version (type check)', () => {
+        const state: DataAppControlsState = {
+            appId: 'a1b2',
+            session: 'S1',
+            revision: 1,
+            controls: [{ id: 'depot', value: { op: 'eq', values: ['Austin'] } }],
+        };
+        // @ts-expect-error — not typed: pass it back, do not parse it
+        const op: string = state.controls[0].value.op;
+        // Passing a value back as it is compiles, and so does a clear one.
+        const back: DataAppControlValue[] = [state.controls[0].value, null];
+        expect([op, back]).toHaveLength(2);
     });
 
     // Per-context request interfaces are documentation-only today: exported and
@@ -473,6 +546,23 @@ describe('event contracts (drift guardrails)', () => {
         );
         // The default request stays the cross-context superset.
         expectType<OpenFilterRequest>({} as HostEventRequest<HostEvent.OpenFilter>);
+    });
+
+    test('the App context keeps its wire value', () => {
+        expect(ContextType.DataApp).toBe('dataApp');
+    });
+
+    // Compile-time only: ts-jest fails the file if a line stops compiling.
+    test('App call errors are Errors with an open set of codes (type check)', () => {
+        expectType<DataAppControlErrorCode>('NOT_SUPPORTED_IN_DATA_APP');
+        // Codes may be added; an unknown one still type-checks.
+        expectType<DataAppControlErrorCode>('A_CODE_ADDED_LATER');
+        expectType<DataAppControlResult>({ id: 'depot', status: 'rejected', code: 'VALUE_REFUSED' });
+        expectType<Error>((undefined as unknown) as DataAppControlError);
+        // @ts-expect-error a result needs the control id
+        expectType<DataAppControlResult>({ status: 'accepted' });
+        // @ts-expect-error an error needs a code
+        expectType<DataAppControlError>(new Error('sentence'));
     });
 
     test('the /contracts barrel re-exports the public runtime surface', () => {

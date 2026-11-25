@@ -601,6 +601,9 @@ describe('EmbedEvent basic routing', () => {
         ['SpotterShareModalConfirmButtonClicked', EmbedEvent.SpotterShareModalConfirmButtonClicked],
         ['SpotterShareModalCancelButtonClicked', EmbedEvent.SpotterShareModalCancelButtonClicked],
         ['SpotterSharedConversationExitButtonClicked', EmbedEvent.SpotterSharedConversationExitButtonClicked],
+        ['DataAppReady', EmbedEvent.DataAppReady],
+        ['DataAppLoad', EmbedEvent.DataAppLoad],
+        ['DataAppControlsChanged', EmbedEvent.DataAppControlsChanged],
     ];
 
     test.each(UNCOVERED_EVENTS)(

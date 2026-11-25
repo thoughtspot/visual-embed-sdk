@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
+import { setImmediate as realSetImmediate } from 'timers';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import {
-    cleanup, fireEvent, render, waitFor,
+    act, cleanup, fireEvent, render, waitFor,
 } from '@testing-library/react';
 import {
-    Action, EmbedEvent, HostEvent, RuntimeFilterOp,
+    Action, EmbedErrorCodes, EmbedEvent, HostEvent, RuntimeFilterOp,
 } from '../types';
+import { logger } from '../utils/logger';
 import {
     executeAfterWait,
     getIFrameEl,
@@ -15,7 +17,8 @@ import {
     mockMessageChannel,
 } from '../test/test-utils';
 import {
-    SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed, PreRenderedSearchEmbed, PreRenderedAppEmbed, useSpotterAgent, SpotterMessage, useInit
+    SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed, PreRenderedSearchEmbed, PreRenderedAppEmbed, useSpotterAgent, SpotterMessage, useInit,
+    DataAppEmbed,
 } from './index';
 import * as allExports from './index';
 import {
@@ -23,6 +26,10 @@ import {
 } from '../index';
 import { TsEmbed } from '../embed/ts-embed';
 import { LiveboardEmbed as LiveboardEmbedClass } from '../embed/liveboard';
+import { DataAppEmbed as DataAppEmbedClass } from '../embed/data-app';
+import { ERROR_MESSAGE } from '../errors';
+import * as processTriggerService from '../utils/processTrigger';
+import * as mixpanelInstance from '../mixpanel-service';
 
 import { version } from '../../package.json';
 
@@ -88,6 +95,939 @@ describe('React Components', () => {
 
     describe('AppEmbed', () => {
         //
+    });
+
+    describe('DataAppEmbed', () => {
+        it.each([
+            ['render()', {}],
+            ['showPreRender()', { preRenderId: 'react-data-app' }],
+        ])('refuses runtimeFilters passed as a prop, through %s', async (_, extra) => {
+            const logError = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+            const onError = jest.fn();
+            const framesBefore = document.querySelectorAll('iframe').length;
+
+            const { container } = render(
+                <DataAppEmbed
+                    dataAppId="a1b2"
+                    runtimeFilters={[{ columnName: 'Depot', operator: RuntimeFilterOp.EQ, values: ['Austin'] }]}
+                    onError={onError}
+                    {...extra}
+                />,
+            );
+            await waitFor(() => expect(onError).toHaveBeenCalled());
+            logError.mockRestore();
+
+            expect(onError.mock.calls.map(([error]) => [error.code, error.option])).toEqual([
+                [EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED, 'runtimeFilters'],
+            ]);
+            expect(getIFrameEl(container)).toBeNull();
+            expect(document.querySelectorAll('iframe')).toHaveLength(framesBefore);
+        });
+    });
+
+    describe('DataAppEmbed dataAppControls', () => {
+        const appId = 'a1b2';
+        const depot = (value: string) => ({ id: 'depot', value: { op: 'eq', values: [value] } });
+        const austin = [depot('Austin')];
+        const dallas = [depot('Dallas')];
+        const houston = [depot('Houston')];
+        const routeNone = { id: 'route', value: null as null };
+        const routeR12 = { id: 'route', value: { op: 'eq', values: ['R-12'] } };
+        const appCallTypes: string[] = [HostEvent.GetDataAppControls, HostEvent.UpdateDataAppControls];
+
+        let processTrigger: jest.SpyInstance;
+        let replies: { resolve: (value: unknown) => void; reject: (reason: unknown) => void; type: string }[];
+        let builds: jest.SpyInstance;
+        let destroys: jest.SpyInstance;
+        let logWarn: jest.SpyInstance;
+        let logError: jest.SpyInstance;
+
+        const flush = () => new Promise((resolve) => {
+            realSetImmediate(resolve);
+        });
+        const settle = async () => {
+            await flush();
+            await flush();
+        };
+        const fromFrame = (type: string, data?: unknown) => postMessageToParent(
+            document.querySelector('iframe').contentWindow,
+            { type, data, status: 'end' },
+        );
+        const state = (controls: unknown[], extra: object = {}) => ({
+            appId,
+            session: 'S1',
+            revision: 1,
+            controls,
+            ...extra,
+        });
+        // An App event, inside act: a host handler may set state.
+        const fromApp = async (type: string, data: unknown) => {
+            act(() => {
+                fromFrame(type, data);
+            });
+            await settle();
+        };
+        const ready = (controls: unknown[], extra?: object) => fromApp(
+            EmbedEvent.DataAppReady,
+            state(controls, extra),
+        );
+        const changed = (controls: unknown[], extra: object = {}) => fromApp(EmbedEvent.DataAppControlsChanged, {
+            ...state(controls, { revision: 2, ...extra }),
+            source: 'app',
+            changed: [],
+        });
+        const openFailed = (fields: object = { appId }) => fromApp(EmbedEvent.Error, {
+            code: EmbedErrorCodes.DATA_APP_OPEN_FAILED,
+            severity: 1,
+            errorType: 'API',
+            reason: 'CONTROLS_REFUSED',
+            ...fields,
+        });
+        // The controls of each update posted to the frame.
+        const updates = () => processTrigger.mock.calls
+            .filter(([, type]) => type === HostEvent.UpdateDataAppControls)
+            .map(([, , , data]) => data.controls);
+        const updateReplies = () => replies.filter(({ type }) => type === HostEvent.UpdateDataAppControls);
+        // The App page's reply to an accepted update.
+        const accepted = (controls: unknown[], revision = 2) => ({
+            ...state(controls, { revision }),
+            results: controls.map(({ id }: any) => ({ id, status: 'accepted' })),
+        });
+        const errorCodes = (onError: jest.Mock) => onError.mock.calls
+            .map(([error]) => error.code ?? error.data?.code);
+        const embedOf = (ref: React.RefObject<any>): DataAppEmbedClass => ref.current;
+
+        const mount = async (props: any = {}) => {
+            const view = render(<DataAppEmbed dataAppId={appId} {...props} />);
+            await settle();
+            return {
+                ...view,
+                update: async (next: any) => {
+                    view.rerender(<DataAppEmbed dataAppId={appId} {...next} />);
+                    await settle();
+                },
+            };
+        };
+
+        beforeEach(() => {
+            (window as any).ResizeObserver = window.ResizeObserver || jest.fn().mockImplementation(() => ({
+                disconnect: jest.fn(),
+                observe: jest.fn(),
+                unobserve: jest.fn(),
+            }));
+            replies = [];
+            logWarn = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
+            logError = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+            builds = jest.spyOn(DataAppEmbedClass.prototype, 'render');
+            destroys = jest.spyOn(DataAppEmbedClass.prototype, 'destroy');
+            processTrigger = jest
+                .spyOn(processTriggerService, 'processTrigger')
+                .mockImplementation((_frame, type) => (appCallTypes.includes(type)
+                    ? new Promise((resolve, reject) => {
+                        replies.push({ resolve, reject, type });
+                    })
+                    : Promise.resolve(null)));
+        });
+
+        afterEach(async () => {
+            cleanup();
+            await settle();
+            document
+                .querySelectorAll('[id^="tsEmbed-pre-render-wrapper-"]')
+                .forEach((el) => el.remove());
+            [processTrigger, builds, destroys, logWarn, logError].forEach((spy) => spy.mockRestore());
+        });
+
+        it('builds one embed with the prop as its load-time values (TC-630)', async () => {
+            const ref = React.createRef<any>();
+            const { container } = await mount({ dataAppControls: austin, ref });
+
+            expect(builds).toHaveBeenCalledTimes(1);
+            expect(container.querySelectorAll('iframe')).toHaveLength(1);
+            expect(embedOf(ref)).toBeInstanceOf(DataAppEmbedClass);
+            expect((await (embedOf(ref) as any).getAppInitData()).embedParams.dataAppInitialControls)
+                .toStrictEqual({ appId, controls: austin });
+        });
+
+        it('sends only the entries that differ from the state it was told, without a rebuild (TC-631, TC-632, TC-633)', async () => {
+            const { container, update } = await mount({ dataAppControls: [...austin, routeNone] });
+            const frame = container.querySelector('iframe');
+            await ready([...austin, routeNone]);
+
+            await update({ dataAppControls: [...dallas, routeNone] });
+
+            expect(updates()).toEqual([dallas]);
+            expect(builds).toHaveBeenCalledTimes(1);
+            expect(destroys).not.toHaveBeenCalled();
+            expect(container.querySelector('iframe')).toBe(frame);
+        });
+
+        it.each([
+            ['a new array with the same values (TC-634)', [depot('Austin'), { ...routeR12 }]],
+            ['the same values in another key order (TC-635)', [
+                { value: { values: ['Austin'], op: 'eq' }, id: 'depot' },
+                { value: { values: ['R-12'], op: 'eq' }, id: 'route' },
+            ]],
+            ['an entry removed: the prop is merge-only (TC-636)', austin],
+        ])('sends nothing for %s', async (_, next) => {
+            const { update } = await mount({ dataAppControls: [...austin, routeR12] });
+            await ready([...austin, routeR12]);
+
+            await update({ dataAppControls: next });
+
+            expect(updates()).toEqual([]);
+            expect(builds).toHaveBeenCalledTimes(1);
+        });
+
+        it('sends an entry set to null to clear it (TC-637)', async () => {
+            const { update } = await mount({ dataAppControls: [...austin, routeR12] });
+            await ready([...austin, routeR12]);
+
+            await update({ dataAppControls: [...austin, routeNone] });
+
+            expect(updates()).toEqual([[routeNone]]);
+        });
+
+        it('settles when every event is mirrored into the prop: nothing sent, no rebuild (TC-644)', async () => {
+            let renders = 0;
+            const Mirror = () => {
+                const [controls, setControls] = React.useState<unknown[]>([...austin, routeNone]);
+                renders += 1;
+                return (
+                    <DataAppEmbed
+                        dataAppId={appId}
+                        dataAppControls={controls as any}
+                        onDataAppReady={(e) => setControls(e.data.controls)}
+                        onDataAppControlsChanged={(e) => setControls(e.data.controls)}
+                    />
+                );
+            };
+            render(<Mirror />);
+            await settle();
+            await ready([...austin, routeNone]);
+            const before = renders;
+
+            await changed([...austin, routeR12]);
+
+            expect(renders).toBe(before + 1);
+            expect(updates()).toEqual([]);
+            expect(builds).toHaveBeenCalledTimes(1);
+        });
+
+        it('raises DATA_APP_UPDATE_FAILED for a refused change, and nothing else (TC-638)', async () => {
+            const onError = jest.fn();
+            const { update } = await mount({ dataAppControls: austin, onError });
+            await ready(austin);
+
+            await update({ dataAppControls: dallas, onError });
+            updateReplies()[0].reject({
+                code: 'VALUE_REFUSED',
+                results: [{ id: 'depot', status: 'rejected', code: 'VALUE_REFUSED', reason: 'SECRET-1' }],
+            });
+            await settle();
+
+            expect(onError).toHaveBeenCalledTimes(1);
+            const [details] = onError.mock.calls[0];
+            expect(details).toStrictEqual({
+                errorType: 'API',
+                message: ERROR_MESSAGE.DATA_APP_UPDATE_FAILED,
+                code: EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
+                severity: 3,
+                error: expect.any(Error),
+            });
+            expect(details.error).toMatchObject({
+                name: 'DataAppControlError',
+                code: 'VALUE_REFUSED',
+                results: [{ id: 'depot', status: 'rejected', code: 'VALUE_REFUSED' }],
+            });
+            expect(JSON.stringify(details)).not.toContain('SECRET-1');
+        });
+
+        it('sends each change at once, in order, and reports each refusal on its own', async () => {
+            const onError = jest.fn();
+            const { update } = await mount({ dataAppControls: austin, onError });
+            await ready(austin);
+            await update({ dataAppControls: dallas, onError });
+            await update({ dataAppControls: houston, onError });
+            await update({ dataAppControls: austin, onError });
+
+            expect(updates()).toEqual([dallas, houston, austin]);
+
+            updateReplies()[0].reject({ code: 'VALUE_REFUSED' });
+            updateReplies()[1].resolve(accepted(houston, 3));
+            updateReplies()[2].reject({ code: 'APP_MISMATCH' });
+            await settle();
+
+            expect(errorCodes(onError)).toEqual([
+                EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
+                EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
+            ]);
+            expect(onError.mock.calls.map(([details]) => details.error.code)).toEqual(['VALUE_REFUSED', 'APP_MISMATCH']);
+        });
+
+        it('reports a code an older App page sends, such as SUPERSEDED, as FAILED', async () => {
+            const onError = jest.fn();
+            const { update } = await mount({ dataAppControls: austin, onError });
+            await ready(austin);
+            await update({ dataAppControls: dallas, onError });
+
+            updateReplies()[0].reject({ code: 'SUPERSEDED' });
+            await settle();
+
+            expect(onError).toHaveBeenCalledTimes(1);
+            expect(onError.mock.calls[0][0].error).toMatchObject({ name: 'DataAppControlError', code: 'FAILED' });
+        });
+
+        it('calls the newest inline handler without a rebuild; adding or removing one rebuilds (TC-640)', async () => {
+            const seen: string[] = [];
+            const { update } = await mount({ onDataAppReady: () => seen.push('first') });
+
+            await update({ onDataAppReady: () => seen.push('second') });
+            await ready(austin);
+
+            expect(seen).toEqual(['second']);
+            expect(builds).toHaveBeenCalledTimes(1);
+
+            await update({ onDataAppReady: () => seen.push('third'), onDataAppLoad: jest.fn() });
+
+            expect(builds).toHaveBeenCalledTimes(2);
+
+            await update({ onDataAppLoad: jest.fn() });
+
+            expect(builds).toHaveBeenCalledTimes(3);
+        });
+
+        it('rebuilds on another prop, opening with the prop as its load-time values (TC-641)', async () => {
+            const ref = React.createRef<any>();
+            const { update } = await mount({ dataAppControls: austin, ref });
+            await ready(austin);
+            await update({ dataAppControls: dallas, ref });
+            const first = embedOf(ref);
+
+            await update({ dataAppControls: dallas, hideDataAppHeader: true, ref });
+
+            expect(builds).toHaveBeenCalledTimes(2);
+            expect(destroys.mock.instances).toEqual([first]);
+            expect(embedOf(ref)).not.toBe(first);
+            expect((await (embedOf(ref) as any).getAppInitData()).embedParams.dataAppInitialControls)
+                .toStrictEqual({ appId, controls: dallas });
+
+            // The new build was told the prop: only the new entry is sent.
+            await update({ dataAppControls: [...dallas, routeNone], hideDataAppHeader: true, ref });
+            await ready(dallas);
+
+            expect(updates()).toEqual([dallas, [routeNone]]);
+        });
+
+        describe('dataAppActions', () => {
+            const sentRule = async (ref: React.RefObject<any>) => (
+                await (embedOf(ref) as any).getAppInitData()).embedParams.dataAppActions;
+
+            it('opens with the prop as its rule', async () => {
+                const ref = React.createRef<any>();
+                await mount({ dataAppActions: { off: ['reopen_ticket', 'close_ticket'] }, ref });
+
+                expect(await sentRule(ref)).toStrictEqual({ off: ['close_ticket', 'reopen_ticket'] });
+            });
+
+            it('rebuilds nothing for the same ids in another order (TA-32)', async () => {
+                const ref = React.createRef<any>();
+                const { update } = await mount({ dataAppActions: { off: ['a', 'b'] }, ref });
+
+                await update({ dataAppActions: { off: ['b', 'a', 'b'] }, ref });
+
+                expect(builds).toHaveBeenCalledTimes(1);
+                expect(destroys).not.toHaveBeenCalled();
+            });
+
+            it('rebuilds with another rule (TA-26)', async () => {
+                const ref = React.createRef<any>();
+                const { update } = await mount({ dataAppActions: { off: ['a'] }, ref });
+
+                await update({ dataAppActions: { off: 'all' }, ref });
+
+                expect(builds).toHaveBeenCalledTimes(2);
+                expect(await sentRule(ref)).toStrictEqual({ off: 'all' });
+            });
+
+            it('renders nothing for a malformed rule', async () => {
+                const onError = jest.fn();
+                const { container } = await mount({ dataAppActions: { off: 'none' }, onError });
+
+                expect(errorCodes(onError)).toEqual([EmbedErrorCodes.DATA_APP_OPTION_INVALID]);
+                expect(container.querySelector('iframe')).toBeNull();
+            });
+
+            it('removes the App when DataAppReady does not echo the rule (TA-25)', async () => {
+                const onError = jest.fn();
+                const onDataAppReady = jest.fn();
+                const { container } = await mount({ dataAppActions: { off: 'all' }, onError, onDataAppReady });
+
+                await ready(austin);
+
+                expect(onDataAppReady).not.toHaveBeenCalled();
+                expect(onError.mock.calls.map(([error]) => [error.code, error.option, error.severity]))
+                    .toEqual([[EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED, 'dataAppActions', 1]]);
+                expect(container.querySelector('iframe')).toBeNull();
+            });
+
+            it('passes on a DataAppReady that echoes the rule', async () => {
+                const onDataAppReady = jest.fn();
+                await mount({ dataAppActions: { off: ['a', 'b'] }, onDataAppReady });
+
+                await ready(austin, { actionsOff: ['b', 'a'] });
+
+                expect(onDataAppReady).toHaveBeenCalledTimes(1);
+            });
+
+            it.each([
+                ['display: undefined for no display', { off: ['a'], display: undefined }, { off: ['a'] }],
+                ['null for no prop', null, undefined],
+                ['repeated ids', { off: ['a', 'a'] }, { off: ['a'] }],
+            ])('rebuilds nothing for %s', async (_, before, after) => {
+                const ref = React.createRef<any>();
+                const { update } = await mount({ dataAppActions: before, ref });
+
+                await update({ dataAppActions: after, ref });
+
+                expect(builds).toHaveBeenCalledTimes(1);
+                expect(destroys).not.toHaveBeenCalled();
+            });
+
+            it('rebuilds, and refuses again, when one malformed rule is replaced by another', async () => {
+                const onError = jest.fn();
+                const { update, container } = await mount({ dataAppActions: { off: 'none' }, onError });
+
+                await update({ dataAppActions: { off: 'some' }, onError });
+
+                expect(errorCodes(onError)).toEqual([
+                    EmbedErrorCodes.DATA_APP_OPTION_INVALID,
+                    EmbedErrorCodes.DATA_APP_OPTION_INVALID,
+                ]);
+                expect(container.querySelector('iframe')).toBeNull();
+            });
+
+            it('rebuilds with a rule once a malformed one is fixed', async () => {
+                const ref = React.createRef<any>();
+                const onError = jest.fn();
+                const { update, container } = await mount({ dataAppActions: { off: 'none' }, onError, ref });
+
+                await update({ dataAppActions: { off: 'all' }, onError, ref });
+
+                expect(errorCodes(onError)).toEqual([EmbedErrorCodes.DATA_APP_OPTION_INVALID]);
+                expect(container.querySelector('iframe')).not.toBeNull();
+                expect(await sentRule(ref)).toStrictEqual({ off: 'all' });
+            });
+        });
+
+        it('drops the old build\'s pending call and its error on a rebuild', async () => {
+            const onError = jest.fn();
+            const { update } = await mount({ dataAppControls: austin, onError });
+            await ready(austin);
+            await update({ dataAppControls: dallas, onError });
+            const pending = updateReplies()[0];
+
+            await update({ dataAppControls: dallas, onError, hideDataAppHeader: true });
+            pending.reject({ code: 'VALUE_REFUSED' });
+            await settle();
+
+            expect(onError).not.toHaveBeenCalled();
+            expect(builds).toHaveBeenCalledTimes(2);
+        });
+
+        it.each([
+            ['the frame', () => openFailed()],
+            ['the frame, naming no App', () => openFailed({})],
+            ['the SDK, which could not send the values', async (embed: DataAppEmbedClass) => {
+                act(() => {
+                    (embed as any).executeCallbacks(EmbedEvent.Error, {
+                        code: EmbedErrorCodes.DATA_APP_OPEN_FAILED,
+                        appId,
+                        reason: 'FAILED',
+                    });
+                });
+                await settle();
+            }],
+        ])('retries the open on a change of the prop after DATA_APP_OPEN_FAILED from %s (TC-642, D16)', async (_, fail) => {
+            const navigate = jest.spyOn(DataAppEmbedClass.prototype, 'navigateToDataApp');
+            const ref = React.createRef<any>();
+            const region = { id: 'region', value: { op: 'eq', values: ['na'] } };
+            const { update } = await mount({ dataAppControls: [...austin, region], ref });
+            await fail(embedOf(ref));
+
+            // No entry differs, and it retries all the same.
+            await update({ dataAppControls: austin, ref });
+
+            expect(navigate).toHaveBeenCalledWith(appId, { controls: austin });
+            expect(updates()).toEqual([]);
+            await ready(austin);
+
+            // The retry told it the values: the next change is a plain update.
+            await update({ dataAppControls: [...austin, routeNone], ref });
+
+            expect(navigate).toHaveBeenCalledTimes(1);
+            expect(updates()).toEqual([[routeNone]]);
+            navigate.mockRestore();
+        });
+
+        it('sends an update, not a retry, after another App\'s open failed', async () => {
+            const navigate = jest.spyOn(DataAppEmbedClass.prototype, 'navigateToDataApp');
+            const { update } = await mount({ dataAppControls: austin });
+            await ready(austin);
+            await openFailed({ appId: 'b7c8' });
+
+            await update({ dataAppControls: dallas });
+
+            expect(navigate).not.toHaveBeenCalled();
+            expect(updates()).toEqual([dallas]);
+            navigate.mockRestore();
+        });
+
+        it('warns when the retried open rejects', async () => {
+            const failure = new Error('The App id could not be encoded');
+            const navigate = jest.spyOn(DataAppEmbedClass.prototype, 'navigateToDataApp')
+                .mockRejectedValueOnce(failure);
+            const { update } = await mount({ dataAppControls: austin });
+            await openFailed();
+
+            await update({ dataAppControls: dallas });
+
+            expect(logWarn).toHaveBeenCalledWith(failure);
+            navigate.mockRestore();
+        });
+
+        it('sends an ordinary update, and reopens nothing, after DATA_APP_OPEN_NOT_CONFIRMED (TC-564)', async () => {
+            const navigate = jest.spyOn(DataAppEmbedClass.prototype, 'navigateToDataApp');
+            const onError = jest.fn();
+            const { update } = await mount({ dataAppControls: austin, onError });
+            jest.useFakeTimers();
+            try {
+                fromFrame(EmbedEvent.AuthInit, {});
+                jest.advanceTimersByTime(30000);
+                await settle();
+
+                expect(errorCodes(onError)).toEqual([EmbedErrorCodes.DATA_APP_OPEN_NOT_CONFIRMED]);
+
+                await update({ dataAppControls: dallas, onError });
+
+                expect(updates()).toEqual([]);
+
+                await ready(austin);
+
+                expect(updates()).toEqual([dallas]);
+                expect(navigate).not.toHaveBeenCalled();
+            } finally {
+                jest.useRealTimers();
+                navigate.mockRestore();
+            }
+        });
+
+        it('holds a change made before DataAppReady, and sends what differs from the load-time values (TC-643)', async () => {
+            const { update } = await mount({ dataAppControls: [...austin, routeNone] });
+
+            await update({ dataAppControls: [...dallas, routeNone] });
+
+            expect(updates()).toEqual([]);
+
+            await ready([...austin, routeNone]);
+
+            expect(updates()).toEqual([dallas]);
+        });
+
+        it('destroys the embed on unmount with a call outstanding, and raises nothing after (TC-645)', async () => {
+            const onError = jest.fn();
+            const { update, unmount } = await mount({ dataAppControls: austin, onError });
+            await ready(austin);
+            await update({ dataAppControls: dallas, onError });
+
+            unmount();
+            await settle();
+            updateReplies()[0].reject({ code: 'VALUE_REFUSED' });
+            await settle();
+
+            expect(destroys).toHaveBeenCalledTimes(1);
+            expect(onError).not.toHaveBeenCalled();
+        });
+
+        it('sends a refused entry the host keeps with each later change, refused again (TC-646)', async () => {
+            const onError = jest.fn();
+            const risk = (value: unknown) => ({ id: 'risk_score', value });
+            const high = { op: 'ge', values: [80] };
+            const { update } = await mount({ dataAppControls: [...austin, risk(null)], onError });
+            await ready([...austin, risk(null)]);
+
+            await update({ dataAppControls: [...austin, risk(high)], onError });
+            updateReplies()[0].reject({ code: 'VALUE_REFUSED' });
+            await settle();
+            await update({ dataAppControls: [...dallas, risk(high)], onError });
+            updateReplies()[1].reject({ code: 'VALUE_REFUSED' });
+            await settle();
+
+            expect(updates()).toEqual([[risk(high)], [...dallas, risk(high)]]);
+            expect(errorCodes(onError)).toEqual([
+                EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
+                EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
+            ]);
+        });
+
+        it('hears the App events itself, with no handler prop (TC-647)', async () => {
+            const { update } = await mount({ dataAppControls: austin });
+            await ready([...austin, routeNone]);
+            await changed([...austin, routeR12]);
+
+            await update({ dataAppControls: dallas });
+
+            expect(updates()).toEqual([dallas]);
+
+            // It knows the viewer's route from the event.
+            await update({ dataAppControls: [...dallas, routeR12] });
+
+            expect(updates()).toEqual([dallas]);
+        });
+
+        it('leaves one live embed after mount, unmount and mount in one tick (TC-648)', async () => {
+            const ref = React.createRef<any>();
+            const element = (
+                <React.StrictMode>
+                    <DataAppEmbed dataAppId={appId} dataAppControls={austin} ref={ref} />
+                </React.StrictMode>
+            );
+            const first = render(element);
+            const firstEmbed = embedOf(ref);
+            const firstCall = firstEmbed.trigger(HostEvent.GetDataAppControls);
+            first.unmount();
+            render(element);
+            const survivor = embedOf(ref);
+            const call = survivor.trigger(HostEvent.GetDataAppControls);
+            await settle();
+            await settle();
+
+            await expect(firstCall).rejects.toMatchObject({ code: 'APP_NOT_READY' });
+            expect(document.querySelectorAll('iframe')).toHaveLength(1);
+            expect(destroys.mock.instances).toEqual([firstEmbed]);
+            expect((await (survivor as any).getAppInitData()).embedParams.dataAppInitialControls)
+                .toStrictEqual({ appId, controls: austin });
+
+            await ready(austin);
+            replies[0].resolve(state(austin));
+
+            await expect(call).resolves.toEqual(state(austin));
+            expect(processTrigger.mock.calls.filter(([, type]) => type === HostEvent.GetDataAppControls))
+                .toHaveLength(1);
+        });
+
+        it('opens a rebuild with the mirrored state as its load-time values (TC-649)', async () => {
+            const ref = React.createRef<any>();
+            const Mirror = ({ hideDataAppHeader }: { hideDataAppHeader: boolean }) => {
+                const [controls, setControls] = React.useState<unknown[]>(austin);
+                return (
+                    <DataAppEmbed
+                        ref={ref}
+                        dataAppId={appId}
+                        dataAppControls={controls as any}
+                        hideDataAppHeader={hideDataAppHeader}
+                        onDataAppReady={(e) => setControls(e.data.controls)}
+                        onDataAppControlsChanged={(e) => setControls(e.data.controls)}
+                    />
+                );
+            };
+            const { rerender } = render(<Mirror hideDataAppHeader={false} />);
+            await settle();
+            await ready([...austin, routeNone]);
+            await changed([...austin, routeR12]);
+
+            rerender(<Mirror hideDataAppHeader={true} />);
+            await settle();
+
+            expect(builds).toHaveBeenCalledTimes(2);
+            expect(updates()).toEqual([]);
+            expect((await (embedOf(ref) as any).getAppInitData()).embedParams.dataAppInitialControls)
+                .toStrictEqual({ appId, controls: [...austin, routeR12] });
+        });
+
+        describe('a value changed back while its change is in flight (CR-3)', () => {
+            it('sends the value changed back after DataAppReady', async () => {
+                const { update } = await mount({ dataAppControls: austin });
+                await ready(austin);
+
+                await update({ dataAppControls: dallas });
+                await update({ dataAppControls: austin });
+
+                expect(updates()).toEqual([dallas, austin]);
+            });
+
+            it('sends the value changed back while both calls are held', async () => {
+                const { update } = await mount({ dataAppControls: austin });
+                await update({ dataAppControls: dallas });
+                await update({ dataAppControls: austin });
+
+                await ready(austin);
+
+                expect(updates()).toEqual([dallas, austin]);
+            });
+
+            it('sends nothing for a stale event mirrored back, but sends the host\'s own revert (D17)', async () => {
+                const full = [...austin, routeNone];
+                const { update } = await mount({ dataAppControls: full });
+                await ready(full);
+                await update({ dataAppControls: [...dallas, routeNone] });
+
+                await changed(full, { revision: 1 });
+                await update({ dataAppControls: full.map((entry) => ({ ...entry })) });
+
+                expect(updates()).toEqual([dallas]);
+
+                await update({ dataAppControls: [...dallas, routeNone] });
+                await update({ dataAppControls: full.map((entry) => ({ ...entry })) });
+
+                expect(updates()).toEqual([dallas, austin]);
+            });
+
+            it('keeps a later call\'s entry pending when an earlier call is refused', async () => {
+                const { update } = await mount({ dataAppControls: austin });
+                await ready(austin);
+                await update({ dataAppControls: dallas });
+                await update({ dataAppControls: houston });
+
+                updateReplies()[0].reject({ code: 'VALUE_REFUSED' });
+                await settle();
+                await update({ dataAppControls: austin });
+
+                expect(updates()).toEqual([dallas, houston, austin]);
+            });
+
+            it('compares with the state told once its own call settles', async () => {
+                const { update } = await mount({ dataAppControls: austin });
+                await ready(austin);
+                await update({ dataAppControls: dallas });
+
+                updateReplies()[0].reject({ code: 'VALUE_REFUSED' });
+                await settle();
+                await update({ dataAppControls: austin });
+
+                expect(updates()).toEqual([dallas]);
+            });
+
+            it('takes the state of an accepted call as told', async () => {
+                const { update } = await mount({ dataAppControls: austin });
+                await ready(austin);
+                await update({ dataAppControls: dallas });
+
+                updateReplies()[0].resolve(accepted(dallas));
+                await settle();
+                await update({ dataAppControls: austin });
+
+                expect(updates()).toEqual([dallas, austin]);
+            });
+        });
+
+        describe('the state it was told', () => {
+            it('ignores an older revision of the same session (D11)', async () => {
+                const { update } = await mount({ dataAppControls: austin });
+                await ready(austin);
+                await update({ dataAppControls: dallas });
+                await changed(houston, { revision: 3 });
+
+                updateReplies()[0].resolve(accepted(dallas, 2));
+                await settle();
+                await update({ dataAppControls: houston });
+
+                expect(updates()).toEqual([dallas]);
+            });
+
+            it('takes a lower revision from another session, and any DataAppReady', async () => {
+                const { update } = await mount({ dataAppControls: austin });
+                await ready(austin, { revision: 5 });
+                await changed(dallas, { session: 'S2', revision: 1 });
+                await update({ dataAppControls: dallas });
+
+                expect(updates()).toEqual([]);
+
+                await ready(houston, { session: 'S2', revision: 1 });
+                await update({ dataAppControls: houston });
+
+                expect(updates()).toEqual([]);
+            });
+
+            it('ignores a state with no list of controls', async () => {
+                const { update } = await mount({ dataAppControls: austin });
+                await ready(austin);
+                await fromApp(EmbedEvent.DataAppControlsChanged, { ...state(austin, { revision: 2 }), controls: null });
+
+                await update({ dataAppControls: dallas });
+
+                expect(updates()).toEqual([dallas]);
+            });
+        });
+
+        it('sends a prop that is not a list as given, for the App page to refuse', async () => {
+            const onError = jest.fn();
+            const map = { depot: { op: 'eq', values: ['Dallas'] } };
+            const { update } = await mount({ dataAppControls: austin, onError });
+            await ready(austin);
+
+            await update({ dataAppControls: map, onError });
+            updateReplies()[0].reject({ code: 'INVALID_REQUEST' });
+            await settle();
+
+            expect(updates()).toEqual([map]);
+            expect(errorCodes(onError)).toEqual([EmbedErrorCodes.DATA_APP_UPDATE_FAILED]);
+        });
+
+        it('does not send a value JSON cannot hold again on each render (CR-6)', async () => {
+            const big = () => [{ id: 'depot', value: { op: 'eq', values: [BigInt(1)] } }];
+            const { update } = await mount({ dataAppControls: austin });
+            await ready(austin);
+
+            await update({ dataAppControls: big() });
+            await update({ dataAppControls: big() });
+            await update({ dataAppControls: big() });
+
+            expect(updates()).toHaveLength(1);
+        });
+
+        it('still sends the other entries of a prop holding a value JSON cannot hold, refused again', async () => {
+            const onError = jest.fn();
+            const big = { id: 'depot', value: { op: 'eq', values: [BigInt(1)] } };
+            const route = (value: unknown) => ({ id: 'route', value });
+            const r12 = { op: 'eq', values: ['R-12'] };
+            const r7 = { op: 'eq', values: ['R-7'] };
+            const { update } = await mount({ dataAppControls: austin, onError });
+            await ready([...austin, route(null)]);
+
+            await update({ dataAppControls: [big], onError });
+            updateReplies()[0].reject({ code: 'INVALID_REQUEST' });
+            await settle();
+            await update({ dataAppControls: [big, route(r12)], onError });
+            updateReplies()[1].reject({ code: 'INVALID_REQUEST' });
+            await settle();
+            await update({ dataAppControls: [big, route(r7)], onError });
+
+            expect(updates()).toEqual([[big], [big, route(r12)], [big, route(r7)]]);
+            expect(errorCodes(onError)).toEqual([
+                EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
+                EmbedErrorCodes.DATA_APP_UPDATE_FAILED,
+            ]);
+        });
+
+        it('reports its own listeners as the SDK\'s (CR-9)', async () => {
+            const upload = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
+            await mount({ dataAppControls: austin, onError: jest.fn() });
+            const listeners = upload.mock.calls
+                .filter(([id]) => id.startsWith(`${mixpanelInstance.MIXPANEL_EVENT.VISUAL_SDK_ON}-`));
+            upload.mockRestore();
+
+            expect(listeners.filter(([, props]: any) => !props.isRegisteredBySDK).map(([id]) => id))
+                .toEqual([`${mixpanelInstance.MIXPANEL_EVENT.VISUAL_SDK_ON}-${EmbedEvent.Error}`]);
+            [EmbedEvent.DataAppReady, EmbedEvent.DataAppControlsChanged].forEach((event) => {
+                expect(listeners).toContainEqual([
+                    `${mixpanelInstance.MIXPANEL_EVENT.VISUAL_SDK_ON}-${event}`,
+                    { isRegisteredBySDK: true },
+                ]);
+            });
+        });
+
+        it('uploads no control id or value on a build, a change or a rebuild (TC-609)', async () => {
+            const upload = jest.spyOn(mixpanelInstance, 'uploadMixpanelEvent');
+            const secret = [{ id: 'zz_depot', value: { zzInner: ['ZZ-Austin'] } }];
+            const { update } = await mount({ dataAppControls: secret });
+            await ready(secret);
+            await update({ dataAppControls: [{ id: 'zz_depot', value: { zzInner: ['ZZ-Dallas'] } }] });
+            await update({ dataAppControls: secret, hideDataAppHeader: true });
+            const uploaded = JSON.stringify(upload.mock.calls);
+            const created = upload.mock.calls
+                .filter(([id]) => id === mixpanelInstance.MIXPANEL_EVENT.VISUAL_SDK_EMBED_CREATE)
+                .map(([, props]: any) => props.dataAppControls);
+            const sent = upload.mock.calls
+                .filter(([id]) => id === `${mixpanelInstance.MIXPANEL_EVENT.VISUAL_SDK_TRIGGER}-${HostEvent.UpdateDataAppControls}`)
+                .map(([, props]: any) => props.params);
+            upload.mockRestore();
+
+            ['zz_depot', 'zzInner', 'ZZ-Austin', 'ZZ-Dallas'].forEach((text) => expect(uploaded).not.toContain(text));
+            expect(created).toEqual([{ count: 1 }, { count: 1 }]);
+            expect(sent).toEqual([{ controls: ['object'] }]);
+        });
+
+        it.each([
+            ['and passes className to the frame', 'custom-class'],
+            ['with no className', undefined],
+        ])('renders a span with insertAsSibling, %s', async (_, className) => {
+            const { container } = await mount({ insertAsSibling: true, className });
+
+            expect(container.querySelector('span')?.style.position).toBe('absolute');
+            expect(getIFrameEl(container).getAttribute('class') ?? '').toBe(className ?? '');
+        });
+
+        it('sends nothing when the prop is removed: the prop is merge-only', async () => {
+            const { update } = await mount({ dataAppControls: austin });
+            await ready(austin);
+
+            await update({});
+
+            expect(updates()).toEqual([]);
+        });
+
+        it('sends a malformed entry as given, for the App page to refuse', async () => {
+            const { update } = await mount({ dataAppControls: [null, ...austin] });
+            await ready(austin);
+
+            await update({ dataAppControls: [null, ...dallas] });
+
+            expect(updates()).toEqual([[null, ...dallas]]);
+        });
+
+        it('changes nothing for a DataAppReady or an Error with no payload', async () => {
+            const navigate = jest.spyOn(DataAppEmbedClass.prototype, 'navigateToDataApp');
+            const ref = React.createRef<any>();
+            const { update } = await mount({ dataAppControls: austin, ref, onDataAppReady: undefined });
+            await ready(austin);
+
+            await fromApp(EmbedEvent.DataAppReady, undefined);
+            act(() => {
+                (embedOf(ref) as any).executeCallbacks(EmbedEvent.Error, undefined);
+            });
+            await update({ dataAppControls: dallas, ref, onDataAppReady: undefined });
+
+            expect(navigate).not.toHaveBeenCalled();
+            expect(updates()).toEqual([dallas]);
+            navigate.mockRestore();
+        });
+
+        describe('connected to a pre-render', () => {
+            it.each([
+                ['preRenderId', { preRenderId: 'react-data-app-by-id' }],
+                ['preRenderConfig.id', { preRenderConfig: { id: 'react-data-app-by-config' } }],
+            ])('shows on mount and hides on unmount, through %s', async (_, preRender) => {
+                const show = jest.spyOn(DataAppEmbedClass.prototype, 'showPreRender');
+                const hide = jest.spyOn(DataAppEmbedClass.prototype, 'hidePreRender');
+                const { unmount } = await mount({ dataAppControls: austin, ...preRender });
+                const hidden = hide.mock.calls.length;
+
+                unmount();
+
+                expect(show).toHaveBeenCalled();
+                expect(hide).toHaveBeenCalledTimes(hidden + 1);
+                expect(destroys).not.toHaveBeenCalled();
+                expect(document.querySelectorAll('iframe')).toHaveLength(1);
+                show.mockRestore();
+                hide.mockRestore();
+            });
+
+            it('takes over the ready App when mounted again: a change is sent at once', async () => {
+                const preRenderId = 'react-data-app-again';
+                const first = await mount({ dataAppControls: austin, preRenderId });
+                fromFrame(EmbedEvent.EmbedListenerReady);
+                await ready(austin);
+                first.unmount();
+                const frames = document.querySelectorAll('iframe').length;
+
+                const second = await mount({ dataAppControls: austin, preRenderId });
+                await second.update({ dataAppControls: dallas, preRenderId });
+
+                expect(document.querySelectorAll('iframe')).toHaveLength(frames);
+                expect(updates()).toEqual([dallas]);
+            });
+        });
     });
 
     describe('LiveboardEmbed', () => {

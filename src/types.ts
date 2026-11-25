@@ -4723,6 +4723,70 @@ export enum EmbedEvent {
      * @version SDK: 1.49.0 | ThoughtSpot Cloud: 26.6.0.cl
      */
     RefreshLiveboardBrowserCache = 'refreshLiveboardBrowserCache',
+
+    /**
+     * Emitted when the App in `DataAppEmbed` is open and its controls are
+     * known. Read the control IDs and values from the payload.
+     * Payload: {@link DataAppReadyPayload}.
+     *
+     * Each `DataAppReady` replaces the state you hold for the embed. It can
+     * come again within one `session`, so make the handler idempotent.
+     * `HostEvent.GetDataAppControls` calls made before it wait for it.
+     * The control values come from the App: validate them before you route
+     * or render on them.
+     *
+     * When `dataAppActions` switches actions off, `actionsOff` names them. A
+     * `DataAppReady` whose `actionsOff` does not match is not passed on: the
+     * embed removes the App and raises `DATA_APP_OPTION_NOT_SUPPORTED`. On a
+     * pre-render shown with a new rule, one that still names the old rule is
+     * dropped while the embed waits for the new one.
+     * @example
+     * ```js
+     * dataAppEmbed.on(EmbedEvent.DataAppReady, (payload) => {
+     *     console.log(payload.data.session, payload.data.controls);
+     * });
+     * ```
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    DataAppReady = 'DataAppReady',
+
+    /**
+     * Emitted when a tile load of the App in `DataAppEmbed` has completed for
+     * the `revision` named, and no control change is in flight. A completed
+     * load can still hold errors.
+     * Payload: {@link DataAppLoadPayload}.
+     *
+     * It may never come, for example when no tile is in view: stop showing a
+     * loading state on `EmbedEvent.DataAppReady`, not on this event.
+     * @example
+     * ```js
+     * dataAppEmbed.on(EmbedEvent.DataAppLoad, (payload) => {
+     *     console.log(payload.data.revision, payload.data.first);
+     * });
+     * ```
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    DataAppLoad = 'DataAppLoad',
+
+    /**
+     * Emitted when the value of at least one control of the App in
+     * `DataAppEmbed` changed. It carries the whole state, so any one event is
+     * enough to resync.
+     * Payload: {@link DataAppControlsChangedPayload}.
+     *
+     * Compare `revision` only within one `session`. `source` is an open list:
+     * treat a value you do not know as `'app'`. The control values come from
+     * the App: validate them before you route or render on them.
+     * @example
+     * ```js
+     * dataAppEmbed.on(EmbedEvent.DataAppControlsChanged, (payload) => {
+     *     const { source, changed } = payload.data;
+     *     console.log(source, changed.map((control) => control.id));
+     * });
+     * ```
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    DataAppControlsChanged = 'DataAppControlsChanged',
 }
 
 /**
@@ -7447,6 +7511,102 @@ export enum HostEvent {
      * ```
      */
     UpdateTheme = 'UpdateTheme',
+
+    /**
+     * Reads every control of the App open in `DataAppEmbed`, with its value:
+     * the last state the App confirmed. It can lag behind a change whose
+     * outcome is unknown (`TIMEOUT` or `FAILED`) until the next change is seen.
+     * Payload: {@link GetDataAppControlsRequest}.
+     * Resolves with {@link GetDataAppControlsResponse}.
+     *
+     * A call made before `EmbedEvent.DataAppReady` waits for it. A call has
+     * 30 seconds in all, waiting included. The SDK fills in `appId` and sends
+     * the call with `ContextType.DataApp`. Every failure rejects with a
+     * {@link DataAppControlError}, whose `code` says why:
+     * - `APP_NOT_READY`: no App opened in time, its open failed, or the embed
+     *   is not rendered or not a `DataAppEmbed`.
+     * - `SESSION_LOST`: the App session ended, for example on
+     *   `HostEvent.Reload` or `destroy()`, before the reply came.
+     * - `APP_MISMATCH`: `appId` names an App that is not the one open.
+     * - `UNSUPPORTED_FIELD`: the payload has a field other than `appId`.
+     * - `INVALID_REQUEST`: the payload is not an object, or cannot be copied.
+     * - `TIMEOUT`: the call was sent and no reply came in time.
+     * - `FAILED`: the call could not be handled.
+     *
+     * Compare `revision` only within one `session`. The control values come
+     * from the App: validate them before you route or render on them.
+     * @example
+     * ```js
+     * const state = await dataAppEmbed.trigger(HostEvent.GetDataAppControls);
+     * console.log(state.revision, state.controls);
+     * ```
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    GetDataAppControls = 'GetDataAppControls',
+
+    /**
+     * Sets, empties or resets controls of the App open in `DataAppEmbed`.
+     * A control you do not name keeps its value. `value: null` empties a
+     * control and does not bring back the author's default; a mandatory
+     * control with a default stays at its default.
+     * Pass values read from the App, as they are.
+     * Payload: {@link UpdateDataAppControlsRequest}.
+     * Resolves with {@link UpdateDataAppControlsResponse}.
+     *
+     * A call is all or nothing: every value is put in force, or none. It
+     * resolves once the App has confirmed the change, with the state then in
+     * force: read the values from `controls`, as they can differ from what you
+     * sent. Tiles reload after that; `EmbedEvent.DataAppLoad` says when.
+     *
+     * Calls are sent in the order you make them, never paced, merged or
+     * dropped, and the App applies them one after another; each gets its own
+     * answer. Debounce fast changes, such as typing, on your page.
+     *
+     * `reset: 'defaults'` first puts every control a host may set back to the
+     * author's default. A control a host may not set keeps the viewer's value,
+     * here and when new `dataAppControls` restart the App in place, so after a
+     * reset the state is not always the author's default.
+     *
+     * A call made before `EmbedEvent.DataAppReady` waits for it, and has 30
+     * seconds in all, waiting included. The SDK fills in `appId` and sends the
+     * call with `ContextType.DataApp`. Every failure rejects with a
+     * {@link DataAppControlError}, whose `code` says why. With `TIMEOUT` or
+     * `FAILED` the outcome is unknown: send the same call again to settle it.
+     * With any other code nothing was changed:
+     * - `APP_NOT_READY`: no App opened in time, its open failed, or the embed
+     *   is not rendered or not a `DataAppEmbed`.
+     * - `CONTROLS_NOT_SUPPORTED`: the App does not take values from the host.
+     * - `INVALID_REQUEST`: the payload or an entry is not valid, or the payload
+     *   cannot be copied. `results` names the entries at fault, with codes such
+     *   as `UNKNOWN_CONTROL` or `CONTROL_NOT_HOST_SETTABLE`.
+     * - `VALUE_REFUSED`: the App refused a value; `results` names it when known.
+     * - `LIMIT_EXCEEDED`: too many entries, or the values are too large.
+     * - `UNSUPPORTED_FIELD`: the payload or an entry has a field this version
+     *   does not take.
+     * - `APP_MISMATCH`: `appId` names an App that is not the one open.
+     * - `NOT_SIGNED_IN`: the viewer's sign-in ended; send the call again once
+     *   signed in.
+     * - `SESSION_LOST`: the App session ended, for example on
+     *   `HostEvent.Reload` or `destroy()`, before the reply came.
+     *
+     * Catch the promise of every call, even one you do not await, or a
+     * rejection goes unhandled. The control values come from the App:
+     * validate them before you route or render on them.
+     * @example
+     * ```js
+     * // The author's defaults, with the depot control emptied
+     * dataAppEmbed.trigger(HostEvent.UpdateDataAppControls, {
+     *     reset: 'defaults',
+     *     controls: [{ id: 'depot', value: null }],
+     * }).then((state) => {
+     *     console.log(state.revision, state.results);
+     * }).catch((error) => {
+     *     console.warn(error.code, error.results);
+     * });
+     * ```
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    UpdateDataAppControls = 'UpdateDataAppControls',
 }
 
 /**
@@ -7671,6 +7831,8 @@ export enum Param {
     IsDarkMode = 'isDarkMode',
     RadiantThemeEnabled = 'radiantThemeEnabled',
     SpotterExperienceVersion = 'spotterExperienceVersion',
+    EnableDataApps = 'enableDataApps',
+    HideDataAppHeader = 'hideDataAppHeader',
 }
 
 /**
@@ -10770,6 +10932,54 @@ export enum EmbedErrorCodes {
     /** Required Liveboard ID is missing from configuration */
     LIVEBOARD_ID_MISSING = 'LIVEBOARD_ID_MISSING',
 
+    /** Required App ID (`dataAppId`) is missing from configuration */
+    DATA_APP_ID_MISSING = 'DATA_APP_ID_MISSING',
+
+    /**
+     * An option set on `DataAppEmbed` does not apply to an App. The error
+     * names it in `option`. With `option: 'dataAppActions'` and an `appId`,
+     * ThoughtSpot did not confirm the actions switched off, and the embed
+     * removed the App: create a new `DataAppEmbed` to try again.
+     */
+    DATA_APP_OPTION_NOT_SUPPORTED = 'DATA_APP_OPTION_NOT_SUPPORTED',
+
+    /**
+     * An option set on `DataAppEmbed` has a value the SDK cannot read, such
+     * as a malformed `dataAppActions`. The error names it in `option`, and
+     * the embed does not render.
+     */
+    DATA_APP_OPTION_INVALID = 'DATA_APP_OPTION_INVALID',
+
+    /**
+     * The App in `DataAppEmbed` could not be opened and is not showing.
+     * `reason` says why: see {@link DataAppOpenFailedReason}. With
+     * `CONTROLS_REFUSED`, `results` names the values at fault. The SDK raises
+     * it too, with `reason: 'FAILED'`, when it cannot send the values to the
+     * App; the frame then keeps what it showed before. Until it opens,
+     * App calls reject with `APP_NOT_READY`. `HostEvent.Reload` tries again, and
+     * so does `navigateToDataApp()` with other `controls`.
+     * Two failed opens within 100 ms can reach the host as one error when
+     * neither carries an `appId`.
+     */
+    DATA_APP_OPEN_FAILED = 'DATA_APP_OPEN_FAILED',
+
+    /**
+     * The App in `DataAppEmbed` was opened with `dataAppControls`, and nothing
+     * confirmed them within 30 seconds. The outcome is unknown, not failed: the
+     * App may be showing. A later `EmbedEvent.DataAppReady`, or an error whose
+     * code starts with `DATA_APP_`, settles it. `appId` names the App.
+     */
+    DATA_APP_OPEN_NOT_CONFIRMED = 'DATA_APP_OPEN_NOT_CONFIRMED',
+
+    /** The App session in `DataAppEmbed` ended: reload the App to continue. */
+    DATA_APP_SESSION_LOST = 'DATA_APP_SESSION_LOST',
+
+    /**
+     * A change of the `dataAppControls` prop of the React `DataAppEmbed` was
+     * refused. `error` holds the {@link DataAppControlError}.
+     */
+    DATA_APP_UPDATE_FAILED = 'DATA_APP_UPDATE_FAILED',
+
     /** Conflicting action configuration detected */
     CONFLICTING_ACTIONS_CONFIG = 'CONFLICTING_ACTIONS_CONFIG',
 
@@ -10947,6 +11157,11 @@ export enum ContextType {
      * Other context for any other generic page.
      */
     Other = 'other',
+    /**
+     * App context for the App open in `DataAppEmbed`.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    DataApp = 'dataApp',
 }
 
 export interface DefaultAppInitData {
@@ -11077,6 +11292,11 @@ export interface ObjectIds {
      * Modal title.
      */
     modalTitle?: string;
+    /**
+     * App ID, in the `dataApp` context.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    dataAppId?: string;
 }
 
 export interface ContextObject {
