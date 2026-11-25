@@ -101,6 +101,7 @@ export {
     NavigateRequest,
     SetActiveTabRequest,
     UpdateThemeRequest,
+    UpdateDataAppNameRequest,
     LiveboardTab,
     LiveboardGroup,
     ApplicabilityLevel,

@@ -340,6 +340,17 @@ export interface UpdateThemeRequest {
 }
 
 /**
+ * Request payload for {@link HostEvent.UpdateDataAppName}.
+ */
+export interface UpdateDataAppNameRequest {
+    /**
+     * The name to show in the App header. Display only: the App is not
+     * renamed.
+     */
+    name: string;
+}
+
+/**
  * Typed request payloads for host events that do not go through the UI
  * passthrough pipeline (`HostEvent` member → request type; `void` = no payload).
  *
@@ -446,6 +457,9 @@ export interface HostEventRequestMap {
 
     // ==================== APPEARANCE ====================
     [HostEvent.UpdateTheme]: UpdateThemeRequest;
+
+    // ==================== APPS ====================
+    [HostEvent.UpdateDataAppName]: UpdateDataAppNameRequest;
 }
 
 /**

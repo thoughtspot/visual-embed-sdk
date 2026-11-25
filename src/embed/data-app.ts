@@ -1,10 +1,14 @@
 import {
+    Action,
     BaseViewConfig,
+    DisabledActionReasonMap,
     EmbedErrorCodes,
     EmbedErrorSeverity,
     ErrorDetailsTypes,
+    Param,
 } from '../types';
 import { ERROR_MESSAGE } from '../errors';
+import { getQueryParamString, setParamIfDefined } from '../utils';
 import { logger } from '../utils/logger';
 import { TsEmbed } from './ts-embed';
 
@@ -27,6 +31,99 @@ export interface DataAppEmbedViewConfig {
      * ```
      */
     dataAppId: string;
+    /**
+     * Hides the header above the App, with the App's name and its actions,
+     * so that the App fills the frame.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @default false
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    dataAppId: '<app-id>',
+     *    hideDataAppHeader: true,
+     * });
+     * ```
+     */
+    hideDataAppHeader?: boolean;
+    /**
+     * The actions to remove from the App header. Hidden actions are not shown
+     * at all.
+     *
+     * The App header uses these actions: `Action.Share` (the **Share**
+     * button), `Action.Edit` (the **Edit** button, where the header shows it),
+     * and in the **More** menu `Action.RenameModalTitleDescription`
+     * (**Rename**), `Action.MakeACopy` (**Duplicate**), `Action.Present`
+     * (**Present**) and `Action.Remove` (**Delete**). An action the App header
+     * does not show has no effect there. Use either this or
+     * {@link visibleActions}, not both.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    dataAppId: '<app-id>',
+     *    hiddenActions: [Action.Remove, Action.MakeACopy],
+     * });
+     * ```
+     */
+    hiddenActions?: Action[];
+    /**
+     * The actions to disable in the App header. Disabled actions are grayed
+     * out: still shown, but they cannot be clicked. The App header uses the
+     * actions listed in {@link hiddenActions}.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    dataAppId: '<app-id>',
+     *    disabledActions: [Action.Share],
+     *    disabledActionReason: 'Sharing is turned off for your account',
+     * });
+     * ```
+     */
+    disabledActions?: Action[];
+    /**
+     * The tooltip to show on the actions in {@link disabledActions}: one
+     * string for every action, or a {@link DisabledActionReasonMap} to give
+     * each action its own reason.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    dataAppId: '<app-id>',
+     *    disabledActions: [Action.Share, Action.Present],
+     *    disabledActionReason: {
+     *        [Action.Share]: 'Sharing is turned off for your account',
+     *        GENERIC_REASON: 'Not available here',
+     *    },
+     * });
+     * ```
+     */
+    disabledActionReason?: string | DisabledActionReasonMap;
+    /**
+     * The only actions to show in the App header: every action not listed is
+     * hidden. The App header uses the actions listed in
+     * {@link hiddenActions}. Use either this or {@link hiddenActions}, not
+     * both.
+     *
+     * Supported embed types: `DataAppEmbed`
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *    dataAppId: '<app-id>',
+     *    visibleActions: [Action.Share, Action.Present],
+     * });
+     * ```
+     */
+    visibleActions?: Action[];
 }
 
 /**
@@ -34,6 +131,12 @@ export interface DataAppEmbedViewConfig {
  *
  * The App fills its container element: `fullHeight` is not supported. Apps
  * must be turned on for the ThoughtSpot instance.
+ *
+ * The header above the App shows the App's name and its actions. Hide or
+ * disable those actions with `hiddenActions`, `disabledActions` (with
+ * `disabledActionReason`) and `visibleActions`, hide the whole header with
+ * `hideDataAppHeader`, and set the name it shows with
+ * `HostEvent.UpdateDataAppName`.
  * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
  * @group Embed components
  * @example
@@ -42,6 +145,20 @@ export interface DataAppEmbedViewConfig {
  *   dataAppId: '<app-id>',
  * });
  * embed.render();
+ * ```
+ * @example
+ * ```js
+ * // Configure the App header
+ * const embed = new DataAppEmbed('#tsEmbed', {
+ *   dataAppId: '<app-id>',
+ *   hiddenActions: [Action.Remove, Action.MakeACopy],
+ *   disabledActions: [Action.Share],
+ *   disabledActionReason: 'Sharing is turned off for your account',
+ * });
+ * embed.render();
+ *
+ * // Show another name in the header. The App is not renamed.
+ * embed.trigger(HostEvent.UpdateDataAppName, { name: 'Regional sales' });
  * ```
  */
 export class DataAppEmbed extends TsEmbed {
@@ -66,6 +183,17 @@ export class DataAppEmbed extends TsEmbed {
     public getIframeSrc(): string {
         const path = `embed/insights/apps/${encodeURIComponent(this.viewConfig.dataAppId)}`;
         return `${this.getRootIframeSrc()}/${path}${this.getThoughtSpotPostUrlParams()}`;
+    }
+
+    // Serialized as AppEmbed does, so action lists reach the App page as JSON.
+    protected getEmbedParams() {
+        return getQueryParamString(this.getUrlQueryParamsObject(), true);
+    }
+
+    protected getEmbedParamsObject() {
+        const params = this.getBaseQueryParams();
+        setParamIfDefined(params, Param.HideDataAppHeader, this.viewConfig.hideDataAppHeader, true);
+        return params;
     }
 
     public async render(): Promise<DataAppEmbed> {
