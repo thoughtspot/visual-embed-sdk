@@ -2,6 +2,13 @@ export const ERROR_MESSAGE = {
     INVALID_THOUGHTSPOT_HOST: 'Error parsing ThoughtSpot host. Please provide a valid URL.',
     SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND: 'Please select a Model to get started',
     LIVEBOARD_VIZ_ID_VALIDATION: 'Please select a Liveboard to embed.',
+    DATA_APP_ID_MISSING: 'Please provide the ID of the App to embed.',
+    DATA_APP_EMBED_STOPPED: 'This DataAppEmbed was rendered without an App ID and cannot render now. Create a new DataAppEmbed.',
+    // Interim until runtime filters apply to Apps.
+    DATA_APP_OPTION_NOT_SUPPORTED: 'This option does not apply to DataAppEmbed. To restrict what a viewer can see, use row-level security.',
+    DATA_APP_OPTION_IGNORED: 'This option does not apply to DataAppEmbed and is ignored.',
+    // Interim: the change that adds host-set values removes this.
+    DATA_APP_CONTROLS_NOT_SUPPORTED: 'This version of the Visual Embed SDK cannot set control values. The App was not opened.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'SearchEmbed is in Beta in this release.',
     THIRD_PARTY_COOKIE_BLOCKED_ALERT: 'Third-party cookie access is blocked on this browser. Please allow third-party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
@@ -33,6 +40,23 @@ export const ERROR_MESSAGE = {
     DRILLDOWN_INVALID_PAYLOAD: 'DrillDown requires a valid points object. Expected: { points: { clickedPoint?, selectedPoints? }, autoDrillDown?, vizId? }',
     UPDATEPARAMETERS_INVALID_PAYLOAD: 'UpdateParameters received an invalid applicability. Expected: { level: LIVEBOARD | TAB | GROUP, targetId } where targetId is required for TAB and GROUP levels',
     VIZ_ID_NOT_IN_EMBED: 'The vizId does not match the visualization this embed shows. Omit vizId, or pass the vizId the embed was created with.',
+};
+
+// The message of a DataAppControlError, by code; the class takes only these.
+export const DATA_APP_CONTROL_ERROR_MESSAGE = {
+    INVALID_REQUEST: 'The call or one of its controls is not valid. Nothing was changed.',
+    LIMIT_EXCEEDED: 'The call has too many controls or is too large. Nothing was changed.',
+    UNSUPPORTED_FIELD: 'The call has a field this version does not support. Nothing was changed.',
+    APP_MISMATCH: 'The call names an App that is not the one open. Nothing was changed.',
+    CONTROLS_NOT_SUPPORTED: 'This App does not take control values from the host.',
+    // Interim until runtime filters apply to Apps.
+    NOT_SUPPORTED_IN_DATA_APP: 'This host event does not apply to DataAppEmbed.',
+    APP_NOT_READY: 'The App is not open yet.',
+    NOT_SIGNED_IN: 'The viewer is not signed in. Nothing was changed. Send the call again once signed in.',
+    VALUE_REFUSED: 'The App refused one or more values. Nothing was changed.',
+    SESSION_LOST: 'The App session has ended.',
+    TIMEOUT: 'The call was sent but not answered in time. Its outcome is unknown: send the same call again to settle it.',
+    FAILED: 'The call failed. Its outcome is unknown: send the same call again to settle it.',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {

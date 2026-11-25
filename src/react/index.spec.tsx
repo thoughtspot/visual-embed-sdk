@@ -5,8 +5,9 @@ import {
     cleanup, fireEvent, render, waitFor,
 } from '@testing-library/react';
 import {
-    Action, EmbedEvent, HostEvent, RuntimeFilterOp,
+    Action, EmbedErrorCodes, EmbedEvent, HostEvent, RuntimeFilterOp,
 } from '../types';
+import { logger } from '../utils/logger';
 import {
     executeAfterWait,
     getIFrameEl,
@@ -15,7 +16,8 @@ import {
     mockMessageChannel,
 } from '../test/test-utils';
 import {
-    SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed, PreRenderedSearchEmbed, PreRenderedAppEmbed, useSpotterAgent, SpotterMessage, useInit
+    SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed, PreRenderedSearchEmbed, PreRenderedAppEmbed, useSpotterAgent, SpotterMessage, useInit,
+    DataAppEmbed,
 } from './index';
 import * as allExports from './index';
 import {
@@ -88,6 +90,34 @@ describe('React Components', () => {
 
     describe('AppEmbed', () => {
         //
+    });
+
+    describe('DataAppEmbed', () => {
+        it.each([
+            ['render()', {}],
+            ['showPreRender()', { preRenderId: 'react-data-app' }],
+        ])('refuses runtimeFilters passed as a prop, through %s', async (_, extra) => {
+            const logError = jest.spyOn(logger, 'error').mockImplementation(() => undefined);
+            const onError = jest.fn();
+            const framesBefore = document.querySelectorAll('iframe').length;
+
+            const { container } = render(
+                <DataAppEmbed
+                    dataAppId="a1b2"
+                    runtimeFilters={[{ columnName: 'Depot', operator: RuntimeFilterOp.EQ, values: ['Austin'] }]}
+                    onError={onError}
+                    {...extra}
+                />,
+            );
+            await waitFor(() => expect(onError).toHaveBeenCalled());
+            logError.mockRestore();
+
+            expect(onError.mock.calls.map(([error]) => [error.code, error.option])).toEqual([
+                [EmbedErrorCodes.DATA_APP_OPTION_NOT_SUPPORTED, 'runtimeFilters'],
+            ]);
+            expect(getIFrameEl(container)).toBeNull();
+            expect(document.querySelectorAll('iframe')).toHaveLength(framesBefore);
+        });
     });
 
     describe('LiveboardEmbed', () => {

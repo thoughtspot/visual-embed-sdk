@@ -241,6 +241,36 @@ describe('react/all-types-export parity with index', () => {
         ].forEach((name) => expect(reactNames.has(name)).toBe(true));
     });
 
+    // DataAppEmbed.trigger rejects with DataAppControlError.
+    it('exposes the App call error types from both entry points', () => {
+        const indexNames = extractExportedNames(fs.readFileSync(INDEX_PATH, 'utf8'));
+        const reactNames = extractExportedNames(fs.readFileSync(REACT_EXPORT_PATH, 'utf8'));
+        const names = ['DataAppControlError', 'DataAppControlErrorCode', 'DataAppControlResult'];
+
+        expect(names.filter((name) => !indexNames.has(name))).toEqual([]);
+        expect(names.filter((name) => !reactNames.has(name))).toEqual([]);
+    });
+
+    // The App read, its state and the three App events.
+    it('exposes the App read and App event types from both entry points', () => {
+        const indexNames = extractExportedNames(fs.readFileSync(INDEX_PATH, 'utf8'));
+        const reactNames = extractExportedNames(fs.readFileSync(REACT_EXPORT_PATH, 'utf8'));
+        const names = [
+            'DataAppControlValue',
+            'DataAppControl',
+            'DataAppControlsState',
+            'GetDataAppControlsRequest',
+            'GetDataAppControlsResponse',
+            'DataAppReadyPayload',
+            'DataAppLoadPayload',
+            'DataAppControlsChangedPayload',
+            'DataAppOpenFailedReason',
+        ];
+
+        expect(names.filter((name) => !indexNames.has(name))).toEqual([]);
+        expect(names.filter((name) => !reactNames.has(name))).toEqual([]);
+    });
+
     // Docs and types must not diverge: a `{@link SomethingRequest}` in a doc
     // comment promises the reader can reach that type. If generation renames
     // or drops a payload type, or an export is removed, the link dangles. This
