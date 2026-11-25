@@ -7452,37 +7452,32 @@ export enum HostEvent {
      * the App's saved name. Acts on the App that is open; the payload carries
      * no App ID.
      *
-     * The name is for display only: the App is not renamed in ThoughtSpot and
-     * nothing is saved. Only the header of this embed shows it. The App's saved
-     * name comes back when another App opens, when the embed reloads or is
-     * created again, or when the page reloads. The name is shown as plain
-     * text.
+     * Display only: the App is not renamed in ThoughtSpot and nothing is
+     * saved. The App's saved name is shown again when another App opens or
+     * when the App reloads.
      *
-     * The event returns no value. When the name is not a string, is empty, or
-     * no App is open, the header does not change and {@link EmbedEvent.Error}
-     * is emitted.
-     *
-     * Send it once the App is open. The name stays in place while
-     * `hideDataAppHeader` hides the header, and shows when the header is shown
-     * again.
+     * The event has no result: do not wait on the promise returned by
+     * `trigger` to learn whether the name was set. When the name can't be
+     * set, the header does not change and {@link EmbedEvent.Error} is emitted
+     * with the `errorType` `VALIDATION_ERROR`, the `code`
+     * `HOST_EVENT_VALIDATION` and a `message` that gives the reason: `name`
+     * is not a string, is empty or only white space, or no App is open yet.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      * @param - Object parameter. Includes the following keys:
      * - `name`: **Required.** The name to show in the App header.
      * Payload: {@link UpdateDataAppNameRequest}.
      * @example
      * ```js
-     * const embed = new DataAppEmbed('#tsEmbed', {
-     *     dataAppId: '<app-id>',
-     * });
      * embed.on(EmbedEvent.Error, (error) => {
-     *     console.warn(error);
+     *     if (error.data?.code === 'HOST_EVENT_VALIDATION') {
+     *         console.warn(error.data.message);
+     *     }
      * });
-     * embed.render();
      *
-     * embed.trigger(HostEvent.UpdateDataAppName, {
-     *     name: 'Regional sales',
-     * });
+     * embed
+     *     .trigger(HostEvent.UpdateDataAppName, { name: 'Regional sales' })
+     *     .catch((error) => console.warn(error));
      * ```
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      */
     UpdateDataAppName = 'UpdateDataAppName',
 }
@@ -8254,8 +8249,6 @@ export enum Action {
      *
      * Controls both surfaces together. To target one surface only, use
      * {@link Action.EditLiveboard} or {@link Action.EditVisualization}.
-     * In DataAppEmbed, also the **Edit** button in the App header, where
-     * the header shows it.
      * @example
      * ```js
      * disabledActions: [Action.Edit]

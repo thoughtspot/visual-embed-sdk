@@ -48,16 +48,20 @@ export interface DataAppEmbedViewConfig {
      */
     hideDataAppHeader?: boolean;
     /**
-     * The actions to remove from the App header. Hidden actions are not shown
-     * at all.
+     * The actions to remove from the embedded App. Hidden actions are not
+     * shown at all.
      *
-     * The App header uses these actions: `Action.Share` (the **Share**
-     * button), `Action.Edit` (the **Edit** button, where the header shows it),
-     * and in the **More** menu `Action.RenameModalTitleDescription`
-     * (**Rename**), `Action.MakeACopy` (**Duplicate**), `Action.Present`
-     * (**Present**) and `Action.Remove` (**Delete**). An action the App header
-     * does not show has no effect there. Use either this or
-     * {@link visibleActions}, not both.
+     * The list applies to every action in the embedded App, such as the
+     * Spotter chat button and a tile's query details
+     * (`Action.QueryDetailsButtons`), not only to the App header. The App
+     * header uses these actions: `Action.Share` (the **Share** button), and in
+     * the **More** menu `Action.RenameModalTitleDescription` (**Rename**),
+     * `Action.MakeACopy` (**Duplicate**), `Action.Present` (**Present**) and
+     * `Action.Remove` (**Delete**).
+     *
+     * Use either this or {@link visibleActions}, not both. If both are set,
+     * the App does not load, and {@link EmbedEvent.Error} is emitted with the
+     * code `CONFLICTING_ACTIONS_CONFIG`.
      *
      * Supported embed types: `DataAppEmbed`
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
@@ -71,9 +75,10 @@ export interface DataAppEmbedViewConfig {
      */
     hiddenActions?: Action[];
     /**
-     * The actions to disable in the App header. Disabled actions are grayed
-     * out: still shown, but they cannot be clicked. The App header uses the
-     * actions listed in {@link hiddenActions}.
+     * The actions to disable in the embedded App. Disabled actions are grayed
+     * out: still shown, but they cannot be clicked. The list applies to every
+     * action in the embedded App; {@link hiddenActions} lists the ones the App
+     * header uses.
      *
      * Supported embed types: `DataAppEmbed`
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
@@ -108,10 +113,14 @@ export interface DataAppEmbedViewConfig {
      */
     disabledActionReason?: string | DisabledActionReasonMap;
     /**
-     * The only actions to show in the App header: every action not listed is
-     * hidden. The App header uses the actions listed in
-     * {@link hiddenActions}. Use either this or {@link hiddenActions}, not
-     * both.
+     * The only actions to show in the embedded App: every action not listed
+     * is hidden, anywhere in the App, such as the Spotter chat button and a
+     * tile's query details, not only in the App header. {@link hiddenActions}
+     * lists the actions the App header uses.
+     *
+     * Use either this or {@link hiddenActions}, not both. If both are set, the
+     * App does not load, and {@link EmbedEvent.Error} is emitted with the code
+     * `CONFLICTING_ACTIONS_CONFIG`.
      *
      * Supported embed types: `DataAppEmbed`
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl

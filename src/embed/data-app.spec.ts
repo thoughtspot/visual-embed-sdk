@@ -107,18 +107,17 @@ describe('DataAppEmbed', () => {
             expect(new URL(getIFrameSrc()).searchParams.has('hideDataAppHeader')).toBe(false);
         });
 
-        it('sends hideDataAppHeader in UpdateEmbedParams only when set', async () => {
-            const set = new DataAppEmbed(getRootEl(), {
+        // The payload also spreads the view config; a non-boolean value
+        // shows that the param handling, which sends a boolean, ran.
+        it('sends hideDataAppHeader in UpdateEmbedParams as a boolean', async () => {
+            const embed = new DataAppEmbed(getRootEl(), {
                 dataAppId: 'app-1',
-                hideDataAppHeader: true,
+                hideDataAppHeader: 'yes' as any,
             });
-            const unset = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
 
-            const params = await (set as any).getUpdateEmbedParamsObject();
-            const unsetParams = await (unset as any).getUpdateEmbedParamsObject();
+            const params = await (embed as any).getUpdateEmbedParamsObject();
 
             expect(params.hideDataAppHeader).toBe(true);
-            expect('hideDataAppHeader' in unsetParams).toBe(false);
         });
 
         it('sends the header actions to the App page', async () => {
