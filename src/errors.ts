@@ -2,6 +2,7 @@ export const ERROR_MESSAGE = {
     INVALID_THOUGHTSPOT_HOST: 'Error parsing ThoughtSpot host. Please provide a valid URL.',
     SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND: 'Please select a Model to get started',
     LIVEBOARD_VIZ_ID_VALIDATION: 'Please select a Liveboard to embed.',
+    DATA_APP_ID_MISSING: 'Please provide the ID of the App to embed.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'SearchEmbed is in Beta in this release.',
     THIRD_PARTY_COOKIE_BLOCKED_ALERT: 'Third-party cookie access is blocked on this browser. Please allow third-party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
