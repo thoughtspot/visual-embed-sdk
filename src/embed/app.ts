@@ -1004,6 +1004,8 @@ export interface AppViewConfig extends AllEmbedViewConfig, FullHeightViewConfig 
      * The `filter` and `parameter` URL query params are ignored.
      * Clauses without a query token are dropped.
      *
+     * For more information, see link:https://developers.thoughtspot.com/docs/liveboard-filter-and-parameter-overrides[Liveboard Filter and Parameter Overrides].
+     *
      * Supported embed types: `AppEmbed`
      * @version SDK: 1.55.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example

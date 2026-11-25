@@ -575,7 +575,9 @@ export interface LiveboardViewConfig
      * The `filter` and `parameter` URL query params are ignored.
      * Clauses without a query token are dropped.
      *
-     * Supported embed types: `LiveboardEmbed`
+     * For more information, see link:https://developers.thoughtspot.com/docs/liveboard-filter-and-parameter-overrides[Liveboard Filter and Parameter Overrides].
+     *
+     * Supported embed types: LiveboardEmbed
      * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
