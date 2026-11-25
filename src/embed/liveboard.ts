@@ -1001,6 +1001,10 @@ export class LiveboardEmbed extends V1Embed {
         if (!this.viewConfig.vizId) {
             // iFrame.src is stale after navigateToLiveboard; use viewConfig.
             const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
+            if (!liveboardId) {
+                logger.warn('SetActiveTab called before a Liveboard is loaded');
+                return;
+            }
             const path = this.getIframeSuffixSrc(
                 liveboardId,
                 undefined,
