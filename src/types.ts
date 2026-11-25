@@ -7671,6 +7671,7 @@ export enum Param {
     IsDarkMode = 'isDarkMode',
     RadiantThemeEnabled = 'radiantThemeEnabled',
     SpotterExperienceVersion = 'spotterExperienceVersion',
+    EnableDataApps = 'enableDataApps',
 }
 
 /**
@@ -10770,6 +10771,15 @@ export enum EmbedErrorCodes {
     /** Required Liveboard ID is missing from configuration */
     LIVEBOARD_ID_MISSING = 'LIVEBOARD_ID_MISSING',
 
+    /** Required App ID (`dataAppId`) is missing from configuration */
+    DATA_APP_ID_MISSING = 'DATA_APP_ID_MISSING',
+
+    /**
+     * An option set on `DataAppEmbed` does not apply to an App. The error
+     * names it in `option`.
+     */
+    DATA_APP_OPTION_NOT_SUPPORTED = 'DATA_APP_OPTION_NOT_SUPPORTED',
+
     /** Conflicting action configuration detected */
     CONFLICTING_ACTIONS_CONFIG = 'CONFLICTING_ACTIONS_CONFIG',
 
@@ -10947,6 +10957,11 @@ export enum ContextType {
      * Other context for any other generic page.
      */
     Other = 'other',
+    /**
+     * App context for the App open in `DataAppEmbed`.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    DataApp = 'dataApp',
 }
 
 export interface DefaultAppInitData {

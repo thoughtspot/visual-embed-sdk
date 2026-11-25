@@ -35,6 +35,7 @@ import { SpotterAgentEmbed, SpotterAgentEmbedViewConfig, BodylessConversation, B
 import { SpotterEmbed, SpotterEmbedViewConfig, SpotterChatViewConfig, SpotterSidebarViewConfig, SpotterAnalystConfig, SpotterUsageLimitConfig, SpotterUsageLimitStatus, SpotterUsageCounterDisplayMode, SpotterQueryMode, SpotterShareConversationConfig, StarterPromptsConfig, StarterPromptCategory, StarterPreviewDataCategory, StarterPromptQuestion, ConversationEmbed, ConversationViewConfig } from './embed/conversation';
 import { SpotterVizConfig, SpotterVizStarterPrompt, SpotterVizLoaderTip } from './embed/spotter-viz-utils';
 import { SpotterExperienceVersion } from './embed/spotter-utils';
+import { DataAppEmbed, DataAppEmbedViewConfig } from './embed/data-app';
 import {
     LiveboardOverride,
     LiveboardDataSourceOverride,
@@ -213,6 +214,11 @@ import type {
     EmbedEventData,
     EmbedEventPayload,
 } from './contracts/embed-event-payloads';
+import type {
+    DataAppControlError,
+    DataAppControlErrorCode,
+    DataAppControlResult,
+} from './contracts/data-app-contracts';
 import {
     convertFilterChangedToUpdateFiltersPayload,
     FilterChangedPayload,
@@ -239,6 +245,8 @@ export {
     PinboardEmbed,
     LiveboardEmbed,
     AppEmbed,
+    DataAppEmbed,
+    DataAppEmbedViewConfig,
     SpotterAgentEmbed,
     SpotterAgentEmbedViewConfig,
     BodylessConversationViewConfig,
@@ -450,6 +458,9 @@ export {
     CustomActionEventPayload,
     EmbedEventData,
     EmbedEventPayload,
+    DataAppControlError,
+    DataAppControlErrorCode,
+    DataAppControlResult,
 };
 
 export { resetCachedAuthToken } from './authToken';

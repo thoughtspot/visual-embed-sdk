@@ -7,6 +7,7 @@ export {
     PreRenderedSearchBarEmbed,
     AppEmbed,
     PreRenderedAppEmbed,
+    DataAppEmbed,
     SpotterEmbed,
     ConversationEmbed,
     PreRenderedConversationEmbed,
@@ -44,6 +45,7 @@ export {
     SearchViewConfig,
     SearchBarViewConfig,
     LiveboardViewConfig,
+    DataAppEmbedViewConfig,
     LiveboardOverride,
     LiveboardDataSourceOverride,
     LiveboardFilterQuery,
@@ -192,4 +194,7 @@ export {
     CustomActionEventPayload,
     EmbedEventData,
     EmbedEventPayload,
+    DataAppControlError,
+    DataAppControlErrorCode,
+    DataAppControlResult,
 } from '../index';

@@ -17,8 +17,16 @@
  */
 import * as fs from 'fs';
 import * as path from 'path';
-import { HostEvent, EmbedEvent, RuntimeFilterOp } from '../types';
+import {
+    ContextType, HostEvent, EmbedEvent, RuntimeFilterOp,
+} from '../types';
 import { UIPassthroughEvent } from './ui-passthrough-contracts';
+// From the contracts entry point, so a missing export fails to compile.
+import type {
+    DataAppControlError,
+    DataAppControlErrorCode,
+    DataAppControlResult,
+} from './index';
 import type {
     HostEventRequest,
     HostEventResponse,
@@ -473,6 +481,23 @@ describe('event contracts (drift guardrails)', () => {
         );
         // The default request stays the cross-context superset.
         expectType<OpenFilterRequest>({} as HostEventRequest<HostEvent.OpenFilter>);
+    });
+
+    test('the App context keeps its wire value', () => {
+        expect(ContextType.DataApp).toBe('dataApp');
+    });
+
+    // Compile-time only: ts-jest fails the file if a line stops compiling.
+    test('App call errors are Errors with an open set of codes (type check)', () => {
+        expectType<DataAppControlErrorCode>('NOT_SUPPORTED_IN_DATA_APP');
+        // Codes may be added; an unknown one still type-checks.
+        expectType<DataAppControlErrorCode>('A_CODE_ADDED_LATER');
+        expectType<DataAppControlResult>({ id: 'depot', status: 'rejected', code: 'VALUE_REFUSED' });
+        expectType<Error>((undefined as unknown) as DataAppControlError);
+        // @ts-expect-error a result needs the control id
+        expectType<DataAppControlResult>({ status: 'accepted' });
+        // @ts-expect-error an error needs a code
+        expectType<DataAppControlError>(new Error('sentence'));
     });
 
     test('the /contracts barrel re-exports the public runtime surface', () => {
