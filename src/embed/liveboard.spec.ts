@@ -2111,6 +2111,26 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('SetActiveTab after navigateToLiveboard navigates to the new liveboard, not the iframe src one', async () => {
+        const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
+        const newLiveboardId = 'navigated-liveboard-id';
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            liveboardEmbed.navigateToLiveboard(newLiveboardId);
+            liveboardEmbed.trigger(HostEvent.SetActiveTab, {
+                tabId: newActiveTabId,
+            });
+            expect(mockProcessTrigger).toHaveBeenLastCalledWith(
+                HostEvent.Navigate,
+                `embed/viz/${newLiveboardId}/tab/${newActiveTabId}`,
+            );
+        });
+    });
+
     describe('PreRender flow for liveboard embed', () => {
         beforeAll(() => {
             init({
