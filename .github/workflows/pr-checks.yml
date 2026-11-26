@@ -4,7 +4,8 @@ on:
   pull_request:
     # 'edited' is required so the checks re-run when a PR title is changed —
     # the default set (opened/synchronize/reopened) does NOT include it.
-    types: [opened, synchronize, reopened, edited]
+    # 'labeled'/'unlabeled' re-run require-tests when 'skip-test-check' changes.
+    types: [opened, synchronize, reopened, edited, labeled, unlabeled]
     branches: [main, release]
 
 jobs:
@@ -87,3 +88,30 @@ jobs:
             exit 1
           fi
           echo "✓ package.json version unchanged."
+
+  require-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # SCAL-227566: a PR that changes src/ must also add or update a *.spec file.
+      # Escape hatch: a reviewer adds the 'skip-test-check' label.
+      - name: Require tests for source changes
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          SKIP: ${{ contains(github.event.pull_request.labels.*.name, 'skip-test-check') }}
+        run: |
+          if echo "$PR_TITLE" | grep -qiE '^chore: release'; then
+            echo "✓ Release PR — skipping test check."
+            exit 0
+          fi
+          if [ "$SKIP" = "true" ]; then
+            echo "✓ 'skip-test-check' label present — skipping test check."
+            exit 0
+          fi
+          git fetch --quiet origin "$BASE_REF"
+          node scripts/check-tests-included.js
