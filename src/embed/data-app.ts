@@ -14,7 +14,7 @@ import { TsEmbed } from './ts-embed';
 
 /**
  * The view configuration for an embedded App.
- * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
  * @group Embed components
  */
 export interface DataAppEmbedViewConfig {
@@ -22,7 +22,7 @@ export interface DataAppEmbedViewConfig {
      * The ID of the App to embed. The App opens on its published version.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
@@ -144,7 +144,7 @@ export interface DataAppEmbedViewConfig {
  * `disabledActionReason`) and `visibleActions`. Hide the whole header with
  * `hideDataAppHeader`, and set the name it shows with
  * `HostEvent.UpdateDataAppName`.
- * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
  * @group Embed components
  * @example
  * ```js

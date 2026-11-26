@@ -10329,7 +10329,7 @@ export enum Action {
      * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
      * `visibleActions` or `hiddenActions` list that includes it covers this
      * option too.
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * {
@@ -10347,7 +10347,7 @@ export enum Action {
      *
      * {@link Action.PersonalizedViewsDropdown} also controls these options, so a
      * `visibleActions` or `hiddenActions` list that includes it covers them too.
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * {
@@ -10365,7 +10365,7 @@ export enum Action {
      * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
      * `visibleActions` or `hiddenActions` list that includes it covers this
      * option too.
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * {
@@ -10382,7 +10382,7 @@ export enum Action {
      *
      * This option predates this action, so only `hiddenActions` hides it. A
      * `visibleActions` list that doesn't include this action keeps it.
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * {
@@ -10400,7 +10400,7 @@ export enum Action {
      * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
      * `visibleActions` or `hiddenActions` list that includes it covers this
      * option too.
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * {
