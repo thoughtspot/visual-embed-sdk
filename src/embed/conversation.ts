@@ -7,6 +7,7 @@ import {
     buildSpotterAnalystAppInitData,
     buildSpotterUsageLimitAppInitData,
     SpotterExperienceVersion,
+    withEmbedParams,
 } from './spotter-utils';
 import { getQueryParamString, getFilterQuery, getRuntimeParameters, setParamIfDefined } from '../utils';
 
@@ -1047,15 +1048,13 @@ export class SpotterEmbed extends TsEmbed {
      */
     protected async getAppInitData(): Promise<SpotterAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        const sidebarInitData = buildSpotterSidebarAppInitData(
-            defaultAppInitData,
-            this.viewConfig,
-            this.handleError.bind(this),
-        );
-        const shareInitData = buildSpotterShareConversationAppInitData(sidebarInitData, this.viewConfig);
-        const starterPromptsInitData = buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
-        const analystInitData = buildSpotterAnalystAppInitData(starterPromptsInitData, this.viewConfig);
-        return buildSpotterUsageLimitAppInitData(analystInitData, this.viewConfig);
+        return withEmbedParams(defaultAppInitData, {
+            ...buildSpotterSidebarAppInitData(this.viewConfig, this.handleError.bind(this)),
+            ...buildSpotterShareConversationAppInitData(this.viewConfig),
+            ...buildStarterPromptsAppInitData(this.viewConfig),
+            ...buildSpotterAnalystAppInitData(this.viewConfig),
+            ...buildSpotterUsageLimitAppInitData(this.viewConfig),
+        });
     }
 
     protected getEmbedParamsObject() {

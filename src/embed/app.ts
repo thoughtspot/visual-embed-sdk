@@ -30,6 +30,7 @@ import {
     buildStarterPromptsAppInitData,
     buildSpotterUsageLimitAppInitData,
     SpotterExperienceVersion,
+    withEmbedParams,
 } from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 import { LiveboardOverrides, buildLiveboardOverridesAppInitData } from './liveboard-override-utils';
@@ -1092,16 +1093,14 @@ export class AppEmbed extends V1Embed {
      */
     protected async getAppInitData(): Promise<AppEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        const sidebarInitData = buildSpotterSidebarAppInitData(
-            defaultAppInitData,
-            this.viewConfig,
-            this.handleError.bind(this),
-        );
-        const vizInitData = buildSpotterVizAppInitData(sidebarInitData, this.viewConfig);
-        const shareInitData = buildSpotterShareConversationAppInitData(vizInitData, this.viewConfig);
-        const starterPromptsInitData = buildStarterPromptsAppInitData(shareInitData, this.viewConfig);
-        const usageLimitInitData = buildSpotterUsageLimitAppInitData(starterPromptsInitData, this.viewConfig);
-        return buildLiveboardOverridesAppInitData(usageLimitInitData, this.viewConfig.liveboardOverrides);
+        const spotterInitData = withEmbedParams(defaultAppInitData, {
+            ...buildSpotterSidebarAppInitData(this.viewConfig, this.handleError.bind(this)),
+            ...buildSpotterVizAppInitData(this.viewConfig),
+            ...buildSpotterShareConversationAppInitData(this.viewConfig),
+            ...buildStarterPromptsAppInitData(this.viewConfig),
+            ...buildSpotterUsageLimitAppInitData(this.viewConfig),
+        });
+        return buildLiveboardOverridesAppInitData(spotterInitData, this.viewConfig.liveboardOverrides);
     }
 
     /**

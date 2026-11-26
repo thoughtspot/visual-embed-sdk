@@ -35,7 +35,11 @@ import { addPreviewStylesIfNotPresent } from '../utils/global-styles';
 import { HostEventRequest, TriggerData, TriggerResponse } from '../contracts/host-event-contracts';
 import { logger } from '../utils/logger';
 import { SpotterChatViewConfig, StarterPromptsConfig } from './conversation';
-import { buildStarterPromptsAppInitData, SpotterExperienceVersion } from './spotter-utils';
+import {
+    buildStarterPromptsAppInitData,
+    SpotterExperienceVersion,
+    withEmbedParams,
+} from './spotter-utils';
 import { SpotterVizConfig, buildSpotterVizAppInitData } from './spotter-viz-utils';
 import { LiveboardOverride, buildLiveboardOverrideAppInitData } from './liveboard-override-utils';
 
@@ -663,9 +667,11 @@ export class LiveboardEmbed extends V1Embed {
 
     protected async getAppInitData(): Promise<LiveboardEmbedAppInitData> {
         const defaultAppInitData = await super.getAppInitData();
-        const vizInitData = buildSpotterVizAppInitData(defaultAppInitData, this.viewConfig);
-        const starterPromptsInitData = buildStarterPromptsAppInitData(vizInitData, this.viewConfig);
-        return buildLiveboardOverrideAppInitData(starterPromptsInitData, this.viewConfig);
+        const spotterInitData = withEmbedParams(defaultAppInitData, {
+            ...buildSpotterVizAppInitData(this.viewConfig),
+            ...buildStarterPromptsAppInitData(this.viewConfig),
+        });
+        return buildLiveboardOverrideAppInitData(spotterInitData, this.viewConfig);
     }
 
     /**

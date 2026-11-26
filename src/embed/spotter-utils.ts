@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/isEmpty';
 import { DefaultAppInitData, ErrorDetailsTypes, EmbedErrorCodes } from '../types';
 import { validateHttpUrl } from '../utils';
 import { ERROR_MESSAGE } from '../errors';
@@ -25,20 +26,32 @@ export const resolveEnablePastConversationsSidebar = (params: {
         : params.standaloneValue
 );
 
-export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
-    defaultAppInitData: T,
+// Omits the key when empty, keeping APP_INIT as-is for embeds that set none.
+export function withEmbedParams<T extends DefaultAppInitData, P extends Record<string, unknown>>(
+    initData: T,
+    embedParams: P,
+): T & { embedParams?: P } {
+    if (isEmpty(embedParams)) return initData;
+    return {
+        ...initData,
+        embedParams: {
+            ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
+            ...embedParams,
+        },
+    };
+}
+
+export function buildSpotterSidebarAppInitData(
     viewConfig: {
         spotterSidebarConfig?: SpotterSidebarViewConfig;
         enablePastConversationsSidebar?: boolean;
         visualOverrides?: VisualizationOverrides;
     },
     handleError: (err: any) => void,
-): T & {
-    embedParams?: {
-        spotterSidebarConfig?: SpotterSidebarViewConfig;
-        visualOverridesParams?: VisualizationOverrides | null;
-        enableSpotterInstructionAndMoreSettings?: boolean;
-    };
+): {
+    spotterSidebarConfig?: SpotterSidebarViewConfig;
+    visualOverridesParams?: VisualizationOverrides | null;
+    enableSpotterInstructionAndMoreSettings?: boolean;
 } {
     const { spotterSidebarConfig, enablePastConversationsSidebar, visualOverrides } = viewConfig;
 
@@ -47,16 +60,12 @@ export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
         standaloneValue: enablePastConversationsSidebar,
     });
 
+    const visualOverridesParams = visualOverrides !== undefined
+        ? { visualOverridesParams: visualOverrides }
+        : {};
+
     const hasConfig = spotterSidebarConfig || resolvedEnablePastConversations !== undefined;
-    if (!hasConfig) {
-        if (visualOverrides === undefined) {
-            return defaultAppInitData;
-        }
-        return {
-            ...defaultAppInitData,
-            embedParams: { visualOverridesParams: visualOverrides },
-        };
-    }
+    if (!hasConfig) return visualOverridesParams;
 
     // The app reads enableSpotterInstructionAndMoreSettings from the top level
     // of embedParams, so lift it out of the sidebar config.
@@ -86,78 +95,40 @@ export function buildSpotterSidebarAppInitData<T extends DefaultAppInitData>(
     }
 
     return {
-        ...defaultAppInitData,
-        embedParams: {
-            ...((defaultAppInitData as any).embedParams || {}),
-            spotterSidebarConfig: resolvedSidebarConfig,
-            ...(enableSpotterInstructionAndMoreSettings !== undefined
-                ? { enableSpotterInstructionAndMoreSettings }
-                : {}),
-            ...(visualOverrides !== undefined ? { visualOverridesParams: visualOverrides } : {}),
-        },
+        spotterSidebarConfig: resolvedSidebarConfig,
+        ...(enableSpotterInstructionAndMoreSettings !== undefined
+            ? { enableSpotterInstructionAndMoreSettings }
+            : {}),
+        ...visualOverridesParams,
     };
 }
 
-export function buildSpotterShareConversationAppInitData<T extends DefaultAppInitData>(
-    initData: T,
+export function buildSpotterShareConversationAppInitData(
     viewConfig: { spotterShareConversationConfig?: SpotterShareConversationConfig },
-): T & { embedParams?: { spotterShareConversationConfig?: SpotterShareConversationConfig } } {
+): { spotterShareConversationConfig?: SpotterShareConversationConfig } {
     const { spotterShareConversationConfig } = viewConfig;
-    if (!spotterShareConversationConfig) return initData;
-    return {
-        ...initData,
-        embedParams: {
-            ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
-            spotterShareConversationConfig,
-        },
-    };
+    return spotterShareConversationConfig ? { spotterShareConversationConfig } : {};
 }
 
-export function buildStarterPromptsAppInitData<T extends DefaultAppInitData>(
-    initData: T,
+export function buildStarterPromptsAppInitData(
     viewConfig: { spotterChatConfig?: SpotterChatViewConfig },
-): T & { embedParams?: { starterPrompts?: StarterPromptsConfig } } {
+): { starterPrompts?: StarterPromptsConfig } {
     const starterPrompts = viewConfig.spotterChatConfig?.starterPrompts;
-    if (!starterPrompts) return initData;
-    return {
-        ...initData,
-        embedParams: {
-            ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
-            starterPrompts,
-        },
-    };
+    return starterPrompts ? { starterPrompts } : {};
 }
 
-export function buildSpotterAnalystAppInitData<T extends DefaultAppInitData>(
-    initData: T,
+export function buildSpotterAnalystAppInitData(
     viewConfig: { spotterAnalystConfig?: SpotterAnalystConfig },
-): T & { embedParams?: { spotterAnalystConfig?: SpotterAnalystConfig } } {
+): { spotterAnalystConfig?: SpotterAnalystConfig } {
     const { spotterAnalystConfig } = viewConfig;
-    if (!spotterAnalystConfig?.analystId) return initData;
-    return {
-        ...initData,
-        embedParams: {
-            ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
-            spotterAnalystConfig,
-        },
-    };
+    return spotterAnalystConfig?.analystId ? { spotterAnalystConfig } : {};
 }
 
-export function buildSpotterUsageLimitAppInitData<T extends DefaultAppInitData>(
-    initData: T,
+export function buildSpotterUsageLimitAppInitData(
     viewConfig: { spotterUsageLimitConfig?: SpotterUsageLimitConfig },
-): T & { embedParams?: { spotterUsageLimitConfig?: SpotterUsageLimitConfig } } {
+): { spotterUsageLimitConfig?: SpotterUsageLimitConfig } {
     const { spotterUsageLimitConfig } = viewConfig;
-    if (!spotterUsageLimitConfig || Object.keys(spotterUsageLimitConfig).length === 0) {
-        return initData;
-    }
-    return {
-        ...initData,
-        embedParams: {
-            ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
-            spotterUsageLimitConfig,
-        },
-    };
+    return isEmpty(spotterUsageLimitConfig) ? {} : { spotterUsageLimitConfig };
 }
 
 /**

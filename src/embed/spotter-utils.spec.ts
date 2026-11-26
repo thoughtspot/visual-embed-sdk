@@ -5,6 +5,7 @@ import {
     buildStarterPromptsAppInitData,
     buildSpotterAnalystAppInitData,
     buildSpotterUsageLimitAppInitData,
+    withEmbedParams,
 } from './spotter-utils';
 import { ErrorDetailsTypes, EmbedErrorCodes } from '../types';
 import { ERROR_MESSAGE } from '../errors';
@@ -25,20 +26,43 @@ describe('resolveEnablePastConversationsSidebar', () => {
     });
 });
 
-describe('buildSpotterSidebarAppInitData', () => {
+describe('withEmbedParams', () => {
     const base = { type: 'APP_INIT' } as any;
-    const noopError = jest.fn();
 
-    it('returns base unchanged when no sidebar config or standalone flag', () => {
-        const result = buildSpotterSidebarAppInitData(base, {}, noopError);
-        expect(result).toBe(base);
+    it('returns the payload unchanged when there are no fragments', () => {
+        expect(withEmbedParams(base, {})).toBe(base);
     });
 
-    it('nests spotterSidebarConfig under embedParams', () => {
-        const result = buildSpotterSidebarAppInitData(base, {
+    it('adds the fragments under embedParams, keeping existing keys', () => {
+        const withExisting = { ...base, embedParams: { existing: 'keep' } };
+        const result = withEmbedParams(withExisting, {
+            starterPrompts: { quick: { label: 'Quick' } },
+            spotterAnalystConfig: { analystId: 'analyst-id-1234' },
+        });
+        expect(result).toEqual({
+            type: 'APP_INIT',
+            embedParams: {
+                existing: 'keep',
+                starterPrompts: { quick: { label: 'Quick' } },
+                spotterAnalystConfig: { analystId: 'analyst-id-1234' },
+            },
+        });
+    });
+});
+
+describe('buildSpotterSidebarAppInitData', () => {
+    const noopError = jest.fn();
+
+    it('returns no fragment when no sidebar config or standalone flag', () => {
+        const result = buildSpotterSidebarAppInitData({}, noopError);
+        expect(result).toEqual({});
+    });
+
+    it('returns the resolved spotterSidebarConfig', () => {
+        const result = buildSpotterSidebarAppInitData({
             spotterSidebarConfig: { enablePastConversationsSidebar: true, spotterSidebarTitle: 'Chats' },
         }, noopError);
-        expect(result.embedParams?.spotterSidebarConfig).toEqual({
+        expect(result.spotterSidebarConfig).toEqual({
             enablePastConversationsSidebar: true,
             spotterSidebarTitle: 'Chats',
         });
@@ -50,44 +74,44 @@ describe('buildSpotterSidebarAppInitData', () => {
             pinLabel: 'Pin to top',
             unpinLabel: 'Unpin',
         };
-        const result = buildSpotterSidebarAppInitData(base, {
+        const result = buildSpotterSidebarAppInitData({
             spotterSidebarConfig: {
                 enablePastConversationsSidebar: true,
                 spotterChatPinConfig,
             },
         }, noopError);
-        expect(result.embedParams?.spotterSidebarConfig?.spotterChatPinConfig)
+        expect(result.spotterSidebarConfig?.spotterChatPinConfig)
             .toEqual(spotterChatPinConfig);
     });
 
-    it('lifts enableSpotterInstructionAndMoreSettings to the top level of embedParams', () => {
-        const result = buildSpotterSidebarAppInitData(base, {
+    it('lifts enableSpotterInstructionAndMoreSettings out of the sidebar config', () => {
+        const result = buildSpotterSidebarAppInitData({
             spotterSidebarConfig: {
                 enablePastConversationsSidebar: true,
                 enableSpotterInstructionAndMoreSettings: false,
             },
         }, noopError);
-        expect(result.embedParams?.enableSpotterInstructionAndMoreSettings).toBe(false);
-        expect(result.embedParams?.spotterSidebarConfig).toEqual({
+        expect(result.enableSpotterInstructionAndMoreSettings).toBe(false);
+        expect(result.spotterSidebarConfig).toEqual({
             enablePastConversationsSidebar: true,
         });
     });
 
     it('omits enableSpotterInstructionAndMoreSettings when it is not set', () => {
-        const result = buildSpotterSidebarAppInitData(base, {
+        const result = buildSpotterSidebarAppInitData({
             spotterSidebarConfig: { enablePastConversationsSidebar: true },
         }, noopError);
-        expect(result.embedParams).not.toHaveProperty('enableSpotterInstructionAndMoreSettings');
+        expect(result).not.toHaveProperty('enableSpotterInstructionAndMoreSettings');
     });
 
     it('promotes standalone flag into spotterSidebarConfig.enablePastConversationsSidebar', () => {
-        const result = buildSpotterSidebarAppInitData(base, { enablePastConversationsSidebar: true }, noopError);
-        expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
+        const result = buildSpotterSidebarAppInitData({ enablePastConversationsSidebar: true }, noopError);
+        expect(result.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
     });
 
     it('calls handleError and strips spotterDocumentationUrl when invalid', () => {
         const handleError = jest.fn();
-        const result = buildSpotterSidebarAppInitData(base, {
+        const result = buildSpotterSidebarAppInitData({
             spotterSidebarConfig: { spotterDocumentationUrl: 'not-a-url' },
         }, handleError);
         expect(handleError).toHaveBeenCalledWith(expect.objectContaining({
@@ -95,22 +119,19 @@ describe('buildSpotterSidebarAppInitData', () => {
             message: ERROR_MESSAGE.INVALID_SPOTTER_DOCUMENTATION_URL,
             code: EmbedErrorCodes.INVALID_URL,
         }));
-        expect(result.embedParams?.spotterSidebarConfig?.spotterDocumentationUrl).toBeUndefined();
+        expect(result.spotterSidebarConfig?.spotterDocumentationUrl).toBeUndefined();
     });
 
-    it('returns base with visualOverridesParams when only visualOverrides is provided', () => {
+    it('returns only visualOverridesParams when only visualOverrides is provided', () => {
         const visualOverrides = {
             chart: {
                 legend: { show: true, position: 'bottom' as const },
             },
         };
-        const result = buildSpotterSidebarAppInitData(base, {
+        const result = buildSpotterSidebarAppInitData({
             visualOverrides,
         }, noopError);
-        expect(result).toEqual({
-            ...base,
-            embedParams: { visualOverridesParams: visualOverrides },
-        });
+        expect(result).toEqual({ visualOverridesParams: visualOverrides });
     });
 
     it('includes visualOverridesParams with spotterSidebarConfig', () => {
@@ -119,12 +140,12 @@ describe('buildSpotterSidebarAppInitData', () => {
                 display: { tableTheme: 'ZEBRA' },
             },
         };
-        const result = buildSpotterSidebarAppInitData(base, {
+        const result = buildSpotterSidebarAppInitData({
             spotterSidebarConfig: { enablePastConversationsSidebar: true },
             visualOverrides,
         }, noopError);
-        expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
-        expect(result.embedParams?.visualOverridesParams).toEqual(visualOverrides);
+        expect(result.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
+        expect(result.visualOverridesParams).toEqual(visualOverrides);
     });
 
     it('includes visualOverridesParams with standalone enablePastConversationsSidebar flag', () => {
@@ -133,37 +154,35 @@ describe('buildSpotterSidebarAppInitData', () => {
                 legend: { show: false },
             },
         };
-        const result = buildSpotterSidebarAppInitData(base, {
+        const result = buildSpotterSidebarAppInitData({
             enablePastConversationsSidebar: true,
             visualOverrides,
         }, noopError);
-        expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
-        expect(result.embedParams?.visualOverridesParams).toEqual(visualOverrides);
+        expect(result.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
+        expect(result.visualOverridesParams).toEqual(visualOverrides);
     });
 
     it('does not include visualOverridesParams when it is undefined', () => {
-        const result = buildSpotterSidebarAppInitData(base, {
+        const result = buildSpotterSidebarAppInitData({
             spotterSidebarConfig: { enablePastConversationsSidebar: true },
             visualOverrides: undefined,
         }, noopError);
-        expect(result.embedParams?.visualOverridesParams).toBeUndefined();
-        expect(result.embedParams?.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
+        expect(result.visualOverridesParams).toBeUndefined();
+        expect(result.spotterSidebarConfig?.enablePastConversationsSidebar).toBe(true);
     });
 });
 
 describe('buildSpotterShareConversationAppInitData', () => {
-    const base = { type: 'APP_INIT' } as any;
-
-    it('returns base unchanged when no spotterShareConversationConfig', () => {
-        const result = buildSpotterShareConversationAppInitData(base, {});
-        expect(result).toBe(base);
+    it('returns no fragment when no spotterShareConversationConfig', () => {
+        const result = buildSpotterShareConversationAppInitData({});
+        expect(result).toEqual({});
     });
 
-    it('nests spotterShareConversationConfig under embedParams', () => {
-        const result = buildSpotterShareConversationAppInitData(base, {
+    it('returns spotterShareConversationConfig', () => {
+        const result = buildSpotterShareConversationAppInitData({
             spotterShareConversationConfig: { enableShareConversation: true },
         });
-        expect(result.embedParams?.spotterShareConversationConfig).toEqual({
+        expect(result.spotterShareConversationConfig).toEqual({
             enableShareConversation: true,
         });
     });
@@ -182,59 +201,36 @@ describe('buildSpotterShareConversationAppInitData', () => {
             spotterShareUpToCurrentLabel: 'Share up to current moment',
             spotterShareStaleInfoLabel: 'This snapshot may be stale',
         };
-        const result = buildSpotterShareConversationAppInitData(base, {
+        const result = buildSpotterShareConversationAppInitData({
             spotterShareConversationConfig,
         });
-        expect(result.embedParams?.spotterShareConversationConfig).toEqual(spotterShareConversationConfig);
-    });
-
-    it('preserves existing embedParams when nesting the share config', () => {
-        const withParams = { type: 'APP_INIT', embedParams: { existing: 'keep' } } as any;
-        const result = buildSpotterShareConversationAppInitData(withParams, {
-            spotterShareConversationConfig: { enableShareConversation: true },
-        });
-        expect(result.embedParams?.existing).toBe('keep');
-        expect(result.embedParams?.spotterShareConversationConfig?.enableShareConversation).toBe(true);
+        expect(result.spotterShareConversationConfig).toEqual(spotterShareConversationConfig);
     });
 });
 
 describe('buildStarterPromptsAppInitData', () => {
-    const base = { type: 'APP_INIT' } as any;
-
-    it('returns the payload unchanged when starterPrompts is absent', () => {
-        expect(buildStarterPromptsAppInitData(base, {})).toBe(base);
-        expect(buildStarterPromptsAppInitData(base, { spotterChatConfig: {} })).toBe(base);
+    it('returns no fragment when starterPrompts is absent', () => {
+        expect(buildStarterPromptsAppInitData({})).toEqual({});
+        expect(buildStarterPromptsAppInitData({ spotterChatConfig: {} })).toEqual({});
     });
 
-    it('nests starterPrompts under embedParams', () => {
-        const result = buildStarterPromptsAppInitData(base, {
+    it('returns starterPrompts', () => {
+        const result = buildStarterPromptsAppInitData({
             spotterChatConfig: { starterPrompts: { quick: { label: 'Quick' } } },
         });
-        expect(result.embedParams?.starterPrompts).toEqual({ quick: { label: 'Quick' } });
+        expect(result.starterPrompts).toEqual({ quick: { label: 'Quick' } });
     });
 
     it('forwards the enable feature flag', () => {
-        const enabled = buildStarterPromptsAppInitData(base, {
+        const enabled = buildStarterPromptsAppInitData({
             spotterChatConfig: { starterPrompts: { enable: true, quick: { label: 'Quick' } } },
         });
-        expect(enabled.embedParams?.starterPrompts).toEqual({ enable: true, quick: { label: 'Quick' } });
+        expect(enabled.starterPrompts).toEqual({ enable: true, quick: { label: 'Quick' } });
 
-        const disabled = buildStarterPromptsAppInitData(base, {
+        const disabled = buildStarterPromptsAppInitData({
             spotterChatConfig: { starterPrompts: { enable: false } },
         });
-        expect(disabled.embedParams?.starterPrompts).toEqual({ enable: false });
-    });
-
-    it('preserves existing embedParams keys', () => {
-        const withExisting = {
-            ...base,
-            embedParams: { spotterSidebarConfig: { enablePastConversationsSidebar: true } },
-        } as any;
-        const result = buildStarterPromptsAppInitData(withExisting, {
-            spotterChatConfig: { starterPrompts: { quick: { label: 'Quick' } } },
-        });
-        expect(result.embedParams?.spotterSidebarConfig).toEqual({ enablePastConversationsSidebar: true });
-        expect(result.embedParams?.starterPrompts).toEqual({ quick: { label: 'Quick' } });
+        expect(disabled.starterPrompts).toEqual({ enable: false });
     });
 
     it('forwards every category as configured', () => {
@@ -254,58 +250,42 @@ describe('buildStarterPromptsAppInitData', () => {
                 { prompt: 'How did revenue trend last quarter?' },
             ],
         };
-        const result = buildStarterPromptsAppInitData(base, {
+        const result = buildStarterPromptsAppInitData({
             spotterChatConfig: { starterPrompts },
         });
-        expect(result.embedParams?.starterPrompts).toEqual(starterPrompts);
+        expect(result.starterPrompts).toEqual(starterPrompts);
     });
 
     it('forwards the liveboard questions on their own', () => {
         const liveboard = [{ label: 'Top products', prompt: 'What are the top products by revenue?' }];
-        const result = buildStarterPromptsAppInitData(base, {
+        const result = buildStarterPromptsAppInitData({
             spotterChatConfig: { starterPrompts: { enable: true, liveboard } },
         });
-        expect(result.embedParams?.starterPrompts).toEqual({ enable: true, liveboard });
+        expect(result.starterPrompts).toEqual({ enable: true, liveboard });
     });
 });
 
 describe('buildSpotterAnalystAppInitData', () => {
-    const base = { type: 'APP_INIT' } as any;
-
-    it('returns the payload unchanged when analystId is absent', () => {
-        expect(buildSpotterAnalystAppInitData(base, {})).toBe(base);
-        expect(buildSpotterAnalystAppInitData(base, { spotterAnalystConfig: {} })).toBe(base);
+    it('returns no fragment when analystId is absent', () => {
+        expect(buildSpotterAnalystAppInitData({})).toEqual({});
+        expect(buildSpotterAnalystAppInitData({ spotterAnalystConfig: {} })).toEqual({});
     });
 
-    it('nests spotterAnalystConfig under embedParams', () => {
-        const result = buildSpotterAnalystAppInitData(base, {
+    it('returns spotterAnalystConfig', () => {
+        const result = buildSpotterAnalystAppInitData({
             spotterAnalystConfig: { analystId: 'analyst-id-1234' },
         });
-        expect(result.embedParams?.spotterAnalystConfig).toEqual({ analystId: 'analyst-id-1234' });
-    });
-
-    it('preserves existing embedParams keys', () => {
-        const withExisting = {
-            ...base,
-            embedParams: { spotterSidebarConfig: { enablePastConversationsSidebar: true } },
-        } as any;
-        const result = buildSpotterAnalystAppInitData(withExisting, {
-            spotterAnalystConfig: { analystId: 'analyst-id-1234' },
-        });
-        expect(result.embedParams?.spotterSidebarConfig).toEqual({ enablePastConversationsSidebar: true });
-        expect(result.embedParams?.spotterAnalystConfig).toEqual({ analystId: 'analyst-id-1234' });
+        expect(result.spotterAnalystConfig).toEqual({ analystId: 'analyst-id-1234' });
     });
 });
 
 describe('buildSpotterUsageLimitAppInitData', () => {
-    const base = { type: 'APP_INIT' } as any;
-
-    it('returns the payload unchanged when the config is absent or empty', () => {
-        expect(buildSpotterUsageLimitAppInitData(base, {})).toBe(base);
-        expect(buildSpotterUsageLimitAppInitData(base, { spotterUsageLimitConfig: {} })).toBe(base);
+    it('returns no fragment when the config is absent or empty', () => {
+        expect(buildSpotterUsageLimitAppInitData({})).toEqual({});
+        expect(buildSpotterUsageLimitAppInitData({ spotterUsageLimitConfig: {} })).toEqual({});
     });
 
-    it('passes the config through as a nested embedParams object', () => {
+    it('returns the config as spotterUsageLimitConfig', () => {
         const spotterUsageLimitConfig = {
             isEnabled: true,
             isHostManaged: false,
@@ -314,19 +294,7 @@ describe('buildSpotterUsageLimitAppInitData', () => {
             isLimitBannerEnabled: true,
             usageCounterDisplayMode: SpotterUsageCounterDisplayMode.VisibleAfterWarning,
         };
-        const result = buildSpotterUsageLimitAppInitData(base, { spotterUsageLimitConfig });
-        expect(result.embedParams).toEqual({ spotterUsageLimitConfig });
-    });
-
-    it('preserves existing embedParams keys', () => {
-        const withExisting = {
-            ...base,
-            embedParams: { spotterAnalystConfig: { analystId: 'analyst-id-1234' } },
-        } as any;
-        const result = buildSpotterUsageLimitAppInitData(withExisting, {
-            spotterUsageLimitConfig: { isEnabled: true },
-        });
-        expect(result.embedParams?.spotterAnalystConfig).toEqual({ analystId: 'analyst-id-1234' });
-        expect(result.embedParams?.spotterUsageLimitConfig).toEqual({ isEnabled: true });
+        const result = buildSpotterUsageLimitAppInitData({ spotterUsageLimitConfig });
+        expect(result).toEqual({ spotterUsageLimitConfig });
     });
 });
