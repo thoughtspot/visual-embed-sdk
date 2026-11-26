@@ -1127,6 +1127,10 @@ export class LiveboardEmbed extends V1Embed {
             && previousRoute.personalizedViewId === personalizedViewId;
     }
 
+    protected canReusePreRenderFrom(previousOwner: TsEmbed | undefined): boolean {
+        return previousOwner instanceof LiveboardEmbed;
+    }
+
     protected async handleRenderForPrerender(): Promise<TsEmbed> {
         if (isUndefined(this.viewConfig.liveboardId)) {
             return this.prerenderGeneric();

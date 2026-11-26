@@ -1831,7 +1831,8 @@ export class TsEmbed {
         this.preRenderController.markPreRendering(showPreRenderByDefault);
 
         const isAlreadyRendered = this.preRenderController.connect();
-        const canReuseIframe = this.preRenderController.child instanceof HTMLIFrameElement;
+        const canReuseIframe = this.preRenderController.child instanceof HTMLIFrameElement
+            && this.canReusePreRenderFrom(this.getPreRenderObj<TsEmbed>());
         if (isAlreadyRendered && (!replaceExistingPreRender || canReuseIframe)) {
             if (showPreRenderByDefault) {
                 this.showPreRender();
@@ -1841,7 +1842,15 @@ export class TsEmbed {
             return this;
         }
 
+        if (isAlreadyRendered) {
+            this.iFrame = undefined;
+        }
+
         return this.handleRenderForPrerender();
+    }
+
+    protected canReusePreRenderFrom(previousOwner: TsEmbed | undefined): boolean {
+        return false;
     }
 
     private syncPreRenderInBackground(): void {
