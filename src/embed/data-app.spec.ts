@@ -6,6 +6,7 @@ import {
     EmbedErrorCodes,
     EmbedErrorSeverity,
     ErrorDetailsTypes,
+    RuntimeFilterOp,
 } from '../types';
 import { logger } from '../utils/logger';
 import {
@@ -72,6 +73,26 @@ describe('DataAppEmbed', () => {
             excludeRuntimeFiltersfromURL: true,
             excludeRuntimeParametersfromURL: true,
         });
+    });
+
+    it('sends runtime filters and parameters at init, never in the URL', async () => {
+        const embed = new DataAppEmbed(getRootEl(), {
+            dataAppId: 'app-1',
+            runtimeFilters: [
+                { columnName: 'Region', operator: RuntimeFilterOp.IN, values: ['West', 'East'] },
+            ],
+            runtimeParameters: [{ name: 'Discount', value: 10 }],
+            // Asking for the URL is overridden: a URL would keep them in
+            // history and logs.
+            excludeRuntimeFiltersfromURL: false,
+            excludeRuntimeParametersfromURL: false,
+        } as any);
+        await embed.render();
+        expect(getIFrameSrc()).not.toContain('col1');
+        expect(getIFrameSrc()).not.toContain('param1');
+        const initData = await (embed as any).getAppInitData();
+        expect(initData.runtimeFilterParams).toBe('col1=Region&op1=IN&val1=West&val1=East');
+        expect(initData.runtimeParameterParams).toBe('param1=Discount&paramVal1=10');
     });
 
     it('ignores fullHeight with a warning', () => {
