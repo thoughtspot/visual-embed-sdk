@@ -7447,6 +7447,39 @@ export enum HostEvent {
      * ```
      */
     UpdateTheme = 'UpdateTheme',
+    /**
+     * Sets controls of the App open in a `DataAppEmbed`, such as its
+     * filters, dates and parameters. The App shows the values in its own
+     * widgets, where the viewer can change them. A control you do not name
+     * keeps its value. Acts on the App that is open; the payload carries no
+     * App ID.
+     *
+     * Send it once the App is open: the App drops values that reach it while
+     * it is still opening.
+     *
+     * The event has no result: do not wait on the promise returned by
+     * `trigger` to learn whether the values were set. When a value can't be
+     * set, for example because the control ID is unknown, the host is not
+     * told.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+     * @param - Object parameter. Includes the following keys:
+     * - `controls`: **Required.** The controls to set, each as `{ id, value }`.
+     * Payload: {@link UpdateDataAppControlsRequest}.
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *     dataAppId: '<app-id>',
+     * });
+     * embed.render();
+     *
+     * embed
+     *     .trigger(HostEvent.UpdateDataAppControls, {
+     *         controls: [{ id: 'depot', value: { op: 'in', values: ['Austin'] } }],
+     *     })
+     *     .catch((error) => console.warn(error));
+     * ```
+     */
+    UpdateDataAppControls = 'UpdateDataAppControls',
 }
 
 /**

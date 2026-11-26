@@ -115,6 +115,8 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
     HostEvent.CloseSpotterVizPanel,
     // Appearance
     HostEvent.UpdateTheme,
+    // Apps
+    HostEvent.UpdateDataAppControls,
 ];
 
 // Type-level assertions: compile failures here mean contract resolution
@@ -155,6 +157,7 @@ describe('event contracts (drift guardrails)', () => {
             'SpotterVizSendUserMessage',
             'UnpinSpotterConversation',
             'UpdateCrossFilter',
+            'UpdateDataAppControls',
             'UpdateParameters',
             'UpdatePersonalisedView',
             'UpdateRuntimeFilters',
@@ -450,6 +453,9 @@ describe('event contracts (drift guardrails)', () => {
             }),
             trigger(HostEvent.SpotterSearch, { query: 'revenue per year', executeSearch: true }),
             trigger(HostEvent.UpdateTheme, { isDarkMode: true }),
+            trigger(HostEvent.UpdateDataAppControls, {
+                controls: [{ id: 'depot', value: { op: 'in', values: ['Austin'] } }],
+            }),
             trigger(HostEvent.SharePersonalizedView, {
                 viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
             }),
