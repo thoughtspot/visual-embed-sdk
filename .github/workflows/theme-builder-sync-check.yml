@@ -1,0 +1,91 @@
+# Theme Builder sync check (SCAL-266165). Non-blocking.
+#
+# When a PR adds or removes CustomCssVariables properties in src/css-variables.ts,
+# verifies that the Theme Builder PR linked in the description (or in a comment by
+# the PR author or a repo member) makes the same additions and removals in
+# src/data/sdkVariable.ts, and posts the result as one PR comment, updated on every
+# run. See scripts/check-theme-builder-sync.js. The comment only ever names
+# variables from this SDK PR, never other contents of the private Theme Builder repo.
+#
+# Runs on every PR (no paths filter) so that reverting the variable changes also
+# clears an earlier result; when src/css-variables.ts is untouched it skips npm ci
+# and only checks for an old comment to update.
+#
+# Theme Builder pushes do not re-run it; re-run the job, or push or edit this PR.
+#
+# The job never fails: every outcome, including errors, is reported in the comment
+# and the job summary. Do not add it to branch protection's required checks.
+#
+# Required secret (Settings > Secrets and variables > Actions):
+#   THEME_BUILDER_READ_TOKEN  Fine-grained token with READ-ONLY access to
+#                             thoughtspot/Thoughtspot-theme-builder:
+#                             Contents: Read, Pull requests: Read. Nothing else.
+# Until it is set, the check skips quietly (job summary only, no PR comment).
+
+name: Theme Builder sync check
+
+on:
+    pull_request:
+        # 'edited' re-runs the check when a Theme Builder link is added to the description.
+        types: [opened, synchronize, reopened, edited, ready_for_review]
+        branches: [main]
+
+permissions:
+    contents: read
+    pull-requests: write
+
+concurrency:
+    group: theme-builder-sync-check-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
+
+jobs:
+    check:
+        if: github.event.pull_request.draft == false
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        # Non-blocking: even an unexpected failure must not turn the PR red.
+        continue-on-error: true
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20.19.4'
+                  cache: 'npm'
+
+            - name: Does this PR touch src/css-variables.ts?
+              id: changed
+              env:
+                  BASE_SHA: ${{ github.event.pull_request.base.sha }}
+                  HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+              run: |
+                  MERGE_BASE=$(git merge-base "$BASE_SHA" "$HEAD_SHA")
+                  if git diff --quiet "$MERGE_BASE" "$HEAD_SHA" -- src/css-variables.ts; then
+                    echo "unchanged=true" >> "$GITHUB_OUTPUT"
+                  else
+                    echo "unchanged=false" >> "$GITHUB_OUTPUT"
+                  fi
+
+            # The check only needs the typescript package; --ignore-scripts keeps
+            # dependency install scripts away from the tokens below.
+            - name: Install dependencies
+              if: steps.changed.outputs.unchanged != 'true'
+              run: npm ci --ignore-scripts --no-audit --no-fund
+
+            - name: Verify the linked Theme Builder PR
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  THEME_BUILDER_READ_TOKEN: ${{ secrets.THEME_BUILDER_READ_TOKEN }}
+                  REPO: ${{ github.repository }}
+                  PR_NUMBER: ${{ github.event.pull_request.number }}
+                  BASE_SHA: ${{ github.event.pull_request.base.sha }}
+                  HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+                  IS_FORK: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+                  SDK_FILE_UNCHANGED: ${{ steps.changed.outputs.unchanged }}
+              run: node scripts/check-theme-builder-sync.js
