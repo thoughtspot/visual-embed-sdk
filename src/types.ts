@@ -3886,6 +3886,7 @@ export enum EmbedEvent {
      *   console.log(data.viewId);      // '2a021a12-...' or null (default)
      *   console.log(data.liveboardId); // 'abc123...'
      *   console.log(data.isPublic);    // true | false
+     *   console.log(data.warning?.code); // 'PERSONALIZED_VIEW_DUPLICATE_NAME' or undefined
      * })
      * ```
      * @returns viewName: string - Name of the selected view,
@@ -3894,6 +3895,10 @@ export enum EmbedEvent {
      *   or null when reset to default.
      * @returns liveboardId: string
      * @returns isPublic: boolean
+     * @returns warning?: object - `code` ({@link EmbedErrorCodes}) and
+     *   `message`. Sent only when {@link HostEvent.SelectPersonalizedView}
+     *   matched more than one view by `viewName`; the view still changes.
+     *   From ThoughtSpot Cloud 27.2.0.cl.
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     ChangePersonalizedView = 'changePersonalisedView',
@@ -6683,6 +6688,9 @@ export enum HostEvent {
     ResetLiveboardPersonalisedView = 'ResetLiveboardPersonalisedView',
     /**
      * Reset a personalized Liveboard view.
+     *
+     * When no view is applied, {@link EmbedEvent.Error} is emitted with the
+     * `code` {@link EmbedErrorCodes.PERSONALIZED_VIEW_NOT_ACTIVE}.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.ResetLiveboardPersonalizedView);
@@ -6822,7 +6830,15 @@ export enum HostEvent {
      * `viewId` (GUID) or `viewName`. If both are provided, `viewId` takes precedence.
      * If neither is provided, the Liveboard resets to the original/default view.
      * When a `viewName` is provided and multiple views share
-     * the same name, the first match is selected.
+     * the same name, the first match is selected, and
+     * {@link EmbedEvent.ChangePersonalizedView} carries a `warning` with the
+     * `code` {@link EmbedErrorCodes.PERSONALIZED_VIEW_DUPLICATE_NAME}.
+     *
+     * When no view matches, the view doesn't change and
+     * {@link EmbedEvent.Error} is emitted with the `code`
+     * {@link EmbedErrorCodes.PERSONALIZED_VIEW_NOT_FOUND}, or
+     * {@link EmbedErrorCodes.PERSONALIZED_VIEW_NOT_ON_LIVEBOARD} when the
+     * `viewId` belongs to another Liveboard.
      * Payload: {@link PersonalisedViewRequest}.
      * @example
      * ```js
@@ -6861,6 +6877,8 @@ export enum HostEvent {
      * example when sharing is off. When the view isn't found or the user can't
      * share it, {@link EmbedEvent.Error} is also emitted, with the `errorType`
      * `PERSONALISED_VIEW_NOT_FOUND` or `PERSONALIZED_VIEW_SHARE_NOT_ALLOWED`.
+     * See {@link EmbedErrorCodes} for its `code`; a view on another Liveboard
+     * is reported as `PERSONALIZED_VIEW_NOT_ON_LIVEBOARD`.
      * @param - Object parameter. Includes the following keys:
      * - `viewId`: **Required.** GUID of the view to share.
      * Payload: {@link SharePersonalizedViewRequest}.
@@ -6886,7 +6904,9 @@ export enum HostEvent {
      * the view is deleted, and rejects with the reason when it isn't. When the
      * view isn't found or the user can't delete it, {@link EmbedEvent.Error} is
      * also emitted, with the `errorType` `PERSONALISED_VIEW_NOT_FOUND` or
-     * `PERSONALIZED_VIEW_DELETE_NOT_ALLOWED`.
+     * `PERSONALIZED_VIEW_DELETE_NOT_ALLOWED`. See {@link EmbedErrorCodes} for
+     * its `code`; a view on another Liveboard is reported as
+     * `PERSONALIZED_VIEW_NOT_ON_LIVEBOARD`.
      * @param - Object parameter. Includes the following keys:
      * - `viewId`: **Required.** GUID of the view to delete.
      * Payload: {@link DeletePersonalizedViewRequest}.
@@ -6915,7 +6935,9 @@ export enum HostEvent {
      * the change is saved, and rejects with the reason when it isn't. When the
      * view isn't found or the user can't change it, {@link EmbedEvent.Error} is
      * also emitted, with the `errorType` `PERSONALISED_VIEW_NOT_FOUND` or
-     * `PERSONALIZED_VIEW_SET_PUBLIC_NOT_ALLOWED`.
+     * `PERSONALIZED_VIEW_SET_PUBLIC_NOT_ALLOWED`. See {@link EmbedErrorCodes}
+     * for its `code`; a view on another Liveboard is reported as
+     * `PERSONALIZED_VIEW_NOT_ON_LIVEBOARD`.
      * @param - Object parameter. Includes the following keys:
      * - `viewId`: **Required.** GUID of the view.
      * - `isPublic`: **Required.** `true` to make the view public, `false` to
@@ -10818,6 +10840,41 @@ export enum EmbedErrorCodes {
 
     /** UpdateParameters payload is invalid - malformed applicability */
     UPDATEPARAMETERS_INVALID_PAYLOAD = 'UPDATEPARAMETERS_INVALID_PAYLOAD',
+
+    /**
+     * No Personalized View matches the `viewId` or `viewName`: it was deleted,
+     * never existed, or the user can't see it.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    PERSONALIZED_VIEW_NOT_FOUND = 'PERSONALIZED_VIEW_NOT_FOUND',
+
+    /**
+     * The Personalized View exists but belongs to another Liveboard.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    PERSONALIZED_VIEW_NOT_ON_LIVEBOARD = 'PERSONALIZED_VIEW_NOT_ON_LIVEBOARD',
+
+    /**
+     * More than one Personalized View has the `viewName`. The first one is
+     * still selected; pass `viewId` to select a specific view. Sent as the
+     * `warning` of {@link EmbedEvent.ChangePersonalizedView}, not as an
+     * {@link EmbedEvent.Error}.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    PERSONALIZED_VIEW_DUPLICATE_NAME = 'PERSONALIZED_VIEW_DUPLICATE_NAME',
+
+    /**
+     * The user can't share, delete, or change the visibility of the
+     * Personalized View. The `errorType` names the action.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    PERSONALIZED_VIEW_NOT_ALLOWED = 'PERSONALIZED_VIEW_NOT_ALLOWED',
+
+    /**
+     * No Personalized View is applied, so there is nothing to reset.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    PERSONALIZED_VIEW_NOT_ACTIVE = 'PERSONALIZED_VIEW_NOT_ACTIVE',
 }
 
 /**
