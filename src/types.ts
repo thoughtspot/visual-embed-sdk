@@ -3886,6 +3886,7 @@ export enum EmbedEvent {
      *   console.log(data.viewId);      // '2a021a12-...' or null (default)
      *   console.log(data.liveboardId); // 'abc123...'
      *   console.log(data.isPublic);    // true | false
+     *   console.log(data.warning?.code); // 'PERSONALIZED_VIEW_DUPLICATE_NAME' or undefined
      * })
      * ```
      * @returns viewName: string - Name of the selected view,
@@ -3894,6 +3895,10 @@ export enum EmbedEvent {
      *   or null when reset to default.
      * @returns liveboardId: string
      * @returns isPublic: boolean
+     * @returns warning?: object - `code` ({@link EmbedErrorCodes}) and
+     *   `message`. Sent only when {@link HostEvent.SelectPersonalizedView}
+     *   matched more than one view by `viewName`; the view still changes.
+     *   From ThoughtSpot Cloud 27.2.0.cl.
      * @version SDK: 1.48.0 | ThoughtSpot: 26.5.0.cl
      */
     ChangePersonalizedView = 'changePersonalisedView',
@@ -6826,8 +6831,8 @@ export enum HostEvent {
      * If neither is provided, the Liveboard resets to the original/default view.
      * When a `viewName` is provided and multiple views share
      * the same name, the first match is selected, and
-     * {@link EmbedEvent.Error} is emitted with the `code`
-     * {@link EmbedErrorCodes.PERSONALIZED_VIEW_DUPLICATE_NAME}.
+     * {@link EmbedEvent.ChangePersonalizedView} carries a `warning` with the
+     * `code` {@link EmbedErrorCodes.PERSONALIZED_VIEW_DUPLICATE_NAME}.
      *
      * When no view matches, the view doesn't change and
      * {@link EmbedEvent.Error} is emitted with the `code`
@@ -10847,7 +10852,9 @@ export enum EmbedErrorCodes {
 
     /**
      * More than one Personalized View has the `viewName`. The first one is
-     * still selected; pass `viewId` to select a specific view.
+     * still selected; pass `viewId` to select a specific view. Sent as the
+     * `warning` of {@link EmbedEvent.ChangePersonalizedView}, not as an
+     * {@link EmbedEvent.Error}.
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      */
     PERSONALIZED_VIEW_DUPLICATE_NAME = 'PERSONALIZED_VIEW_DUPLICATE_NAME',
