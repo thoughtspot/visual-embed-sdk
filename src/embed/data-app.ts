@@ -53,8 +53,7 @@ export interface DataAppEmbedViewConfig {
      *
      * The list applies to every action in the embedded App: in the App
      * header, `Action.Present` (the **Present** item of the **More** menu),
-     * and elsewhere, such as the Spotter chat button and a tile's query
-     * details (`Action.QueryDetailsButtons`).
+     * and elsewhere, such as the Spotter chat button.
      *
      * Use either this or {@link visibleActions}, not both. If both are set,
      * the App does not load, and {@link EmbedEvent.Error} is emitted with the
@@ -99,7 +98,7 @@ export interface DataAppEmbedViewConfig {
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
      *    dataAppId: '<app-id>',
-     *    disabledActions: [Action.Present, Action.QueryDetailsButtons],
+     *    disabledActions: [Action.Present],
      *    disabledActionReason: {
      *        [Action.Present]: 'Presenting is turned off for your account',
      *        GENERIC_REASON: 'Not available here',
@@ -111,8 +110,8 @@ export interface DataAppEmbedViewConfig {
     /**
      * The only actions to show in the embedded App: every action not listed
      * is hidden, anywhere in the App. That covers `Action.Present` in the App
-     * header and the rest of the App, such as the Spotter chat button and a
-     * tile's query details, as {@link hiddenActions} describes.
+     * header and the rest of the App, such as the Spotter chat button, as
+     * {@link hiddenActions} describes.
      *
      * Use either this or {@link hiddenActions}, not both. If both are set, the
      * App does not load, and {@link EmbedEvent.Error} is emitted with the code
@@ -124,7 +123,7 @@ export interface DataAppEmbedViewConfig {
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
      *    dataAppId: '<app-id>',
-     *    visibleActions: [Action.Present, Action.QueryDetailsButtons],
+     *    visibleActions: [Action.Present],
      * });
      * ```
      */
