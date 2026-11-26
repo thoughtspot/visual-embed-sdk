@@ -36,7 +36,7 @@ export interface DataAppEmbedViewConfig {
      * so that the App fills the frame.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @default false
      * @example
      * ```js
@@ -61,7 +61,7 @@ export interface DataAppEmbedViewConfig {
      * code `CONFLICTING_ACTIONS_CONFIG`.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
@@ -77,7 +77,7 @@ export interface DataAppEmbedViewConfig {
      * action in the embedded App, as {@link hiddenActions} describes.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
@@ -94,7 +94,7 @@ export interface DataAppEmbedViewConfig {
      * each action its own reason.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
@@ -119,7 +119,7 @@ export interface DataAppEmbedViewConfig {
      * `CONFLICTING_ACTIONS_CONFIG`.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {

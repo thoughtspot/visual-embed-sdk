@@ -7464,7 +7464,7 @@ export enum HostEvent {
      * empty or only white space, or no App is open yet.
      *
      * The embed emits that error as {@link EmbedEvent.Error}.
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @param - Object parameter. Includes the following keys:
      * - `name`: **Required.** The name to show in the App header.
      * Payload: {@link UpdateDataAppNameRequest}.
