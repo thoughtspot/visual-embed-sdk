@@ -1,0 +1,140 @@
+# Keeps the StackBlitz playground on the latest published SDK.
+#
+# The playground lives in its own GitHub repo, which StackBlitz is connected to,
+# so a commit to that repo's default branch is what updates StackBlitz. This
+# workflow reads the `latest` dist-tag from npm and, when the playground is
+# behind, rewrites its package.json / package-lock.json to an explicit
+# `^X.Y.Z` range (never `latest`) and pushes the change.
+#
+# Required configuration (Settings → Secrets and variables → Actions):
+#   vars.STACKBLITZ_PLAYGROUND_REPO   e.g. "thoughtspot/<playground-repo>"
+#   secrets.STACKBLITZ_REPO_TOKEN     fine-grained PAT with Contents: write on
+#                                     that repo (GITHUB_TOKEN cannot push to
+#                                     another repository)
+
+name: updateStackBlitzVersion
+
+on:
+  # Runs after every publishToNPM run. Pre-release publishes (beta/alpha/next)
+  # don't move the `latest` dist-tag, so those runs end as a no-op.
+  workflow_run:
+    workflows: [publishToNPM]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'SDK version to pin (defaults to the npm `latest` dist-tag)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-stackblitz-version
+  cancel-in-progress: false
+
+env:
+  PACKAGE_NAME: '@thoughtspot/visual-embed-sdk'
+
+jobs:
+  update:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.19.4'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Resolve target SDK version
+        id: target
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          if [ -n "$INPUT_VERSION" ]; then
+            VERSION="$INPUT_VERSION"
+          else
+            VERSION=$(npm view "$PACKAGE_NAME" dist-tags.latest)
+          fi
+
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::'$VERSION' is not a valid semver version"
+            exit 1
+          fi
+
+          # Make sure the version actually exists on npm before touching anything.
+          npm view "$PACKAGE_NAME@$VERSION" version > /dev/null
+
+          echo "Target version: $VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Check configuration
+        env:
+          PLAYGROUND_REPO: ${{ vars.STACKBLITZ_PLAYGROUND_REPO }}
+          HAS_TOKEN: ${{ secrets.STACKBLITZ_REPO_TOKEN != '' }}
+        run: |
+          if [ -z "$PLAYGROUND_REPO" ]; then
+            echo "::error::Repository variable STACKBLITZ_PLAYGROUND_REPO is not set"
+            exit 1
+          fi
+          if [ "$HAS_TOKEN" != "true" ]; then
+            echo "::error::Secret STACKBLITZ_REPO_TOKEN is not set"
+            exit 1
+          fi
+
+      - name: Checkout StackBlitz playground
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ vars.STACKBLITZ_PLAYGROUND_REPO }}
+          token: ${{ secrets.STACKBLITZ_REPO_TOKEN }}
+          path: playground
+
+      - name: Update SDK dependency
+        id: update
+        working-directory: playground
+        env:
+          VERSION: ${{ steps.target.outputs.version }}
+        run: |
+          CURRENT=$(node -p "require('./package.json').dependencies?.['$PACKAGE_NAME'] ?? ''")
+          WANTED="^$VERSION"
+          echo "Playground currently has: ${CURRENT:-<none>}"
+
+          if [ "$CURRENT" = "$WANTED" ]; then
+            echo "Playground is already on $WANTED — nothing to do."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Write the new SDK version into package.json and package-lock.json.
+          #   --save                 write the version into package.json
+          #   --save-exact=false     keep the "^" (e.g. "^1.54.0", not "1.54.0")
+          #   --package-lock-only    update package-lock.json only; don't download
+          #                          packages into node_modules (not needed here)
+          #   --ignore-scripts       don't run any package's install scripts
+          npm install "$PACKAGE_NAME@$WANTED" \
+            --save --save-exact=false \
+            --package-lock-only --ignore-scripts
+
+          # Did the two files actually change? Tell the next step whether
+          # there is anything to commit.
+          if git diff --quiet -- package.json package-lock.json; then
+            echo "No file changes after update."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git --no-pager diff --stat
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push
+        if: steps.update.outputs.changed == 'true'
+        working-directory: playground
+        env:
+          VERSION: ${{ steps.target.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "chore: bump $PACKAGE_NAME to ^$VERSION"
+          git push origin HEAD
+          echo "Pushed $PACKAGE_NAME ^$VERSION to ${{ vars.STACKBLITZ_PLAYGROUND_REPO }}"
