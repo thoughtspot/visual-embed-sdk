@@ -8225,10 +8225,9 @@ export enum Action {
      */
     EditTML = 'editTSL',
     /**
-     * The **Present** menu action for Liveboards and Answers.
+     * The **Present** menu action for Liveboards, Answers and DataApps.
      * Allows presenting a Liveboard or visualization in
      * slideshow mode.
-     * In DataAppEmbed, also the **Present** menu action in the App header.
      * @example
      * ```js
      * disabledActions: [Action.Present]
