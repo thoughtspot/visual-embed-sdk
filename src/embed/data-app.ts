@@ -51,13 +51,10 @@ export interface DataAppEmbedViewConfig {
      * The actions to remove from the embedded App. Hidden actions are not
      * shown at all.
      *
-     * The list applies to every action in the embedded App, such as the
-     * Spotter chat button and a tile's query details
-     * (`Action.QueryDetailsButtons`), not only to the App header. The App
-     * header uses these actions: `Action.Share` (the **Share** button), and in
-     * the **More** menu `Action.RenameModalTitleDescription` (**Rename**),
-     * `Action.MakeACopy` (**Duplicate**), `Action.Present` (**Present**) and
-     * `Action.Remove` (**Delete**).
+     * The list applies to every action in the embedded App: in the App
+     * header, `Action.Present` (the **Present** item of the **More** menu),
+     * and elsewhere, such as the Spotter chat button and a tile's query
+     * details (`Action.QueryDetailsButtons`).
      *
      * Use either this or {@link visibleActions}, not both. If both are set,
      * the App does not load, and {@link EmbedEvent.Error} is emitted with the
@@ -69,7 +66,7 @@ export interface DataAppEmbedViewConfig {
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
      *    dataAppId: '<app-id>',
-     *    hiddenActions: [Action.Remove, Action.MakeACopy],
+     *    hiddenActions: [Action.Present],
      * });
      * ```
      */
@@ -77,8 +74,7 @@ export interface DataAppEmbedViewConfig {
     /**
      * The actions to disable in the embedded App. Disabled actions are grayed
      * out: still shown, but they cannot be clicked. The list applies to every
-     * action in the embedded App; {@link hiddenActions} lists the ones the App
-     * header uses.
+     * action in the embedded App, as {@link hiddenActions} describes.
      *
      * Supported embed types: `DataAppEmbed`
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
@@ -86,8 +82,8 @@ export interface DataAppEmbedViewConfig {
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
      *    dataAppId: '<app-id>',
-     *    disabledActions: [Action.Share],
-     *    disabledActionReason: 'Sharing is turned off for your account',
+     *    disabledActions: [Action.Present],
+     *    disabledActionReason: 'Presenting is turned off for your account',
      * });
      * ```
      */
@@ -103,9 +99,9 @@ export interface DataAppEmbedViewConfig {
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
      *    dataAppId: '<app-id>',
-     *    disabledActions: [Action.Share, Action.Present],
+     *    disabledActions: [Action.Present, Action.QueryDetailsButtons],
      *    disabledActionReason: {
-     *        [Action.Share]: 'Sharing is turned off for your account',
+     *        [Action.Present]: 'Presenting is turned off for your account',
      *        GENERIC_REASON: 'Not available here',
      *    },
      * });
@@ -114,9 +110,9 @@ export interface DataAppEmbedViewConfig {
     disabledActionReason?: string | DisabledActionReasonMap;
     /**
      * The only actions to show in the embedded App: every action not listed
-     * is hidden, anywhere in the App, such as the Spotter chat button and a
-     * tile's query details, not only in the App header. {@link hiddenActions}
-     * lists the actions the App header uses.
+     * is hidden, anywhere in the App. That covers `Action.Present` in the App
+     * header and the rest of the App, such as the Spotter chat button and a
+     * tile's query details, as {@link hiddenActions} describes.
      *
      * Use either this or {@link hiddenActions}, not both. If both are set, the
      * App does not load, and {@link EmbedEvent.Error} is emitted with the code
@@ -128,7 +124,7 @@ export interface DataAppEmbedViewConfig {
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
      *    dataAppId: '<app-id>',
-     *    visibleActions: [Action.Share, Action.Present],
+     *    visibleActions: [Action.Present, Action.QueryDetailsButtons],
      * });
      * ```
      */
@@ -141,9 +137,11 @@ export interface DataAppEmbedViewConfig {
  * The App fills its container element: `fullHeight` is not supported. Apps
  * must be turned on for the ThoughtSpot instance.
  *
- * The header above the App shows the App's name and its actions. Hide or
- * disable those actions with `hiddenActions`, `disabledActions` (with
- * `disabledActionReason`) and `visibleActions`, hide the whole header with
+ * The header above the App shows the App's name and a **More** menu with
+ * **Present**. Hide or disable **Present** (`Action.Present`), and actions
+ * in the rest of the App such as the Spotter chat button and a tile's query
+ * details, with `hiddenActions`, `disabledActions` (with
+ * `disabledActionReason`) and `visibleActions`. Hide the whole header with
  * `hideDataAppHeader`, and set the name it shows with
  * `HostEvent.UpdateDataAppName`.
  * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
@@ -160,9 +158,8 @@ export interface DataAppEmbedViewConfig {
  * // Configure the App header
  * const embed = new DataAppEmbed('#tsEmbed', {
  *   dataAppId: '<app-id>',
- *   hiddenActions: [Action.Remove, Action.MakeACopy],
- *   disabledActions: [Action.Share],
- *   disabledActionReason: 'Sharing is turned off for your account',
+ *   disabledActions: [Action.Present],
+ *   disabledActionReason: 'Presenting is turned off for your account',
  * });
  * embed.render();
  *

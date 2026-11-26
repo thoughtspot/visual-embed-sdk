@@ -7817,7 +7817,6 @@ export enum Action {
      * visualizations in the embedded Liveboard view.
      * In AppEmbed, the **Make a copy** action is available on both
      * Liveboards and visualizations.
-     * In DataAppEmbed, also the **Duplicate** menu action in the App header.
      * @example
      * ```js
      * disabledActions: [Action.MakeACopy]
@@ -7868,7 +7867,6 @@ export enum Action {
     /**
      * The **Share** action on a Liveboard, Answer, or Model.
      * Allows users to share an object with other users and groups.
-     * In DataAppEmbed, also the **Share** button in the App header.
      * @example
      * ```js
      * disabledActions: [Action.Share]
@@ -8301,7 +8299,6 @@ export enum Action {
     /**
      * The **Delete** action on a Liveboard, *Liveboards* and
      * *Answers* list pages in full application embedding.
-     * In DataAppEmbed, also the **Delete** menu action in the App header.
      *
      * @example
      * ```js
@@ -8756,7 +8753,6 @@ export enum Action {
     /**
      * The **Rename** menu action on Liveboards and visualizations.
      * Allows renaming a Liveboard or visualization.
-     * In DataAppEmbed, also the **Rename** menu action in the App header.
      * @example
      * ```js
      * disabledActions: [Action.RenameModalTitleDescription]
