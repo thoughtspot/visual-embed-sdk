@@ -177,29 +177,21 @@ describe('DataAppEmbed', () => {
             }
         });
 
-        it.each([
-            ['not set', {}, 0],
-            ['useHostEventsV2', { useHostEventsV2: true }, 1],
-        ])('passes a rejected UpdateDataAppName on as Error only with useHostEventsV2 (%s)', (_, options, calls) => {
-            const warn = jest.spyOn(logger, 'warn').mockImplementation(() => undefined);
-            try {
-                const onError = jest.fn();
-                const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1', ...options });
-                embed.on(EmbedEvent.Error, onError);
+        it('passes a rejected UpdateDataAppName on as Error', () => {
+            const onError = jest.fn();
+            const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+            embed.on(EmbedEvent.Error, onError);
 
-                (embed as any).executeCallbacks(EmbedEvent.Error, {
-                    type: EmbedEvent.Error,
-                    data: {
-                        errorType: 'VALIDATION_ERROR',
-                        code: 'HOST_EVENT_VALIDATION',
-                        message: 'UpdateDataAppName needs a name that is not empty.',
-                    },
-                });
+            (embed as any).executeCallbacks(EmbedEvent.Error, {
+                type: EmbedEvent.Error,
+                data: {
+                    errorType: 'VALIDATION_ERROR',
+                    code: 'HOST_EVENT_VALIDATION',
+                    message: 'UpdateDataAppName needs a name that is not empty.',
+                },
+            });
 
-                expect(onError).toHaveBeenCalledTimes(calls);
-            } finally {
-                warn.mockRestore();
-            }
+            expect(onError).toHaveBeenCalledTimes(1);
         });
 
         it('sends UpdateDataAppName with the name only, and no App id', async () => {

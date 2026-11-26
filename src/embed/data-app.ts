@@ -133,24 +133,6 @@ export interface DataAppEmbedViewConfig {
      * ```
      */
     visibleActions?: Action[];
-    /**
-     * Uses host events v2. With it set, a host event the App rejects, such as
-     * `HostEvent.UpdateDataAppName` with an empty name, emits
-     * `EmbedEvent.Error`; without it, the rejection is only logged as a
-     * warning.
-     *
-     * Supported embed types: `DataAppEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
-     * @default false
-     * @example
-     * ```js
-     * const embed = new DataAppEmbed('#tsEmbed', {
-     *    dataAppId: '<app-id>',
-     *    useHostEventsV2: true,
-     * });
-     * ```
-     */
-    useHostEventsV2?: boolean;
 }
 
 /**
@@ -210,6 +192,14 @@ export class DataAppEmbed extends TsEmbed {
     public getIframeSrc(): string {
         const path = `embed/insights/apps/${encodeURIComponent(this.viewConfig.dataAppId)}`;
         return `${this.getRootIframeSrc()}/${path}${this.getThoughtSpotPostUrlParams()}`;
+    }
+
+    /**
+     * Host event validation errors always reach `EmbedEvent.Error`: the App
+     * has no host events v1 behaviour to keep.
+     */
+    protected shouldSkipEvent(): boolean {
+        return false;
     }
 
     // Serialized as AppEmbed does, so action lists reach the App page as JSON.

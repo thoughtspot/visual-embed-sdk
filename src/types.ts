@@ -7463,10 +7463,7 @@ export enum HostEvent {
      * `HOST_EVENT_VALIDATION` and a `message`: `name` is not a string, is
      * empty or only white space, or no App is open yet.
      *
-     * As for other host events, the embed emits {@link EmbedEvent.Error} with
-     * that error only when the view config sets `useHostEventsV2: true` and
-     * does not set `shouldBypassPayloadValidation: true`. Otherwise the error
-     * is only logged to the console as a warning.
+     * The embed emits that error as {@link EmbedEvent.Error}.
      * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
      * @param - Object parameter. Includes the following keys:
      * - `name`: **Required.** The name to show in the App header.
@@ -7475,8 +7472,6 @@ export enum HostEvent {
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
      *     dataAppId: '<app-id>',
-     *     // Needed to receive host event validation errors
-     *     useHostEventsV2: true,
      * });
      * embed.render();
      *

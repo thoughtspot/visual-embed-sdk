@@ -1380,7 +1380,7 @@ export class TsEmbed {
         };
     };
 
-    private shouldSkipEvent(eventType: EmbedEvent, data: any): boolean {
+    protected shouldSkipEvent(eventType: EmbedEvent, data: any): boolean {
         const errorType = data?.errorType ?? data?.data?.code;
         if (
             eventType === EmbedEvent.Error &&
