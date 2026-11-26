@@ -370,6 +370,21 @@ export interface UpdateDataAppControlsRequest {
 }
 
 /**
+ * Request payload for {@link HostEvent.RunDataAppAction}.
+ */
+export interface RunDataAppActionRequest {
+    /**
+     * The action ID, as the App declares it.
+     */
+    action: string;
+    /**
+     * The action's arguments by name, as the App declares them, such as
+     * `{ key: 'OPS-1' }`. An argument not named takes its default.
+     */
+    args?: Record<string, unknown>;
+}
+
+/**
  * Typed request payloads for host events that do not go through the UI
  * passthrough pipeline (`HostEvent` member → request type; `void` = no payload).
  *
@@ -479,6 +494,7 @@ export interface HostEventRequestMap {
 
     // ==================== APPS ====================
     [HostEvent.UpdateDataAppControls]: UpdateDataAppControlsRequest;
+    [HostEvent.RunDataAppAction]: RunDataAppActionRequest;
 }
 
 /**

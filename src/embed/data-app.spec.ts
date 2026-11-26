@@ -103,4 +103,17 @@ describe('DataAppEmbed', () => {
 
         expect(send).toHaveBeenCalledWith('UpdateDataAppControls', payload, undefined);
     });
+
+    it('sends RunDataAppAction as given, with no App id or context', async () => {
+        const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+        await embed.render();
+        const send = jest
+            .spyOn((embed as any).hostEventClient, 'triggerHostEvent')
+            .mockResolvedValue(undefined);
+        const payload = { action: 'close_issue', args: { key: 'OPS-1' } };
+
+        await embed.trigger(HostEvent.RunDataAppAction, payload);
+
+        expect(send).toHaveBeenCalledWith('RunDataAppAction', payload, undefined);
+    });
 });

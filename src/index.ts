@@ -170,6 +170,7 @@ import {
     UpdateDataAppControlsRequest,
     DataAppControl,
     DataAppControlValue,
+    RunDataAppActionRequest,
 } from './contracts/host-event-contracts';
 import type {
     LiveboardRenderedData,
@@ -364,6 +365,7 @@ export {
     UpdateDataAppControlsRequest,
     DataAppControl,
     DataAppControlValue,
+    RunDataAppActionRequest,
     LiveboardTab,
     LiveboardGroup,
     ApplicabilityLevel,

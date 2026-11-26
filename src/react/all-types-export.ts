@@ -104,6 +104,7 @@ export {
     UpdateDataAppControlsRequest,
     DataAppControl,
     DataAppControlValue,
+    RunDataAppActionRequest,
     LiveboardTab,
     LiveboardGroup,
     ApplicabilityLevel,

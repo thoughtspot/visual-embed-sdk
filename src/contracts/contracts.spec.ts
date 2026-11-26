@@ -117,6 +117,7 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
     HostEvent.UpdateTheme,
     // Apps
     HostEvent.UpdateDataAppControls,
+    HostEvent.RunDataAppAction,
 ];
 
 // Type-level assertions: compile failures here mean contract resolution
@@ -145,6 +146,7 @@ describe('event contracts (drift guardrails)', () => {
             'PreviewSpotterData',
             'ResetLiveboardPersonalisedView',
             'ResetSpotterConversation',
+            'RunDataAppAction',
             'SelectPersonalisedView',
             'SetActiveTab',
             'SetPersonalizedViewPublic',
@@ -456,6 +458,11 @@ describe('event contracts (drift guardrails)', () => {
             trigger(HostEvent.UpdateDataAppControls, {
                 controls: [{ id: 'depot', value: { op: 'in', values: ['Austin'] } }],
             }),
+            trigger(HostEvent.RunDataAppAction, {
+                action: 'close_issue',
+                args: { key: 'OPS-1' },
+            }),
+            trigger(HostEvent.RunDataAppAction, { action: 'refresh_all' }),
             trigger(HostEvent.SharePersonalizedView, {
                 viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
             }),

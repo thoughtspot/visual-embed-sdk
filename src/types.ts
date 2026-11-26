@@ -7480,6 +7480,41 @@ export enum HostEvent {
      * ```
      */
     UpdateDataAppControls = 'UpdateDataAppControls',
+    /**
+     * Runs one action of the App open in a `DataAppEmbed`, as if the viewer
+     * had started it from the App. Before anything runs, the viewer confirms
+     * the action in ThoughtSpot's own dialog; after it runs, the App reloads
+     * the widgets the action changes. Acts on the App that is open; the
+     * payload carries no App ID.
+     *
+     * Send it once the App is open: the App drops actions that reach it while
+     * it is still opening.
+     *
+     * The event has no result: do not wait on the promise returned by
+     * `trigger` to learn whether the action ran. When it can't run, for
+     * example because the action ID is unknown, its arguments are not valid,
+     * or the viewer cancels it, the host is not told.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+     * @param - Object parameter. Includes the following keys:
+     * - `action`: **Required.** The action ID, as the App declares it.
+     * - `args`: The action's arguments by name, as the App declares them.
+     * Payload: {@link RunDataAppActionRequest}.
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *     dataAppId: '<app-id>',
+     * });
+     * embed.render();
+     *
+     * embed
+     *     .trigger(HostEvent.RunDataAppAction, {
+     *         action: 'close_issue',
+     *         args: { key: 'OPS-1' },
+     *     })
+     *     .catch((error) => console.warn(error));
+     * ```
+     */
+    RunDataAppAction = 'RunDataAppAction',
 }
 
 /**
