@@ -5,6 +5,7 @@ import {
     Action,
     AuthType,
     ContextMenuTriggerOptions,
+    EmbedErrorCodes,
     EmbedEvent,
     HostEvent,
     RuntimeFilterOp,
@@ -331,6 +332,22 @@ describe('Liveboard/viz embed tests', () => {
                 ]),
             });
         });
+    });
+
+    test('should name each Personalized Views error code as the app sends it', () => {
+        expect([
+            EmbedErrorCodes.PERSONALIZED_VIEW_NOT_FOUND,
+            EmbedErrorCodes.PERSONALIZED_VIEW_NOT_ON_LIVEBOARD,
+            EmbedErrorCodes.PERSONALIZED_VIEW_DUPLICATE_NAME,
+            EmbedErrorCodes.PERSONALIZED_VIEW_NOT_ALLOWED,
+            EmbedErrorCodes.PERSONALIZED_VIEW_NOT_ACTIVE,
+        ]).toEqual([
+            'PERSONALIZED_VIEW_NOT_FOUND',
+            'PERSONALIZED_VIEW_NOT_ON_LIVEBOARD',
+            'PERSONALIZED_VIEW_DUPLICATE_NAME',
+            'PERSONALIZED_VIEW_NOT_ALLOWED',
+            'PERSONALIZED_VIEW_NOT_ACTIVE',
+        ]);
     });
 
     test('should set visible actions', async () => {
