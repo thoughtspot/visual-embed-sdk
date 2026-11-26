@@ -301,6 +301,38 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test('should send each Personalized Views control action under the id the app reads', async () => {
+        expect([
+            Action.SwitchPersonalizedView,
+            Action.SavePersonalizedView,
+            Action.ManagePersonalizedViews,
+            Action.RenamePersonalizedView,
+            Action.ResetPersonalizedView,
+        ]).toEqual([
+            'switchPersonalizedView',
+            'savePersonalizedView',
+            'managePersonalizedViews',
+            'renamePersonalizedView',
+            'resetPersonalizedView',
+        ]);
+
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            hiddenActions: [Action.SavePersonalizedView, Action.RenamePersonalizedView],
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlToHaveParamsWithValues(getIFrameSrc(), {
+                hideAction: JSON.stringify([
+                    Action.ReportError,
+                    Action.SavePersonalizedView,
+                    Action.RenamePersonalizedView,
+                ]),
+            });
+        });
+    });
+
     test('should set visible actions', async () => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             visibleActions: [Action.DownloadAsCsv, Action.DownloadAsPdf, Action.DownloadAsXlsx],
@@ -2058,6 +2090,26 @@ describe('Liveboard/viz embed tests', () => {
             expect(mockProcessTrigger).toHaveBeenCalledWith(
                 HostEvent.Navigate,
                 `embed/viz/${liveboardId}/tab/${newActiveTabId}`,
+            );
+        });
+    });
+
+    test('SetActiveTab after navigateToLiveboard navigates to the new liveboard, not the iframe src one', async () => {
+        const mockProcessTrigger = jest.spyOn(tsEmbed.TsEmbed.prototype, 'trigger');
+        const newLiveboardId = 'navigated-liveboard-id';
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        await liveboardEmbed.render();
+        await executeAfterWait(() => {
+            liveboardEmbed.navigateToLiveboard(newLiveboardId);
+            liveboardEmbed.trigger(HostEvent.SetActiveTab, {
+                tabId: newActiveTabId,
+            });
+            expect(mockProcessTrigger).toHaveBeenLastCalledWith(
+                HostEvent.Navigate,
+                `embed/viz/${newLiveboardId}/tab/${newActiveTabId}`,
             );
         });
     });

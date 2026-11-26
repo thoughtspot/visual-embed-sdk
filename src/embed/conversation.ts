@@ -955,7 +955,7 @@ export interface SpotterEmbedViewConfig extends Omit<BaseViewConfig, 'primaryAct
      * is also set, the conversation is opened in the context of that analyst.
      *
      * Supported embed types: `SpotterEmbed`
-     * @version SDK: <TBD> | ThoughtSpot Cloud: 26.11.0.cl
+     * @version SDK: 1.54.2 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
      * const embed = new SpotterEmbed('#tsEmbed', {

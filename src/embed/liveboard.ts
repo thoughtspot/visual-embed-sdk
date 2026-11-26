@@ -575,7 +575,9 @@ export interface LiveboardViewConfig
      * The `filter` and `parameter` URL query params are ignored.
      * Clauses without a query token are dropped.
      *
-     * Supported embed types: `LiveboardEmbed`
+     * For more information, see link:https://developers.thoughtspot.com/docs/liveboard-filter-and-parameter-overrides[Liveboard Filter and Parameter Overrides].
+     *
+     * Supported embed types: LiveboardEmbed
      * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
      * @example
      * ```js
@@ -999,9 +1001,19 @@ export class LiveboardEmbed extends V1Embed {
 
     private setActiveTab(data: { tabId: string }) {
         if (!this.viewConfig.vizId) {
-            const prefixPath = this.iFrame.src.split('#/')[1].split('/tab')[0];
-            const path = `${prefixPath}/tab/${data.tabId}`;
-            super.trigger(HostEvent.Navigate, path);
+            // iFrame.src is stale after navigateToLiveboard; use viewConfig.
+            const liveboardId = this.viewConfig.liveboardId ?? this.viewConfig.pinboardId;
+            if (!liveboardId) {
+                logger.warn('SetActiveTab called before a Liveboard is loaded');
+                return;
+            }
+            const path = this.getIframeSuffixSrc(
+                liveboardId,
+                undefined,
+                data.tabId,
+                this.viewConfig.personalizedViewId,
+            );
+            super.trigger(HostEvent.Navigate, path.substring(1));
         }
     }
 
@@ -1160,8 +1172,25 @@ export class LiveboardEmbed extends V1Embed {
             this.setActiveTab(data as { tabId: string });
             return Promise.resolve(null);
         }
-        if (typeof dataWithVizId === 'object' && this.viewConfig.vizId) {
-            dataWithVizId.vizId = this.viewConfig.vizId;
+        const embeddedVizId = this.viewConfig.vizId;
+        if (typeof dataWithVizId === 'object' && embeddedVizId) {
+            // A single-viz embed shows only its own viz, so any other vizId
+            // cannot be served: fail here rather than act on the embedded viz.
+            // Not handleError: it sets isError, which blocks a later render().
+            if (dataWithVizId.vizId && dataWithVizId.vizId !== embeddedVizId) {
+                const message = ERROR_MESSAGE.VIZ_ID_NOT_IN_EMBED;
+                const errorDetails = {
+                    errorType: ErrorDetailsTypes.VALIDATION_ERROR,
+                    message,
+                    code: EmbedErrorCodes.HOST_EVENT_VALIDATION,
+                    severity: EmbedErrorSeverity.SEV3,
+                    error: `${message} Received "${dataWithVizId.vizId}", embedded "${embeddedVizId}".`,
+                };
+                this.executeCallbacks(EmbedEvent.Error, errorDetails);
+                logger.warn(errorDetails);
+                return Promise.reject(new Error(message));
+            }
+            dataWithVizId.vizId = embeddedVizId;
         }
         return super.trigger(messageType, dataWithVizId, context);
     }

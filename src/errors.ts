@@ -2,6 +2,7 @@ export const ERROR_MESSAGE = {
     INVALID_THOUGHTSPOT_HOST: 'Error parsing ThoughtSpot host. Please provide a valid URL.',
     SPOTTER_EMBED_WORKSHEED_ID_NOT_FOUND: 'Please select a Model to get started',
     LIVEBOARD_VIZ_ID_VALIDATION: 'Please select a Liveboard to embed.',
+    DATA_APP_ID_MISSING: 'Please provide the ID of the App to embed.',
     TRIGGER_TIMED_OUT: 'Trigger timed-out in getting a response',
     SEARCHEMBED_BETA_WRANING_MESSAGE: 'SearchEmbed is in Beta in this release.',
     THIRD_PARTY_COOKIE_BLOCKED_ALERT: 'Third-party cookie access is blocked on this browser. Please allow third-party cookies for this to work properly. \nYou can use `suppressNoCookieAccessAlert` to suppress this message.',
@@ -31,8 +32,8 @@ export const ERROR_MESSAGE = {
     INVALID_SPOTTER_DOCUMENTATION_URL: 'Invalid spotterDocumentationUrl. Please provide a valid http or https URL.',
     UPDATEFILTERS_INVALID_PAYLOAD: 'UpdateFilters requires a valid filter or filters array. Expected: { filter: { columnName, operator, values } } or { filters: [{ columnName, operator, values }, ...] }',
     DRILLDOWN_INVALID_PAYLOAD: 'DrillDown requires a valid points object. Expected: { points: { clickedPoint?, selectedPoints? }, autoDrillDown?, vizId? }',
-    HOST_EVENTS_V1_DEPRECATED: 'The version of Host Events being used is deprecated. Please enable the newer version by adding useHostEventsV2: true. https://developers.thoughtspot.com/docs/Interface_SpotterEmbedViewConfig#_usehosteventsv2',
     UPDATEPARAMETERS_INVALID_PAYLOAD: 'UpdateParameters received an invalid applicability. Expected: { level: LIVEBOARD | TAB | GROUP, targetId } where targetId is required for TAB and GROUP levels',
+    VIZ_ID_NOT_IN_EMBED: 'The vizId does not match the visualization this embed shows. Omit vizId, or pass the vizId the embed was created with.',
 };
 
 export const CUSTOM_ACTIONS_ERROR_MESSAGE = {

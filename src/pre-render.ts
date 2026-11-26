@@ -177,6 +177,7 @@ export class PreRenderController {
         if (iFrame) {
             iFrame.style.height = '100%';
             iFrame.style.width = '100%';
+            iFrame.style.minHeight = '100%';
         }
 
         // Runs before the wrapper is attached, as it always has: a show here

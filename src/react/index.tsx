@@ -8,6 +8,7 @@ import { SearchBarEmbed as _SearchBarEmbed, SearchBarViewConfig } from '../embed
 import { SearchEmbed as _SearchEmbed, SearchViewConfig } from '../embed/search';
 import { AppEmbed as _AppEmbed, AppViewConfig } from '../embed/app';
 import { LiveboardEmbed as _LiveboardEmbed, LiveboardViewConfig } from '../embed/liveboard';
+import { DataAppEmbed as _DataAppEmbed, DataAppEmbedViewConfig } from '../embed/data-app';
 import { TsEmbed } from '../embed/ts-embed';
 import { SpotterAgentEmbed as _SpotterAgentEmbed, SpotterAgentEmbedViewConfig, ConversationMessage as _ConversationMessage, SpotterAgentMessageViewConfig } from '../embed/bodyless-conversation';
 
@@ -337,6 +338,32 @@ export const PreRenderedSearchBarEmbed = componentFactory<
     SearchBarEmbedProps & PreRenderProps,
     SearchBarViewConfig
 >(_SearchBarEmbed, true);
+
+interface DataAppEmbedProps extends EmbedProps, DataAppEmbedViewConfig { }
+// DataAppEmbedViewConfig shares no option with the other view configs, so
+// these two types fit it to the factory's constraints. A ref takes the last
+// constructor of the intersection, so DataAppEmbed stays last.
+type DataAppEmbedConstructor = typeof TsEmbed & typeof _DataAppEmbed;
+type DataAppEmbedFactoryConfig = DataAppEmbedViewConfig & AllEmbedViewConfig;
+
+/**
+ * React component for embedding a single ThoughtSpot App.
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+ * @example
+ * ```tsx
+ * function DataApp() {
+ *  return <DataAppEmbed
+ *      dataAppId="<app-id>"
+ *      ... event listeners.
+ *  />
+ * }
+ * ```
+ */
+export const DataAppEmbed = componentFactory<
+    DataAppEmbedConstructor,
+    DataAppEmbedProps,
+    DataAppEmbedFactoryConfig
+>(_DataAppEmbed as DataAppEmbedConstructor);
 
 interface SpotterEmbedProps extends EmbedProps, SpotterEmbedViewConfig { }
 interface ConversationEmbedProps extends EmbedProps, ConversationViewConfig { }
