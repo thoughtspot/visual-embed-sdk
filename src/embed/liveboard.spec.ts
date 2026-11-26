@@ -1097,6 +1097,32 @@ describe('Liveboard/viz embed tests', () => {
         });
     });
 
+    test.each([true, false])('should add isLiveboardAdHocSharingEnabled flag set to %s to the iframe src', async (isEnabled) => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+            isLiveboardAdHocSharingEnabled: isEnabled,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expectUrlMatchesWithParams(
+                getIFrameSrc(),
+                `http://${thoughtSpotHost}/?embedApp=true${defaultParams}&isLiveboardAdHocSharingEnabled=${isEnabled}${prefixParams}#/embed/viz/${liveboardId}`,
+            );
+        });
+    });
+
+    test('should not add isLiveboardAdHocSharingEnabled flag to the iframe src when undefined', async () => {
+        const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
+            ...defaultViewConfig,
+            liveboardId,
+        } as LiveboardViewConfig);
+        liveboardEmbed.render();
+        await executeAfterWait(() => {
+            expect(getIFrameSrc()).not.toContain('isLiveboardAdHocSharingEnabled');
+        });
+    });
+
     test.each([true, false])('should add isProgrammaticFilterParameterUpdateEnabled flag set to %s to the iframe src', async (isEnabled) => {
         const liveboardEmbed = new LiveboardEmbed(getRootEl(), {
             ...defaultViewConfig,

@@ -2382,6 +2382,26 @@ export interface LiveboardAppEmbedViewConfig {
      */
     isPersonalizedViewsSharingEnabled?: boolean;
     /**
+     * This flag is used to enable or disable shareable Liveboard links that
+     * carry the state of the Liveboard. When enabled, copying the link to a
+     * Liveboard in view mode saves the changes the user has made, such as
+     * filter and Parameter values, and the link restores those changes for
+     * the person who opens it. If this flag is not set, the embed follows the
+     * setting on your ThoughtSpot instance, which is off by default.
+     *
+     * Supported embed types: `AppEmbed`, `LiveboardEmbed`
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @example
+     * ```js
+     * // Replace <EmbedComponent> with embed component name. For example, AppEmbed or LiveboardEmbed
+     * const embed = new <EmbedComponent>('#tsEmbed', {
+     *    ... // other embed view config
+     *    isLiveboardAdHocSharingEnabled: true,
+     * })
+     * ```
+     */
+    isLiveboardAdHocSharingEnabled?: boolean;
+    /**
      * This flag is used to enable or disable the Liveboard Filter and Parameter
      * Overrides feature in the embed. This feature applies the filter and
      * Parameter overrides set in {@link LiveboardViewConfig.liveboardOverride}
@@ -7638,6 +7658,7 @@ export enum Param {
     isCentralizedLiveboardFilterUXEnabled = 'isCentralizedLiveboardFilterUXEnabled',
     isScopedLiveboardFilteringEnabled = 'isScopedLiveboardFilteringEnabled',
     IsPersonalizedViewsSharingEnabled = 'isPersonalizedViewsSharingEnabled',
+    IsLiveboardAdHocSharingEnabled = 'isLiveboardAdHocSharingEnabled',
     IsProgrammaticFilterParameterUpdateEnabled = 'isProgrammaticFilterParameterUpdateEnabled',
     isLinkParametersEnabled = 'isLinkParametersEnabled',
     EnablePastConversationsSidebar = 'enablePastConversationsSidebar',
