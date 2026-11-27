@@ -16,6 +16,9 @@ import {
     RuntimeParameter,
     AllEmbedViewConfig,
     BaseViewConfig,
+    EmbedEvent,
+    EmbedErrorDetailsEvent,
+    EmbedErrorSeverity,
 } from './types';
 import { logger } from './utils/logger';
 import { ERROR_MESSAGE } from './errors';
@@ -241,6 +244,19 @@ export const getOffsetTop = (element: any) => {
 export const embedEventStatus = {
     START: 'start',
     END: 'end',
+};
+
+// Errors posted by the embedded app arrive as { type, data, status };
+// SDK-raised ones mirror that so handlers can read data.severity either way.
+export const buildErrorEventPayload = (errorDetails: EmbedErrorDetailsEvent) => {
+    const { type, data: nested, status, ...details } = errorDetails;
+    const data = { severity: EmbedErrorSeverity.SEV3, ...details, ...nested };
+    return {
+        ...data,
+        type: EmbedEvent.Error,
+        data,
+        status: status ?? embedEventStatus.END,
+    };
 };
 
 export const setAttributes = (
