@@ -4986,9 +4986,13 @@ export enum HostEvent {
      * attributes passed with this event are appended to the existing runtime
      * filters applied on a Liveboard.
      *
-     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`
-     * and `AppEmbed` only. In full application embedding, this event updates
-     * the runtime filters applied on the Liveboard and saved Answer objects.
+     * **Note**: `HostEvent.UpdateRuntimeFilters` is supported in `LiveboardEmbed`,
+     * `AppEmbed` and `DataAppEmbed` only. In full application embedding, this event
+     * updates the runtime filters applied on the Liveboard and saved Answer objects.
+     * In `DataAppEmbed`, it updates the runtime filters of every ThoughtSpot
+     * data step of the App, and the App's data loads again; the values the
+     * viewer picked in the App are kept. Available in `DataAppEmbed` from
+     * SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl.
      *
      * Payload: {@link RuntimeFilter}[].
      * @param - Array of {@link RuntimeFilter} objects. Each item includes:
@@ -6700,7 +6704,7 @@ export enum HostEvent {
     ResetLiveboardPersonalizedView = ResetLiveboardPersonalisedView,
     /**
      * Update Parameter values on embedded Answers, Liveboard, and Spotter
-     * answer in Edit mode.
+     * answer in Edit mode. Not supported in `DataAppEmbed`.
      * Payload: {@link RuntimeParameter}[].
      * @param - Includes the following keys for each item:
      * - `name`: Name of the parameter.
