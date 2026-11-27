@@ -43,6 +43,13 @@ export interface SpotterVizStarterPrompt {
  *        insightTileBrandName: 'Insight card',
  *        insightTileViewPlanLabel: 'View plan',
  *        insightTileLoaderText: 'Generating insight',
+ *        // The option below requires SDK: 1.56.0
+ *        terms: {
+ *            liveboard: 'Dashboard',
+ *            answer: 'Tile',
+ *            filter: 'Slicer',
+ *            support_contact: 'Acme Support',
+ *        },
  *    },
  * })
  * ```
@@ -142,6 +149,80 @@ export interface SpotterVizConfig {
      * @version SDK: 1.54.0 | ThoughtSpot Cloud: 26.11.0.cl
      */
     fileUploadFileTypes?: string[];
+    /**
+     * Custom names for ThoughtSpot product terms in the SpotterViz interface,
+     * the agent's responses, and the SpotterViz progress labels and starter
+     * prompts. Each key is a product concept and its value is the name to show
+     * instead. See {@link SpotterVizTerms} for the supported keys.
+     *
+     * Each value must be plain, single-line text of at most 30 characters, without
+     * quotes, braces, angle brackets or backslashes. Unsupported keys and invalid
+     * values are ignored and do not stop SpotterViz from loading.
+     *
+     * A key set here takes precedence over `brandName`, `liveboardBrandName`,
+     * `spotterBrandName` and `insightTileBrandName` for the same term.
+     * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+     * @example
+     * ```js
+     * const embed = new LiveboardEmbed('#embed-container', {
+     *    ... // other options,
+     *    spotterViz: {
+     *        terms: {
+     *            thoughtspot: 'Insights & Analytics',
+     *            liveboard: 'Dashboard',
+     *            answer: 'Tile',
+     *            spotter: 'Ask',
+     *            spotterviz: 'Build',
+     *            data_source: 'data set',
+     *            support_contact: 'Acme Support',
+     *        },
+     *    },
+     * })
+     * ```
+     */
+    terms?: SpotterVizTerms;
+}
+
+/**
+ * Custom names for ThoughtSpot product terms in SpotterViz, keyed by product
+ * concept. Every key is optional; a term without a custom name keeps its default.
+ * @version SDK: 1.56.0 | ThoughtSpot Cloud: 27.1.0.cl
+ * @group Embed components
+ */
+export interface SpotterVizTerms {
+    /** Name for "Liveboard". */
+    liveboard?: string;
+    /** Name for "Spotter". */
+    spotter?: string;
+    /** Name for "SpotterViz". */
+    spotterviz?: string;
+    /** Name for "Insight tile". */
+    insight_tile?: string;
+    /** Name for "Answer", a chart or table on a Liveboard. */
+    answer?: string;
+    /** Name used for the product instead of "ThoughtSpot". */
+    thoughtspot?: string;
+    /** Name for a data source, such as a Model or table. */
+    data_source?: string;
+    /**
+     * Who users are told to contact for access or help, instead of their ThoughtSpot
+     * admin.
+     */
+    support_contact?: string;
+    /** Name for "note tile". */
+    note_tile?: string;
+    /** Name for "filter". */
+    filter?: string;
+    /** Name for a Liveboard "tab". */
+    tab?: string;
+    /** Name for a Liveboard "group". */
+    group?: string;
+    /** Name for a Liveboard "schedule". */
+    schedule?: string;
+    /** Name for "parameter". */
+    parameter?: string;
+    /** Name for Liveboard "style", such as its theme and colors. */
+    styling?: string;
 }
 
 /**

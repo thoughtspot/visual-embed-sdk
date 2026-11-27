@@ -48,6 +48,12 @@ describe('buildSpotterVizAppInitData', () => {
         expect(result.embedParams?.spotterVizConfig?.fileUploadFileTypes).toEqual(['csv', '.pdf']);
     });
 
+    it('passes terms through spotterVizConfig', () => {
+        const terms = { liveboard: 'Dashboard', answer: 'Tile', support_contact: 'Acme Support' };
+        const result = buildSpotterVizAppInitData(base, { spotterViz: { terms } });
+        expect(result.embedParams?.spotterVizConfig?.terms).toEqual(terms);
+    });
+
     it('preserves existing embedParams when adding spotterVizConfig', () => {
         const existing = { ...base, embedParams: { spotterSidebarConfig: { enablePastConversationsSidebar: true } } };
         const spotterViz = { brandName: 'MyBrand' };
