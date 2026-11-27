@@ -31,6 +31,7 @@ export const MIXPANEL_EVENT = {
     VISUAL_SDK_PRE_RENDER: 'visual-sdk-pre-render',
     VISUAL_SDK_SHOW_PRE_RENDER: 'visual-sdk-show-pre-render',
     VISUAL_SDK_HIDE_PRE_RENDER: 'visual-sdk-hide-pre-render',
+    VISUAL_SDK_CUSTOMIZATIONS: 'visual-sdk-customizations',
 };
 
 let isMixpanelInitialized = false;

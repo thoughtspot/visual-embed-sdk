@@ -80,7 +80,10 @@ import {
     BaseViewConfig,
 } from '../types';
 import { uploadMixpanelEvent, MIXPANEL_EVENT } from '../mixpanel-service';
-import { summarizeRuntimeDataForTelemetry } from '../utils/runtimeTelemetry';
+import {
+    summarizeCustomizationsForTelemetry,
+    summarizeRuntimeDataForTelemetry,
+} from '../utils/runtimeTelemetry';
 import { getProvidedInitConfig, sanitizeProvidedConfig } from '../utils/providedConfig';
 import { reportHostEvent } from '../utils/hostEventTelemetry';
 import { processEventData, processAuthFailure } from '../utils/processData';
@@ -1740,6 +1743,10 @@ export class TsEmbed {
             hiddenActions: this.viewConfig.hiddenActions ?? [],
             visibleActions: this.viewConfig.visibleActions ?? [],
             disabledActions: this.viewConfig.disabledActions ?? [],
+        });
+        uploadMixpanelEvent(MIXPANEL_EVENT.VISUAL_SDK_CUSTOMIZATIONS, {
+            embedComponentType: this.viewConfig.embedComponentType,
+            ...summarizeCustomizationsForTelemetry(this.embedConfig, this.viewConfig),
         });
         if (!getIsInitCalled()) {
             logger.error(ERROR_MESSAGE.RENDER_CALLED_BEFORE_INIT);
