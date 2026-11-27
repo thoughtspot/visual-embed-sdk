@@ -905,11 +905,13 @@ export class TsEmbed {
         Object.keys(queryParams).forEach((key) => {
             queryParams[key] = deserializeParam(queryParams[key]);
         });
-        const appInitData = await this.getAppInitData();
+        const { embedParams, ...appInitData }: Record<string, any> = await this.getAppInitData();
         return {
             ...this.viewConfig,
             ...queryParams,
             ...appInitData,
+            // The app reads these top-level, as it flattens APP_INIT's copy.
+            ...embedParams,
             // A show cycle has no URL to carry these, so the payload always
             // states them — including "none", which is the case that leaks the
             // previous filters.

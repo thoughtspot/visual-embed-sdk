@@ -1,5 +1,3 @@
-import { DefaultAppInitData } from '../types';
-
 /**
  * Defines starter prompts displayed in the SpotterViz interface.
  * @version SDK: 1.50.0 | ThoughtSpot Cloud: 26.7.0.cl
@@ -156,17 +154,9 @@ export interface SpotterVizLoaderTip {
     text: string;
 }
 
-export function buildSpotterVizAppInitData<T extends DefaultAppInitData>(
-    initData: T,
+export function buildSpotterVizAppInitData(
     viewConfig: { spotterViz?: SpotterVizConfig },
-): T & { embedParams?: { spotterVizConfig?: SpotterVizConfig } } {
+): { spotterVizConfig?: SpotterVizConfig } {
     const { spotterViz } = viewConfig;
-    if (!spotterViz) return initData;
-    return {
-        ...initData,
-        embedParams: {
-            ...((initData as T & { embedParams?: Record<string, unknown> }).embedParams || {}),
-            spotterVizConfig: spotterViz,
-        },
-    };
+    return spotterViz ? { spotterVizConfig: spotterViz } : {};
 }
