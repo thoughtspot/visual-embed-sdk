@@ -5820,6 +5820,31 @@ describe('PreRender replaceExistingPreRender scenarios', () => {
         const iframe = getIFrameEl();
         expect(iframe.src).toContain('lb1');
     });
+
+    test('should build a new iframe when replacing a preRender made by another embed type', async () => {
+        createRootEleForEmbed();
+        const liveboardEmbed = new LiveboardEmbed('#tsEmbedDiv', {
+            preRenderId: 'cross-type-replace',
+            liveboardId: 'lb1',
+        });
+        await liveboardEmbed.preRender();
+        const ids = liveboardEmbed.getPreRenderIds();
+        await waitFor(() => !!document.getElementById(ids.child));
+        const oldIframe = document.getElementById(ids.child) as HTMLIFrameElement;
+
+        const searchEmbed = new SearchEmbed('#tsEmbedDiv', {
+            preRenderId: 'cross-type-replace',
+        });
+        await searchEmbed.preRender(false, true);
+        await waitFor(() => document.getElementById(ids.child) !== oldIframe);
+
+        const newIframe = document.getElementById(ids.child) as HTMLIFrameElement;
+        expect(newIframe).toBeInstanceOf(HTMLIFrameElement);
+        expect(newIframe.src).not.toContain('lb1');
+        expect(newIframe.src).not.toContain('isLiveboardEmbed=true');
+        expect(searchEmbed.getUnderlyingFrameElement()).toBe(newIframe);
+        expect(document.contains(oldIframe)).toBe(false);
+    });
 });
 
 describe('Destroy error handling', () => {

@@ -1815,6 +1815,9 @@ export class TsEmbed {
     /**
      * Creates the preRender shell
      * @param showPreRenderByDefault - Show the preRender after render, hidden by default
+     * @param replaceExistingPreRender - If a pre-render with the same `preRenderId`
+     * already exists, switch it to this embed's configuration. The existing iframe
+     * is reused and updated in place, so the ThoughtSpot app does not reload.
      */
 
     public async preRender(
@@ -1832,14 +1835,34 @@ export class TsEmbed {
         this.preRenderController.markPreRendering(showPreRenderByDefault);
 
         const isAlreadyRendered = this.preRenderController.connect();
-        if (isAlreadyRendered && !replaceExistingPreRender) {
+        const canReuseIframe = this.preRenderController.child instanceof HTMLIFrameElement
+            && this.canReusePreRenderFrom(this.getPreRenderObj<TsEmbed>());
+        if (isAlreadyRendered && (!replaceExistingPreRender || canReuseIframe)) {
             if (showPreRenderByDefault) {
                 this.showPreRender();
+            } else if (replaceExistingPreRender) {
+                this.syncPreRenderInBackground();
             }
             return this;
         }
 
+        if (isAlreadyRendered) {
+            this.iFrame = undefined;
+        }
+
         return this.handleRenderForPrerender();
+    }
+
+    protected canReusePreRenderFrom(previousOwner: TsEmbed | undefined): boolean {
+        return false;
+    }
+
+    private syncPreRenderInBackground(): void {
+        this.isRendered = true;
+        this.beforePrerenderVisible();
+        this.preRenderController.conceal();
+        this.subscribeToEvents();
+        this.preRenderController.takeOver();
     }
 
     /**
