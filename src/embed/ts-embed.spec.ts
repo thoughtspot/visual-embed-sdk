@@ -1400,6 +1400,21 @@ describe('Unit test case for ts embed', () => {
             );
         });
 
+        test('should send visual-sdk-customizations with the customization keys', async () => {
+            await new SearchEmbed(getRootEl(), {
+                customizations: {
+                    style: { customCSS: { variables: { '--ts-var-root-background': '#f6f6f6' } } },
+                },
+            }).render();
+            expect(mockMixPanelEvent).toHaveBeenCalledWith(
+                MIXPANEL_EVENT.VISUAL_SDK_CUSTOMIZATIONS,
+                expect.objectContaining({
+                    cssVariableKeys: ['--ts-var-root-background'],
+                    stringKeys: [],
+                }),
+            );
+        });
+
         test('Should remove prefetch iframe', async () => {
             await setup(true);
             const prefetchIframe = document.querySelectorAll<HTMLIFrameElement>('.prefetchIframe');

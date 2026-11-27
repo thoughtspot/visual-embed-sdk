@@ -1,9 +1,16 @@
 import {
     describeRuntimeFilters,
     describeRuntimeParameters,
+    summarizeCustomizationsForTelemetry,
     summarizeRuntimeDataForTelemetry,
 } from './runtimeTelemetry';
-import { RuntimeFilter, RuntimeFilterOp, RuntimeParameter } from '../types';
+import {
+    AuthType,
+    EmbedConfig,
+    RuntimeFilter,
+    RuntimeFilterOp,
+    RuntimeParameter,
+} from '../types';
 import { ApplicabilityLevel } from '../contracts/ui-passthrough-contracts';
 
 const customerFilters: RuntimeFilter[] = [
@@ -144,5 +151,72 @@ describe('summarizeRuntimeDataForTelemetry', () => {
 
     test('tolerates an undefined view config', () => {
         expect(summarizeRuntimeDataForTelemetry(undefined as any)).toEqual({});
+    });
+});
+
+describe('summarizeCustomizationsForTelemetry', () => {
+    const embedConfig: EmbedConfig = {
+        thoughtSpotHost: 'tshost',
+        authType: AuthType.None,
+        customizations: {
+            style: {
+                customCSSUrl: 'https://cdn.example.com/theme.css?token=secret',
+                customCSS: {
+                    variables: { '--ts-var-root-background': '#f6f6f6' },
+                    rules_UNSTABLE: { '.header': { color: 'red' } },
+                },
+            },
+            content: {
+                strings: { Liveboards: 'Dashboards' },
+                stringIDs: { 'liveboard.title': 'Report' },
+                stringIDsUrl: 'https://cdn.example.com/strings.json#v2',
+            },
+            iconSpriteUrl: 'https://cdn.example.com/icons.svg',
+        },
+    };
+
+    test('reports only the keys and the file URLs without their query', () => {
+        const props = summarizeCustomizationsForTelemetry(embedConfig, {});
+
+        expect(props).toEqual({
+            cssVariableKeys: ['--ts-var-root-background'],
+            cssRuleKeys: ['.header'],
+            stringKeys: ['Liveboards'],
+            stringIDKeys: ['liveboard.title'],
+            customCSSUrl: 'https://cdn.example.com/theme.css',
+            stringIDsUrl: 'https://cdn.example.com/strings.json',
+            iconSpriteUrl: 'https://cdn.example.com/icons.svg',
+        });
+        const serialized = JSON.stringify(props);
+        ['#f6f6f6', 'red', 'Dashboards', 'Report', 'secret'].forEach((value) => {
+            expect(serialized).not.toContain(value);
+        });
+    });
+
+    test('summarizes the customizations merged with the embed view config', () => {
+        const props = summarizeCustomizationsForTelemetry(embedConfig, {
+            customizations: {
+                style: { customCSS: { variables: { '--ts-var-button-border-radius': '8px' } } },
+                iconSpriteUrl: 'https://cdn.example.com/embed-icons.svg?v=3',
+            },
+        });
+
+        expect(props.cssVariableKeys).toEqual(['--ts-var-button-border-radius']);
+        expect(props.cssRuleKeys).toEqual(['.header']);
+        expect(props.stringKeys).toEqual(['Liveboards']);
+        expect(props.customCSSUrl).toBe('https://cdn.example.com/theme.css');
+        expect(props.iconSpriteUrl).toBe('https://cdn.example.com/embed-icons.svg');
+    });
+
+    test('reports empty keys and no file URLs when nothing is customized', () => {
+        expect(summarizeCustomizationsForTelemetry(undefined as any, {})).toEqual({
+            cssVariableKeys: [],
+            cssRuleKeys: [],
+            stringKeys: [],
+            stringIDKeys: [],
+            customCSSUrl: undefined,
+            stringIDsUrl: undefined,
+            iconSpriteUrl: undefined,
+        });
     });
 });
