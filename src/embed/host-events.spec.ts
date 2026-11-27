@@ -23,6 +23,7 @@ import {
 } from '../test/test-utils';
 import * as authInstance from '../auth';
 import { ERROR_MESSAGE } from '../errors';
+import { TsEmbed } from './ts-embed';
 
 const thoughtSpotHost = 'https://tshost';
 const liveboardId = 'eca215d4-0d2c-4a55-90e3-d81ef6848ae0';
@@ -1563,6 +1564,17 @@ describe('vizId injection on LiveboardEmbed trigger (object payload)', () => {
             });
         },
     );
+
+    test('a null payload is forwarded as is instead of throwing', async () => {
+        const { lb } = await renderLiveboard({ vizId });
+        const forward = jest.spyOn(TsEmbed.prototype, 'trigger').mockResolvedValue(null);
+        try {
+            await lb.trigger(HostEvent.DownloadAsCsv, null);
+            expect(forward).toHaveBeenCalledWith(HostEvent.DownloadAsCsv, null, undefined);
+        } finally {
+            forward.mockRestore();
+        }
+    });
 });
 
 // ---------------------------------------------------------------------------
