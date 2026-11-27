@@ -6908,12 +6908,25 @@ export enum HostEvent {
      * its `code`; a view on another Liveboard is reported as
      * `PERSONALIZED_VIEW_NOT_ON_LIVEBOARD`.
      * @param - Object parameter. Includes the following keys:
-     * - `viewId`: **Required.** GUID of the view to delete.
+     * - `viewId`: GUID of the view to delete.
+     * - `viewIds`: GUIDs of several views to delete in one go, from
+     *   ThoughtSpot Cloud 27.2.0.cl. Either all of them are deleted, or, when
+     *   any is not found or not allowed, none is.
+     * Pass `viewId` or `viewIds`.
      * Payload: {@link DeletePersonalizedViewRequest}.
      * @example
      * ```js
      * liveboardEmbed.trigger(HostEvent.DeletePersonalizedView, {
      *     viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
+     * })
+     * ```
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.DeletePersonalizedView, {
+     *     viewIds: [
+     *         '2a021a12-1aed-425d-984b-141ee916ce72',
+     *         '7efdc851-5563-4b22-9107-3ef763031071',
+     *     ],
      * })
      * ```
      * @version SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl
@@ -6953,6 +6966,56 @@ export enum HostEvent {
      * @version SDK: 1.54.1 | ThoughtSpot Cloud: 27.1.0.cl
      */
     SetPersonalizedViewPublic = 'SetPersonalizedViewPublic',
+    /**
+     * Saves the Liveboard as it is now, with its filters and parameters, as a
+     * new Personalized View, as **Save view** does, whether or not the embed
+     * shows that option. The Liveboard then switches to the new view, and the
+     * embed emits {@link EmbedEvent.SavePersonalizedView}.
+     *
+     * Making the view public needs edit access to the Liveboard, the privilege
+     * to create Liveboards, and public Personalized Views allowed on your
+     * ThoughtSpot instance. A user can save up to 100 views per Liveboard.
+     *
+     * The promise returned by `trigger` resolves with
+     * `{ success: true, viewId }` once the view is saved, and rejects with the
+     * reason when it isn't.
+     * @param - Object parameter. Includes the following keys:
+     * - `name`: **Required.** Name of the view. View names need not be unique.
+     * - `isPublic`: `true` to make the view public. Defaults to `false`.
+     * Payload: {@link SavePersonalizedViewRequest}.
+     * @example
+     * ```js
+     * liveboardEmbed
+     *     .trigger(HostEvent.SavePersonalizedView, { name: 'Cardiology' })
+     *     .then(({ viewId }) => console.log('Saved view', viewId));
+     * ```
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    SavePersonalizedView = 'SavePersonalizedView',
+    /**
+     * Renames a Personalized View and saves the change at once, as editing its
+     * name in the **Manage views** dialog does, whether or not the embed shows
+     * that dialog. Only the view's author or an admin can rename it. The embed
+     * then emits {@link EmbedEvent.UpdatePersonalizedView}.
+     *
+     * The promise returned by `trigger` resolves with `{ success: true }` once
+     * the view is renamed, and rejects with the reason when it isn't. When the
+     * view isn't found or the user can't rename it, {@link EmbedEvent.Error} is
+     * also emitted; see {@link EmbedErrorCodes} for its `code`.
+     * @param - Object parameter. Includes the following keys:
+     * - `viewId`: **Required.** GUID of the view.
+     * - `name`: **Required.** New name of the view.
+     * Payload: {@link RenamePersonalizedViewRequest}.
+     * @example
+     * ```js
+     * liveboardEmbed.trigger(HostEvent.RenamePersonalizedView, {
+     *     viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
+     *     name: 'Cardiology 2026',
+     * })
+     * ```
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     */
+    RenamePersonalizedView = 'RenamePersonalizedView',
     /**
      * @hidden
      * Notify when info call is completed successfully
