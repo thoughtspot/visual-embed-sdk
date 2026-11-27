@@ -7469,6 +7469,46 @@ export enum HostEvent {
      * ```
      */
     UpdateTheme = 'UpdateTheme',
+    /**
+     * Sets the name shown in the App header of a `DataAppEmbed`, in place of
+     * the App's saved name. Acts on the App that is open; the payload carries
+     * no App ID.
+     *
+     * Display only: the App is not renamed in ThoughtSpot and nothing is
+     * saved. The App's saved name is shown again when another App opens or
+     * when the App reloads.
+     *
+     * The event has no result: do not wait on the promise returned by
+     * `trigger` to learn whether the name was set. When the name can't be
+     * set, the header does not change. The reason is a host event validation
+     * error, with the `errorType` `VALIDATION_ERROR`, the `code`
+     * `HOST_EVENT_VALIDATION` and a `message`: `name` is not a string, is
+     * empty or only white space, or no App is open yet.
+     *
+     * The embed emits that error as {@link EmbedEvent.Error}.
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
+     * @param - Object parameter. Includes the following keys:
+     * - `name`: **Required.** The name to show in the App header.
+     * Payload: {@link UpdateDataAppNameRequest}.
+     * @example
+     * ```js
+     * const embed = new DataAppEmbed('#tsEmbed', {
+     *     dataAppId: '<app-id>',
+     * });
+     * embed.render();
+     *
+     * embed.on(EmbedEvent.Error, (error) => {
+     *     if (error.data?.code === 'HOST_EVENT_VALIDATION') {
+     *         console.warn(error.data.message);
+     *     }
+     * });
+     *
+     * embed
+     *     .trigger(HostEvent.UpdateDataAppName, { name: 'Regional sales' })
+     *     .catch((error) => console.warn(error));
+     * ```
+     */
+    UpdateDataAppName = 'UpdateDataAppName',
 }
 
 /**
@@ -7694,6 +7734,7 @@ export enum Param {
     RadiantThemeEnabled = 'radiantThemeEnabled',
     SpotterExperienceVersion = 'spotterExperienceVersion',
     EnableDataApps = 'enableDataApps',
+    HideDataAppHeader = 'hideDataAppHeader',
 }
 
 /**
@@ -8206,7 +8247,7 @@ export enum Action {
      */
     EditTML = 'editTSL',
     /**
-     * The **Present** menu action for Liveboards and Answers.
+     * The **Present** menu action for Liveboards, Answers and DataApps.
      * Allows presenting a Liveboard or visualization in
      * slideshow mode.
      * @example
@@ -10309,7 +10350,7 @@ export enum Action {
      * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
      * `visibleActions` or `hiddenActions` list that includes it covers this
      * option too.
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * {
@@ -10327,7 +10368,7 @@ export enum Action {
      *
      * {@link Action.PersonalizedViewsDropdown} also controls these options, so a
      * `visibleActions` or `hiddenActions` list that includes it covers them too.
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * {
@@ -10345,7 +10386,7 @@ export enum Action {
      * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
      * `visibleActions` or `hiddenActions` list that includes it covers this
      * option too.
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * {
@@ -10362,7 +10403,7 @@ export enum Action {
      *
      * This option predates this action, so only `hiddenActions` hides it. A
      * `visibleActions` list that doesn't include this action keeps it.
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * {
@@ -10380,7 +10421,7 @@ export enum Action {
      * {@link Action.PersonalizedViewsDropdown} also controls this option, so a
      * `visibleActions` or `hiddenActions` list that includes it covers this
      * option too.
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * {

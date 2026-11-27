@@ -15,7 +15,7 @@ import {
     mockMessageChannel,
 } from '../test/test-utils';
 import {
-    SearchEmbed, AppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed, PreRenderedSearchEmbed, PreRenderedAppEmbed, useSpotterAgent, SpotterMessage, useInit
+    SearchEmbed, AppEmbed, DataAppEmbed, LiveboardEmbed, useEmbedRef, SearchBarEmbed, PreRenderedLiveboardEmbed, PreRenderedSearchEmbed, PreRenderedAppEmbed, useSpotterAgent, SpotterMessage, useInit
 } from './index';
 import * as allExports from './index';
 import {
@@ -88,6 +88,28 @@ describe('React Components', () => {
 
     describe('AppEmbed', () => {
         //
+    });
+
+    describe('DataAppEmbed', () => {
+        it('passes the App header props to the frame URL', async () => {
+            const { container } = render(
+                <DataAppEmbed
+                    dataAppId="app-1"
+                    hideDataAppHeader={true}
+                    hiddenActions={[Action.Remove]}
+                    disabledActions={[Action.Share]}
+                    disabledActionReason="Not here"
+                />,
+            );
+
+            await waitFor(() => getIFrameEl(container));
+
+            const params = new URL(getIFrameSrc(container)).searchParams;
+            expect(params.get('hideDataAppHeader')).toBe('true');
+            expect(JSON.parse(params.get('hideAction'))).toContain(Action.Remove);
+            expect(params.get('disableAction')).toBe(JSON.stringify([Action.Share]));
+            expect(params.get('disableHint')).toBe('Not here');
+        });
     });
 
     describe('LiveboardEmbed', () => {

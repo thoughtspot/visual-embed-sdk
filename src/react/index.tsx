@@ -340,15 +340,15 @@ export const PreRenderedSearchBarEmbed = componentFactory<
 >(_SearchBarEmbed, true);
 
 interface DataAppEmbedProps extends EmbedProps, DataAppEmbedViewConfig { }
-// DataAppEmbedViewConfig shares no option with the other view configs, so
-// these two types fit it to the factory's constraints. A ref takes the last
+// DataAppEmbedViewConfig has options no other view config has, so these two
+// types fit it to the factory's constraints. A ref takes the last
 // constructor of the intersection, so DataAppEmbed stays last.
 type DataAppEmbedConstructor = typeof TsEmbed & typeof _DataAppEmbed;
 type DataAppEmbedFactoryConfig = DataAppEmbedViewConfig & AllEmbedViewConfig;
 
 /**
  * React component for embedding a single ThoughtSpot App.
- * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+ * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
  * @example
  * ```tsx
  * function DataApp() {

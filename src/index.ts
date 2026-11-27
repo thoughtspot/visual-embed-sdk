@@ -167,6 +167,7 @@ import {
     NavigateRequest,
     SetActiveTabRequest,
     UpdateThemeRequest,
+    UpdateDataAppNameRequest,
 } from './contracts/host-event-contracts';
 import type {
     LiveboardRenderedData,
@@ -358,6 +359,7 @@ export {
     NavigateRequest,
     SetActiveTabRequest,
     UpdateThemeRequest,
+    UpdateDataAppNameRequest,
     LiveboardTab,
     LiveboardGroup,
     ApplicabilityLevel,
