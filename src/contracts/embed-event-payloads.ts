@@ -331,6 +331,12 @@ export interface LiveboardParameterInfo {
     valueType?: string;
 }
 
+/** {@link EmbedEvent.DataAppRendered}. */
+export interface DataAppRenderedData extends EmbedEventPayloadBase {
+    /** The App that was rendered. */
+    dataAppId: string;
+}
+
 /** {@link EmbedEvent.LiveboardHeaderLoaded}. */
 export interface LiveboardHeaderLoadedPayload extends LiveboardScope {
     name?: string;
@@ -477,6 +483,7 @@ export interface EmbedEventDataExtension {
     [EmbedEvent.LiveboardHeaderLoaded]: LiveboardHeaderLoadedPayload;
     [EmbedEvent.LiveboardTopUsersLoaded]: LiveboardTopUsersLoadedPayload;
     [EmbedEvent.LiveboardRendered]: LiveboardRenderedData;
+    [EmbedEvent.DataAppRendered]: DataAppRenderedData;
     [EmbedEvent.RequestVisibleEmbedCoordinates]: EmptyPayload;
     [EmbedEvent.EmbedIframeCenter]: EmptyPayload;
 

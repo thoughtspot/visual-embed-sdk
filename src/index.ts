@@ -170,6 +170,7 @@ import {
 } from './contracts/host-event-contracts';
 import type {
     LiveboardRenderedData,
+    DataAppRenderedData,
     LiveboardVizInfo,
     LiveboardGroupInfo,
     LiveboardRenderedTabInfo,
@@ -410,6 +411,7 @@ export {
     UpdateFiltersFilterParam,
     UpdateFiltersPayload,
     LiveboardRenderedData,
+    DataAppRenderedData,
     LiveboardVizInfo,
     LiveboardGroupInfo,
     LiveboardRenderedTabInfo,
