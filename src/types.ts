@@ -361,6 +361,32 @@ export interface CustomisationsInterface {
  * if a trusted authentication server is used.
  * @group Authentication / Init
  */
+
+/**
+ * Configuration for full page diagnostics.
+ * @version SDK: 1.53.0
+ */
+export interface FullPageDiagnosticsConfig {
+    /** Turns the feature on. @default false */
+    enabled: boolean;
+    /** Base URL of the debug-session service, e.g. `http://localhost:8000`. */
+    endpoint: string;
+    /**
+     * When to ask the user for consent.
+     * - `on-failure` (default): when the embed fails to load, fails auth or
+     *   reports an error.
+     * - `on-init`: right after `init()`.
+     * - `manual`: only when `requestFullPageDiagnostics()` is called.
+     */
+    prompt?: 'on-failure' | 'on-init' | 'manual';
+    /** How long a session streams before it ends. @default 1800000 (30 min) */
+    sessionDurationMs?: number;
+    /** Time to wait for the embed's load event before treating it as failed. @default 15000 */
+    loadTimeoutMs?: number;
+    /** Console methods to capture. @default ['log', 'info', 'warn', 'error'] */
+    consoleLevels?: Array<'log' | 'info' | 'warn' | 'error' | 'debug'>;
+}
+
 export interface EmbedConfig {
     /**
      * The ThoughtSpot cluster hostname or IP address.
@@ -601,6 +627,46 @@ export interface EmbedConfig {
      * @version SDK: 1.26.2 | ThoughtSpot: *
      */
     suppressErrorAlerts?: boolean;
+
+    /**
+     * Renders an on-page debugging panel (`<DebugAgent />` from
+     * `@thoughtspot/visual-embed-sdk/react`) that lets developers inspect and
+     * live-edit styles on the host page's DOM — the embed container, its
+     * parent elements, and any other element on the page. Intended for
+     * development and troubleshooting; the panel never reads or modifies
+     * anything inside the ThoughtSpot iframe, since that content is
+     * cross-origin and outside the host page's reach.
+     * @default false
+     * @version SDK: 1.53.0
+     * @example
+     * ```js
+     * init({
+     *   ...embedConfig,
+     *   enableDebugAgent: true,
+     * })
+     * ```
+     */
+    enableDebugAgent?: boolean;
+
+    /**
+     * Full page diagnostics (proof of concept). When enabled, the SDK watches
+     * for embed failures and, with the user's consent, captures the host
+     * page's console, errors, network calls, layout around the embed and SDK
+     * call timeline, and streams them to `endpoint` for a limited time.
+     * Nothing is sent without consent.
+     * @version SDK: 1.53.0
+     * @example
+     * ```js
+     * init({
+     *   ...embedConfig,
+     *   fullPageDiagnostics: {
+     *     enabled: true,
+     *     endpoint: 'http://localhost:8000',
+     *   },
+     * })
+     * ```
+     */
+    fullPageDiagnostics?: FullPageDiagnosticsConfig;
 
     /**
      * Suppress or show specific types of logs in the console output.
