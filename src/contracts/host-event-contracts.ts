@@ -340,6 +340,36 @@ export interface UpdateThemeRequest {
 }
 
 /**
+ * The value of an App control, in the App's own format, such as
+ * `{ op: 'in', values: ['Austin'] }`, or `null`.
+ */
+export type DataAppControlValue = Record<string, unknown> | null;
+
+/**
+ * One App control and the value to set.
+ */
+export interface DataAppControl {
+    /**
+     * The control ID, as the App declares it.
+     */
+    id: string;
+    /**
+     * The value to set.
+     */
+    value: DataAppControlValue;
+}
+
+/**
+ * Request payload for {@link HostEvent.UpdateDataAppControls}.
+ */
+export interface UpdateDataAppControlsRequest {
+    /**
+     * The controls to set. A control not named keeps its value.
+     */
+    controls: DataAppControl[];
+}
+
+/**
  * Typed request payloads for host events that do not go through the UI
  * passthrough pipeline (`HostEvent` member → request type; `void` = no payload).
  *
@@ -446,6 +476,9 @@ export interface HostEventRequestMap {
 
     // ==================== APPEARANCE ====================
     [HostEvent.UpdateTheme]: UpdateThemeRequest;
+
+    // ==================== APPS ====================
+    [HostEvent.UpdateDataAppControls]: UpdateDataAppControlsRequest;
 }
 
 /**
