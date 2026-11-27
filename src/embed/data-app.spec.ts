@@ -6,6 +6,7 @@ import {
     EmbedErrorCodes,
     EmbedErrorSeverity,
     ErrorDetailsTypes,
+    HostEvent,
 } from '../types';
 import { logger } from '../utils/logger';
 import {
@@ -83,5 +84,36 @@ describe('DataAppEmbed', () => {
         expect(warn).toHaveBeenCalledTimes(1);
         expect((embed as any).viewConfig.fullHeight).toBe(false);
         warn.mockRestore();
+    });
+
+    it('sends UpdateDataAppControls as given, with no App id or context', async () => {
+        const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+        await embed.render();
+        const send = jest
+            .spyOn((embed as any).hostEventClient, 'triggerHostEvent')
+            .mockResolvedValue(undefined);
+        const payload = {
+            controls: [
+                { id: 'depot', value: { op: 'in', values: ['Austin'] } },
+                { id: 'region', value: null },
+            ],
+        };
+
+        await embed.trigger(HostEvent.UpdateDataAppControls, payload);
+
+        expect(send).toHaveBeenCalledWith('UpdateDataAppControls', payload, undefined);
+    });
+
+    it('sends RunDataAppAction as given, with no App id or context', async () => {
+        const embed = new DataAppEmbed(getRootEl(), { dataAppId: 'app-1' });
+        await embed.render();
+        const send = jest
+            .spyOn((embed as any).hostEventClient, 'triggerHostEvent')
+            .mockResolvedValue(undefined);
+        const payload = { action: 'close_issue', args: { key: 'OPS-1' } };
+
+        await embed.trigger(HostEvent.RunDataAppAction, payload);
+
+        expect(send).toHaveBeenCalledWith('RunDataAppAction', payload, undefined);
     });
 });
