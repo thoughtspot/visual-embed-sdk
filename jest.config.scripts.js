@@ -17,6 +17,11 @@ module.exports = {
             functions: 80,
             lines: 80,
         },
+        './scripts/check-theme-builder-sync.js': {
+            branches: 80,
+            functions: 80,
+            lines: 80,
+        },
     },
     testMatch: ['**/scripts/**/*.spec.js'],
 };
