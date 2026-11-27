@@ -48,10 +48,24 @@ const PASSTHROUGH_MAP: Partial<Record<HostEvent, UIPassthroughEvent>> = {
     [HostEvent.getExportRequestForCurrentPinboard]: UIPassthroughEvent.GetExportRequestForCurrentPinboard,
 };
 
+/**
+ * Legacy message to send when a host event cannot go through UI passthrough.
+ * The app has no legacy SaveAnswer handler; Save opens the same dialog.
+ */
+const LEGACY_FALLBACK: Partial<Record<HostEvent, HostEvent>> = {
+    [HostEvent.SaveAnswer]: HostEvent.Save,
+};
+
+const legacyEventFor = (hostEvent: HostEvent): HostEvent => LEGACY_FALLBACK[hostEvent] ?? hostEvent;
+
 export class HostEventClient {
   iFrame: HTMLIFrameElement;
 
-  /** Cached list of available UI passthrough keys from the embedded app */
+  /**
+   * UI passthrough keys the embedded app last reported, or [] when it answered
+   * without a list (no passthrough support). The app registers handlers as its
+   * pages load, so a list can be partial: see getAvailableUIPassthroughKeys.
+   */
   private availablePassthroughKeysCache: string[] | null = null;
 
   /** Host events with custom handlers 
@@ -165,12 +179,21 @@ export class HostEventClient {
   }
 
   /**
-   * Fetches the list of available UI passthrough keys from the embedded app.
-   * Result is cached for the session. Returns empty array on failure.
+   * Returns the UI passthrough keys the embedded app supports.
+   *
+   * The cached list is reused when it has `requiredKey`, or is empty. A list
+   * without the key may have been taken before the app registered that
+   * handler, so the app is asked again rather than trusting it. An answer
+   * without a list never replaces a list the app did report: a late timeout
+   * of an earlier probe must not wipe a newer answer. Returns [] on failure.
    */
-  private async getAvailableUIPassthroughKeys(context?: ContextType): Promise<string[]> {
-      if (this.availablePassthroughKeysCache !== null) {
-          return this.availablePassthroughKeysCache;
+  private async getAvailableUIPassthroughKeys(
+      requiredKey: UIPassthroughEvent,
+      context?: ContextType,
+  ): Promise<string[]> {
+      const cached = this.availablePassthroughKeysCache;
+      if (cached !== null && (cached.length === 0 || cached.includes(requiredKey))) {
+          return cached;
       }
       try {
           const response = await this.triggerUIPassthroughApi(
@@ -178,10 +201,14 @@ export class HostEventClient {
           );
           const matched = response?.find?.((r) => r.value && !r.error);
           const keys = matched?.value?.keys;
-          this.availablePassthroughKeysCache = Array.isArray(keys) ? keys : [];
+          if (Array.isArray(keys) && keys.length > 0) {
+              this.availablePassthroughKeysCache = keys;
+          } else if (this.availablePassthroughKeysCache === null) {
+              this.availablePassthroughKeysCache = [];
+          }
           return this.availablePassthroughKeysCache;
       } catch {
-          return [];
+          return this.availablePassthroughKeysCache ?? [];
       }
   }
 
@@ -228,8 +255,7 @@ export class HostEventClient {
       context?: ContextType,
   ): Promise<any> {
       if (!payload || !('name' in payload) || !('description' in payload)) {
-          // Save is the fallback for SaveAnswer
-          return this.hostEventFallback(HostEvent.Save, payload, context);
+          return this.hostEventFallback(legacyEventFor(HostEvent.SaveAnswer), payload, context);
       }
 
       const data = await this.handleHostEventWithParam(
@@ -313,9 +339,11 @@ export class HostEventClient {
 
       // If embedded app supports passthrough but not this event, use legacy
       // channel
-      const keys = passthroughEvent ? await this.getAvailableUIPassthroughKeys(context as ContextType) : [];
+      const keys = passthroughEvent
+          ? await this.getAvailableUIPassthroughKeys(passthroughEvent, context as ContextType)
+          : [];
       if (passthroughEvent && keys.length > 0 && !keys.includes(passthroughEvent)) {
-          return this.hostEventFallback(hostEvent, payload, context) as any;
+          return this.hostEventFallback(legacyEventFor(hostEvent), payload, context) as any;
       }
 
       // Custom handler (setters) > getter passthrough > legacy fallback
