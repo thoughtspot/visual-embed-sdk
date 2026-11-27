@@ -493,6 +493,17 @@ export interface EmbedConfig {
     callPrefetch?: boolean;
 
     /**
+     * Shows a floating debug agent widget on the host page when set to
+     * `true`. The agent can inspect (and, with an installed browser
+     * extension granting per-tab debugger access, interact with) the
+     * embedded ThoughtSpot content's console, network activity, and DOM —
+     * useful for diagnosing embed failures during development. Intended for
+     * development/debugging use, not for production end-user-facing pages.
+     * @default false
+     */
+    enableDebugAgent?: boolean;
+
+    /**
      * When there are multiple objects embedded, queue the rendering of embedded objects
      * to start after the previous embed's render is complete. This helps improve
      * performance by decreasing the load on the browser.
