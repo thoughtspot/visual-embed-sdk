@@ -15,6 +15,8 @@ export {
     useSpotterAgent,
     useEmbedRef,
     useInit,
+    DebugAgent,
+    DebugAgentProps,
 } from './index';
 
 export {
