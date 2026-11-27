@@ -1952,4 +1952,10 @@ export interface CustomCssVariables {
      * `--ts-var-root-color`.
      */
     '--ts-var-chart-data-label-stroke-color'?: string;
+
+    /**
+     * Test-only variable for checking the Theme Builder sync CI check
+     * (SCAL-266165). Do not merge.
+     */
+    '--ts-var-test-theme-builder-sync-color'?: string;
 }
