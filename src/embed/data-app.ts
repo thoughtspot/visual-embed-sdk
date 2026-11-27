@@ -34,7 +34,11 @@ export interface DataAppEmbedViewConfig {
      * top of the filters the viewer picks in it. A filter names a column of
      * the step's Model; a step whose Model has no such column is not
      * filtered by it, as on a Liveboard. Filters are sent when the App opens,
-     * never in the URL.
+     * never in the URL: `excludeRuntimeFiltersfromURL` is always on.
+     *
+     * Every filter needs at least one value. A filter without values is
+     * refused: the App does not open, and an update with one is not applied.
+     * A Liveboard instead drops all its runtime filters.
      *
      * Runtime filters do not reach the App's agent steps that ask Spotter,
      * or data from connectors. While any are set, the App's Spotter chat is
@@ -43,7 +47,7 @@ export interface DataAppEmbedViewConfig {
      * To change them after the App opens, use `HostEvent.UpdateRuntimeFilters`.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {
@@ -58,12 +62,12 @@ export interface DataAppEmbedViewConfig {
     /**
      * Runtime parameter values applied to every ThoughtSpot data step of the
      * App whose Model defines the parameter. Sent when the App opens, never in
-     * the URL.
+     * the URL: `excludeRuntimeParametersfromURL` is always on.
      *
-     * To change them after the App opens, use `HostEvent.UpdateParameters`.
+     * `HostEvent.UpdateParameters` is not supported in `DataAppEmbed`.
      *
      * Supported embed types: `DataAppEmbed`
-     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl
+     * @version SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl
      * @example
      * ```js
      * const embed = new DataAppEmbed('#tsEmbed', {

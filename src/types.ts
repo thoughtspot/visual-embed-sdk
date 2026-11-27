@@ -4992,7 +4992,7 @@ export enum HostEvent {
      * In `DataAppEmbed`, it updates the runtime filters of every ThoughtSpot
      * data step of the App, and the App's data loads again; the values the
      * viewer picked in the App are kept. Available in `DataAppEmbed` from
-     * SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl.
+     * SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 26.12.0.cl.
      *
      * Payload: {@link RuntimeFilter}[].
      * @param - Array of {@link RuntimeFilter} objects. Each item includes:
@@ -6704,9 +6704,7 @@ export enum HostEvent {
     ResetLiveboardPersonalizedView = ResetLiveboardPersonalisedView,
     /**
      * Update Parameter values on embedded Answers, Liveboard, and Spotter
-     * answer in Edit mode, and on every ThoughtSpot data step of an App in
-     * `DataAppEmbed` (from SDK: %NEXT_SDK_VERSION% | ThoughtSpot Cloud: 27.2.0.cl;
-     * `isVisibleToUser` and `applicability` do not apply there).
+     * answer in Edit mode. Not supported in `DataAppEmbed`.
      * Payload: {@link RuntimeParameter}[].
      * @param - Includes the following keys for each item:
      * - `name`: Name of the parameter.
