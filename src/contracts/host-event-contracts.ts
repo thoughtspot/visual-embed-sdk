@@ -284,8 +284,30 @@ export interface SharePersonalizedViewRequest {
  * Request payload for {@link HostEvent.DeletePersonalizedView}.
  */
 export interface DeletePersonalizedViewRequest {
-    /** GUID of the view to delete. */
+    /** GUID of the view to delete. Pass this or `viewIds`. */
+    viewId?: string;
+    /** GUIDs of several views to delete; all or none are deleted. */
+    viewIds?: string[];
+}
+
+/**
+ * Request payload for {@link HostEvent.SavePersonalizedView}.
+ */
+export interface SavePersonalizedViewRequest {
+    /** Name of the new view. */
+    name: string;
+    /** `true` to make the view public. Defaults to `false`. */
+    isPublic?: boolean;
+}
+
+/**
+ * Request payload for {@link HostEvent.RenamePersonalizedView}.
+ */
+export interface RenamePersonalizedViewRequest {
+    /** GUID of the view. */
     viewId: string;
+    /** New name of the view. */
+    name: string;
 }
 
 /**
@@ -422,6 +444,8 @@ export interface HostEventRequestMap {
     [HostEvent.SharePersonalizedView]: SharePersonalizedViewRequest;
     [HostEvent.DeletePersonalizedView]: DeletePersonalizedViewRequest;
     [HostEvent.SetPersonalizedViewPublic]: SetPersonalizedViewPublicRequest;
+    [HostEvent.SavePersonalizedView]: SavePersonalizedViewRequest;
+    [HostEvent.RenamePersonalizedView]: RenamePersonalizedViewRequest;
     [HostEvent.AIHighlights]: void;
     [HostEvent.SendTestScheduleEmail]: ScheduleEmailRequest;
     [HostEvent.RefreshLiveboardBrowserCache]: ScheduleEmailRequest;

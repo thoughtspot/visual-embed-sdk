@@ -29,6 +29,8 @@ import type {
     OpenFilterSpotterRequest,
     OpenFilterSearchRequest,
     SetPersonalizedViewPublicRequest,
+    SavePersonalizedViewRequest,
+    RenamePersonalizedViewRequest,
 } from './host-event-contracts';
 import type { CustomActionPayload, RuntimeFilter } from '../types';
 import type {
@@ -95,6 +97,8 @@ const TYPED_HOST_EVENTS: HostEvent[] = [
     HostEvent.SharePersonalizedView,
     HostEvent.DeletePersonalizedView,
     HostEvent.SetPersonalizedViewPublic,
+    HostEvent.SavePersonalizedView,
+    HostEvent.RenamePersonalizedView,
     HostEvent.AIHighlights,
     HostEvent.SendTestScheduleEmail,
     HostEvent.RefreshLiveboardBrowserCache,
@@ -141,8 +145,10 @@ describe('event contracts (drift guardrails)', () => {
             'OpenSpotterVizPanel',
             'PinSpotterConversation',
             'PreviewSpotterData',
+            'RenamePersonalizedView',
             'ResetLiveboardPersonalisedView',
             'ResetSpotterConversation',
+            'SavePersonalizedView',
             'SelectPersonalisedView',
             'SetActiveTab',
             'SetPersonalizedViewPublic',
@@ -237,6 +243,12 @@ describe('event contracts (drift guardrails)', () => {
         );
         expectType<SetPersonalizedViewPublicRequest>(
             (undefined as unknown) as HostEventRequest<HostEvent.SetPersonalizedViewPublic>,
+        );
+        expectType<SavePersonalizedViewRequest>(
+            (undefined as unknown) as HostEventRequest<HostEvent.SavePersonalizedView>,
+        );
+        expectType<RenamePersonalizedViewRequest>(
+            (undefined as unknown) as HostEventRequest<HostEvent.RenamePersonalizedView>,
         );
         expectType<SharePersonalizedViewPayload>(
             (undefined as unknown) as EmbedEventData<EmbedEvent.SharePersonalizedView>,
@@ -459,6 +471,14 @@ describe('event contracts (drift guardrails)', () => {
             trigger(HostEvent.SetPersonalizedViewPublic, {
                 viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
                 isPublic: true,
+            }),
+            trigger(HostEvent.DeletePersonalizedView, {
+                viewIds: ['2a021a12-1aed-425d-984b-141ee916ce72'],
+            }),
+            trigger(HostEvent.SavePersonalizedView, { name: 'Cardiology', isPublic: true }),
+            trigger(HostEvent.RenamePersonalizedView, {
+                viewId: '2a021a12-1aed-425d-984b-141ee916ce72',
+                name: 'Cardiology 2026',
             }),
         ];
         expect(ok.every(Boolean)).toBe(true);

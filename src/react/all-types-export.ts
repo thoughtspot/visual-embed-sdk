@@ -97,6 +97,8 @@ export {
     SharePersonalizedViewRequest,
     DeletePersonalizedViewRequest,
     SetPersonalizedViewPublicRequest,
+    SavePersonalizedViewRequest,
+    RenamePersonalizedViewRequest,
     ScheduleEmailRequest,
     NavigateRequest,
     SetActiveTabRequest,
